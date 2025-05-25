@@ -1,0 +1,11 @@
+Installation:
+    Linux:
+        1. Unity:
+            Unity offers relatively painless and consistent installation using their unity hub
+            https://docs.unity3d.com/hub/manual/InstallHub.html#install-hub-linux
+            After intalling unity hub user can install latest LTS version using "Install Editor" button
+        2. Unreal:
+            Installing Unreal on Linux is a bit more complicated, user can either:
+                a) get access to official eouc github organization https://github.com/EpicGames and unreal repository, clone and build engine https://github.com/EpicGames/UnrealEngine
+                b) download precompiled unreal bin package and run it https://www.unrealengine.com/en-US/linux
+            There is NO LTS version

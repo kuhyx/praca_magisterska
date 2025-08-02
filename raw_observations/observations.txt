@@ -6,6 +6,14 @@ Installation:
             After intalling unity hub user can install latest LTS version using "Install Editor" button
         2. Unreal:
             Installing Unreal on Linux is a bit more complicated, user can either:
-                a) get access to official eouc github organization https://github.com/EpicGames and unreal repository, clone and build engine https://github.com/EpicGames/UnrealEngine
+                a) get access to official epic github organization https://github.com/EpicGames and unreal repository, clone and build engine https://github.com/EpicGames/UnrealEngine
                 b) download precompiled unreal bin package and run it https://www.unrealengine.com/en-US/linux
             There is NO LTS version
+Initial usage:
+    Linux:
+        1. Unity:
+
+
+
+Unity is better for 2D -> it has special 2D ONLY view, physics and so on
+Unreal 2D is always "fake" 2D -> it is 3D but we hide our third dimension

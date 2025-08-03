@@ -9,4 +9,13 @@ public class Bullet : MonoBehaviour
         transform.Translate(Vector3.up * speed * Time.deltaTime);
         if (transform.position.y > 10) Destroy(gameObject); // Out of bounds
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+{
+    if (other.CompareTag("Enemy"))
+    {
+        Destroy(other.gameObject);
+        Destroy(gameObject);
+    }
+}
 }

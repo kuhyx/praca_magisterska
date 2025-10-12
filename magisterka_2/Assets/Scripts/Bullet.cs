@@ -44,7 +44,7 @@ namespace Magisterka.BulletHell
 
             _body = gameObject.AddComponent<Rigidbody2D>();
             _body.gravityScale = 0f;
-            _body.isKinematic = true;
+            _body.bodyType = RigidbodyType2D.Kinematic;
             _body.interpolation = RigidbodyInterpolation2D.Interpolate;
 
             _collider = gameObject.AddComponent<CircleCollider2D>();
@@ -75,6 +75,22 @@ namespace Magisterka.BulletHell
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            if (other.TryGetComponent(out Bullet otherBullet))
+            {
+                if (otherBullet == this || otherBullet._ownerFaction == _ownerFaction)
+                {
+                    return;
+                }
+
+                if (otherBullet.gameObject.activeInHierarchy)
+                {
+                    otherBullet.Despawn();
+                }
+
+                Despawn();
+                return;
+            }
+
             if (!other.TryGetComponent(out Health health))
             {
                 return;

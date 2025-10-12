@@ -27,7 +27,6 @@ namespace Magisterka.BulletHell
             }
 
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
 
         public void Initialize(Transform parent)
@@ -54,6 +53,13 @@ namespace Magisterka.BulletHell
             var color = hitFaction == Faction.Player ? playerColor : enemyColor;
             var endSize = Mathf.Lerp(0.6f, 1.8f, Mathf.Clamp01(intensity + 0.2f));
             PlayPulse(position, color, 0.25f, endSize, 0.18f);
+
+            if (hitFaction == Faction.Player)
+            {
+                float boosted = Mathf.Clamp01(intensity + 0.3f);
+                PlayPulse(position, Color.white, 0.18f, Mathf.Lerp(1.4f, 2.8f, boosted), 0.24f);
+                PlayPulse(position, playerColor, 0.45f, Mathf.Lerp(1.8f, 3.4f, boosted), 0.32f);
+            }
         }
 
         public void SpawnExplosion(Vector2 position, Faction faction, float size = 2.5f)
@@ -66,8 +72,6 @@ namespace Magisterka.BulletHell
                 float duration = 0.22f + i * 0.06f;
                 PlayPulse(position, color, start, end, duration);
             }
-
-            _cameraShaker?.Shake(0.18f, 0.45f * size);
         }
 
         public void SpawnScreenClear(Vector2 position, float radius)
@@ -83,6 +87,11 @@ namespace Magisterka.BulletHell
             }
 
             _cameraShaker?.Shake(0.4f, 1.2f * radius);
+        }
+
+        public void ShakeCamera(float duration, float strength)
+        {
+            _cameraShaker?.Shake(duration, strength);
         }
 
         private void Warmup(int count)

@@ -14,6 +14,7 @@ namespace Magisterka.BulletHell
         private float _current;
 
         public event Action<Health> Died;
+        public event Action<float, Vector2> Damaged;
 
         public Faction Faction => faction;
         public float MaxHealth => maxHealth;
@@ -40,6 +41,7 @@ namespace Magisterka.BulletHell
 
             _current -= damage;
             EffectManager.Instance?.SpawnHitEffect(hitPoint, faction, Mathf.Clamp01(damage / maxHealth));
+            Damaged?.Invoke(damage, hitPoint);
 
             if (_current <= 0f)
             {
@@ -60,6 +62,7 @@ namespace Magisterka.BulletHell
             }
 
             _current = 0f;
+            Damaged?.Invoke(maxHealth, transform.position);
             Die();
         }
 

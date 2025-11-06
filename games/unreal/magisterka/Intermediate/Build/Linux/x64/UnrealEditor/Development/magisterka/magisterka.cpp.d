@@ -1,6 +1,6 @@
-/home/kuhy/Unreal\ Projects/magisterka/Intermediate/Build/Linux/x64/UnrealEditor/Development/magisterka/magisterka.cpp.o: \
-  /home/kuhy/Unreal\ Projects/magisterka/Intermediate/Build/Linux/x64/magisterkaEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.Cpp20.h \
-  /home/kuhy/Unreal\ Projects/magisterka/Intermediate/Build/Linux/x64/magisterkaEditor/Development/UnrealEd/SharedDefinitions.UnrealEd.Project.ValApi.Cpp20.h \
+/home/kuhy/praca_magisterska/games/unreal/magisterka/Intermediate/Build/Linux/x64/UnrealEditor/Development/magisterka/magisterka.cpp.o: \
+  /home/kuhy/praca_magisterska/games/unreal/magisterka/Intermediate/Build/Linux/x64/magisterkaEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.Cpp20.h \
+  /home/kuhy/praca_magisterska/games/unreal/magisterka/Intermediate/Build/Linux/x64/magisterkaEditor/Development/UnrealEd/SharedDefinitions.UnrealEd.Project.ValApi.Cpp20.h \
   /home/kuhy/aur/unreal-engine-bin/Engine/Source/Editor/UnrealEd/Public/UnrealEdSharedPCH.h \
   /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Engine/Public/EngineSharedPCH.h \
   /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Slate/Public/SlateSharedPCH.h \
@@ -2779,8 +2779,8 @@
   /home/kuhy/aur/unreal-engine-bin/Engine/Source/ThirdParty/Unix/LibCxx/include/c++/v1/__functional/pointer_to_binary_function.h \
   /home/kuhy/aur/unreal-engine-bin/Engine/Source/ThirdParty/Unix/LibCxx/include/c++/v1/__functional/pointer_to_unary_function.h \
   /home/kuhy/aur/unreal-engine-bin/Engine/Source/ThirdParty/Unix/LibCxx/include/c++/v1/__functional/unary_negate.h \
-  /home/kuhy/Unreal\ Projects/magisterka/Source/magisterka/magisterka.cpp \
-  /home/kuhy/Unreal\ Projects/magisterka/Intermediate/Build/Linux/x64/UnrealEditor/Development/magisterka/Definitions.magisterka.h \
-  /home/kuhy/Unreal\ Projects/magisterka/Source/magisterka/magisterka.h \
+  /home/kuhy/praca_magisterska/games/unreal/magisterka/Source/magisterka/magisterka.cpp \
+  /home/kuhy/praca_magisterska/games/unreal/magisterka/Intermediate/Build/Linux/x64/UnrealEditor/Development/magisterka/Definitions.magisterka.h \
+  /home/kuhy/praca_magisterska/games/unreal/magisterka/Source/magisterka/magisterka.h \
   Runtime/Core/Public/CoreMinimal.h \
   Runtime/Core/Public/Modules/ModuleManager.h

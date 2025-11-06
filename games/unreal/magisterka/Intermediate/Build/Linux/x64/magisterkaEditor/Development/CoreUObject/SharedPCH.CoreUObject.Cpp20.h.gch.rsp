@@ -81,6 +81,6 @@
 -fpch-instantiate-templates
 -std=c++20
 -fpch-validate-input-files-content
-"/home/kuhy/Unreal Projects/magisterka/Intermediate/Build/Linux/x64/magisterkaEditor/Development/CoreUObject/SharedPCH.CoreUObject.Cpp20.h"
--MD -MF"/home/kuhy/Unreal Projects/magisterka/Intermediate/Build/Linux/x64/magisterkaEditor/Development/CoreUObject/SharedPCH.CoreUObject.Cpp20.h.d"
--o "/home/kuhy/Unreal Projects/magisterka/Intermediate/Build/Linux/x64/magisterkaEditor/Development/CoreUObject/SharedPCH.CoreUObject.Cpp20.h.gch"
+"/home/kuhy/praca_magisterska/games/unreal/magisterka/Intermediate/Build/Linux/x64/magisterkaEditor/Development/CoreUObject/SharedPCH.CoreUObject.Cpp20.h"
+-MD -MF"/home/kuhy/praca_magisterska/games/unreal/magisterka/Intermediate/Build/Linux/x64/magisterkaEditor/Development/CoreUObject/SharedPCH.CoreUObject.Cpp20.h.d"
+-o "/home/kuhy/praca_magisterska/games/unreal/magisterka/Intermediate/Build/Linux/x64/magisterkaEditor/Development/CoreUObject/SharedPCH.CoreUObject.Cpp20.h.gch"

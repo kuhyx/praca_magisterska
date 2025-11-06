@@ -66,12 +66,12 @@
 -ftls-model=local-dynamic
 -target x86_64-unknown-linux-gnu
 --sysroot="../Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v23_clang-18.1.0-rockylinux8/x86_64-unknown-linux-gnu"
-@"/home/kuhy/Unreal Projects/magisterka/Intermediate/Build/Linux/x64/UnrealEditor/Development/magisterka/magisterka.Shared.rsp"
--include-pch "/home/kuhy/Unreal Projects/magisterka/Intermediate/Build/Linux/x64/magisterkaEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.Cpp20.h.gch"
--include "/home/kuhy/Unreal Projects/magisterka/Intermediate/Build/Linux/x64/UnrealEditor/Development/magisterka/Definitions.magisterka.h"
+@"/home/kuhy/praca_magisterska/games/unreal/magisterka/Intermediate/Build/Linux/x64/UnrealEditor/Development/magisterka/magisterka.Shared.rsp"
+-include-pch "/home/kuhy/praca_magisterska/games/unreal/magisterka/Intermediate/Build/Linux/x64/magisterkaEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.Cpp20.h.gch"
+-include "/home/kuhy/praca_magisterska/games/unreal/magisterka/Intermediate/Build/Linux/x64/UnrealEditor/Development/magisterka/Definitions.magisterka.h"
 -x c++
 -std=c++20
 -fpch-validate-input-files-content
-"/home/kuhy/Unreal Projects/magisterka/Source/magisterka/magisterka.cpp"
--MD -MF"/home/kuhy/Unreal Projects/magisterka/Intermediate/Build/Linux/x64/UnrealEditor/Development/magisterka/magisterka.cpp.d"
--o "/home/kuhy/Unreal Projects/magisterka/Intermediate/Build/Linux/x64/UnrealEditor/Development/magisterka/magisterka.cpp.o"
+"/home/kuhy/praca_magisterska/games/unreal/magisterka/Source/magisterka/magisterka.cpp"
+-MD -MF"/home/kuhy/praca_magisterska/games/unreal/magisterka/Intermediate/Build/Linux/x64/UnrealEditor/Development/magisterka/magisterka.cpp.d"
+-o "/home/kuhy/praca_magisterska/games/unreal/magisterka/Intermediate/Build/Linux/x64/UnrealEditor/Development/magisterka/magisterka.cpp.o"

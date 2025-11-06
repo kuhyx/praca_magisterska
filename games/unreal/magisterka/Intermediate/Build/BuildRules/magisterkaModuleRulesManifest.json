@@ -1,8 +1,9 @@
 {
 	"SourceFiles": [
-		"/home/kuhy/Unreal Projects/magisterka/Source/magisterka/magisterka.Build.cs",
-		"/home/kuhy/Unreal Projects/magisterka/Source/magisterka.Target.cs",
-		"/home/kuhy/Unreal Projects/magisterka/Source/magisterkaEditor.Target.cs"
+		"/home/kuhy/praca_magisterska/games/unreal/magisterka/Source/magisterka/magisterka.Build.cs",
+		"/home/kuhy/praca_magisterska/games/unreal/magisterka/Plugins/UnrealMCP/Source/UnrealMCP/UnrealMCP.Build.cs",
+		"/home/kuhy/praca_magisterska/games/unreal/magisterka/Source/magisterka.Target.cs",
+		"/home/kuhy/praca_magisterska/games/unreal/magisterka/Source/magisterkaEditor.Target.cs"
 	],
 	"EngineVersion": "5.5.3"
 }

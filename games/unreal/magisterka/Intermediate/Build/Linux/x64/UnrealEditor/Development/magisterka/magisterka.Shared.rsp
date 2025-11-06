@@ -2,7 +2,7 @@
 -pipe
 -msse4.2
 -I"."
--I"/home/kuhy/Unreal Projects/magisterka/Source"
+-I"/home/kuhy/praca_magisterska/games/unreal/magisterka/Source"
 -I"Runtime/Core/Public"
 -I"Runtime/Core/Internal"
 -I"Runtime/TraceLog/Public"

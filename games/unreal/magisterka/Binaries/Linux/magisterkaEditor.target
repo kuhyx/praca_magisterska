@@ -22,22 +22,6 @@
 	},
 	"BuildProducts": [
 		{
-			"Path": "$(ProjectDir)/Binaries/Linux/UnrealEditor.modules",
-			"Type": "RequiredResource"
-		},
-		{
-			"Path": "$(ProjectDir)/Binaries/Linux/libUnrealEditor-magisterka.debug",
-			"Type": "SymbolFile"
-		},
-		{
-			"Path": "$(ProjectDir)/Binaries/Linux/libUnrealEditor-magisterka.so",
-			"Type": "DynamicLibrary"
-		},
-		{
-			"Path": "$(ProjectDir)/Binaries/Linux/libUnrealEditor-magisterka.sym",
-			"Type": "SymbolFile"
-		},
-		{
 			"Path": "$(EngineDir)/Binaries/Linux/AgentInterface.dll",
 			"Type": "RequiredResource"
 		},
@@ -10320,13 +10304,41 @@
 		{
 			"Path": "$(EngineDir)/Plugins/WorldMetrics/Binaries/Linux/libUnrealEditor-WorldMetricsTest.sym",
 			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Binaries/Linux/UnrealEditor.modules",
+			"Type": "RequiredResource"
+		},
+		{
+			"Path": "$(ProjectDir)/Binaries/Linux/libUnrealEditor-magisterka.debug",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Binaries/Linux/libUnrealEditor-magisterka.so",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Binaries/Linux/libUnrealEditor-magisterka.sym",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/UnrealMCP/Binaries/Linux/UnrealEditor.modules",
+			"Type": "RequiredResource"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/UnrealMCP/Binaries/Linux/libUnrealEditor-UnrealMCP.debug",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/UnrealMCP/Binaries/Linux/libUnrealEditor-UnrealMCP.so",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/UnrealMCP/Binaries/Linux/libUnrealEditor-UnrealMCP.sym",
+			"Type": "SymbolFile"
 		}
 	],
 	"RuntimeDependencies": [
-		{
-			"Path": "$(ProjectDir)/magisterka.uproject",
-			"Type": "UFS"
-		},
 		{
 			"Path": "$(EngineDir)/Binaries/Linux/AgentInterface.dll",
 			"Type": "NonUFS"
@@ -27562,6 +27574,14 @@
 		{
 			"Path": "$(EngineDir)/Plugins/WorldMetrics/WorldMetrics.uplugin",
 			"Type": "UFS"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/UnrealMCP/UnrealMCP.uplugin",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(ProjectDir)/magisterka.uproject",
+			"Type": "UFS"
 		}
 	],
 	"BuildPlugins": [
@@ -27744,6 +27764,7 @@
 		"UVEditor",
 		"UbaController",
 		"UdpMessaging",
+		"UnrealMCP",
 		"VariantManager",
 		"VariantManagerContent",
 		"VisualStudioCodeSourceCodeAccess",

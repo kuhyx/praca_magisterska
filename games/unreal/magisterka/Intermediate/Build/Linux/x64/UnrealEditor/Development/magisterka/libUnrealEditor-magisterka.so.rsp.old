@@ -1,0 +1,9 @@
+"/home/kuhy/Unreal Projects/magisterka/Intermediate/Build/Linux/x64/UnrealEditor/Development/magisterka/magisterka.cpp.o"
+"/home/kuhy/Unreal Projects/magisterka/Intermediate/Build/Linux/x64/UnrealEditor/Development/magisterka/PerModuleInline.gen.cpp.o"
+ -soname="libUnrealEditor-magisterka.so"
+ -rpath="${ORIGIN}/../../../../aur/unreal-engine-bin/Engine/Plugins/EnhancedInput/Binaries/Linux"
+ -rpath-link="/home/kuhy/Unreal Projects/magisterka/Binaries/Linux"
+ -L"/home/kuhy/aur/unreal-engine-bin/Engine/Binaries/Linux"
+ -L"/home/kuhy/aur/unreal-engine-bin/Engine/Plugins/EnhancedInput/Binaries/Linux"
+ --start-group
+ --end-group

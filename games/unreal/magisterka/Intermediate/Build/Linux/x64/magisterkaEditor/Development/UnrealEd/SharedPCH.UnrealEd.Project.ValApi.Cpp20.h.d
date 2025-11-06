@@ -1,6 +1,6 @@
-/home/kuhy/Unreal\ Projects/magisterka/Intermediate/Build/Linux/x64/magisterkaEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.Cpp20.h.gch: \
-  /home/kuhy/Unreal\ Projects/magisterka/Intermediate/Build/Linux/x64/magisterkaEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.Cpp20.h \
-  /home/kuhy/Unreal\ Projects/magisterka/Intermediate/Build/Linux/x64/magisterkaEditor/Development/UnrealEd/SharedDefinitions.UnrealEd.Project.ValApi.Cpp20.h \
+/home/kuhy/praca_magisterska/games/unreal/magisterka/Intermediate/Build/Linux/x64/magisterkaEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.Cpp20.h.gch: \
+  /home/kuhy/praca_magisterska/games/unreal/magisterka/Intermediate/Build/Linux/x64/magisterkaEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.Cpp20.h \
+  /home/kuhy/praca_magisterska/games/unreal/magisterka/Intermediate/Build/Linux/x64/magisterkaEditor/Development/UnrealEd/SharedDefinitions.UnrealEd.Project.ValApi.Cpp20.h \
   Editor/UnrealEd/Public/UnrealEdSharedPCH.h \
   Runtime/Engine/Public/EngineSharedPCH.h \
   Runtime/Slate/Public/SlateSharedPCH.h \

@@ -98,43 +98,43 @@ UnrealGame-LinuxArm64-Shipping:
 UnrealGame: UnrealGame-Linux-Development
 
 magisterka-Android-DebugGame:
-	 $(BUILD) magisterka Android DebugGame  -Project="/home/kuhy/Unreal Projects/magisterka/magisterka.uproject" $(ARGS)
+	 $(BUILD) magisterka Android DebugGame  -Project="/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject" $(ARGS)
 
 magisterka-Android-Development:
-	 $(BUILD) magisterka Android Development  -Project="/home/kuhy/Unreal Projects/magisterka/magisterka.uproject" $(ARGS)
+	 $(BUILD) magisterka Android Development  -Project="/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject" $(ARGS)
 
 magisterka-Android-Shipping:
-	 $(BUILD) magisterka Android Shipping  -Project="/home/kuhy/Unreal Projects/magisterka/magisterka.uproject" $(ARGS)
+	 $(BUILD) magisterka Android Shipping  -Project="/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject" $(ARGS)
 
 magisterka-Linux-DebugGame:
-	 $(BUILD) magisterka Linux DebugGame  -Project="/home/kuhy/Unreal Projects/magisterka/magisterka.uproject" $(ARGS)
+	 $(BUILD) magisterka Linux DebugGame  -Project="/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject" $(ARGS)
 
 magisterka-Linux-Development:
-	 $(BUILD) magisterka Linux Development  -Project="/home/kuhy/Unreal Projects/magisterka/magisterka.uproject" $(ARGS)
+	 $(BUILD) magisterka Linux Development  -Project="/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject" $(ARGS)
 
 magisterka-Linux-Shipping:
-	 $(BUILD) magisterka Linux Shipping  -Project="/home/kuhy/Unreal Projects/magisterka/magisterka.uproject" $(ARGS)
+	 $(BUILD) magisterka Linux Shipping  -Project="/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject" $(ARGS)
 
 magisterka-LinuxArm64-DebugGame:
-	 $(BUILD) magisterka LinuxArm64 DebugGame  -Project="/home/kuhy/Unreal Projects/magisterka/magisterka.uproject" $(ARGS)
+	 $(BUILD) magisterka LinuxArm64 DebugGame  -Project="/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject" $(ARGS)
 
 magisterka-LinuxArm64-Development:
-	 $(BUILD) magisterka LinuxArm64 Development  -Project="/home/kuhy/Unreal Projects/magisterka/magisterka.uproject" $(ARGS)
+	 $(BUILD) magisterka LinuxArm64 Development  -Project="/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject" $(ARGS)
 
 magisterka-LinuxArm64-Shipping:
-	 $(BUILD) magisterka LinuxArm64 Shipping  -Project="/home/kuhy/Unreal Projects/magisterka/magisterka.uproject" $(ARGS)
+	 $(BUILD) magisterka LinuxArm64 Shipping  -Project="/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject" $(ARGS)
 
 magisterka: magisterka-Linux-Development
 
 magisterkaEditor-Linux-DebugGame:
-	 $(BUILD) magisterkaEditor Linux DebugGame  -Project="/home/kuhy/Unreal Projects/magisterka/magisterka.uproject" $(ARGS)
+	 $(BUILD) magisterkaEditor Linux DebugGame  -Project="/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject" $(ARGS)
 
 magisterkaEditor-Linux-Development:
-	 $(BUILD) magisterkaEditor Linux Development  -Project="/home/kuhy/Unreal Projects/magisterka/magisterka.uproject" $(ARGS)
+	 $(BUILD) magisterkaEditor Linux Development  -Project="/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject" $(ARGS)
 
 magisterkaEditor: magisterkaEditor-Linux-Development
 
 configure:
-	$(BUILD) -ProjectFiles -Project="/home/kuhy/Unreal Projects/magisterka/magisterka.uproject" -Game 
+	$(BUILD) -ProjectFiles -Project="/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject" -Game 
 
 .PHONY: $(TARGETS)

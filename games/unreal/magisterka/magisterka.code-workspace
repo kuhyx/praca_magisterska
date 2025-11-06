@@ -37,7 +37,7 @@
 					"magisterka",
 					"Linux",
 					"Debug",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -54,7 +54,7 @@
 					"magisterka",
 					"Linux",
 					"Debug",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -74,7 +74,7 @@
 					"magisterka",
 					"Linux",
 					"Debug",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex",
 					"-clean"
 				],
@@ -92,7 +92,7 @@
 					"magisterka",
 					"Linux",
 					"DebugGame",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -109,7 +109,7 @@
 					"magisterka",
 					"Linux",
 					"DebugGame",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -129,7 +129,7 @@
 					"magisterka",
 					"Linux",
 					"DebugGame",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex",
 					"-clean"
 				],
@@ -147,7 +147,7 @@
 					"magisterka",
 					"Linux",
 					"Development",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -164,7 +164,7 @@
 					"magisterka",
 					"Linux",
 					"Development",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -184,7 +184,7 @@
 					"magisterka",
 					"Linux",
 					"Development",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex",
 					"-clean"
 				],
@@ -202,7 +202,7 @@
 					"magisterka",
 					"Linux",
 					"Test",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -219,7 +219,7 @@
 					"magisterka",
 					"Linux",
 					"Test",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -239,7 +239,7 @@
 					"magisterka",
 					"Linux",
 					"Test",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex",
 					"-clean"
 				],
@@ -257,7 +257,7 @@
 					"magisterka",
 					"Linux",
 					"Shipping",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -274,7 +274,7 @@
 					"magisterka",
 					"Linux",
 					"Shipping",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -294,7 +294,7 @@
 					"magisterka",
 					"Linux",
 					"Shipping",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex",
 					"-clean"
 				],
@@ -312,7 +312,7 @@
 					"magisterka",
 					"LinuxArm64",
 					"Debug",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -329,7 +329,7 @@
 					"magisterka",
 					"LinuxArm64",
 					"Debug",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -349,7 +349,7 @@
 					"magisterka",
 					"LinuxArm64",
 					"Debug",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex",
 					"-clean"
 				],
@@ -367,7 +367,7 @@
 					"magisterka",
 					"LinuxArm64",
 					"DebugGame",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -384,7 +384,7 @@
 					"magisterka",
 					"LinuxArm64",
 					"DebugGame",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -404,7 +404,7 @@
 					"magisterka",
 					"LinuxArm64",
 					"DebugGame",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex",
 					"-clean"
 				],
@@ -422,7 +422,7 @@
 					"magisterka",
 					"LinuxArm64",
 					"Development",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -439,7 +439,7 @@
 					"magisterka",
 					"LinuxArm64",
 					"Development",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -459,7 +459,7 @@
 					"magisterka",
 					"LinuxArm64",
 					"Development",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex",
 					"-clean"
 				],
@@ -477,7 +477,7 @@
 					"magisterka",
 					"LinuxArm64",
 					"Test",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -494,7 +494,7 @@
 					"magisterka",
 					"LinuxArm64",
 					"Test",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -514,7 +514,7 @@
 					"magisterka",
 					"LinuxArm64",
 					"Test",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex",
 					"-clean"
 				],
@@ -532,7 +532,7 @@
 					"magisterka",
 					"LinuxArm64",
 					"Shipping",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -549,7 +549,7 @@
 					"magisterka",
 					"LinuxArm64",
 					"Shipping",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -569,7 +569,7 @@
 					"magisterka",
 					"LinuxArm64",
 					"Shipping",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex",
 					"-clean"
 				],
@@ -587,7 +587,7 @@
 					"magisterkaEditor",
 					"Linux",
 					"Debug",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -604,7 +604,7 @@
 					"magisterkaEditor",
 					"Linux",
 					"Debug",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -624,7 +624,7 @@
 					"magisterkaEditor",
 					"Linux",
 					"Debug",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex",
 					"-clean"
 				],
@@ -642,7 +642,7 @@
 					"magisterkaEditor",
 					"Linux",
 					"DebugGame",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -659,7 +659,7 @@
 					"magisterkaEditor",
 					"Linux",
 					"DebugGame",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -679,7 +679,7 @@
 					"magisterkaEditor",
 					"Linux",
 					"DebugGame",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex",
 					"-clean"
 				],
@@ -697,7 +697,7 @@
 					"magisterkaEditor",
 					"Linux",
 					"Development",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -714,7 +714,7 @@
 					"magisterkaEditor",
 					"Linux",
 					"Development",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -734,7 +734,7 @@
 					"magisterkaEditor",
 					"Linux",
 					"Development",
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-waitmutex",
 					"-clean"
 				],
@@ -752,7 +752,7 @@
 			{
 				"name": "Launch magisterka (Debug)",
 				"request": "launch",
-				"program": "/home/kuhy/Unreal Projects/magisterka/Binaries/Linux/UnrealGame-Linux-Debug",
+				"program": "/home/kuhy/praca_magisterska/games/unreal/magisterka/Binaries/Linux/UnrealGame-Linux-Debug",
 				"preLaunchTask": "magisterka Linux Debug Build",
 				"args": [
 				],
@@ -764,7 +764,7 @@
 			{
 				"name": "Launch magisterka (DebugGame)",
 				"request": "launch",
-				"program": "/home/kuhy/Unreal Projects/magisterka/Binaries/Linux/UnrealGame-Linux-DebugGame",
+				"program": "/home/kuhy/praca_magisterska/games/unreal/magisterka/Binaries/Linux/UnrealGame-Linux-DebugGame",
 				"preLaunchTask": "magisterka Linux DebugGame Build",
 				"args": [
 				],
@@ -776,7 +776,7 @@
 			{
 				"name": "Launch magisterka (Development)",
 				"request": "launch",
-				"program": "/home/kuhy/Unreal Projects/magisterka/Binaries/Linux/UnrealGame",
+				"program": "/home/kuhy/praca_magisterska/games/unreal/magisterka/Binaries/Linux/UnrealGame",
 				"preLaunchTask": "magisterka Linux Development Build",
 				"args": [
 				],
@@ -788,7 +788,7 @@
 			{
 				"name": "Launch magisterka (Test)",
 				"request": "launch",
-				"program": "/home/kuhy/Unreal Projects/magisterka/Binaries/Linux/UnrealGame-Linux-Test",
+				"program": "/home/kuhy/praca_magisterska/games/unreal/magisterka/Binaries/Linux/UnrealGame-Linux-Test",
 				"preLaunchTask": "magisterka Linux Test Build",
 				"args": [
 				],
@@ -800,7 +800,7 @@
 			{
 				"name": "Launch magisterka (Shipping)",
 				"request": "launch",
-				"program": "/home/kuhy/Unreal Projects/magisterka/Binaries/Linux/UnrealGame-Linux-Shipping",
+				"program": "/home/kuhy/praca_magisterska/games/unreal/magisterka/Binaries/Linux/UnrealGame-Linux-Shipping",
 				"preLaunchTask": "magisterka Linux Shipping Build",
 				"args": [
 				],
@@ -815,7 +815,7 @@
 				"program": "/home/kuhy/aur/unreal-engine-bin/Engine/Binaries/Linux/UnrealEditor-Linux-Debug",
 				"preLaunchTask": "magisterkaEditor Linux Debug Build",
 				"args": [
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject"
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject"
 				],
 				"cwd": "/home/kuhy/aur/unreal-engine-bin",
 				"type": "cppdbg",
@@ -828,7 +828,7 @@
 				"program": "/home/kuhy/aur/unreal-engine-bin/Engine/Binaries/Linux/UnrealEditor-Linux-DebugGame",
 				"preLaunchTask": "magisterkaEditor Linux DebugGame Build",
 				"args": [
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject"
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject"
 				],
 				"cwd": "/home/kuhy/aur/unreal-engine-bin",
 				"type": "cppdbg",
@@ -841,7 +841,7 @@
 				"program": "/home/kuhy/aur/unreal-engine-bin/Engine/Binaries/Linux/UnrealEditor",
 				"preLaunchTask": "magisterkaEditor Linux Development Build",
 				"args": [
-					"/home/kuhy/Unreal Projects/magisterka/magisterka.uproject"
+					"/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject"
 				],
 				"cwd": "/home/kuhy/aur/unreal-engine-bin",
 				"type": "cppdbg",
@@ -857,7 +857,7 @@
 				"args": [
 					"-projectfiles",
 					"-vscode",
-					"-project=/home/kuhy/Unreal Projects/magisterka/magisterka.uproject",
+					"-project=/home/kuhy/praca_magisterska/games/unreal/magisterka/magisterka.uproject",
 					"-game",
 					"-engine",
 					"-dotnet"

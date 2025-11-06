@@ -1,0 +1,608 @@
+MODULE Linux x86_64 D0FA2856F545298200000000000000000 libUnrealEditor-magisterka.so
+INFO CODE_ID 5628FAD045F58229
+FILE 0 /home/kuhy/Unreal Projects/magisterka/Intermediate/Build/Linux/x64/UnrealEditor/Development/magisterka/PerModuleInline.gen.cpp
+FILE 1 /home/kuhy/Unreal Projects/magisterka/Source/magisterka/magisterka.cpp
+FILE 2 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Editor/PropertyEditor/Public/PropertyEditorModule.h
+FILE 3 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Editor/UnrealEd/Public/Viewports.h
+FILE 4 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/AudioMixerCore/Public/AudioMixerTypes.h
+FILE 5 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/Compression/CompressedBuffer.h
+FILE 6 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/Containers/Array.h
+FILE 7 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/Containers/ContainerAllocationPolicies.h
+FILE 8 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/Containers/StringView.h
+FILE 9 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/Containers/UnrealString.h.inl
+FILE 10 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/HAL/PerModuleInline.inl
+FILE 11 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/Math/IntPoint.h
+FILE 12 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/Math/IntVector.h
+FILE 13 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/Math/Rotator.h
+FILE 14 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/Math/Vector.h
+FILE 15 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/Math/Vector2D.h
+FILE 16 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/Memory/CompositeBuffer.h
+FILE 17 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/Memory/SharedBuffer.h
+FILE 18 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/Misc/Guid.h
+FILE 19 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/Modules/ModuleInterface.h
+FILE 20 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/Modules/ModuleManager.h
+FILE 21 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/Stats/Stats2.h
+FILE 22 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/Templates/Atomic.h
+FILE 23 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/Templates/MemoryOps.h
+FILE 24 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Core/Public/Templates/PimplPtr.h
+FILE 25 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/CoreUObject/Public/Serialization/DerivedData.h
+FILE 26 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Engine/Classes/Animation/AttributesContainer.h
+FILE 27 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Engine/Classes/Engine/SkinnedAssetCommon.h
+FILE 28 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Experimental/Chaos/Public/Chaos/ParticleIterator.h
+FILE 29 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Experimental/Chaos/Public/ChaosVisualDebugger/ChaosVDMemWriterReader.h
+FILE 30 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/Experimental/Chaos/Public/ChaosVisualDebugger/ChaosVDSerializedNameTable.h
+FILE 31 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/RenderCore/Public/ShaderCompilerCore.h
+FILE 32 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/SlateCore/Public/Layout/Margin.h
+FILE 33 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/SlateCore/Public/Styling/CoreStyle.h
+FILE 34 /home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/SlateCore/Public/Types/SlateVector2.h
+FILE 35 /home/kuhy/aur/unreal-engine-bin/Engine/Source/ThirdParty/Unix/LibCxx/include/c++/v1/atomic
+FUNC 3ee0 1b 0 InitializemagisterkaModule()
+3ee0 1 6 1
+3ee1 a 6 1
+3eeb e 820 20
+3ef9 2 6 1
+FUNC 3f00 1 0 IMPLEMENT_MODULE_magisterka
+3f00 1 6 1
+FUNC 3f10 18 0 FString::~FString()
+3f10 1 54 9
+3f11 6 685 7
+3f17 2 685 7
+3f19 5 690 7
+3f1e 2 54 9
+3f20 8 690 7
+FUNC 3f30 5a 0 __cxx_global_var_init.7
+3f30 c 0 1
+3f3c 2 49 4
+3f3e 10 0 1
+3f4e 18 49 4
+3f66 24 0 1
+FUNC 3f90 5a 0 __cxx_global_var_init.9
+3f90 c 0 1
+3f9c 2 48 4
+3f9e 10 0 1
+3fae 18 48 4
+3fc6 24 0 1
+FUNC 3ff0 5a 0 __cxx_global_var_init.11
+3ff0 c 0 1
+3ffc 2 55 4
+3ffe 10 0 1
+400e 18 55 4
+4026 24 0 1
+FUNC 4050 5a 0 __cxx_global_var_init.13
+4050 c 0 1
+405c 2 54 4
+405e 10 0 1
+406e 18 54 4
+4086 24 0 1
+FUNC 40b0 5a 0 __cxx_global_var_init.15
+40b0 c 0 1
+40bc 2 53 4
+40be 10 0 1
+40ce 18 53 4
+40e6 24 0 1
+FUNC 4110 5a 0 __cxx_global_var_init.17
+4110 c 0 1
+411c 2 52 4
+411e 10 0 1
+412e 18 52 4
+4146 24 0 1
+FUNC 4170 5a 0 __cxx_global_var_init.19
+4170 c 0 1
+417c 2 56 4
+417e 10 0 1
+418e 18 56 4
+41a6 24 0 1
+FUNC 41d0 3b 0 __cxx_global_var_init.21
+41d0 c 0 1
+41dc 2 85 33
+41de 10 0 1
+41ee 10 830 15
+41fe d 0 1
+FUNC 4210 3b 0 __cxx_global_var_init.22
+4210 c 0 1
+421c 2 86 33
+421e 10 0 1
+422e 10 830 15
+423e d 0 1
+FUNC 4250 3b 0 __cxx_global_var_init.23
+4250 c 0 1
+425c 2 87 33
+425e 10 0 1
+426e 10 830 15
+427e d 0 1
+FUNC 4290 3b 0 __cxx_global_var_init.24
+4290 c 0 1
+429c 2 88 33
+429e 10 0 1
+42ae 10 830 15
+42be d 0 1
+FUNC 42d0 3b 0 __cxx_global_var_init.25
+42d0 c 0 1
+42dc 2 89 33
+42de 10 0 1
+42ee 10 830 15
+42fe d 0 1
+FUNC 4310 3b 0 __cxx_global_var_init.26
+4310 c 0 1
+431c 2 90 33
+431e 10 0 1
+432e 10 830 15
+433e d 0 1
+FUNC 4350 3b 0 __cxx_global_var_init.27
+4350 c 0 1
+435c 2 91 33
+435e 10 0 1
+436e 10 830 15
+437e d 0 1
+FUNC 4390 3b 0 __cxx_global_var_init.28
+4390 c 0 1
+439c 2 92 33
+439e 10 0 1
+43ae 10 830 15
+43be d 0 1
+FUNC 43d0 3b 0 __cxx_global_var_init.29
+43d0 c 0 1
+43dc 2 93 33
+43de 10 0 1
+43ee 10 830 15
+43fe d 0 1
+FUNC 4410 3b 0 __cxx_global_var_init.30
+4410 c 0 1
+441c 2 94 33
+441e 10 0 1
+442e 10 830 15
+443e d 0 1
+FUNC 4450 3b 0 __cxx_global_var_init.31
+4450 c 0 1
+445c 2 95 33
+445e 10 0 1
+446e 10 830 15
+447e d 0 1
+FUNC 4490 3b 0 __cxx_global_var_init.32
+4490 c 0 1
+449c 2 96 33
+449e 10 0 1
+44ae 10 830 15
+44be d 0 1
+FUNC 44d0 3b 0 __cxx_global_var_init.33
+44d0 c 0 1
+44dc 2 97 33
+44de 10 0 1
+44ee 10 830 15
+44fe d 0 1
+FUNC 4510 3b 0 __cxx_global_var_init.34
+4510 c 0 1
+451c 2 98 33
+451e 10 0 1
+452e 10 830 15
+453e d 0 1
+FUNC 4550 3b 0 __cxx_global_var_init.35
+4550 c 0 1
+455c 2 99 33
+455e 10 0 1
+456e 10 830 15
+457e d 0 1
+FUNC 4590 3b 0 __cxx_global_var_init.36
+4590 c 0 1
+459c 2 100 33
+459e 10 0 1
+45ae 10 830 15
+45be d 0 1
+FUNC 45d0 3b 0 __cxx_global_var_init.37
+45d0 c 0 1
+45dc 2 101 33
+45de 10 0 1
+45ee 10 830 15
+45fe d 0 1
+FUNC 4610 3b 0 __cxx_global_var_init.38
+4610 c 0 1
+461c 2 102 33
+461e 10 0 1
+462e 10 830 15
+463e d 0 1
+FUNC 4650 3b 0 __cxx_global_var_init.39
+4650 c 0 1
+465c 2 103 33
+465e 10 0 1
+466e 10 830 15
+467e d 0 1
+FUNC 4690 3b 0 __cxx_global_var_init.40
+4690 c 0 1
+469c 2 104 33
+469e 10 0 1
+46ae 10 830 15
+46be d 0 1
+FUNC 46d0 3b 0 __cxx_global_var_init.41
+46d0 c 0 1
+46dc 2 105 33
+46de 10 0 1
+46ee 10 830 15
+46fe d 0 1
+FUNC 4710 39 0 __cxx_global_var_init.42
+4710 c 0 1
+471c 2 108 33
+471e 10 0 1
+472e e 60 32
+473c d 0 1
+FUNC 4750 39 0 __cxx_global_var_init.43
+4750 c 0 1
+475c 2 110 33
+475e 10 0 1
+476e e 84 32
+477c d 0 1
+FUNC 4790 39 0 __cxx_global_var_init.44
+4790 c 0 1
+479c 2 112 33
+479e 10 0 1
+47ae e 84 32
+47bc d 0 1
+FUNC 47d0 39 0 __cxx_global_var_init.45
+47d0 c 0 1
+47dc 2 113 33
+47de 10 0 1
+47ee e 60 32
+47fc d 0 1
+FUNC 4810 39 0 __cxx_global_var_init.46
+4810 c 0 1
+481c 2 114 33
+481e 10 0 1
+482e e 84 32
+483c d 0 1
+FUNC 4850 39 0 __cxx_global_var_init.47
+4850 c 0 1
+485c 2 115 33
+485e 10 0 1
+486e e 84 32
+487c d 0 1
+FUNC 4890 5a 0 __cxx_global_var_init.48
+4890 c 0 1
+489c 2 59 4
+489e 10 0 1
+48ae 18 59 4
+48c6 24 0 1
+FUNC 48f0 4d 0 __cxx_global_var_init.54
+48f0 c 0 1
+48fc 2 14 3
+48fe 10 0 1
+490e 1b 1459 14
+4929 7 1459 14
+4930 d 0 1
+FUNC 4940 44 0 __cxx_global_var_init.55
+4940 c 0 1
+494c 2 17 3
+494e 10 0 1
+495e e 558 13
+496c b 558 13
+4977 d 0 1
+FUNC 4990 27 0 __cxx_global_var_init.56
+4990 9 0 1
+4999 1 630 12
+499a 7 0 1
+49a1 b 62 12
+49ac a 64 12
+49b6 1 630 12
+FUNC 49c0 1d 0 __cxx_global_var_init.57
+49c0 9 0 1
+49c9 1 506 11
+49ca 7 0 1
+49d1 b 59 11
+49dc 1 506 11
+FUNC 49e0 46 0 __cxx_global_var_init.58
+49e0 b 0 1
+49eb 2 19 29
+49ed 15 0 1
+4a02 e 91 8
+4a10 a 92 8
+4a1a c 0 1
+FUNC 4a30 46 0 __cxx_global_var_init.60
+4a30 f 0 1
+4a3f 2 20 30
+4a41 10 0 1
+4a51 11 91 8
+4a62 7 92 8
+4a69 d 0 1
+FUNC 4a80 61 0 __cxx_global_var_init.65
+4a80 c 0 1
+4a8c 2 145 16
+4a8e 10 0 1
+4a9e 12 643 7
+4ab0 a 0 7
+4aba 7 394 6
+4ac1 20 0 1
+FUNC 4af0 2f 0 FCompositeBuffer::~FCompositeBuffer()
+4af0 4 26 16
+4af4 4 698 7
+4af8 7 902 7
+4aff 3 684 6
+4b02 5 684 6
+4b07 7 685 7
+4b0e 2 685 7
+4b10 5 690 7
+4b15 2 26 16
+4b17 8 690 7
+FUNC 4b30 9e 0 DestructItems<FSharedBuffer, int>
+4b30 9 102 23
+4b39 2 103 23
+4b3b 2 103 23
+4b3d 3 0 23
+4b40 3 103 23
+4b43 1d 0 23
+4b60 6 103 23
+4b66 2 103 23
+4b68 4 821 17
+4b6c 3 142 17
+4b6f 2 142 17
+4b71 d 1031 35
+4b7e 8 704 17
+4b86 2 704 17
+4b88 9 706 17
+4b91 8 708 17
+4b99 d 1031 35
+4ba6 9 739 17
+4baf 2 739 17
+4bb1 9 741 17
+4bba 2 0 17
+4bbc a 112 23
+4bc6 8 821 17
+FUNC 4bd0 61 0 __cxx_global_var_init.66
+4bd0 c 0 1
+4bdc 2 174 5
+4bde 10 0 1
+4bee 12 643 7
+4c00 a 0 7
+4c0a 7 394 6
+4c11 20 0 1
+FUNC 4c40 2f 0 FCompressedBuffer::~FCompressedBuffer()
+4c40 4 49 5
+4c44 4 698 7
+4c48 7 902 7
+4c4f 3 684 6
+4c52 5 684 6
+4c57 7 685 7
+4c5e 2 685 7
+4c60 5 690 7
+4c65 2 49 5
+4c67 8 690 7
+FUNC 4c70 45 0 __cxx_global_var_init.85
+4c70 45 0 1
+FUNC 4cc0 1a 0 UE::FDerivedData::~FDerivedData()
+4cc0 1 79 25
+4cc1 6 165 24
+4cc7 2 165 24
+4cc9 4 123 24
+4ccd 3 129 24
+4cd0 2 79 25
+4cd2 8 167 24
+FUNC 4ce0 1 0 IModuleInterface::~IModuleInterface()
+4ce0 1 23 19
+FUNC 4cf0 5 0 FDefaultGameModuleImpl::~FDefaultGameModuleImpl()
+4cf0 5 820 20
+FUNC 4d00 1 0 IModuleInterface::StartupModule()
+4d00 1 33 19
+FUNC 4d10 1 0 IModuleInterface::PreUnloadCallback()
+4d10 1 40 19
+FUNC 4d20 1 0 IModuleInterface::PostLoadCallback()
+4d20 1 47 19
+FUNC 4d30 1 0 IModuleInterface::ShutdownModule()
+4d30 1 57 19
+FUNC 4d40 3 0 IModuleInterface::SupportsDynamicReloading()
+4d40 3 66 19
+FUNC 4d50 3 0 IModuleInterface::SupportsAutomaticShutdown()
+4d50 3 76 19
+FUNC 4d60 3 0 FDefaultGameModuleImpl::IsGameModule() const
+4d60 3 830 20
+FUNC 4d70 304 0 _GLOBAL__sub_I_magisterka.cpp
+4d70 5 0 1
+4d75 12 44 31
+4d87 f 134 18
+4d96 4 134 18
+4d9a a 300 18
+4da4 7 685 7
+4dab 2 685 7
+4dad 5 690 7
+4db2 7 70 22
+4db9 3 1886 21
+4dbc 6 1886 21
+4dc2 7 70 22
+4dc9 3 1886 21
+4dcc 6 1886 21
+4dd2 7 70 22
+4dd9 3 1886 21
+4ddc 6 1886 21
+4de2 7 70 22
+4de9 3 1886 21
+4dec 6 1886 21
+4df2 7 70 22
+4df9 3 1886 21
+4dfc 6 1886 21
+4e02 7 70 22
+4e09 3 1886 21
+4e0c 6 1886 21
+4e12 18 24 26
+4e2a 18 29 2
+4e42 c 6 1
+4e4e 20 6 1
+4e6e 1c 0 1
+4e8a 3f 1888 21
+4ec9 7 70 22
+4ed0 3 1886 21
+4ed3 6 1886 21
+4ed9 3f 1888 21
+4f18 7 70 22
+4f1f 3 1886 21
+4f22 6 1886 21
+4f28 3f 1888 21
+4f67 7 70 22
+4f6e 3 1886 21
+4f71 6 1886 21
+4f77 3f 1888 21
+4fb6 7 70 22
+4fbd 3 1886 21
+4fc0 6 1886 21
+4fc6 3f 1888 21
+5005 7 70 22
+500c 3 1886 21
+500f 6 1886 21
+5015 44 1888 21
+5059 8 690 7
+5061 6 0 7
+5067 5 44 31
+506c 8 0 31
+FUNC 5080 12 0 operator new(unsigned long)
+5080 12 9 10
+FUNC 50a0 12 0 operator new[](unsigned long)
+50a0 12 9 10
+FUNC 50c0 1d 0 operator new(unsigned long, std::nothrow_t const&)
+50c0 1 9 10
+50c1 12 9 10
+50d3 a 9 10
+FUNC 50e0 1d 0 operator new[](unsigned long, std::nothrow_t const&)
+50e0 1 9 10
+50e1 12 9 10
+50f3 a 9 10
+FUNC 5100 d 0 operator new(unsigned long, std::align_val_t)
+5100 d 9 10
+FUNC 5110 d 0 operator new[](unsigned long, std::align_val_t)
+5110 d 9 10
+FUNC 5120 18 0 operator new(unsigned long, std::align_val_t, std::nothrow_t const&)
+5120 1 9 10
+5121 d 9 10
+512e a 9 10
+FUNC 5140 18 0 operator new[](unsigned long, std::align_val_t, std::nothrow_t const&)
+5140 1 9 10
+5141 d 9 10
+514e a 9 10
+FUNC 5160 10 0 operator delete(void*)
+5160 1 9 10
+5161 5 9 10
+5166 a 9 10
+FUNC 5170 10 0 operator delete[](void*)
+5170 1 9 10
+5171 5 9 10
+5176 a 9 10
+FUNC 5180 10 0 operator delete(void*, std::nothrow_t const&)
+5180 1 9 10
+5181 5 9 10
+5186 a 9 10
+FUNC 5190 10 0 operator delete[](void*, std::nothrow_t const&)
+5190 1 9 10
+5191 5 9 10
+5196 a 9 10
+FUNC 51a0 10 0 operator delete(void*, unsigned long)
+51a0 1 9 10
+51a1 5 9 10
+51a6 a 9 10
+FUNC 51b0 10 0 operator delete[](void*, unsigned long)
+51b0 1 9 10
+51b1 5 9 10
+51b6 a 9 10
+FUNC 51c0 10 0 operator delete(void*, unsigned long, std::nothrow_t const&)
+51c0 1 9 10
+51c1 5 9 10
+51c6 a 9 10
+FUNC 51d0 10 0 operator delete[](void*, unsigned long, std::nothrow_t const&)
+51d0 1 9 10
+51d1 5 9 10
+51d6 a 9 10
+FUNC 51e0 10 0 operator delete(void*, std::align_val_t)
+51e0 1 9 10
+51e1 5 9 10
+51e6 a 9 10
+FUNC 51f0 10 0 operator delete[](void*, std::align_val_t)
+51f0 1 9 10
+51f1 5 9 10
+51f6 a 9 10
+FUNC 5200 10 0 operator delete(void*, std::align_val_t, std::nothrow_t const&)
+5200 1 9 10
+5201 5 9 10
+5206 a 9 10
+FUNC 5210 10 0 operator delete[](void*, std::align_val_t, std::nothrow_t const&)
+5210 1 9 10
+5211 5 9 10
+5216 a 9 10
+FUNC 5220 10 0 operator delete(void*, unsigned long, std::align_val_t)
+5220 1 9 10
+5221 5 9 10
+5226 a 9 10
+FUNC 5230 10 0 operator delete[](void*, unsigned long, std::align_val_t)
+5230 1 9 10
+5231 5 9 10
+5236 a 9 10
+FUNC 5240 10 0 operator delete(void*, unsigned long, std::align_val_t, std::nothrow_t const&)
+5240 1 9 10
+5241 5 9 10
+5246 a 9 10
+FUNC 5250 10 0 operator delete[](void*, unsigned long, std::align_val_t, std::nothrow_t const&)
+5250 1 9 10
+5251 5 9 10
+5256 a 9 10
+FUNC 5260 d 0 FMemory_Malloc(unsigned long, unsigned long)
+5260 d 10 10
+FUNC 5270 d 0 FMemory_Realloc(void*, unsigned long, unsigned long)
+5270 d 10 10
+FUNC 5280 5 0 FMemory_Free(void*)
+5280 5 10 10
+FUNC 5290 1 0 ThisIsAnUnrealEngineModule
+5290 1 13 10
+FUNC 52a0 2c2 0 _GLOBAL__sub_I_PerModuleInline.gen.cpp
+52a0 5 0 0
+52a5 12 44 31
+52b7 f 134 18
+52c6 4 134 18
+52ca a 300 18
+52d4 7 685 7
+52db 2 685 7
+52dd 5 690 7
+52e2 7 70 22
+52e9 3 1886 21
+52ec 6 1886 21
+52f2 7 70 22
+52f9 3 1886 21
+52fc 6 1886 21
+5302 7 70 22
+5309 3 1886 21
+530c 6 1886 21
+5312 7 70 22
+5319 3 1886 21
+531c 6 1886 21
+5322 7 70 22
+5329 3 1886 21
+532c 6 1886 21
+5332 7 70 22
+5339 3 1886 21
+533c 6 1886 21
+5342 18 24 26
+535a 18 29 2
+5372 6 0 2
+5378 3f 1888 21
+53b7 7 70 22
+53be 3 1886 21
+53c1 6 1886 21
+53c7 3f 1888 21
+5406 7 70 22
+540d 3 1886 21
+5410 6 1886 21
+5416 3f 1888 21
+5455 7 70 22
+545c 3 1886 21
+545f 6 1886 21
+5465 3f 1888 21
+54a4 7 70 22
+54ab 3 1886 21
+54ae 6 1886 21
+54b4 3f 1888 21
+54f3 7 70 22
+54fa 3 1886 21
+54fd 6 1886 21
+5503 44 1888 21
+5547 8 690 7
+554f 6 0 7
+5555 5 44 31
+555a 8 0 31
+PUBLIC 3e40 0 deregister_tm_clones
+PUBLIC 3e62 0 register_tm_clones
+PUBLIC 3e9b 0 __do_global_dtors_aux
+PUBLIC 3ed1 0 frame_dummy
+PUBLIC 4b20 0 __clang_call_terminate
+PUBLIC 5564 0 _init
+PUBLIC 557c 0 _fini

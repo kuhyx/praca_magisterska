@@ -1,0 +1,8 @@
+{
+	"SourceFiles": [
+		"/home/kuhy/Unreal Projects/magisterka/Source/magisterka/magisterka.Build.cs",
+		"/home/kuhy/Unreal Projects/magisterka/Source/magisterka.Target.cs",
+		"/home/kuhy/Unreal Projects/magisterka/Source/magisterkaEditor.Target.cs"
+	],
+	"EngineVersion": "5.5.3"
+}

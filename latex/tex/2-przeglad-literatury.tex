@@ -2,23 +2,75 @@
 \section{Przegląd literatury i istniejących rozwiązań}
 
 \subsection{Historia rozwoju silników gier}
-W tym podrozdziale zostanie przedstawiona ewolucja silników gier od prostych bibliotek graficznych po współczesne, kompleksowe środowiska deweloperskie.
+Silniki gier ewoluowały znacząco od prostych bibliotek graficznych lat 80. i 90. XX wieku po współczesne, kompleksowe środowiska deweloperskie. Według Ullmann et al. \cite{ullmann2022game}, współczesne silniki gier charakteryzują się modularną architekturą, która umożliwia ponowne wykorzystanie komponentów między różnymi projektami.
+
+Gregory \cite{gregory2018game} w swojej fundamentalnej pracy "Game Engine Architecture" przedstawia kompleksowy przegląd ewolucji silników gier, definiując je jako "oprogramowanie zaprojektowane specjalnie do tworzenia gier". Jego analiza pokazuje, że współczesne silniki gier składają się z kilku kluczowych warstw: warstwy platformy (platform layer), warstwy podstawowych systemów (core systems), warstwy zasobów (resource manager), warstwy renderingu (rendering engine), systemów animacji, fizyki oraz gameplay. Ta architektura warstwowa umożliwia modularność i ponowne wykorzystanie komponentów.
+
+Pierwsze silniki gier były ściśle powiązane z konkretnym sprzętem i grami, jak np. silniki do gier id Software (Doom, Quake). Według Gregory'ego \cite{gregory2018game}, przełomem było zrozumienie, że oddzielenie logiki gry od podstawowej infrastruktury technicznej pozwala na tworzenie bardziej uniwersalnych rozwiązań. Przełomem było wprowadzenie pierwszych uniwersalnych silników, które mogły być adaptowane do różnych rodzajów gier. Dzisiejsze silniki oferują zintegrowane środowiska deweloperskie z edytorami wizualnymi, systemami skryptowymi i zaawansowanymi narzędziami do debugowania.
 
 \subsection{Klasyfikacja silników gier}
+
+\subsubsection{Architektura silników według Gregory'ego}
+Gregory \cite{gregory2018game} przedstawia szczegółową taksonomię architektur silników gier, wyróżniając kilka kluczowych typów organizacji:
+
+\begin{itemize}
+    \item \textbf{Silniki obiektowe} - bazujące na hierarchii obiektów gry z dziedziczeniem
+    \item \textbf{Silniki komponentowe} - wykorzystujące systemy entity-component-system (ECS)
+    \item \textbf{Silniki hybrydowe} - łączące elementy różnych podejść architektonicznych
+\end{itemize}
+
+Autor podkreśla, że wybór architektury ma fundamentalny wpływ na wydajność, skalowalność i łatwość rozwoju gier. Systemy ECS zyskują na popularności ze względu na lepszą wydajność cache procesora i większą elastyczność w definiowaniu zachowań obiektów gry.
+
 \subsubsection{Silniki komercyjne vs. open source}
-% Analiza różnic między rozwiązaniami komercyjnymi a otwartymi
+Analiza literatury pokazuje wyraźne różnice między rozwiązaniami komercyjnymi a otwartymi. Christopoulou i Xinogalos \cite{christopoulou2017overview} wskazują, że silniki komercyjne jak Unity czy Unreal Engine oferują lepsze wsparcie techniczne i dokumentację, podczas gdy rozwiązania open source zapewniają większą elastyczność i kontrolę nad kodem źródłowym.
+
+Sharif i Ameen \cite{sharif2021game} podkreślają, że wybór między rozwiązaniem komercyjnym a open source zależy głównie od budżetu projektu i wymagań dotyczących dostosowania silnika do specyficznych potrzeb.
 
 \subsubsection{Silniki specjalistyczne vs. uniwersalne}
-% Porównanie silników dedykowanych konkretnym gatunkom gier z rozwiązaniami uniwersalnymi
+Pavkov et al. \cite{pavkov2017comparison} przedstawiają podział na silniki dedykowane konkretnym gatunkom gier (np. silniki do gier strategicznych czasu rzeczywistego) oraz rozwiązania uniwersalne mogące obsługiwać różnorodne typy gier. Silniki specjalistyczne oferują zoptymalizowane funkcjonalności dla określonego zastosowania, podczas gdy uniwersalne zapewniają większą wszechstronność kosztem specjalizacji.
 
 \subsection{Aktualny stan badań}
-Przegląd istniejących prac naukowych dotyczących porównania silników gier, ze szczególnym uwzględnieniem metodologii badawczych i uzyskanych wyników.
+
+\subsubsection{Badania wydajności}
+Messaoudi et al. \cite{messaoudi2017performance} przeprowadzili kompleksową analizę wydajności silnika Unity na urządzeniach mobilnych i stacjonarnych, koncentrując się na zużyciu CPU i optymalizacji logiki gry. Ich badania pokazują znaczące różnice w wydajności między platformami mobilnymi a desktop.
+
+Abramowicz i Borczuk \cite{abramowicz2024comparative} porównali wydajność Unity i Unreal Engine w grach 3D, skupiając się na renderowaniu, systemach fizyki i zarządzaniu pamięcią. Wyniki wskazują na przewagę Unreal Engine w renderowaniu zaawansowanej grafiki 3D, podczas gdy Unity wykazuje lepszą wydajność na urządzeniach o ograniczonych zasobach.
+
+\subsubsection{Metodologie porównawcze}
+Pattrasitidecha \cite{pattrasitidecha2014comparison} opracował macierz porównawczą dla silników gier mobilnych 3D, definiując kryteria selekcji i kluczowe aspekty oceny. Ta metodologia została szeroko adoptowana w późniejszych badaniach.
+
+Vohera et al. \cite{vohera2021game} przedstawili architekturę silników gier i przeprowadzili studium porównawcze Unity, GameMaker, Unreal Engine i CryEngine, koncentrując się na parametrach wydajności, funkcjonalności i łatwości użycia.
+
+\subsubsection{Specjalizowane zastosowania}
+Marks et al. \cite{marks2008evaluation} oceniali silniki gier pod kątem zastosowań w symulacjach medycznych i szkoleniach klinicznych, wprowadzając specyficzne kryteria oceny dla aplikacji edukacyjnych.
+
+Ali i Usman \cite{ali2016framework} opracowali framework do selekcji silników gier dla zastosowań w gamifikacji i serious games, uwzględniając specyficzne wymagania tych dziedzin.
+
+\subsubsection{Badania społeczności i ekosystemu}
+Barczak i Woźniak \cite{barczak2019comparative} przeprowadzili kompleksowe studium porównawcze silników gier, analizując nie tylko aspekty techniczne, ale również dostępność zasobów edukacyjnych, aktywność społeczności i długoterminowe wsparcie.
 
 \subsection{Identyfikacja luk badawczych}
-Wskazanie obszarów, które nie zostały dotychczas wystarczająco zbadane oraz uzasadnienie potrzeby przeprowadzenia niniejszych badań.
 
-% Bibliografia dla tego rozdziału będzie zawierać odniesienia do:
-% - publikacji naukowych
-% - dokumentacji technicznej
-% - raportów branżowych
-% - analiz rynkowych
+Analiza dostępnej literatury ujawnia kilka istotnych luk badawczych:
+
+\begin{enumerate}
+    \item \textbf{Brak kompleksowych badań wielokryterialnych} - większość istniejących prac koncentruje się na pojedynczych aspektach (wydajność, funkcjonalność) bez holistycznego podejścia
+    
+    \item \textbf{Ograniczone badania długoterminowe} - brakuje analiz wpływu aktualizacji silników na stabilność i wydajność projektów
+    
+    \item \textbf{Niewystarczające dane o współczesnych silnikach} - wiele badań koncentruje się na starszych wersjach silników, nie uwzględniając najnowszych możliwości
+    
+    \item \textbf{Brak standaryzacji metodologii} - różne badania stosują odmienne kryteria oceny, co utrudnia porównanie wyników
+    
+    \item \textbf{Ograniczone badania cross-platform} - niewiele prac analizuje wydajność silników na różnych platformach docelowych w sposób systematyczny
+\end{enumerate}
+
+Niniejsza praca ma na celu wypełnienie tych luk poprzez przeprowadzenie kompleksowej analizy porównawczej współczesnych silników gier z zastosowaniem ustandaryzowanej metodologii i wielokryterialnego podejścia do oceny.
+
+\subsection{Trendy technologiczne}
+Ostatnie badania wskazują na rosnące znaczenie technologii ray tracing, sztucznej inteligencji w grach oraz wsparcia dla rzeczywistości wirtualnej i rozszerzonej. Masood et al. \cite{masood2022high} analizują wykorzystanie silników gier do wysokowydajnego renderowania terenu GPU, pokazując nowe kierunki rozwoju technologii renderowania.
+
+Badania Firat et al. \cite{firat2022sound} dotyczące przestrzennego dźwięku 3D w silnikach gier wskazują na rosnące znaczenie immersyjnych doświadczeń audio jako czynnika różnicującego poszczególne rozwiązania.
+
+% Bibliografia zawiera odniesienia do kluczowych publikacji naukowych,
+% dokumentacji technicznej oraz raportów branżowych

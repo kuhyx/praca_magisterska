@@ -489,3 +489,5 @@ DerivedDataCache/*
 
 # Temp Files
 Config/DefaultEditorPerProjectUserSettings.ini
+
+transcripts/

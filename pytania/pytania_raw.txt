@@ -1,0 +1,113 @@
+Pytania na egzamin magisterski specjalności ISY
+Luty 2022
+Lp. Pytanie Kod
+przedmiotu
+Część podstawowa – obowiązkowa
+1. Porównać "siłę wyrazu" automatu skończonego, automatu ze stosem oraz maszyny Turinga. Jakie klasy języków
+rozpoznaje każdy z nich?
+AISDI
+2. Omówić i porównać algorytmy najkrótszej ścieżki wskazując ich kluczowe właściwości i logikę budowy:
+Dijkstry, Belmana-Forda, A*.
+AISDI
+3. Omówić zagadnienia redundancji i normalizacji w relacyjnej bazie danych oraz wynikające z tego wymagania. BD2
+4. Dlaczego baza danych stanowi dobry fundament do budowy wielu systemów informatycznych? BD2
+5. Omówić główne kategorie elementów biblioteki STL. Jaka jest ich rola i wzajemne powiązania? Odpowiedź
+uzasadnić na przykładach.
+PROI
+6. Omówić metody reużywalności kodu i struktur danych w obiektowych językach programowania. PROI
+7. Które serwery DNS najwięcej zyskują dzięki buforowaniu zapytań (caching) w serwerach rekursywnych? Jakie
+znasz rodzaje serwerów DNS?
+SKM
+8. Jaki jest cel uzgadniania trójetapowego (three way handshake) w protokole TCP? Jaka jest interpretacja
+numerów sekwencyjnych i potwierdzenia? Jaka jest wartość początkowa numeru sekwencyjnego?
+SKM
+9. Procesy i wątki w systemie operacyjnym. Omówić budowę, szybkość działania i zakres zastosowania.
+Przedstawić problemy i możliwości komunikacji i synchronizacji.
+SOI
+10. Scharakteryzować problemy i mechanizmy zarządzania pamięcią. Porównać cechy i przeznaczenie
+mechanizmów stronicowania i segmentacji.
+SOI
+11. Scharakteryzować standardy i narzędzia do modelowania procesów biznesowych. WSYZ
+12. Przedstawić sieciowe modele optymalizacji stosowane w systemach zarządzania. Omówić ich właściwości. WSYZ
+Część zaawansowana
+13. Omówić szczegółowo teorie, definicje, standardy i narzędzia wykorzystywane przy projektowaniu i
+implementacji systemów opartych na koncepcji agenta i aktora.
+AASD
+14. Wymienić i szczegółowo opisać wybrane algorytmy i metody wykorzystywane w systemach wieloagentowych i
+aktorowych.
+AASD
+15. Omówić metody modelowania architektury systemów informatycznych. Przedstawić cele i metody modelowania
+architektury.
+AIS
+16. Czemu służą wzorce architektoniczne? Jak powstają? Jak są katalogowane? Omówić przykładowe wzorce
+architektoniczne.
+AIS
+17. Przedstawić warunki konieczne i dostateczne optymalności różniczkowalnych zadań optymalizacji bez
+ograniczeń i z ograniczeniami oraz warunki regularności i omówić metody poszukiwania rozwiązań zadań
+optymalizacji nieliniowej.
+AMO
+18. Omówić metody rozwiązywania zadań liniowych i kwadratowych optymalizacji. AMO
+19. Przedstawić metody wyznaczania cech (parametryzacji) sygnału mowy: MFCC (cechy mel-cepstralne) i LPC
+(cechy według liniowej predykcji).
+EASAR
+20. Przedstawić klasyczną metodę rozpoznawania mowy opartą o HMM (Ukryte Modele Markowa). Porównać ją z
+metodami korzystającymi z głębokich sieci neuronowych.
+EASAR
+21. Jak wykorzystuje się agenta upostaciowionego do specyfikacji sterowników robotów? ERPM
+22. Omówić specjalizowane języki programowania robotów. Uwypuklić ich klasyfikację. ERPM
+23. Przedstawić koncepcję i przeznaczenie zegarów logicznych i wektorów stempli czasowych. ERSMS
+24. Omówić silne i słabe modele spójności danych w środowisku rozproszonym. ERSMS
+25. Gdzie znajdują zastosowania zadania programowania matematycznego całkowitoliczbowego i jak można je
+rozwiązywać? Omówić wybraną metodę dokładną, wyjaśnić dla jakich praktycznych problemów ma ona
+zastosowanie i co może wpływać na jej efektywność.
+MOD
+26. Scharakteryzować informatyczne narzędzia optymalizacji dyskretnej. Jakie są warunki i wymagania, jakie
+możliwości oraz trudności wiążą się ze stosowaniem gotowych narzędzi.
+MOD
+27. Dlaczego jakość modelu danych jest krytycznie ważnym czynnikiem jakości projektu informatycznego? MODA
+28. Omówić typowe fazy ewolucji modelu danych i pożądane cechy modelu w każdej z faz. MODA
+29. Oszacować ilościowo przyśpieszenie wykonania programu sekwencyjnego z fragmentami równoległymi na
+maszynie wielordzeniowej. Co osłabia to ograniczenie?
+PORR
+30. Omówić metody oraz typowe problemy w modelowaniu matematycznym dla problemów decyzyjnych i
+optymalizacyjnych.
+MOM
+Strona 1 z 2
+31. Wyjaśnić główne zagadnienia modelowania matematycznego w systemach decyzyjnych z wykorzystaniem pojęć
+(nie)wypukłości i (nie)liniowości.
+MOM
+32. Podać definicję komunikacji synchronicznej i asynchronicznej oraz blokującej i nieblokującej. Jak uniknąć
+zakleszczenia, gdy dwa symetryczne procesy (np. realizujące algorytm iteracyjny Jacobiego) mają w kodzie
+następujące po sobie wywołania funkcji wysyłającej komunikat do partnera i odbierającej komunikat wysłany
+przez niego?
+PORR
+33. Scharakteryzować model przesyłania komunikatów publikuj-subskrybuj oraz przykładowe rozwiązania
+techniczne wykorzystujące ten model
+PSD
+34. Scharakteryzować rozwiązania analityczne działające w na danych o charakterze strumieniowym. PSD
+35. Na czym polega specyfika modelowania matematycznego układów cyber-fizycznych? Podać przykłady
+współpracy agentów w sieci i problemów w osiąganiu pożądanego zachowania układu.
+SIU
+36. Omówić ogólny algorytm, elementy składowe oraz własności uczenia się ze wzmocnieniem. SIU
+37. Porównać podstawowe modele sieci złożonych. Jak odpowiadają one własnościom rzeczywistych sieci? TASS
+38. Porównać metody projekcji grafów dwudzielnych. Przedstawić ich użyteczność w grupowaniu dokumentów
+tekstowych.
+TASS
+39. Scharakteryzować problem segmentacji obrazu. Przedstawić podstawowe strategie i algorytmy segmentacji przy
+użyciu pomocą metod klasycznych oraz sieci neuronowych.
+TWM
+40. Opisać problem detekcji obiektów w obrazach. Przedstawić podstawowe strategie i algorytmy detekcji przy
+użyciu metod klasycznych oraz sieci neuronowych. Jak skonstruować detektor obiektów dysponując istniejącym
+klasyfikatorem tych obiektów?
+TWM
+41. Przedstawić metody interaktywne wspomagania decyzji w warunkach ryzyka. WDWR
+42. Scharakteryzować relacje dominacji stochastycznej pierwszego i drugiego rzędu. Jak mogą być użyte w
+modelach wyboru w warunkach ryzyka?
+WDWR
+43. Jakie cechy zadań szeregowania wykorzystuje się do ich klasyfikacji? Omówić przykładową metodę dla
+wybranego problemu szeregowania.
+ZBOP
+44. Jakie problemy wiążą się z zarządzaniem zapasami w łańcuchu dostaw? Omówić przykładowy model
+zarządzania zapasami w łańcuchu dostaw.
+ZBOP
+Strona 2 z 2

@@ -1,0 +1,523 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{ullmann2022game}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=f0cf8723114b5cdece39c9b821fbba33}{%
+           family={Ullmann},
+           familyi={U\bibinitperiod},
+           given={G.\bibnamedelimi C.},
+           giveni={G\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=7ab0ab8efd8ef26e6ff9cdd17ae6c1e2}{%
+           family={Politowski},
+           familyi={P\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod}}}%
+        {{hash=1fc56f8f2c5fe17fb2de73add7e03908}{%
+           family={Guéhéneuc},
+           familyi={G\bibinitperiod},
+           given={Y.-G.},
+           giveni={Y\bibinithyphendelim G\bibinitperiod}}}%
+        {{hash=91378421f7dafd79d680fba6e740767c}{%
+           family={Anquetil},
+           familyi={A\bibinitperiod},
+           given={N.},
+           giveni={N\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{a23a68f4b737bbd262b20c8ea21f31cd}
+      \strng{fullhash}{3e4447e5568387469daf057a43f85c45}
+      \strng{fullhashraw}{3e4447e5568387469daf057a43f85c45}
+      \strng{bibnamehash}{3e4447e5568387469daf057a43f85c45}
+      \strng{authorbibnamehash}{3e4447e5568387469daf057a43f85c45}
+      \strng{authornamehash}{a23a68f4b737bbd262b20c8ea21f31cd}
+      \strng{authorfullhash}{3e4447e5568387469daf057a43f85c45}
+      \strng{authorfullhashraw}{3e4447e5568387469daf057a43f85c45}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Conference on Software Architecture}
+      \field{title}{Game engine comparative anatomy}
+      \field{year}{2022}
+      \field{pages}{117\bibrangedash 136}
+      \range{pages}{20}
+    \endentry
+    \entry{gregory2018game}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=b97f772b60bfb5bf77251b45263e44dd}{%
+           family={Gregory},
+           familyi={G\bibinitperiod},
+           given={Jason},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {A~K Peters/CRC Press}%
+      }
+      \strng{namehash}{b97f772b60bfb5bf77251b45263e44dd}
+      \strng{fullhash}{b97f772b60bfb5bf77251b45263e44dd}
+      \strng{fullhashraw}{b97f772b60bfb5bf77251b45263e44dd}
+      \strng{bibnamehash}{b97f772b60bfb5bf77251b45263e44dd}
+      \strng{authorbibnamehash}{b97f772b60bfb5bf77251b45263e44dd}
+      \strng{authornamehash}{b97f772b60bfb5bf77251b45263e44dd}
+      \strng{authorfullhash}{b97f772b60bfb5bf77251b45263e44dd}
+      \strng{authorfullhashraw}{b97f772b60bfb5bf77251b45263e44dd}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{3rd}
+      \field{isbn}{978-1138035454}
+      \field{title}{Game Engine Architecture}
+      \field{year}{2018}
+    \endentry
+    \entry{christopoulou2017overview}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=218e8b9d38ffe09b5514942781a0e3f1}{%
+           family={Christopoulou},
+           familyi={C\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod}}}%
+        {{hash=0544344a8ca98fad8802a19526dd8563}{%
+           family={Xinogalos},
+           familyi={X\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{3c5a4cae39a1c0ddaa4664d7b990e00a}
+      \strng{fullhash}{3c5a4cae39a1c0ddaa4664d7b990e00a}
+      \strng{fullhashraw}{3c5a4cae39a1c0ddaa4664d7b990e00a}
+      \strng{bibnamehash}{3c5a4cae39a1c0ddaa4664d7b990e00a}
+      \strng{authorbibnamehash}{3c5a4cae39a1c0ddaa4664d7b990e00a}
+      \strng{authornamehash}{3c5a4cae39a1c0ddaa4664d7b990e00a}
+      \strng{authorfullhash}{3c5a4cae39a1c0ddaa4664d7b990e00a}
+      \strng{authorfullhashraw}{3c5a4cae39a1c0ddaa4664d7b990e00a}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Journal of Serious Games}
+      \field{number}{4}
+      \field{title}{Overview and comparative analysis of game engines for desktop and mobile devices}
+      \field{volume}{4}
+      \field{year}{2017}
+      \field{pages}{21\bibrangedash 36}
+      \range{pages}{16}
+    \endentry
+    \entry{sharif2021game}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{hash=be9881d5fd806889395d0a65ae8fae3a}{%
+           family={Sharif},
+           familyi={S\bibinitperiod},
+           given={K.\bibnamedelimi H.},
+           giveni={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=9ecdb5a8041ea6c24c6e5075d94c83b9}{%
+           family={Ameen},
+           familyi={A\bibinitperiod},
+           given={S.\bibnamedelimi Y.},
+           giveni={S\bibinitperiod\bibinitdelim Y\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{08487e339917dbcd0f778176b34802fe}
+      \strng{fullhash}{08487e339917dbcd0f778176b34802fe}
+      \strng{fullhashraw}{08487e339917dbcd0f778176b34802fe}
+      \strng{bibnamehash}{08487e339917dbcd0f778176b34802fe}
+      \strng{authorbibnamehash}{08487e339917dbcd0f778176b34802fe}
+      \strng{authornamehash}{08487e339917dbcd0f778176b34802fe}
+      \strng{authorfullhash}{08487e339917dbcd0f778176b34802fe}
+      \strng{authorfullhashraw}{08487e339917dbcd0f778176b34802fe}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2021 International Conference on Advanced Computer Applications}
+      \field{title}{Game engines evaluation for serious game development in education}
+      \field{year}{2021}
+      \field{pages}{1\bibrangedash 6}
+      \range{pages}{6}
+    \endentry
+    \entry{pavkov2017comparison}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=7314d462a608dde2db8068b58b49f8bc}{%
+           family={Pavkov},
+           familyi={P\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=2e2d26bd81805c892872eb63b3a5f686}{%
+           family={Franković},
+           familyi={F\bibinitperiod},
+           given={I.},
+           giveni={I\bibinitperiod}}}%
+        {{hash=d469cd478a1898c80f4ae09ecb23c90c}{%
+           family={Hoblaj},
+           familyi={H\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{1635cd70a14471ab3b0db3eba2503f4a}
+      \strng{fullhash}{2f901483b479793275ad6667c8bdb354}
+      \strng{fullhashraw}{2f901483b479793275ad6667c8bdb354}
+      \strng{bibnamehash}{2f901483b479793275ad6667c8bdb354}
+      \strng{authorbibnamehash}{2f901483b479793275ad6667c8bdb354}
+      \strng{authornamehash}{1635cd70a14471ab3b0db3eba2503f4a}
+      \strng{authorfullhash}{2f901483b479793275ad6667c8bdb354}
+      \strng{authorfullhashraw}{2f901483b479793275ad6667c8bdb354}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2017 40th International Convention on Information and Communication Technology}
+      \field{title}{Comparison of game engines for serious games}
+      \field{year}{2017}
+      \field{pages}{728\bibrangedash 733}
+      \range{pages}{6}
+    \endentry
+    \entry{messaoudi2017performance}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=ef01b7dae2f874e21a0c7366fa5106ca}{%
+           family={Messaoudi},
+           familyi={M\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod}}}%
+        {{hash=77f21fca29a861298aacc7587b8ef1e1}{%
+           family={Ksentini},
+           familyi={K\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=95aa28f1a361cb935b6fa4d73f4697ea}{%
+           family={Simon},
+           familyi={S\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{98e2e333ad504afc84a381339389510b}
+      \strng{fullhash}{916696c34e2d5fc1cb70ef353f63a74f}
+      \strng{fullhashraw}{916696c34e2d5fc1cb70ef353f63a74f}
+      \strng{bibnamehash}{916696c34e2d5fc1cb70ef353f63a74f}
+      \strng{authorbibnamehash}{916696c34e2d5fc1cb70ef353f63a74f}
+      \strng{authornamehash}{98e2e333ad504afc84a381339389510b}
+      \strng{authorfullhash}{916696c34e2d5fc1cb70ef353f63a74f}
+      \strng{authorfullhashraw}{916696c34e2d5fc1cb70ef353f63a74f}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ACM Transactions on Multimedia Computing, Communications, and Applications}
+      \field{number}{4}
+      \field{title}{Performance analysis of game engines on mobile and fixed devices}
+      \field{volume}{13}
+      \field{year}{2017}
+      \field{pages}{1\bibrangedash 24}
+      \range{pages}{24}
+    \endentry
+    \entry{abramowicz2024comparative}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=db1c2f5cd1997677c6a451dd447849b6}{%
+           family={Abramowicz},
+           familyi={A\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod}}}%
+        {{hash=df8a68ac3d56cd5ee6eec3d008280244}{%
+           family={Borczuk},
+           familyi={B\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{109f57dc949a82d2e717890afe20e8ef}
+      \strng{fullhash}{109f57dc949a82d2e717890afe20e8ef}
+      \strng{fullhashraw}{109f57dc949a82d2e717890afe20e8ef}
+      \strng{bibnamehash}{109f57dc949a82d2e717890afe20e8ef}
+      \strng{authorbibnamehash}{109f57dc949a82d2e717890afe20e8ef}
+      \strng{authornamehash}{109f57dc949a82d2e717890afe20e8ef}
+      \strng{authorfullhash}{109f57dc949a82d2e717890afe20e8ef}
+      \strng{authorfullhashraw}{109f57dc949a82d2e717890afe20e8ef}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Computer Science Institute}
+      \field{title}{Comparative analysis of the performance of Unity and Unreal Engine game engines in 3D games}
+      \field{volume}{30}
+      \field{year}{2024}
+      \field{pages}{1\bibrangedash 8}
+      \range{pages}{8}
+    \endentry
+    \entry{pattrasitidecha2014comparison}{thesis}{}{}
+      \name{author}{1}{}{%
+        {{hash=e34adb1e9ad40775c17a6682c5b99911}{%
+           family={Pattrasitidecha},
+           familyi={P\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Chalmers University of Technology}%
+      }
+      \strng{namehash}{e34adb1e9ad40775c17a6682c5b99911}
+      \strng{fullhash}{e34adb1e9ad40775c17a6682c5b99911}
+      \strng{fullhashraw}{e34adb1e9ad40775c17a6682c5b99911}
+      \strng{bibnamehash}{e34adb1e9ad40775c17a6682c5b99911}
+      \strng{authorbibnamehash}{e34adb1e9ad40775c17a6682c5b99911}
+      \strng{authornamehash}{e34adb1e9ad40775c17a6682c5b99911}
+      \strng{authorfullhash}{e34adb1e9ad40775c17a6682c5b99911}
+      \strng{authorfullhashraw}{e34adb1e9ad40775c17a6682c5b99911}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Comparison and evaluation of 3D mobile game engines}
+      \field{type}{Master's thesis}
+      \field{year}{2014}
+    \endentry
+    \entry{vohera2021game}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=bca633d031128bed1b8ad098054e63dc}{%
+           family={Vohera},
+           familyi={V\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod}}}%
+        {{hash=1b6159edc7111cbb17583c12f2748cbe}{%
+           family={Chheda},
+           familyi={C\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod}}}%
+        {{hash=7b07ec13c5a7891a3c4478398c62f442}{%
+           family={Chouhan},
+           familyi={C\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{3240e3ea549615b12561b1839f5cb3e9}
+      \strng{fullhash}{f0a4b4d015898a6d4e28f33a9c2a9155}
+      \strng{fullhashraw}{f0a4b4d015898a6d4e28f33a9c2a9155}
+      \strng{bibnamehash}{f0a4b4d015898a6d4e28f33a9c2a9155}
+      \strng{authorbibnamehash}{f0a4b4d015898a6d4e28f33a9c2a9155}
+      \strng{authornamehash}{3240e3ea549615b12561b1839f5cb3e9}
+      \strng{authorfullhash}{f0a4b4d015898a6d4e28f33a9c2a9155}
+      \strng{authorfullhashraw}{f0a4b4d015898a6d4e28f33a9c2a9155}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2021 12th International Conference on Computing Communication and Networking Technologies}
+      \field{title}{Game engine architecture and comparative study of different game engines}
+      \field{year}{2021}
+      \field{pages}{1\bibrangedash 7}
+      \range{pages}{7}
+    \endentry
+    \entry{marks2008evaluation}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=156ebe07a62d786fd5cc7efb92bc07b3}{%
+           family={Marks},
+           familyi={M\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=4c84293ada2705347be29576abd9cfca}{%
+           family={Windsor},
+           familyi={W\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=4da5ee77fb9234fe0e4e336ecf3c54b8}{%
+           family={Wünsche},
+           familyi={W\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod}}}%
+      }
+      \strng{namehash}{c59eea1c122c30ac74d72a9ab1b74d5e}
+      \strng{fullhash}{bcb08f2cc586b839bbae5ca8911de9f1}
+      \strng{fullhashraw}{bcb08f2cc586b839bbae5ca8911de9f1}
+      \strng{bibnamehash}{bcb08f2cc586b839bbae5ca8911de9f1}
+      \strng{authorbibnamehash}{bcb08f2cc586b839bbae5ca8911de9f1}
+      \strng{authornamehash}{c59eea1c122c30ac74d72a9ab1b74d5e}
+      \strng{authorfullhash}{bcb08f2cc586b839bbae5ca8911de9f1}
+      \strng{authorfullhashraw}{bcb08f2cc586b839bbae5ca8911de9f1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{New Zealand Computer Science Research Student Conference}
+      \field{title}{Evaluation of game engines for simulated clinical training}
+      \field{year}{2008}
+      \field{pages}{25\bibrangedash 30}
+      \range{pages}{6}
+    \endentry
+    \entry{ali2016framework}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{hash=933521982fd704c5d631b7b7f108c255}{%
+           family={Ali},
+           familyi={A\bibinitperiod},
+           given={Z.},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=887683edb5cd8679182a27beb087f604}{%
+           family={Usman},
+           familyi={U\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{cea94bef850e2d2665a84c20f4b4317d}
+      \strng{fullhash}{cea94bef850e2d2665a84c20f4b4317d}
+      \strng{fullhashraw}{cea94bef850e2d2665a84c20f4b4317d}
+      \strng{bibnamehash}{cea94bef850e2d2665a84c20f4b4317d}
+      \strng{authorbibnamehash}{cea94bef850e2d2665a84c20f4b4317d}
+      \strng{authornamehash}{cea94bef850e2d2665a84c20f4b4317d}
+      \strng{authorfullhash}{cea94bef850e2d2665a84c20f4b4317d}
+      \strng{authorfullhashraw}{cea94bef850e2d2665a84c20f4b4317d}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2016 Future Technologies Conference}
+      \field{title}{A framework for game engine selection for gamification and serious games}
+      \field{year}{2016}
+      \field{pages}{1\bibrangedash 8}
+      \range{pages}{8}
+    \endentry
+    \entry{barczak2019comparative}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=2c806af71e687f76d0b0b035fe7368e6}{%
+           family={Barczak},
+           familyi={B\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=c6c0874986384d722877eb8b462a9725}{%
+           family={Woźniak},
+           familyi={W\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{b2561cc7da97008bf543eed689245229}
+      \strng{fullhash}{b2561cc7da97008bf543eed689245229}
+      \strng{fullhashraw}{b2561cc7da97008bf543eed689245229}
+      \strng{bibnamehash}{b2561cc7da97008bf543eed689245229}
+      \strng{authorbibnamehash}{b2561cc7da97008bf543eed689245229}
+      \strng{authornamehash}{b2561cc7da97008bf543eed689245229}
+      \strng{authorfullhash}{b2561cc7da97008bf543eed689245229}
+      \strng{authorfullhashraw}{b2561cc7da97008bf543eed689245229}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Studia Informatica. System and Information Technology}
+      \field{number}{1}
+      \field{title}{Comparative study on game engines}
+      \field{volume}{23}
+      \field{year}{2019}
+      \field{pages}{5\bibrangedash 18}
+      \range{pages}{14}
+    \endentry
+    \entry{masood2022high}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=eb077239d8480da2071e2136768797e5}{%
+           family={Masood},
+           familyi={M\bibinitperiod},
+           given={Z.},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=5dc4fa4a7db70cbdff3f7384dd9a8864}{%
+           family={Jiangbin},
+           familyi={J\bibinitperiod},
+           given={Z.},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=6448deafb71577dda681f23628d0247e}{%
+           family={Irfan},
+           familyi={I\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=29a3475bb1f4b4bf09fcbe3e740c843f}{%
+           family={Ahmad},
+           familyi={A\bibinitperiod},
+           given={I.},
+           giveni={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{2a82c8d1682e6420bc106eda3c260f4a}
+      \strng{fullhash}{e491ba8946abeda3781fca22adabf046}
+      \strng{fullhashraw}{e491ba8946abeda3781fca22adabf046}
+      \strng{bibnamehash}{e491ba8946abeda3781fca22adabf046}
+      \strng{authorbibnamehash}{e491ba8946abeda3781fca22adabf046}
+      \strng{authornamehash}{2a82c8d1682e6420bc106eda3c260f4a}
+      \strng{authorfullhash}{e491ba8946abeda3781fca22adabf046}
+      \strng{authorfullhashraw}{e491ba8946abeda3781fca22adabf046}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Computer Animation and Virtual Worlds}
+      \field{number}{6}
+      \field{title}{High‐performance virtual globe GPU terrain rendering using game engine}
+      \field{volume}{33}
+      \field{year}{2022}
+      \field{pages}{e2108}
+      \range{pages}{-1}
+    \endentry
+    \entry{firat2022sound}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=c9e495ed8623ce96d21b9969aa823925}{%
+           family={Fırat},
+           familyi={F\bibinitperiod},
+           given={H.\bibnamedelimi B.},
+           giveni={H\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=cc3c7e5e275028f7593ed4b7ca49b150}{%
+           family={Maffei},
+           familyi={M\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod}}}%
+        {{hash=d191e5ae3c7c37e252d8d7729392e74e}{%
+           family={Masullo},
+           familyi={M\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{1a1e0a285c57a8a033df531bb049db02}
+      \strng{fullhash}{3be6cde84306e0627824f7940343f1a6}
+      \strng{fullhashraw}{3be6cde84306e0627824f7940343f1a6}
+      \strng{bibnamehash}{3be6cde84306e0627824f7940343f1a6}
+      \strng{authorbibnamehash}{3be6cde84306e0627824f7940343f1a6}
+      \strng{authornamehash}{1a1e0a285c57a8a033df531bb049db02}
+      \strng{authorfullhash}{3be6cde84306e0627824f7940343f1a6}
+      \strng{authorfullhashraw}{3be6cde84306e0627824f7940343f1a6}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Virtual Reality}
+      \field{number}{3}
+      \field{title}{3D sound spatialization with game engines: the virtual acoustics performance of a game engine and a middleware for interactive audio design}
+      \field{volume}{26}
+      \field{year}{2022}
+      \field{pages}{1181\bibrangedash 1195}
+      \range{pages}{15}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

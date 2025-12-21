@@ -54,7 +54,27 @@
 \RequirePackage{array}         % Advanced table column formats
 \RequirePackage{enumitem}      % Itemize/enumrate
 \RequirePackage{fancyhdr}      % Custom header/footer styles
-\RequirePackage{fourier}       % Adobe Utopia font
+% Conditional font loading based on engine
+\RequirePackage{iftex}
+\ifxetex
+    \RequirePackage{fontspec}
+    \defaultfontfeatures{Ligatures=TeX}
+    % Use DejaVu fonts - widely available with full Polish character support
+    \setmainfont{DejaVu Serif}
+    \setsansfont{DejaVu Sans}
+    \setmonofont{DejaVu Sans Mono}
+\else\ifluatex
+    \RequirePackage{fontspec}
+    \defaultfontfeatures{Ligatures=TeX}
+    \setmainfont{DejaVu Serif}
+    \setsansfont{DejaVu Sans}
+    \setmonofont{DejaVu Sans Mono}
+\else
+    % pdfLaTeX - use Fourier (Utopia) font with proper Polish support
+    \RequirePackage[utf8]{inputenc}
+    \RequirePackage[T1]{fontenc}
+    \RequirePackage{fourier}
+\fi\fi
 \RequirePackage{graphicx}      % Enhanced images support
 \RequirePackage{ifluatex}      % LuaTeX-specific options
 \RequirePackage{kantlipsum}    % English kantian-style lipsum
@@ -107,10 +127,12 @@
     urlcolor=black
 }
 % Advanced interword spacing
-\RequirePackage[
-    protrusion=true,
-    expansion=true
-]{microtype}
+% Microtype - disable expansion for XeTeX (not supported)
+\ifxetex
+    \RequirePackage[protrusion=true]{microtype}
+\else
+    \RequirePackage[protrusion=true,expansion=true]{microtype}
+\fi
 
 %-----------------------
 % LuaTeX specific code

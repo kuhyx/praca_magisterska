@@ -1,0 +1,264 @@
+\clearpage
+\section{Analiza wywiadów z deweloperami gier}
+\label{sec:wywiady}
+
+W ramach badań jakościowych przeprowadzono osiem pogłębionych wywiadów z deweloperami gier posiadającymi doświadczenie w pracy z silnikami Unity i Unreal Engine. Celem badania było zebranie praktycznych spostrzeżeń dotyczących użyteczności, wydajności oraz przepływu pracy w obu silnikach z perspektywy osób aktywnie je wykorzystujących.
+
+\subsection{Charakterystyka respondentów}
+\label{subsec:charakterystyka-respondentow}
+
+Respondenci zostali dobrani według kryterium posiadania co najmniej rocznego doświadczenia amatorskiego lub profesjonalnego w jednym z badanych silników. Profil uczestników przedstawia się następująco:
+
+\begin{itemize}
+    \item \textbf{Respondent 1}: Około 6-10 lat doświadczenia amatorskiego w Unity, semestr zajęć z Unreal Engine, 10-20 projektów w Unity
+    \item \textbf{Respondent 2}: 7 lat doświadczenia amatorskiego w Unity, pół roku profesjonalnego, 15-20 projektów
+    \item \textbf{Respondent 3}: 1,5 roku amatorskiego doświadczenia w Unity, 4 projekty zakończone
+    \item \textbf{Respondent 4}: 2 lata profesjonalne w Unreal, 2 miesiące w Unity (z przerwami przez kilka lat), projekty w obu silnikach
+    \item \textbf{Respondent 5}: 9 lat doświadczenia zawodowego (od 2012 Unity amatorsko, od 2016 profesjonalnie; od 2019 Unreal profesjonalnie), 10-30 projektów w Unity, 5-6 w Unreal
+    \item \textbf{Respondent 6}: Dekada doświadczenia amatorskiego w Unity, kilka projektów game jamowych
+    \item \textbf{Respondent 7}: 9 lat hobbystycznego doświadczenia w Unity, 2 lata profesjonalnego; 1-1,5 roku amatorskiego w Unreal
+    \item \textbf{Respondent 8}: 2 lata amatorsko w Unity, 1,5 roku profesjonalnie + pół roku stażu w Unreal, kilkanaście projektów w obu silnikach
+\end{itemize}
+
+Łącznie badana próba reprezentuje szerokie spektrum doświadczeń -- od osób skupionych wyłącznie na Unity, przez deweloperów wykorzystujących oba silniki, po profesjonalistów pracujących głównie w Unreal Engine.
+
+\subsection{Motywy wyboru silnika}
+\label{subsec:motywy-wyboru}
+
+\subsubsection{Przystępność i próg wejścia}
+
+Dominującym motywem wyboru Unity jako pierwszego silnika była jego \textbf{przystępność dla początkujących}. Respondenci wskazywali, że Unity oferuje mniejszą liczbę gotowych mechanik widocznych na starcie -- silnik nie narzuca użytkownikowi wbudowanych rozwiązań, jeżeli ten nie wybierze specjalnego szablonu projektu. Było to postrzegane jako zaleta dydaktyczna, ponieważ nowicjusze nie byli przytłaczani złożonością interfejsu.
+
+Jednocześnie respondenci podkreślali, że Unreal Engine w przeszłości (około 2018 roku) charakteryzował się znacznie wyższym progiem wejścia niż obecnie. W tamtym okresie dostępnych było również więcej materiałów edukacyjnych dla Unity, co dodatkowo wpływało na wybór tego silnika przez początkujących.
+
+Paradoksalnie, mniejsza liczba wbudowanych funkcjonalności w Unity była postrzegana jako zaleta dydaktyczna -- silnik nie przytłaczał nowicjuszy złożonością interfejsu i pozwalał na stopniowe poznawanie kolejnych mechanizmów.
+
+\subsubsection{Język programowania}
+
+Wybór C\# jako głównego języka skryptowania w Unity stanowił istotny czynnik decyzyjny dla osób z wcześniejszym doświadczeniem w tym języku. Respondenci z backgroundem w C\# określali przejście do Unity jako naturalne i intuicyjne. Język ten był opisywany jako wysokopoziomowy, niewymagający ręcznego zarządzania pamięcią, co znacząco obniża barierę wejścia dla początkujących programistów.
+
+Niektórzy respondenci zwracali uwagę, że C++ używany w Unreal Engine różni się od standardowego C++ -- jest rozszerzony o makra i mechanizmy specyficzne dla silnika, co może być zaskakujące dla programistów przyzwyczajonych do klasycznego C++.
+
+\subsubsection{Wymagania projektu}
+
+Wybór Unreal Engine często był podyktowany specyfiką projektu lub wymaganiami rynku pracy. Respondenci wskazywali, że projekty wymagające wysokiej jakości grafiki naturalnie kierowały ich w stronę Unreal Engine. Dodatkowo, część osób rozpoczęła naukę Unreal ze względu na większą liczbę ofert pracy wymagających znajomości tego silnika, szczególnie w segmencie gier AAA i większych studiów deweloperskich.
+
+\subsection{Dokumentacja i materiały edukacyjne}
+\label{subsec:dokumentacja}
+
+\subsubsection{Oficjalna dokumentacja}
+
+W zakresie dokumentacji oficjalnej respondenci wyraźnie faworyzowali Unity. Dokumentacja tego silnika była opisywana jako dogłębna i szczegółowa -- praktycznie wszystkie klasy, metody i właściwości są dokładnie opisane, a dodatkowo często zawierają działające przykłady kodu, które można bezpośrednio skopiować i uruchomić w projekcie.
+
+Dokumentacja Unreal Engine była oceniana znacznie gorzej. Respondenci określali ją jako szkieletową lub wręcz nieistniejącą w praktycznym sensie. Wiele stron dokumentacji zawiera jedynie nazwę funkcji i nazwy parametrów, bez jakiegokolwiek opisu działania. Jeden z respondentów porównał czytanie dokumentacji Unreal do przeglądania plików nagłówkowych (header files), gdzie użytkownik musi samodzielnie domyślać się, co dana funkcja robi.
+
+Jako pozytywny aspekt ekosystemu Unreal wskazywano fora deweloperskie, gdzie profesjonalni użytkownicy dzielą się rozwiązaniami. Problemem jest jednak to, że część najbardziej wartościowych zasobów znajduje się w zamkniętych sekcjach forum, dostępnych tylko dla wybranych firm po uzyskaniu specjalnych uprawnień od Epic Games.
+
+\subsubsection{Nieoficjalne poradniki}
+
+W przypadku materiałów nieoficjalnych (YouTube, blogi, fora) Unity również dominowało ilościowo. Respondenci szczególnie wyróżniali kanał Brackeys jako kluczowe źródło wiedzy dla początkujących i średniozaawansowanych użytkowników Unity.
+
+Poradniki do Unreal Engine były oceniane jako:
+\begin{itemize}
+    \item Mniej liczne niż dla Unity
+    \item Często nieaktualne -- dotyczące starszych wersji silnika (np. Unreal 4), które mogą, ale nie muszą działać w nowszych wersjach
+    \item Zbyt skoncentrowane na systemie Blueprints kosztem programowania w C++
+\end{itemize}
+
+\subsubsection{Jakość dydaktyczna poradników}
+
+Respondenci zwracali uwagę na wspólny problem poradników do obu silników -- koncentrację na implementacji konkretnych funkcji kosztem dobrych praktyk programistycznych. Większość dostępnych materiałów skupia się na pokazaniu, jak zaimplementować pojedynczą mechanikę, bez wyjaśniania szerszego kontekstu architektonicznego czy zasad rozszerzalności kodu.
+
+Ten brak holistycznego podejścia sprawia, że początkujący deweloperzy potrafią zaimplementować poszczególne funkcje, ale mają trudności z połączeniem ich w spójną całość lub późniejszym rozwojem projektu.
+
+\subsection{Architektura i wzorce projektowe}
+\label{subsec:architektura}
+
+\subsubsection{System komponentowy Unity}
+
+Architektura Unity oparta na komponentach była oceniana pozytywnie pod względem elastyczności. Respondenci doceniali możliwość dzielenia funkcjonalności na małe, niezależne moduły (komponenty), które następnie można łączyć w większe całości.
+
+Jednocześnie wskazywano na problemy wynikające z długu technologicznego Unity. Silnik jest bardzo monolityczny, z głęboką hierarchią dziedziczenia podstawowych konceptów. Niektóre obiekty bazowe zajmują tak dużo pamięci, że nie mieszczą się w pojedynczej linii cache procesora, co na współczesny hardware stanowi istotny problem wydajnościowy.
+
+\subsubsection{Struktura Unreal Engine}
+
+Architektura Unreal Engine wymusza bardziej uporządkowany styl pracy. Respondenci zauważali, że nawet podstawowe projekty tworzone w Unreal mają tendencję do bycia lepiej zorganizowanymi, ponieważ silnik narzuca określoną strukturę.
+
+Struktura aktor-komponent w Unreal (level zawiera aktorów, aktorzy zawierają komponenty) została opisana jako bardziej restrykcyjna niż prefaby w Unity. Próby tworzenia zagnieżdżonych struktur (aktor w aktorze) często prowadzą do problemów, podczas gdy w Unity hierarchie prefabów są bardziej elastyczne.
+
+\subsubsection{Specjalizacja silników}
+
+Respondenci zauważyli, że Unreal Engine jest wyraźnie zoptymalizowany pod gry typu first-person shooter. Tworzenie gier FPS w Unreal jest niezwykle proste -- wystarczy zaznaczyć odpowiednie opcje. Natomiast projekty odbiegające od tego wzorca (np. gry z rozbudowanym interfejsem użytkownika, gry turowe) wymagają znacznie więcej pracy i często sprowadzają się do obchodzenia domyślnych mechanizmów silnika.
+
+\subsection{Kompilacja i przepływ pracy}
+\label{subsec:kompilacja}
+
+\subsubsection{Czas kompilacji}
+
+Czas kompilacji w Unity był identyfikowany jako znaczący problem przy większych projektach. W miarę rozrastania się bazy kodu, czas potrzebny na rekompilację po każdej zmianie rośnie.
+
+Unity oferuje mechanizm Assembly Definitions jako rozwiązanie tego problemu. Bez podziału projektu na osobne assemblies każda zmiana w kodzie powoduje rekompilację całego projektu. Podział na mniejsze moduły pozwala kompilować tylko zmienione fragmenty, znacząco skracając czas iteracji.
+
+\subsubsection{Stabilność środowiska}
+
+Istotną różnicą między silnikami jest obsługa błędów krytycznych. W Unity gra uruchomiona w edytorze działa jako osobny proces -- gdy wystąpi błąd krytyczny, zamyka się tylko ten proces, a edytor pozostaje stabilny. W Unreal Engine silnik i gra działają jako jeden proces, więc crash w grze powoduje utratę całego edytora wraz z ewentualnymi niezapisanymi zmianami.
+
+Ta różnica architekturalna ma istotne konsekwencje dla produktywności, szczególnie przy debugowaniu. Przy dużych projektach, gdzie uruchomienie silnika może trwać kilkanaście minut, każdy crash oznacza znaczną stratę czasu.
+
+\subsubsection{Kompatybilność wsteczna}
+
+Unreal Engine był krytykowany za problemy z kompatybilnością między wersjami. Respondenci wskazywali, że rozpoczęcie projektu w określonej wersji silnika może skutkować problemami, jeśli ta wersja okaże się zawierać fundamentalne błędy. Epic Games nie backportuje poprawek do starszych wersji w takim stopniu jak Unity robi to dla wersji LTS.
+
+\subsection{Kontrola wersji i współpraca zespołowa}
+\label{subsec:kontrola-wersji}
+
+\subsubsection{Integracja z Git}
+
+Współpraca z systemem Git była oceniana lepiej dla Unity ze względu na tekstową serializację assetów. Pliki scen i prefabów w Unity są zapisywane w formacie YAML, co teoretycznie umożliwia ich mergowanie. Nowoczesne narzędzia (np. merge w Rider) potrafią automatycznie rozwiązywać niektóre konflikty na scenach.
+
+Pliki binarne w Unreal Engine stanowią znaczące wyzwanie. Respondenci zwracali uwagę, że nawet pliki Blueprintów, które ewidentnie mają serializację tekstową, są zapisywane na dysku jako binaria. To znacznie utrudnia współpracę wielu programistów nad tym samym projektem.
+
+\subsubsection{Mergowanie konfliktów}
+
+Konflikty na scenach i prefabach stanowią problem w obu silnikach. Gdy dwie osoby edytują tę samą scenę, rozwiązanie konfliktu często sprowadza się do wybrania jednej wersji i ręcznego przeniesienia zmian z drugiej.
+
+Jako rozwiązanie wskazywano praktykę lockowania plików (preferowana przy użyciu Perforce) lub podział pracy na oddzielne sceny, gdzie każdy deweloper pracuje we własnym środowisku. Unity ułatwia takie podejście dzięki elastycznemu systemowi scen, podczas gdy Unreal silniej promuje architekturę z jedną główną sceną.
+
+\subsection{Współpraca z osobami nietechnicznymi}
+\label{subsec:wspolpraca-nietechniczna}
+
+\subsubsection{System Blueprints}
+
+Blueprinty w Unreal Engine były postrzegane jako skuteczne narzędzie ułatwiające współpracę z osobami nietechnicznymi. System wizualnego programowania pozwala designerom i artystom na tworzenie logiki gry bez pisania kodu tekstowego. Respondenci zauważali, że osoby niebędące programistami często nie zdają sobie sprawy, że faktycznie programują, korzystając z Blueprintów.
+
+Jednocześnie integracja Blueprintów z kodem C++ nie jest idealna. Przejście między oboma systemami wymaga dodatkowej pracy, a wystawianie funkcji C++ do Blueprintów nie zawsze działa bezproblemowo.
+
+\subsubsection{Narzędzia dla artystów}
+
+Unity wymaga więcej pracy przy tworzeniu narzędzi dla osób nietechnicznych. Respondenci wskazywali, że w Unreal Engine osoby nietechniczne mają lepsze wsparcie ,,out of the box'', podczas gdy w Unity zazwyczaj trzeba przeprowadzać szkolenia lub tworzyć dedykowane narzędzia edytorowe, aby umożliwić artystom i designerom samodzielną pracę.
+
+\subsection{Asset Store i zasoby zewnętrzne}
+\label{subsec:asset-store}
+
+\subsubsection{Dostępność i jakość assetów}
+
+Asset Store Unity był oceniany jako lepiej zarządzany i bogatszy. Respondenci wskazywali na silniejsze wsparcie społeczności i większe szanse na znalezienie potrzebnych zasobów.
+
+Interesującą obserwacją było to, że najlepsze produkty z Asset Store mają tendencję do opuszczania platformy -- twórcy zakładają własne strony internetowe po osiągnięciu określonego poziomu popularności.
+
+Unreal Marketplace przeszedł niedawno transformację w platformę Fab, co według respondentów pogorszyło doświadczenie użytkownika i zwiększyło liczbę kroków potrzebnych do pobrania darmowych zasobów.
+
+\subsubsection{Zastosowanie assetów}
+
+Assety były rekomendowane głównie do prototypowania, nie do produkcji komercyjnej. Respondenci podkreślali, że niespójny styl graficzny wynikający z łączenia assetów od różnych twórców jest gorszy niż jednolity, nawet jeśli prosty styl graficzny.
+
+\subsection{Wykorzystanie sztucznej inteligencji}
+\label{subsec:ai}
+
+\subsubsection{Doświadczenia z LLM}
+
+Większość respondentów miała ograniczone doświadczenia z wykorzystaniem AI w pracy z silnikami gier. Główna obserwacja dotyczyła niskiej jakości generowanego kodu -- naprawianie błędów w kodzie wygenerowanym przez ChatGPT często zajmowało więcej czasu niż napisanie rozwiązania od podstaw.
+
+Jednocześnie AI było wykorzystywane skuteczniej jako substytut dokumentacji dla Unreal Engine. Pomimo częstych konfabulacji, modele językowe potrafiły naprowadzić na właściwe słowa kluczowe lub nazwy funkcji, które następnie można było zweryfikować w kodzie źródłowym silnika.
+
+\subsubsection{Generowanie grafik}
+
+Pozytywne doświadczenia zgłoszono w zakresie generowania placeholderów graficznych podczas game jamów. AI pozwala szybko uzyskać przyzwoicie wyglądające grafiki do prototypów, choć do wersji finalnych produktów nadal preferowana jest praca profesjonalnych grafików.
+
+\subsection{Optymalizacja i wydajność}
+\label{subsec:optymalizacja}
+
+\subsubsection{Narzut silników}
+
+Respondenci wskazywali, że Unity ma mniejszy narzut wydajnościowy niż Unreal dla prostych projektów. Czas ładowania projektów w Unity jest znacznie krótszy, co respondenci przypisywali domyślnie niższym rozdzielczościom tekstur i prostszym ustawieniom graficznym.
+
+\subsubsection{Blueprinty vs C++}
+
+Istotną różnicę wydajnościową w Unreal stanowi wybór między Blueprintami a kodem C++. Blueprinty są interpretowane w czasie wykonania jako dane, a nie kompilowane do kodu maszynowego. W praktyce oznacza to, że logika napisana w Blueprintach jest znacznie wolniejsza niż równoważny kod C++.
+
+\subsubsection{Garbage Collector}
+
+Problem garbage collectora w Unity był wielokrotnie wspominany jako znany problem, przed którym ostrzegają doświadczeni deweloperzy. Cykliczne uruchamianie garbage collectora może powodować zauważalne zacięcia w grze. Co ciekawe, wielu respondentów wspominało o tym problemie jako o teoretycznym zagrożeniu, nie mając bezpośrednich negatywnych doświadczeń -- prawdopodobnie dzięki stosowaniu praktyk takich jak object pooling.
+
+\subsection{Przyszłość silników i oczekiwania deweloperów}
+\label{subsec:przyszlosc}
+
+\subsubsection{Entity Component System (ECS)}
+
+Nowy system DOTS/ECS w Unity był oczekiwaną funkcjonalnością, która w momencie przeprowadzania wywiadów została już oficjalnie wydana. System ten pozwala na pisanie wysoce wydajnego, zorientowanego na dane kodu, kosztem większej złożoności programistycznej.
+
+\subsubsection{UI Toolkit}
+
+Nowy system UI w Unity (UI Toolkit) był wskazywany jako obszar wymagający poprawy. Respondenci wyrażali nadzieję na jego dalszy rozwój w kierunku zbliżonym do technologii frontendowych, co ułatwiłoby pracę osobom z doświadczeniem w tworzeniu aplikacji webowych.
+
+\subsubsection{Konkurencja Godot}
+
+Część respondentów wyraziła zainteresowanie silnikiem Godot jako alternatywą dla Unity i Unreal. Główne przyczyny to:
+\begin{itemize}
+    \item Model licencyjny royalty-free (brak opłat od przychodów)
+    \item Otwarte źródła umożliwiające modyfikację silnika
+    \item Mniejsza złożoność ułatwiająca naukę
+    \item Kontrowersje związane z próbą zmiany modelu licencyjnego Unity w 2023 roku
+\end{itemize}
+
+Respondenci przewidywali, że jeśli Unity nie poprawi swojego wizerunku i oferty, Godot może w przyszłości stać się poważną konkurencją w segmencie gier indie.
+
+\subsection{Podsumowanie wyników badań jakościowych}
+\label{subsec:podsumowanie-wywiady}
+
+Na podstawie przeprowadzonych wywiadów można sformułować następujące wnioski:
+
+\subsubsection{Silne strony Unity}
+\begin{itemize}
+    \item Wysoka jakość oficjalnej dokumentacji
+    \item Bogaty ekosystem materiałów edukacyjnych
+    \item Niższy próg wejścia dla początkujących
+    \item Lepsza integracja z systemami kontroli wersji (tekstowa serializacja)
+    \item Przystępny język programowania (C\#)
+    \item Elastyczna architektura komponentowa
+    \item Mniejszy narzut wydajnościowy dla prostych projektów
+\end{itemize}
+
+\subsubsection{Silne strony Unreal Engine}
+\begin{itemize}
+    \item Wymuszona struktura projektu promująca dobre praktyki
+    \item System Blueprints ułatwiający współpracę z osobami nietechnicznymi
+    \item Więcej gotowych funkcjonalności ,,out of the box''
+    \item Lepsze wsparcie dla projektów wysokobudżetowych (grafika, multiplayer)
+    \item Dostęp do kodu źródłowego silnika
+    \item Lepsza integracja z zewnętrznymi narzędziami graficznymi (np. Blender)
+\end{itemize}
+
+\subsubsection{Obszary problemowe wspólne}
+\begin{itemize}
+    \item Trudności z mergowaniem assetów graficznych w systemach kontroli wersji
+    \item Poradniki koncentrujące się na implementacji kosztem dobrych praktyk
+    \item Problemy z kompatybilnością między wersjami silników
+\end{itemize}
+
+\subsubsection{Rekomendacje z badań}
+
+Na podstawie wywiadów można zasugerować następujące kryteria wyboru silnika:
+
+\begin{table}[ht]
+\centering
+\caption{Rekomendacje wyboru silnika w zależności od kontekstu projektu}
+\label{tab:rekomendacje-silnikow}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{4cm}|}
+\hline
+\textbf{Kryterium} & \textbf{Unity} & \textbf{Unreal Engine} \\
+\hline
+Doświadczenie zespołu & Początkujący, znajomość C\# & Średniozaawansowany, znajomość C++ \\
+\hline
+Typ projektu & Gry mobilne, 2D, indie & FPS, AAA, realistyczna grafika \\
+\hline
+Skład zespołu & Programiści & Mieszany (designerzy, artyści) \\
+\hline
+Budżet czasowy na naukę & Krótki & Średni do długiego \\
+\hline
+Wymagania graficzne & Standardowe & Wysokie \\
+\hline
+\end{tabular}
+\end{table}
+
+Wyniki badań jakościowych uzupełniają obiektywne testy wydajnościowe przedstawione w rozdziale \ref{sec:testy-wydajnosci}, dostarczając kontekstu praktycznego użytkowania obu silników w rzeczywistych projektach.

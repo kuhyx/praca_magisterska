@@ -2,85 +2,101 @@
 \section{Wstęp}
 
 \subsection{Motywacja i cel pracy}
-Współczesny rynek gier komputerowych charakteryzuje się dynamicznym rozwojem technologicznym i rosnącymi wymaganiami zarówno twórców, jak i graczy. Wybór odpowiedniego silnika gier jest kluczową decyzją, która wpływa na cały proces tworzenia gry, jej wydajność oraz możliwości techniczne.
+Współczesny rynek gier komputerowych charakteryzuje się dynamicznym rozwojem technologicznym i~rosnącymi wymaganiami zarówno twórców, jak i~graczy. Wybór odpowiedniego silnika gier jest kluczową decyzją, która wpływa na cały proces tworzenia gry, jej wydajność oraz możliwości techniczne.
 
-Celem niniejszej pracy jest kompleksowe porównanie wydajności i możliwości współczesnych silników gier komputerowych, ze szczególnym uwzględnieniem ich wpływu na proces tworzenia gier oraz końcową jakość produktu.
+Celem niniejszej pracy jest kompleksowe porównanie wydajności i~możliwości współczesnych silników gier komputerowych, ze szczególnym uwzględnieniem ich wpływu na proces tworzenia gier oraz końcową jakość produktu.
 
 \subsection{Zakres pracy}
 Praca obejmuje analizę następujących aspektów:
 \begin{itemize}
-    \item Wydajność renderowania grafiki 2D i 3D
-    \item Możliwości i funkcjonalności oferowane przez różne silniki
-    \item Łatwość użycia i krzywa uczenia się
+    \item Wydajność renderowania grafiki 2D i~3D
+    \item Możliwości i~funkcjonalności oferowane przez różne silniki
+    \item Łatwość użycia i~krzywa uczenia się
     \item Wsparcie dla różnych platform docelowych
-    \item Ekosystem narzędzi i społeczność deweloperska
+    \item Ekosystem narzędzi i~społeczność deweloperska
 \end{itemize}
 
-\subsection{Struktura pracy}
-Praca składa się z następujących rozdziałów:
-% TODO: Dodać opis struktury po ukończeniu wszystkich rozdziałów
+\subsection{Wybór gry testowej -- gatunek bullet hell}
+\label{subsec:bullet-hell}
 
-\subsection{Metodologia}
-W pracy zastosowano metodologię badawczą opartą na analizie porównawczej, testach wydajnościowych oraz studium przypadków rzeczywistych projektów implementowanych w różnych silnikach gier.
+W~celu przeprowadzenia praktycznych testów wydajnościowych zdecydowano się na implementację gry z~gatunku \textbf{bullet hell} (dosł.~,,piekło pocisków''), znanego również jako \textbf{danmaku} (z~jap.~,,kurtyna pocisków'') lub \textbf{manic shooter}.
 
-% \ref wyrenderuje się jako 'Reference to image 1.1'
-\lipsum[2] Reference to image \ref{fig:tradycyjne-logo-pw}.
+\subsubsection{Charakterystyka gatunku}
 
-% Lista punktowana
-% Parametr label ustawia symbol punktora
+Bullet hell to podgatunek gier typu shoot 'em up (strzelanka), w~którym gracz steruje zwykle niewielkim statkiem kosmicznym lub postacią, mierząc się z~falami przeciwników wystrzeliwujących ogromne ilości pocisków tworzących skomplikowane wzory na ekranie. Kluczowe cechy gatunku obejmują:
+
 \begin{itemize}
-    \item Item 1:
-    \begin{itemize}[label=---]
-        \item item 1.1;
-        \item item 1.2;
-    \end{itemize}
-    \item Item 2;
-    \item Item 3.
+    \item \textbf{Masowa ilość pocisków} -- na ekranie jednocześnie może znajdować się od kilkuset do kilku tysięcy pocisków, tworzących złożone formacje geometryczne
+    \item \textbf{Precyzyjne hitboxy} -- obszar kolizji postaci gracza jest znacznie mniejszy niż jej wizualna reprezentacja (często ograniczony do kilku pikseli), co umożliwia nawigację między gęstymi wzorami pocisków
+    \item \textbf{Wzory pocisków} -- przeciwnicy wystrzeliwują pociski według określonych algorytmów, tworząc spirale, fale, rozgałęzienia i~inne formacje
+    \item \textbf{Ciągły ruch} -- gracz musi nieustannie przemieszczać się po ekranie, unikając kolizji
+    \item \textbf{Eskalacja trudności} -- wraz z~postępem gry wzrasta liczba przeciwników i~gęstość pocisków
 \end{itemize}
 
-\lipsum[3]
+Klasyczne przykłady gatunku to serie \textit{Touhou Project}, \textit{DoDonPachi}, \textit{Ikaruga} oraz \textit{Geometry Wars}.
 
-% Lista numerowana w formacie 1.a).ii
-% Tutaj również można stosować \label
+\subsubsection{Uzasadnienie wyboru gatunku}
+
+Gatunek bullet hell został wybrany jako podstawa testów wydajnościowych z~następujących powodów:
+
 \begin{enumerate}
-    \item Item 1:
-    \begin{enumerate}
-        \item item 1.1;
-        \item item 1.2:
-        \begin{enumerate}
-            \item item 1.2.1;
-            \item item 1.2.2;
-        \end{enumerate}
-        \item item 1.3;
-    \end{enumerate}
-    \item Item 2;
-    \item Item 3.
+    \item \textbf{Intensywne wykorzystanie zasobów} -- jednoczesne renderowanie setek lub tysięcy obiektów (pocisków) stanowi znaczące obciążenie dla systemu renderowania
+    
+    \item \textbf{Testowanie zarządzania pamięcią} -- ciągłe tworzenie i~niszczenie obiektów pocisków eksponuje różnice w~implementacji garbage collectora (Unity/C\#) versus ręcznego zarządzania pamięcią (Unreal/C++)
+    
+    \item \textbf{Wymagania systemu fizyki} -- wykrywanie kolizji między graczem a~setkami pocisków w~każdej klatce obciąża system fizyki
+    
+    \item \textbf{Prostota implementacji} -- podstawowa mechanika gry jest stosunkowo prosta koncepcyjnie, co pozwala skupić się na porównaniu wydajności, a~nie złożoności logiki gry
+    
+    \item \textbf{Skalowalność testu} -- łatwo kontrolować poziom obciążenia poprzez modyfikację liczby aktywnych pocisków i~przeciwników
+    
+    \item \textbf{Reprezentatywność dla gier 2D} -- gatunek jest typowym przedstawicielem gier 2D, co pozwala ocenić wsparcie silników dla tego segmentu rynku
+    
+    \item \textbf{Wymuszenie optymalizacji} -- ze względu na ekstremalną liczbę obiektów, implementacja bullet hell wymusza stosowanie technik optymalizacyjnych (object pooling, spatial partitioning), których efektywność może różnić się między silnikami
 \end{enumerate}
 
-% Przypis dolny \footnote
-\lipsum[4] Lorem ipsum dolor sit amet\footnote{Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.}, consectetur adipiscing elit.
+\subsubsection{Parametry gry testowej}
 
-% Przykładowa tabela: wyśrodkowana i renderowana
-% w miejscu wstawienia: !h = !h[ere]
-% Domyślnie tabele trafiają na górę strony
-\begin{table}[!h] \centering
-    % Podpis tabeli umieszczamy od góry
-    \caption{Przykładowa tabela.}
-    \label{tab:tabela1}
+Zaimplementowana gra testowa charakteryzuje się następującymi parametrami:
 
-    % Tabela z trzema kolumnami:
-    % dwie wyrównanie do środka [c], a ostatnia do prawej [r]
-    % szerokość kolumn automatyczna (równa szerokości tekstu)
-    \begin{tabular}{| c | c | r |} \hline
-        Kolumna 1       & Kolumna 2 & Liczba \\ \hline\hline
-        cell1           & cell2     & 60     \\ \hline
-        cell4           & cell5     & 43     \\ \hline
-        cell7           & cell8     & 20,45  \\ \hline
-        % Komórka o szerokości dwóch kolumn, wyrównana do prawej
-        % Przypisy dolne w tabelach wstawiamy przez \tablefootnote
-        \multicolumn{2}{|r|}{Suma\tablefootnote{Table footnote.}} & 123,45 \\ \hline
-    \end{tabular}
+\begin{itemize}
+    \item Czas rozgrywki: 90 sekund (tryb przetrwania)
+    \item Eskalacja trudności: liniowy wzrost częstotliwości spawnu przeciwników
+    \item Typy przeciwników: 3 warianty z~różnymi wzorami strzelania
+    \item Maksymalna liczba jednoczesnych pocisków: do 500 obiektów
+    \item System punktacji oparty na eliminacji przeciwników
+    \item Object pooling dla pocisków (eliminacja alokacji w~runtime)
+\end{itemize}
 
-\end{table}
+Te parametry zapewniają wystarczające obciążenie systemu do ujawnienia różnic wydajnościowych między silnikami, pozostając jednocześnie w~granicach typowych dla gier indie z~tego gatunku.
 
-Lorem ipsum dolor sit amet.
+\subsection{Struktura pracy}
+
+Praca składa się z~następujących rozdziałów:
+
+\begin{enumerate}
+    \item \textbf{Wstęp} -- wprowadzenie do tematyki, motywacja, cel i~zakres pracy
+    \item \textbf{Przegląd literatury} -- analiza istniejących badań porównawczych silników gier
+    \item \textbf{Charakterystyka silników} -- szczegółowy opis Unity i~Unreal Engine
+    \item \textbf{Metodologia} -- opis metodyki badawczej i~kryteriów porównania
+    \item \textbf{Analiza wywiadów} -- wyniki badań jakościowych z~deweloperami
+    \item \textbf{Implementacja gry testowej} -- doświadczenia z~tworzenia gry w~obu silnikach
+    \item \textbf{Narzędzia profilowania} -- opis NVIDIA Nsight i~metodyki pomiarów
+    \item \textbf{Testy wydajności} -- wyniki pomiarów wydajnościowych
+    \item \textbf{Analiza możliwości} -- porównanie funkcjonalności silników
+    \item \textbf{Porównanie wyników} -- synteza i~analiza zebranych danych
+    \item \textbf{Podsumowanie} -- wnioski i~rekomendacje
+\end{enumerate}
+
+\subsection{Metodologia}
+
+W~pracy zastosowano metodologię badawczą łączącą podejście ilościowe z~jakościowym:
+
+\begin{itemize}
+    \item \textbf{Testy wydajnościowe} -- obiektywne pomiary z~wykorzystaniem NVIDIA Nsight Graphics, zapewniające porównywalność wyników między silnikami
+    \item \textbf{Wywiady z~deweloperami} -- badania jakościowe dostarczające kontekstu praktycznego użytkowania silników
+    \item \textbf{Implementacja porównawcza} -- stworzenie identycznej gry w~obu silnikach, dokumentując różnice w~procesie deweloperskim
+    \item \textbf{Analiza dokumentacji} -- przegląd oficjalnej dokumentacji i~materiałów edukacyjnych
+\end{itemize}
+
+Takie wieloaspektowe podejście pozwala na kompleksową ocenę silników, uwzględniającą zarówno mierzalne parametry techniczne, jak i~subiektywne doświadczenia użytkowników.

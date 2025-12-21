@@ -54,16 +54,28 @@
 % English abstract if \langeng is set
 %-------------------------------------
 \cleardoublepage % Zaczynamy od nieparzystej strony
-\abstract \lipsum[1-3]
-\keywords XXX, XXX, XXX
+\abstract 
+Niniejsza praca przedstawia kompleksowe porównanie dwóch wiodących silników gier komputerowych: Unity oraz Unreal Engine. Badania obejmują zarówno analizę ilościową (testy wydajnościowe z~wykorzystaniem NVIDIA Nsight Graphics), jak i~jakościową (wywiady z~ośmioma deweloperami gier posiadającymi praktyczne doświadczenie w~obu silnikach). W~ramach pracy zaimplementowano identyczną grę z~gatunku bullet hell w~obu środowiskach, co pozwoliło na bezpośrednie porównanie procesu deweloperskiego oraz wydajności końcowych aplikacji.
+
+Wyniki badań wskazują, że Unity oferuje niższy próg wejścia, lepsze wsparcie dla gier 2D oraz szybszy cykl iteracji dzięki natywnej obsłudze hot reload. Unreal Engine natomiast wyróżnia się zaawansowanymi możliwościami graficznymi, systemem wizualnego programowania Blueprints oraz lepszym wsparciem dla produkcji AAA. Testy wydajnościowe wykazały różnice w~zarządzaniu pamięcią wynikające z~odmiennych podejść architektonicznych: garbage collector w~Unity (C\#) versus ręczne zarządzanie pamięcią w~Unreal (C++).
+
+Praca dostarcza praktycznych rekomendacji dotyczących wyboru silnika w~zależności od typu projektu, doświadczenia zespołu oraz wymagań technicznych. Wyniki mogą być przydatne zarówno dla początkujących deweloperów podejmujących decyzję o~wyborze pierwszego silnika, jak i~dla doświadczonych zespołów rozważających migrację między platformami.
+
+\keywords silnik gier, Unity, Unreal Engine, porównanie wydajności, bullet hell, profilowanie GPU, NVIDIA Nsight, tworzenie gier
 
 %----------------------------------------
 % Streszczenie po angielsku dla \langpol
 % Polish abstract if \langeng is set
 %----------------------------------------
 \clearpage
-\secondabstract \kant[1-3]
-\secondkeywords XXX, XXX, XXX
+\secondabstract 
+This thesis presents a~comprehensive comparison of two leading game engines: Unity and Unreal Engine. The research encompasses both quantitative analysis (performance testing using NVIDIA Nsight Graphics) and qualitative analysis (interviews with eight game developers with practical experience in both engines). As part of the study, an identical bullet hell game was implemented in both environments, enabling direct comparison of the development process and final application performance.
+
+The findings indicate that Unity offers a~lower entry barrier, better support for 2D games, and a~faster iteration cycle due to native hot reload support. Unreal Engine, on the other hand, excels in advanced graphical capabilities, the Blueprints visual programming system, and better support for AAA productions. Performance tests revealed differences in memory management resulting from distinct architectural approaches: garbage collector in Unity (C\#) versus manual memory management in Unreal (C++).
+
+The thesis provides practical recommendations for engine selection depending on project type, team experience, and technical requirements. The results may be useful for both novice developers making decisions about their first engine choice and experienced teams considering migration between platforms.
+
+\secondkeywords game engine, Unity, Unreal Engine, performance comparison, bullet hell, GPU profiling, NVIDIA Nsight, game development
 
 \pagestyle{plain}
 

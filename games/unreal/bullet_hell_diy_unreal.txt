@@ -1,0 +1,1323 @@
+================================================================================
+UNREAL ENGINE BULLET HELL GAME - COMPLETE STEP-BY-STEP TUTORIAL
+================================================================================
+
+This tutorial recreates the Unity "magisterka_1" bullet-hell shooter in Unreal Engine 5.
+The game features:
+- Player ship with movement and shooting
+- Enemies that move downward with sinusoidal horizontal motion
+- Enemy spawning that increases over time
+- Radial bullet patterns from enemies
+- Score, lives, and timer UI
+- Special "bomb" ability to clear screen
+- 5-minute game duration with victory/defeat conditions
+
+================================================================================
+PART 1: PROJECT SETUP
+================================================================================
+
+STEP 1.1: Create New Project
+--------------------------------------------------------------------------------
+1. Open Epic Games Launcher
+2. Click "Unreal Engine" tab on the left sidebar
+3. Click yellow "Launch" button next to your UE5 version
+4. Wait for Unreal Engine to open (this may take 1-2 minutes)
+
+5. In the "Unreal Project Browser" window that appears:
+   - At the top, select "Games" category (should be selected by default)
+   - Click "Blank" template (empty square icon)
+   
+6. On the right side panel, configure:
+   - Project Defaults: Blueprint (not C++)
+   - Target Platform: Desktop
+   - Quality Preset: Maximum
+   - Starter Content: UNCHECKED (we don't need it)
+   - Raytracing: UNCHECKED
+
+7. At the bottom:
+   - Choose folder location where you want to save
+   - Name the project: "BulletHellGame"
+   
+8. Click "Create" button (bottom right, yellow)
+
+EXPECTED RESULT: Unreal Editor opens with an empty level. You should see:
+- Main 3D viewport in the center
+- Content Browser at the bottom
+- Outliner panel on the right (showing "Untitled" level)
+- Details panel on the right side
+
+
+STEP 1.2: Set Up 2D Game View
+--------------------------------------------------------------------------------
+Since bullet-hell games are typically 2D, we'll set up a top-down orthographic view.
+
+1. In the main viewport, look at the top-left corner
+2. Click the dropdown that says "Perspective"
+3. Select "Top" from the dropdown menu
+
+4. To set up proper camera for the game:
+   - Go to menu bar: Edit → Project Settings
+   - In the left sidebar, search for "Maps & Modes"
+   - Click on "Maps & Modes"
+   
+5. Under "Default Modes":
+   - Find "Default GameMode" dropdown
+   - We'll create our own later, leave it for now
+
+6. Close Project Settings window (X in top right)
+
+
+STEP 1.3: Create Folder Structure
+--------------------------------------------------------------------------------
+1. Look at the Content Browser at the bottom of the screen
+2. You should see "Content" folder on the left panel
+
+3. Right-click on "Content" folder → New Folder
+   Name it: "Blueprints"
+
+4. Right-click on "Content" folder → New Folder
+   Name it: "Materials"
+
+5. Right-click on "Content" folder → New Folder
+   Name it: "Sprites" (for 2D textures)
+
+6. Right-click on "Content" folder → New Folder
+   Name it: "UI"
+
+EXPECTED RESULT: Content Browser shows 4 folders:
+   Content/
+   ├── Blueprints/
+   ├── Materials/
+   ├── Sprites/
+   └── UI/
+
+
+================================================================================
+PART 2: CREATE THE PLAYER
+================================================================================
+
+STEP 2.1: Create Player Blueprint
+--------------------------------------------------------------------------------
+1. In Content Browser, double-click "Blueprints" folder to open it
+
+2. Right-click in empty space → Blueprint Class
+
+3. In the popup window "Pick Parent Class":
+   - Click "Pawn" (NOT Character - we want simple 2D control)
+   - Click "Select"
+
+4. Name the new Blueprint: "BP_Player"
+
+5. Double-click "BP_Player" to open the Blueprint Editor
+
+EXPECTED RESULT: A new tab opens showing the Blueprint Editor with:
+- Components panel on the left
+- Viewport in the center
+- Details panel on the right
+- Event Graph tab at the bottom
+
+
+STEP 2.2: Add Player Visual Components
+--------------------------------------------------------------------------------
+1. In the Components panel (left side), you'll see "DefaultSceneRoot"
+
+2. Click "Add" button (green, top of Components panel)
+   - Search for "Paper Sprite"
+   - Click "Paper Sprite" to add it
+   - Rename it to "PlayerSprite" (click on it, then press F2)
+
+   NOTE: If Paper Sprite is not available:
+   - Go to Edit → Plugins (from main menu bar)
+   - Search for "Paper2D"
+   - Make sure "Paper2D" plugin is ENABLED
+   - Restart the editor if prompted
+
+3. With "PlayerSprite" selected, look at Details panel (right side):
+   - Find "Source Sprite" property
+   - For now, leave it empty (we'll create sprites later)
+   - Under "Transform", set Scale to (1.0, 1.0, 1.0)
+
+4. Click "Add" button again:
+   - Search for "Box Collision"
+   - Click "Box Collision" to add it
+   - Rename it to "PlayerCollision"
+
+5. With "PlayerCollision" selected, in Details panel:
+   - Under "Shape", set Box Extent to: X=25, Y=25, Z=10
+   - Under "Collision", click "Collision Presets" dropdown
+   - Select "Custom..."
+   - Set "Collision Enabled" to "Query Only"
+   - Check "Generate Overlap Events" box
+
+6. Click "Add" button:
+   - Search for "Arrow"
+   - Click "Arrow Component" to add
+   - This shows which direction is "forward" (useful for debugging)
+
+EXPECTED RESULT: Components panel shows:
+   DefaultSceneRoot
+   ├── PlayerSprite (Paper Sprite)
+   ├── PlayerCollision (Box Collision)
+   └── Arrow
+
+
+STEP 2.3: Create Player Variables
+--------------------------------------------------------------------------------
+1. In the Blueprint Editor, look at the left panel
+2. Find "My Blueprint" section
+3. Under "Variables", click the "+" button
+
+4. Create these variables one by one (click +, then set properties in Details):
+
+   Variable 1:
+   - Name: "MoveSpeed"
+   - Type: Float (click dropdown next to variable, select Float)
+   - Click "eye" icon to make it public/editable
+   - In Details panel, set Default Value: 750.0
+   
+   Variable 2:
+   - Name: "BoundsMin"
+   - Type: Vector 2D (search for "Vector 2D" in type dropdown)
+   - Default Value: X=-850, Y=-450
+   
+   Variable 3:
+   - Name: "BoundsMax"
+   - Type: Vector 2D
+   - Default Value: X=850, Y=450
+   
+   Variable 4:
+   - Name: "FireInterval"
+   - Type: Float
+   - Default Value: 0.08
+   
+   Variable 5:
+   - Name: "FireTimer"
+   - Type: Float
+   - Default Value: 0.0
+   
+   Variable 6:
+   - Name: "BulletSpeed"
+   - Type: Float
+   - Default Value: 2200.0
+   
+   Variable 7:
+   - Name: "MaxLives"
+   - Type: Integer
+   - Default Value: 3
+   
+   Variable 8:
+   - Name: "CurrentLives"
+   - Type: Integer
+   - Default Value: 3
+   
+   Variable 9:
+   - Name: "VolleySize"
+   - Type: Integer
+   - Default Value: 3
+   
+   Variable 10:
+   - Name: "VolleySpread"
+   - Type: Float
+   - Default Value: 12.0
+   
+   Variable 11:
+   - Name: "SpecialUsed"
+   - Type: Boolean
+   - Default Value: false (unchecked)
+   
+   Variable 12:
+   - Name: "BulletClass"
+   - Type: Class Reference (search "Class", select "Class")
+   - In Details, under "Class", select "Actor" as the base class
+   - This will hold reference to bullet blueprint
+
+5. Click "Compile" button (top left, blue checkmark icon)
+6. Click "Save" button (floppy disk icon next to Compile)
+
+EXPECTED RESULT: My Blueprint panel shows all 12 variables listed
+
+
+STEP 2.4: Create Player Movement Logic
+--------------------------------------------------------------------------------
+1. Click on "Event Graph" tab at the bottom of Blueprint Editor
+
+2. You should see three default events (red nodes):
+   - Event BeginPlay
+   - Event ActorBeginOverlap  
+   - Event Tick
+
+3. MOVEMENT LOGIC - Create this node network:
+
+   From "Event Tick" node:
+   
+   a) Right-click empty space → search "Get Input Axis Value"
+      - Add one for "MoveForward" 
+      - Add another for "MoveRight"
+      
+   NOTE: If these don't work, you may need to set up input:
+      - Edit → Project Settings → Input
+      - Under "Axis Mappings", add:
+        - "MoveForward": W=1.0, S=-1.0
+        - "MoveRight": D=1.0, A=-1.0
+
+   b) Right-click → "Make Vector"
+      - Connect "MoveRight" to X
+      - Connect "MoveForward" to Y
+      - Set Z to 0
+      
+   c) Right-click → "Normalize"
+      - Connect the vector output to Normalize input
+      
+   d) Right-click → "Get World Delta Seconds"
+   
+   e) Right-click → "Get MoveSpeed" (your variable)
+   
+   f) Right-click → Multiply (float * float)
+      - Connect Delta Seconds output to first input
+      - Connect MoveSpeed output to second input
+      
+   g) Right-click → Multiply (vector * float)
+      - Connect Normalized vector to vector input
+      - Connect (DeltaSeconds * MoveSpeed) result to float input
+      
+   h) Right-click → "Get Actor Location"
+   
+   i) Right-click → Add (vector + vector)
+      - Connect current location to first input
+      - Connect movement vector to second input
+      
+   j) Right-click → "Clamp" (for X)
+      - Search "Clamp (float)"
+      - Break the result vector (right-click output → Split Struct Pin)
+      - Connect X to Clamp Value
+      - Get BoundsMin, break it, connect X to Min
+      - Get BoundsMax, break it, connect X to Max
+      
+   k) Do the same Clamp for Y coordinate
+   
+   l) Right-click → "Make Vector"
+      - Connect clamped X
+      - Connect clamped Y
+      - Set Z to 0
+      
+   m) Right-click → "Set Actor Location"
+      - Connect the clamped vector to "New Location"
+      - Connect Event Tick execution pin to this node
+
+4. Click Compile and Save
+
+VISUAL DIAGRAM OF MOVEMENT NODES:
+┌─────────────┐
+│ Event Tick  │──────────────────────────────────────────────►
+└─────────────┘                                               │
+       │                                                      │
+       ▼                                                      ▼
+┌─────────────────┐   ┌─────────────────┐            ┌────────────────────┐
+│GetAxisMoveRight │   │GetAxisMoveForward│            │ Set Actor Location │
+└────────┬────────┘   └────────┬────────┘            └────────────────────┘
+         │                     │                              ▲
+         ▼                     ▼                              │
+    ┌────────────────────────────┐                    ┌───────────────┐
+    │      Make Vector           │───►Normalize───►   │ Clamped Vector│
+    │  X=Right, Y=Forward, Z=0   │   (direction)      └───────────────┘
+    └────────────────────────────┘        │                   ▲
+                                          ▼                   │
+                                    ┌──────────────┐    ┌─────────────┐
+                                    │ * MoveSpeed  │───►│ + Location  │
+                                    │ * DeltaTime  │    └─────────────┘
+                                    └──────────────┘
+
+
+STEP 2.5: Create Player Firing Logic
+--------------------------------------------------------------------------------
+1. Continue in Event Graph, we'll add firing after movement
+
+2. After the movement logic, add firing check:
+
+   a) Right-click → "Is Input Key Down"
+      - Set Key to "Z"
+      
+   b) Alternative: Right-click → "Is Mouse Button Down"
+      - Set Button to "Left Mouse Button"
+      
+   c) Right-click → "OR Boolean"
+      - Connect both input checks to OR
+      
+   d) Right-click → "Branch"
+      - Connect OR result to Condition
+      - Connect execution from after movement
+      
+   e) On "True" branch:
+      - Get FireTimer variable
+      - Subtract Delta Seconds from it
+      - If FireTimer <= 0:
+        - Reset FireTimer to FireInterval
+        - Call "Fire Volley" function (we'll create this)
+
+3. CREATE FIRE VOLLEY FUNCTION:
+   
+   a) In "My Blueprint" panel, under "Functions", click "+"
+   b) Name the function "FireVolley"
+   c) Double-click to open function graph
+   
+   d) Inside FireVolley function:
+   
+      - Get VolleySize variable
+      - Branch: if VolleySize == 1, fire single bullet straight up
+      - Else: loop from 0 to VolleySize-1
+        - Calculate angle: StartAngle + (i * VolleySpread)
+        - StartAngle = -(VolleySpread * (VolleySize-1)) / 2
+        - Create direction vector from angle
+        - Spawn bullet at player location with that direction
+
+4. CREATE SPAWN BULLET FUNCTION:
+
+   a) Add new function "SpawnBullet"
+   
+   b) Add input parameters (click + on function entry):
+      - SpawnLocation (Vector)
+      - Direction (Vector)
+   
+   c) Inside function:
+      - Right-click → "Spawn Actor from Class"
+      - Connect BulletClass variable to "Class" input
+      - Connect SpawnLocation to "Spawn Transform Location"
+      
+   d) After spawning:
+      - Cast the return value to BP_Bullet (we'll create this later)
+      - Call "Initialize" function on the bullet
+      - Pass Direction and BulletSpeed, IsEnemy=false
+
+5. Compile and Save
+
+
+STEP 2.6: Create Player Damage and Special Ability
+--------------------------------------------------------------------------------
+1. CREATE "TakeHit" FUNCTION:
+
+   a) Add new function "TakeHit"
+   b) Add input parameter: Damage (Integer)
+   
+   c) Inside:
+      - Get CurrentLives
+      - Subtract Damage
+      - Clamp to minimum 0
+      - Set CurrentLives
+      - If CurrentLives <= 0:
+        - Call HandleDeath function
+
+2. CREATE "HandleDeath" FUNCTION:
+
+   a) Add new function "HandleDeath"
+   
+   b) Inside:
+      - Get reference to GameDirector (we'll create later)
+      - Call "HandlePlayerDeath" on GameDirector
+      - Set Actor Hidden in Game = true
+      - Disable Input
+
+3. SPECIAL ABILITY (Screen Clear):
+
+   a) In Event Graph, add to Event Tick:
+      - Is Input Key Down → Key = "X"
+      - OR with Right Mouse Button
+      - Branch on result
+      - Check if SpecialUsed is false
+      - If not used:
+        - Set SpecialUsed = true
+        - Call "ClearAllEnemies" (global function)
+        - Call "ClearAllEnemyBullets" (global function)
+
+4. Compile and Save
+
+
+================================================================================
+PART 3: CREATE THE BULLET
+================================================================================
+
+STEP 3.1: Create Bullet Blueprint
+--------------------------------------------------------------------------------
+1. In Content Browser → Blueprints folder
+2. Right-click → Blueprint Class → Actor
+3. Name it: "BP_Bullet"
+4. Double-click to open
+
+5. Add Components:
+   - Paper Sprite → name "BulletSprite"
+   - Sphere Collision → name "BulletCollision"
+     - Radius: 8
+     - Generate Overlap Events: CHECKED
+     - Collision Preset: Custom → Query Only
+
+6. Create Variables:
+   - TravelDirection (Vector) - Default: (0, 1, 0)
+   - TravelSpeed (Float) - Default: 1200.0
+   - RemainingLifetime (Float) - Default: 4.0
+   - IsEnemyProjectile (Boolean) - Default: false
+   - Damage (Integer) - Default: 1
+
+
+STEP 3.2: Bullet Movement Logic
+--------------------------------------------------------------------------------
+1. In Event Graph, from Event Tick:
+
+   a) Calculate movement:
+      - Get TravelDirection
+      - Multiply by TravelSpeed
+      - Multiply by Delta Seconds
+      - Add to current location
+      - Set Actor Location
+   
+   b) Check lifetime:
+      - Subtract Delta Seconds from RemainingLifetime
+      - If <= 0: Destroy Actor
+
+2. CREATE "Initialize" FUNCTION:
+   
+   a) Add input parameters:
+      - Direction (Vector)
+      - Speed (Float)
+      - bIsEnemy (Boolean)
+      - Lifetime (Float)
+      - DamageValue (Integer) - default 1
+   
+   b) Inside:
+      - Normalize Direction → Set TravelDirection
+      - Set TravelSpeed = Speed
+      - Set IsEnemyProjectile = bIsEnemy
+      - Set RemainingLifetime = Lifetime
+      - Set Damage = DamageValue
+
+3. Compile and Save
+
+
+STEP 3.3: Bullet Collision Logic
+--------------------------------------------------------------------------------
+1. Click on "BulletCollision" component in Components panel
+
+2. In Details panel, scroll to "Events" section
+   - Click "+" next to "On Component Begin Overlap"
+   - This creates event node in Event Graph
+
+3. In the Event Graph, from "On Component Begin Overlap":
+
+   a) First, check if this is enemy projectile:
+      - Get IsEnemyProjectile
+      - Branch
+      
+   b) IF IS ENEMY PROJECTILE (True branch):
+      - Get Other Actor from the overlap event
+      - Cast to BP_Player
+      - If cast succeeds:
+        - Call TakeHit on player, passing Damage
+        - Destroy this bullet (Destroy Actor)
+        
+   c) IF IS PLAYER BULLET (False branch):
+      - Get Other Actor
+      - Cast to BP_Enemy
+      - If cast succeeds:
+        - Call ApplyDamage on enemy, passing Damage
+        - Destroy this bullet
+
+4. Compile and Save
+
+
+================================================================================
+PART 4: CREATE THE ENEMY
+================================================================================
+
+STEP 4.1: Create Enemy Blueprint
+--------------------------------------------------------------------------------
+1. Content Browser → Blueprints
+2. Right-click → Blueprint Class → Actor
+3. Name: "BP_Enemy"
+4. Double-click to open
+
+5. Add Components:
+   - Paper Sprite → "EnemySprite"
+   - Box Collision → "EnemyCollision"
+     - Box Extent: X=30, Y=30, Z=10
+     - Generate Overlap Events: CHECKED
+
+6. Create Variables:
+   - MaxHealth (Integer) - Default: 12
+   - CurrentHealth (Integer) - Default: 12
+   - ScoreValue (Integer) - Default: 50
+   - VerticalSpeed (Float) - Default: 220.0
+   - HorizontalAmplitude (Float) - Default: 250.0
+   - HorizontalFrequency (Float) - Default: 1.8
+   - DespawnY (Float) - Default: -750.0
+   - FireInterval (Float) - Default: 0.35
+   - BulletsPerBurst (Integer) - Default: 20
+   - BurstSpread (Float) - Default: 360.0
+   - EnemyBulletSpeed (Float) - Default: 1000.0
+   - EnemyBulletLifetime (Float) - Default: 6.0
+   - BaseX (Float) - Default: 0.0
+   - WaveSeed (Float) - Default: 0.0
+   - FireTimer (Float) - Default: 0.0
+   - BulletClass (Class Reference to Actor)
+
+
+STEP 4.2: Enemy Initialization
+--------------------------------------------------------------------------------
+1. In Event Graph, from "Event BeginPlay":
+
+   a) Set CurrentHealth = MaxHealth
+   
+   b) Get Actor Location → Break Vector → Set BaseX = X value
+   
+   c) Random Float in Range (0, 6.28) → Set WaveSeed
+      (6.28 ≈ 2π for wave randomization)
+   
+   d) Random Float in Range (0, FireInterval) → Set FireTimer
+
+
+STEP 4.3: Enemy Movement Logic
+--------------------------------------------------------------------------------
+1. In Event Graph, from "Event Tick":
+
+   a) VERTICAL MOVEMENT:
+      - Get Actor Location → Break into X, Y, Z
+      - Subtract (VerticalSpeed * DeltaSeconds) from Y
+      
+   b) HORIZONTAL SINE WAVE:
+      - Get Game Time in Seconds
+      - Add WaveSeed
+      - Multiply by HorizontalFrequency
+      - Calculate Sine of result
+      - Multiply by HorizontalAmplitude
+      - Add to BaseX
+      - This becomes new X position
+      
+   c) Set Actor Location with new X, Y (Z stays 0)
+   
+   d) DESPAWN CHECK:
+      - If Y < DespawnY: Destroy Actor
+      - If Abs(X) > 1400: Destroy Actor
+
+VISUAL DIAGRAM:
+┌─────────────┐
+│ Event Tick  │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────────────────────────────────────┐
+│  Get Location                                │
+│  NewY = Y - (VerticalSpeed * DeltaSeconds)   │
+│  NewX = BaseX + Sin(Time * Freq) * Amplitude │
+│  Set Location (NewX, NewY, 0)                │
+└──────────────────────────────────────────────┘
+
+
+STEP 4.4: Enemy Firing Logic
+--------------------------------------------------------------------------------
+1. Continue in Event Tick (after movement):
+
+   a) Decrease FireTimer by DeltaSeconds
+   
+   b) Branch: if FireTimer <= 0:
+      - Reset FireTimer to FireInterval
+      - Call "FireBurst" function
+
+2. CREATE "FireBurst" FUNCTION:
+
+   a) Add function "FireBurst"
+   
+   b) Inside:
+      - Get BulletsPerBurst
+      - Calculate angle step: 360 / BulletsPerBurst (for full circle)
+        OR: BurstSpread / (BulletsPerBurst - 1) (for partial arc)
+      
+   c) For Loop from 0 to BulletsPerBurst - 1:
+      - Calculate angle: i * AngleStep
+      - Convert to direction vector:
+        - X = Sin(angle in radians)
+        - Y = -Cos(angle in radians)  ← negative because enemies fire DOWN
+      - Spawn bullet:
+        - Spawn Actor from Class (BP_Bullet)
+        - Get spawned bullet, call Initialize:
+          - Direction = calculated direction
+          - Speed = EnemyBulletSpeed
+          - bIsEnemy = true
+          - Lifetime = EnemyBulletLifetime
+
+VISUAL: Radial bullet pattern (20 bullets in 360°)
+                    ↑
+                 ↗  |  ↖
+              ↗    |    ↖
+           →───────●───────←
+              ↘    |    ↙
+                 ↘  |  ↙
+                    ↓
+
+
+STEP 4.5: Enemy Damage and Death
+--------------------------------------------------------------------------------
+1. CREATE "ApplyDamage" FUNCTION:
+
+   a) Add input: DamageAmount (Integer)
+   
+   b) Inside:
+      - Subtract DamageAmount from CurrentHealth
+      - If CurrentHealth <= 0:
+        - Call HandleDeath
+
+2. CREATE "HandleDeath" FUNCTION:
+
+   a) Inside:
+      - Get reference to ScoreManager (we'll create later)
+      - Call AddScore, passing ScoreValue
+      - Spawn death effect (optional)
+      - Destroy Actor
+
+3. COLLISION WITH PLAYER:
+
+   a) On the EnemyCollision component overlap event:
+      - Cast Other Actor to BP_Player
+      - If successful:
+        - Call TakeHit(1) on player
+        - Call HandleDeath() on self
+
+
+================================================================================
+PART 5: CREATE ENEMY SPAWNER
+================================================================================
+
+STEP 5.1: Create Spawner Blueprint
+--------------------------------------------------------------------------------
+1. Content Browser → Blueprints
+2. Right-click → Blueprint Class → Actor
+3. Name: "BP_EnemySpawner"
+4. Double-click to open
+
+5. Create Variables:
+   - EnemyClass (Class Reference) - will reference BP_Enemy
+   - SpawnAreaHalfWidth (Float) - Default: 900.0
+   - GameDuration (Float) - Default: 300.0 (5 minutes)
+   - MaxSimultaneousEnemies (Integer) - Default: 120
+   - ElapsedTime (Float) - Default: 0.0
+   - SpawnTimer (Float) - Default: 0.0
+   - SpawningActive (Boolean) - Default: true
+
+
+STEP 5.2: Spawn Rate Curve
+--------------------------------------------------------------------------------
+1. Create Variable:
+   - SpawnCurve (Curve Float)
+   
+2. To create the curve asset:
+   a) In Content Browser, right-click → Miscellaneous → Curve
+   b) Select "CurveFloat"
+   c) Name it "SpawnRateCurve"
+   d) Double-click to open Curve Editor
+   
+3. In Curve Editor:
+   - Right-click on the curve → Add Key
+   - Create these keyframes:
+     - Time: 0.0, Value: 0.4 (slow spawn at start)
+     - Time: 0.5, Value: 2.0 (medium spawn halfway)
+     - Time: 1.0, Value: 4.5 (fast spawn at end)
+   - The X axis is normalized time (0-1)
+   - The Y axis is spawns per second
+
+4. In BP_EnemySpawner, set SpawnCurve default to this curve asset
+
+
+STEP 5.3: Spawning Logic
+--------------------------------------------------------------------------------
+1. In Event Graph, from Event Tick:
+
+   a) Check if SpawningActive is true
+      - If false, do nothing
+      
+   b) Update ElapsedTime:
+      - Add DeltaSeconds to ElapsedTime
+      
+   c) Calculate normalized time:
+      - Divide ElapsedTime by GameDuration
+      - Clamp between 0 and 1
+      
+   d) Get spawn rate from curve:
+      - Get SpawnCurve
+      - Call "Get Float Value" with normalized time
+      - This returns spawns per second
+      
+   e) Update SpawnTimer:
+      - Subtract DeltaSeconds from SpawnTimer
+      - If SpawnTimer <= 0:
+        - Reset SpawnTimer to (1.0 / SpawnsPerSecond)
+        - Call SpawnWave function
+
+2. CREATE "SpawnWave" FUNCTION:
+
+   a) Inside:
+      - Calculate burst size based on time:
+        - BaseCount = 1 + (NormalizedTime * 6)
+        - BurstSize = BaseCount + Random(0, 2)
+        - Clamp between 1 and 12
+      
+   b) For Loop from 0 to BurstSize - 1:
+      - Call SpawnEnemy function
+
+3. CREATE "SpawnEnemy" FUNCTION:
+
+   a) Inside:
+      - Check: Get All Actors of Class (BP_Enemy)
+        - Get array length
+        - If >= MaxSimultaneousEnemies: Return (don't spawn)
+      
+   b) Calculate spawn position:
+      - X = Random Float in Range (-SpawnAreaHalfWidth, SpawnAreaHalfWidth)
+      - Y = Get this actor's Y position (top of screen)
+      - Z = 0
+      
+   c) Spawn Actor from Class:
+      - Class: EnemyClass
+      - Location: calculated position
+      - Rotation: (0, 0, 0)
+
+4. CREATE "StopSpawning" FUNCTION:
+   - Set SpawningActive = false
+
+
+================================================================================
+PART 6: CREATE GAME DIRECTOR
+================================================================================
+
+STEP 6.1: Create Game Director Blueprint
+--------------------------------------------------------------------------------
+1. Content Browser → Blueprints
+2. Right-click → Blueprint Class → Actor
+3. Name: "BP_GameDirector"
+4. Double-click to open
+
+5. Create Variables:
+   - PlayerReference (Object Reference to BP_Player)
+   - SpawnerReference (Object Reference to BP_EnemySpawner)
+   - GameDuration (Float) - Default: 300.0
+   - ElapsedTime (Float) - Default: 0.0
+   - GameActive (Boolean) - Default: true
+
+
+STEP 6.2: Game Director Initialization
+--------------------------------------------------------------------------------
+1. From Event BeginPlay:
+
+   a) Find player in scene:
+      - Get All Actors of Class → BP_Player
+      - Get first element (index 0)
+      - Set PlayerReference
+      
+   b) Find spawner in scene:
+      - Get All Actors of Class → BP_EnemySpawner
+      - Get first element
+      - Set SpawnerReference
+      
+   c) Initialize ScoreManager:
+      - Get ScoreManager reference
+      - Call RegisterGameStart with initial lives and duration
+
+
+STEP 6.3: Game Director Update Logic
+--------------------------------------------------------------------------------
+1. From Event Tick:
+
+   a) Check if GameActive
+      - If false, skip everything
+      
+   b) Update elapsed time:
+      - Add DeltaSeconds to ElapsedTime
+      
+   c) Calculate remaining time:
+      - Subtract ElapsedTime from GameDuration
+      - Max with 0 (don't go negative)
+      
+   d) Update UI timer:
+      - Get ScoreManager
+      - Call UpdateTimer with remaining time
+      
+   e) Check for victory:
+      - If ElapsedTime >= GameDuration:
+        - Set GameActive = false
+        - Get SpawnerReference → Call StopSpawning
+        - Get ScoreManager → Call HandleGameClear
+
+2. CREATE "HandlePlayerDeath" FUNCTION:
+
+   a) Inside:
+      - Set GameActive = false
+      - Get SpawnerReference → Call StopSpawning
+      - Get ScoreManager → Call HandleGameOver
+
+
+================================================================================
+PART 7: CREATE SCORE MANAGER / UI
+================================================================================
+
+STEP 7.1: Create UI Widget Blueprint
+--------------------------------------------------------------------------------
+1. Content Browser → UI folder
+2. Right-click → User Interface → Widget Blueprint
+3. Name: "WBP_HUD"
+4. Double-click to open Widget Designer
+
+EXPECTED RESULT: Widget Designer opens with:
+- Hierarchy panel on left
+- Canvas preview in center
+- Details panel on right
+
+
+STEP 7.2: Design HUD Layout
+--------------------------------------------------------------------------------
+1. In the Palette panel (left side), search for "Canvas Panel"
+   - Drag Canvas Panel to the Hierarchy (if not already there)
+
+2. Add Score Text:
+   a) In Palette, search for "Text"
+   b) Drag "Text" widget onto Canvas Panel in hierarchy
+   c) Rename it "ScoreText" (right-click → Rename)
+   d) In Details panel:
+      - Under "Slot (Canvas Panel Slot)":
+        - Anchors: Top-Left (click dropdown, select corner)
+        - Position X: 20
+        - Position Y: 20
+        - Size X: 300
+        - Size Y: 40
+      - Under "Appearance":
+        - Text: "Score: 0"
+        - Font Size: 24
+        - Color: White
+
+3. Add Lives Text:
+   a) Drag another "Text" widget
+   b) Rename to "LivesText"
+   c) Position X: 20, Y: 60
+   d) Text: "Lives: 3"
+   e) Same font settings as Score
+
+4. Add Timer Text:
+   a) Drag another "Text" widget
+   b) Rename to "TimerText"
+   c) Position X: 20, Y: 100
+   d) Text: "Time: 05:00"
+   e) Same font settings
+
+5. Click "Compile" and "Save" (top buttons)
+
+EXPECTED RESULT: Preview shows:
+┌────────────────────────────────────┐
+│ Score: 0                           │
+│ Lives: 3                           │
+│ Time: 05:00                        │
+│                                    │
+│                                    │
+└────────────────────────────────────┘
+
+
+STEP 7.3: Create Score Manager Blueprint
+--------------------------------------------------------------------------------
+1. Content Browser → Blueprints
+2. Right-click → Blueprint Class → Actor
+3. Name: "BP_ScoreManager"
+4. Double-click to open
+
+5. Create Variables:
+   - Score (Integer) - Default: 0
+   - CurrentLives (Integer) - Default: 3
+   - HUDWidget (Object Reference to WBP_HUD)
+   - HUDWidgetClass (Class Reference) - set to WBP_HUD
+
+
+STEP 7.4: Score Manager Initialization
+--------------------------------------------------------------------------------
+1. From Event BeginPlay:
+
+   a) Create HUD Widget:
+      - Right-click → "Create Widget"
+      - Class: Select WBP_HUD (or use HUDWidgetClass variable)
+      - Owning Player: Get Player Controller (index 0)
+      
+   b) Store widget reference:
+      - Set HUDWidget to the created widget
+      
+   c) Add to viewport:
+      - Right-click → "Add to Viewport"
+      - Connect widget reference as target
+
+
+STEP 7.5: Score Manager Functions
+--------------------------------------------------------------------------------
+1. CREATE "RegisterGameStart" FUNCTION:
+   - Inputs: InitialLives (Integer), Duration (Float)
+   - Set Score = 0
+   - Set CurrentLives = InitialLives
+   - Update all UI labels
+
+2. CREATE "AddScore" FUNCTION:
+   - Input: Amount (Integer)
+   - Add Amount to Score
+   - Update Score label in HUD:
+     - Get HUDWidget
+     - Cast to WBP_HUD
+     - Get "ScoreText" widget
+     - Set Text to "Score: " + Score
+
+3. CREATE "SetLives" FUNCTION:
+   - Input: Lives (Integer)
+   - Set CurrentLives = Lives
+   - Update Lives label in HUD
+
+4. CREATE "UpdateTimer" FUNCTION:
+   - Input: TimeRemaining (Float)
+   - Convert to minutes:seconds format:
+     - Minutes = Floor(TimeRemaining / 60)
+     - Seconds = Floor(TimeRemaining mod 60)
+   - Format string: "Time: MM:SS"
+   - Update Timer label
+
+5. CREATE "HandleGameOver" FUNCTION:
+   - Set Timer text to "Game Over"
+
+6. CREATE "HandleGameClear" FUNCTION:
+   - Set Timer text to "Mission Complete"
+
+
+================================================================================
+PART 8: CREATE GAME MODE AND LEVEL
+================================================================================
+
+STEP 8.1: Create Custom Game Mode
+--------------------------------------------------------------------------------
+1. Content Browser → Blueprints
+2. Right-click → Blueprint Class
+3. In popup, expand "All Classes"
+4. Search for "Game Mode Base"
+5. Select "Game Mode Base" and click Select
+6. Name: "BP_BulletHellGameMode"
+7. Double-click to open
+
+8. In the Details panel (with BP_BulletHellGameMode open):
+   - Find "Classes" section
+   - Default Pawn Class: Select "BP_Player"
+   - Player Controller Class: Keep default
+
+
+STEP 8.2: Configure Project to Use Game Mode
+--------------------------------------------------------------------------------
+1. Go to Edit → Project Settings
+2. In left sidebar, click "Maps & Modes"
+3. Under "Default Modes":
+   - Default GameMode: Select BP_BulletHellGameMode
+4. Close Project Settings
+
+
+STEP 8.3: Create Game Level
+--------------------------------------------------------------------------------
+1. File → New Level
+2. Select "Empty Level"
+3. File → Save Current Level As
+4. Navigate to Content folder
+5. Name: "BulletHellLevel"
+6. Click Save
+
+
+STEP 8.4: Set Up Level Components
+--------------------------------------------------------------------------------
+1. In the level (main viewport), we need to add game actors:
+
+2. ADD CAMERA:
+   a) In Place Actors panel (left side, or Window → Place Actors)
+   b) Search for "Camera Actor"
+   c) Drag into viewport
+   d) Position camera:
+      - In Details panel, under Transform:
+      - Location: X=0, Y=0, Z=1000
+      - Rotation: X=-90, Y=0, Z=0 (looking down)
+   e) Set as default camera:
+      - In Details panel, find "Auto Activate for Player"
+      - Check the box, set Player Index to 0
+   
+   FOR ORTHOGRAPHIC VIEW:
+   - Click on Camera component
+   - In Details, set "Projection Mode" to "Orthographic"
+   - Set "Ortho Width" to 1920 (or your screen width)
+
+3. ADD PLAYER:
+   a) From Content Browser, drag "BP_Player" into level
+   b) Position: X=0, Y=-300, Z=0 (bottom center)
+
+4. ADD ENEMY SPAWNER:
+   a) Drag "BP_EnemySpawner" into level
+   b) Position: X=0, Y=500, Z=0 (top of screen)
+   c) In Details panel, set EnemyClass to "BP_Enemy"
+
+5. ADD GAME DIRECTOR:
+   a) Drag "BP_GameDirector" into level
+   b) Position doesn't matter (it's invisible)
+
+6. ADD SCORE MANAGER:
+   a) Drag "BP_ScoreManager" into level
+   b) Position doesn't matter
+
+7. Save the level (Ctrl+S)
+
+
+STEP 8.5: Set Default Level
+--------------------------------------------------------------------------------
+1. Edit → Project Settings
+2. Maps & Modes
+3. Under "Default Maps":
+   - Editor Startup Map: Select BulletHellLevel
+   - Game Default Map: Select BulletHellLevel
+
+
+================================================================================
+PART 9: FINAL SETUP AND TESTING
+================================================================================
+
+STEP 9.1: Assign Blueprint References
+--------------------------------------------------------------------------------
+1. Open BP_Player:
+   - In Details panel (with blueprint open)
+   - Set BulletClass: BP_Bullet
+
+2. Open BP_EnemySpawner:
+   - Set EnemyClass: BP_Enemy
+
+3. Open BP_Enemy:
+   - Set BulletClass: BP_Bullet
+
+4. Compile and Save all blueprints
+
+
+STEP 9.2: Create Simple Visuals (Placeholder)
+--------------------------------------------------------------------------------
+If you don't have sprite assets, create simple colored materials:
+
+1. Content Browser → Materials folder
+
+2. PLAYER MATERIAL:
+   a) Right-click → Material
+   b) Name: "M_Player"
+   c) Double-click to open Material Editor
+   d) Create Vector3 node (hold 3, click)
+   e) Set to blue color (0, 0.5, 1)
+   f) Connect to Base Color
+   g) Save and Close
+
+3. BULLET MATERIAL:
+   a) Create "M_PlayerBullet" - Yellow (1, 1, 0)
+   b) Create "M_EnemyBullet" - Red (1, 0, 0)
+
+4. ENEMY MATERIAL:
+   a) Create "M_Enemy" - Magenta (1, 0, 1)
+
+5. Apply materials to sprite components in each Blueprint
+   (Or use Sprite assets if you have 2D images)
+
+
+STEP 9.3: Add Background (Optional)
+--------------------------------------------------------------------------------
+1. In level, add a Plane mesh:
+   - Place Actors → Basic → Plane
+   - Scale: X=20, Y=30, Z=1
+   - Position: X=0, Y=0, Z=-100 (behind everything)
+
+2. Create dark space material:
+   - M_Background - Dark blue/black
+
+
+STEP 9.4: Test the Game
+--------------------------------------------------------------------------------
+1. Click "Play" button (green arrow in main toolbar)
+   OR press Alt+P
+
+2. TEST CHECKLIST:
+   □ Player moves with WASD or Arrow keys
+   □ Player stays within screen bounds
+   □ Player shoots with Z key or Left Mouse
+   □ Bullets travel upward
+   □ Enemies spawn at top of screen
+   □ Enemies move down with wavy motion
+   □ Enemies shoot radial bullet patterns
+   □ Player bullets damage enemies
+   □ Enemy bullets damage player
+   □ Score increases when enemies die
+   □ Lives decrease when player is hit
+   □ Timer counts down from 5:00
+   □ Game shows "Game Over" when lives = 0
+   □ Game shows "Mission Complete" after 5 minutes
+   □ Special ability (X key) clears screen
+
+3. To stop playing: Press ESC or click "Stop" button
+
+
+STEP 9.5: Build Standalone Game
+--------------------------------------------------------------------------------
+1. File → Package Project → Windows (or your platform)
+2. Select output folder
+3. Wait for build to complete
+4. Navigate to output folder → WindowsNoEditor → [ProjectName].exe
+5. Run the executable to play standalone
+
+
+================================================================================
+APPENDIX A: COMPLETE VARIABLE REFERENCE
+================================================================================
+
+BP_PLAYER Variables:
+┌─────────────────────┬───────────────┬───────────────────────────────┐
+│ Variable Name       │ Type          │ Default Value                 │
+├─────────────────────┼───────────────┼───────────────────────────────┤
+│ MoveSpeed           │ Float         │ 750.0                         │
+│ BoundsMin           │ Vector 2D     │ (-850, -450)                  │
+│ BoundsMax           │ Vector 2D     │ (850, 450)                    │
+│ FireInterval        │ Float         │ 0.08                          │
+│ FireTimer           │ Float         │ 0.0                           │
+│ BulletSpeed         │ Float         │ 2200.0                        │
+│ MaxLives            │ Integer       │ 3                             │
+│ CurrentLives        │ Integer       │ 3                             │
+│ VolleySize          │ Integer       │ 3                             │
+│ VolleySpread        │ Float         │ 12.0                          │
+│ SpecialUsed         │ Boolean       │ false                         │
+│ BulletClass         │ Class Ref     │ BP_Bullet                     │
+└─────────────────────┴───────────────┴───────────────────────────────┘
+
+BP_BULLET Variables:
+┌─────────────────────┬───────────────┬───────────────────────────────┐
+│ TravelDirection     │ Vector        │ (0, 1, 0)                     │
+│ TravelSpeed         │ Float         │ 1200.0                        │
+│ RemainingLifetime   │ Float         │ 4.0                           │
+│ IsEnemyProjectile   │ Boolean       │ false                         │
+│ Damage              │ Integer       │ 1                             │
+└─────────────────────┴───────────────┴───────────────────────────────┘
+
+BP_ENEMY Variables:
+┌─────────────────────┬───────────────┬───────────────────────────────┐
+│ MaxHealth           │ Integer       │ 12                            │
+│ CurrentHealth       │ Integer       │ 12                            │
+│ ScoreValue          │ Integer       │ 50                            │
+│ VerticalSpeed       │ Float         │ 220.0                         │
+│ HorizontalAmplitude │ Float         │ 250.0                         │
+│ HorizontalFrequency │ Float         │ 1.8                           │
+│ DespawnY            │ Float         │ -750.0                        │
+│ FireInterval        │ Float         │ 0.35                          │
+│ BulletsPerBurst     │ Integer       │ 20                            │
+│ BurstSpread         │ Float         │ 360.0                         │
+│ EnemyBulletSpeed    │ Float         │ 1000.0                        │
+│ EnemyBulletLifetime │ Float         │ 6.0                           │
+│ BaseX               │ Float         │ 0.0                           │
+│ WaveSeed            │ Float         │ 0.0                           │
+│ FireTimer           │ Float         │ 0.0                           │
+│ BulletClass         │ Class Ref     │ BP_Bullet                     │
+└─────────────────────┴───────────────┴───────────────────────────────┘
+
+BP_ENEMYSPAWNER Variables:
+┌─────────────────────┬───────────────┬───────────────────────────────┐
+│ EnemyClass          │ Class Ref     │ BP_Enemy                      │
+│ SpawnAreaHalfWidth  │ Float         │ 900.0                         │
+│ GameDuration        │ Float         │ 300.0                         │
+│ MaxSimultaneousEnemies│ Integer     │ 120                           │
+│ ElapsedTime         │ Float         │ 0.0                           │
+│ SpawnTimer          │ Float         │ 0.0                           │
+│ SpawningActive      │ Boolean       │ true                          │
+│ SpawnCurve          │ Curve Float   │ SpawnRateCurve asset          │
+└─────────────────────┴───────────────┴───────────────────────────────┘
+
+
+================================================================================
+APPENDIX B: TROUBLESHOOTING
+================================================================================
+
+PROBLEM: Player doesn't move
+SOLUTIONS:
+1. Check Input Mappings in Project Settings → Input
+2. Ensure "Possess" is called on player pawn
+3. Verify MoveSpeed > 0
+4. Check if blueprint has errors (Compile button should be green checkmark)
+
+PROBLEM: Bullets don't spawn
+SOLUTIONS:
+1. Check BulletClass variable is set to BP_Bullet
+2. Verify SpawnActor node has valid class
+3. Check that fire logic is connected to execution flow
+
+PROBLEM: No collisions detected
+SOLUTIONS:
+1. Verify collision components have "Generate Overlap Events" checked
+2. Check collision channels are set correctly
+3. Ensure "Collision Enabled" is set to "Query Only" or "Query and Physics"
+
+PROBLEM: UI doesn't appear
+SOLUTIONS:
+1. Check HUD widget is created and added to viewport
+2. Verify ScoreManager is in the level
+3. Check widget blueprint compiles without errors
+
+PROBLEM: Enemies don't spawn
+SOLUTIONS:
+1. Check EnemyClass is set in Spawner
+2. Verify SpawningActive is true
+3. Check spawn position is within camera view
+
+PROBLEM: Game runs too fast/slow
+SOLUTIONS:
+1. All movement should multiply by DeltaSeconds
+2. Check speed values (may need adjustment for Unreal scale)
+3. Unreal uses centimeters; multiply Unity values by ~100
+
+
+================================================================================
+APPENDIX C: UNITY TO UNREAL CONVERSION NOTES
+================================================================================
+
+SCALE CONVERSION:
+- Unity units (1 = 1 meter) → Unreal units (1 = 1 centimeter)
+- Multiply all Unity position/speed values by 100
+- Example: Unity speed 7.5 → Unreal speed 750
+
+COORDINATE SYSTEM:
+- Unity: Y = up, Z = forward
+- Unreal: Z = up, X = forward
+- For 2D top-down: Both use X for horizontal, but Y/Z swap for vertical
+
+INPUT:
+- Unity: Input.GetAxisRaw("Horizontal")
+- Unreal: Get Input Axis Value → MoveRight
+
+INSTANTIATE:
+- Unity: Instantiate(prefab, position, rotation)
+- Unreal: Spawn Actor from Class (class, transform)
+
+DESTROY:
+- Unity: Destroy(gameObject)
+- Unreal: Destroy Actor
+
+DELTATIME:
+- Unity: Time.deltaTime
+- Unreal: Get World Delta Seconds
+
+FIND OBJECTS:
+- Unity: FindObjectOfType<T>()
+- Unreal: Get All Actors of Class → Get first element
+
+SINGLETON PATTERN:
+- Unity: static Instance property
+- Unreal: Use Game Instance or subsystem, or Get All Actors
+
+
+================================================================================
+END OF TUTORIAL
+================================================================================
+
+This tutorial creates a complete bullet-hell game matching the Unity magisterka_1 
+implementation with:
+- Player with 3 lives, WASD movement, Z/mouse shooting
+- Volley shooting (3 bullets in spread pattern)
+- Screen-clear special ability (X key, one use)
+- Enemies with sine-wave movement
+- Radial bullet patterns (20 bullets per burst)
+- Progressive difficulty (spawn rate increases over 5 minutes)
+- Score, lives, and timer UI
+- Victory after 5 minutes survival
+- Game over when lives reach 0

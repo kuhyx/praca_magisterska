@@ -70,7 +70,10 @@ namespace Magisterka.BulletHell
 
             _isActive = false;
             gameObject.SetActive(false);
-            _onComplete?.Invoke(this);
+            if (_onComplete != null)
+            {
+                _onComplete.Invoke(this);
+            }
         }
 
         private static Sprite BuildPulseSprite()

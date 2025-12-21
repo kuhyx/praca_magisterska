@@ -112,7 +112,10 @@ namespace Magisterka.BulletHell
 
         public void Despawn()
         {
-            _ownerPool?.Return(this);
+            if (_ownerPool != null)
+            {
+                _ownerPool.Return(this);
+            }
         }
 
         private static Sprite GetOrCreateSprite(Color tint)

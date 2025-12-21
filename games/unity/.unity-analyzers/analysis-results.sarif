@@ -1,0 +1,1000 @@
+{
+  "$schema": "http://json.schemastore.org/sarif-2.1.0",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "results": [
+        {
+          "ruleId": "UNT0008",
+          "ruleIndex": 7,
+          "level": "note",
+          "message": {
+            "text": "Unity objects should not use null propagation."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///home/kuchy/praca_magisterska/games/unity/magisterka_1/Assets/Enemy.cs"
+                },
+                "region": {
+                  "startLine": 137,
+                  "startColumn": 9,
+                  "endLine": 137,
+                  "endColumn": 52
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "UNT0008",
+          "ruleIndex": 7,
+          "level": "note",
+          "message": {
+            "text": "Unity objects should not use null propagation."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///home/kuchy/praca_magisterska/games/unity/magisterka_1/Assets/GameDirector.cs"
+                },
+                "region": {
+                  "startLine": 40,
+                  "startColumn": 9,
+                  "endLine": 40,
+                  "endColumn": 105
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "UNT0008",
+          "ruleIndex": 7,
+          "level": "note",
+          "message": {
+            "text": "Unity objects should not use null propagation."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///home/kuchy/praca_magisterska/games/unity/magisterka_1/Assets/GameDirector.cs"
+                },
+                "region": {
+                  "startLine": 49,
+                  "startColumn": 9,
+                  "endLine": 49,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "UNT0008",
+          "ruleIndex": 7,
+          "level": "note",
+          "message": {
+            "text": "Unity objects should not use null propagation."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///home/kuchy/praca_magisterska/games/unity/magisterka_1/Assets/GameDirector.cs"
+                },
+                "region": {
+                  "startLine": 54,
+                  "startColumn": 13,
+                  "endLine": 54,
+                  "endColumn": 41
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "UNT0008",
+          "ruleIndex": 7,
+          "level": "note",
+          "message": {
+            "text": "Unity objects should not use null propagation."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///home/kuchy/praca_magisterska/games/unity/magisterka_1/Assets/GameDirector.cs"
+                },
+                "region": {
+                  "startLine": 55,
+                  "startColumn": 13,
+                  "endLine": 55,
+                  "endColumn": 53
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "UNT0024",
+          "ruleIndex": 23,
+          "level": "note",
+          "message": {
+            "text": "Re-order operands for better performance."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///home/kuchy/praca_magisterska/games/unity/magisterka_1/Assets/PlayerController.cs"
+                },
+                "region": {
+                  "startLine": 51,
+                  "startColumn": 28,
+                  "endLine": 51,
+                  "endColumn": 73
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "UNT0008",
+          "ruleIndex": 7,
+          "level": "note",
+          "message": {
+            "text": "Unity objects should not use null propagation."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///home/kuchy/praca_magisterska/games/unity/magisterka_1/Assets/GameDirector.cs"
+                },
+                "region": {
+                  "startLine": 64,
+                  "startColumn": 9,
+                  "endLine": 64,
+                  "endColumn": 37
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "UNT0008",
+          "ruleIndex": 7,
+          "level": "note",
+          "message": {
+            "text": "Unity objects should not use null propagation."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///home/kuchy/praca_magisterska/games/unity/magisterka_1/Assets/GameDirector.cs"
+                },
+                "region": {
+                  "startLine": 65,
+                  "startColumn": 9,
+                  "endLine": 65,
+                  "endColumn": 48
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "UNT0008",
+          "ruleIndex": 7,
+          "level": "note",
+          "message": {
+            "text": "Unity objects should not use null propagation."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///home/kuchy/praca_magisterska/games/unity/magisterka_1/Assets/PlayerController.cs"
+                },
+                "region": {
+                  "startLine": 117,
+                  "startColumn": 9,
+                  "endLine": 117,
+                  "endColumn": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "UNT0008",
+          "ruleIndex": 7,
+          "level": "note",
+          "message": {
+            "text": "Unity objects should not use null propagation."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///home/kuchy/praca_magisterska/games/unity/magisterka_1/Assets/PlayerController.cs"
+                },
+                "region": {
+                  "startLine": 140,
+                  "startColumn": 9,
+                  "endLine": 140,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "UNT0008",
+          "ruleIndex": 7,
+          "level": "note",
+          "message": {
+            "text": "Unity objects should not use null propagation."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///home/kuchy/praca_magisterska/games/unity/magisterka_1/Assets/PlayerController.cs"
+                },
+                "region": {
+                  "startLine": 130,
+                  "startColumn": 9,
+                  "endLine": 130,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "UNT0008",
+          "ruleIndex": 7,
+          "level": "note",
+          "message": {
+            "text": "Unity objects should not use null propagation."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///home/kuchy/praca_magisterska/games/unity/magisterka_1/Assets/PlayerController.cs"
+                },
+                "region": {
+                  "startLine": 151,
+                  "startColumn": 9,
+                  "endLine": 151,
+                  "endColumn": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        }
+      ],
+      "properties": {
+        "analyzerExecutionTime": "0.110"
+      },
+      "tool": {
+        "driver": {
+          "name": "Microsoft (R) Visual C# Compiler",
+          "version": "5.0.0-dev (<developer build>)",
+          "dottedQuadFileVersion": "42.42.42.42",
+          "semanticVersion": "42.42.42",
+          "language": "en-US",
+          "rules": [
+            {
+              "id": "UNT0001",
+              "shortDescription": {
+                "text": "Empty Unity message"
+              },
+              "fullDescription": {
+                "text": "Unity messages are called by the runtime even if they're empty. Remove them to avoid unnecessary processing."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0001.md",
+              "properties": {
+                "category": "Performance",
+                "executionTimeInSeconds": "<0.001",
+                "executionTimeInPercentage": "<1"
+              }
+            },
+            {
+              "id": "UNT0002",
+              "shortDescription": {
+                "text": "Inefficient tag comparison"
+              },
+              "fullDescription": {
+                "text": "Comparing tags using == is slower than using the built-in CompareTag method."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0002.md",
+              "properties": {
+                "category": "Performance",
+                "executionTimeInSeconds": "0.001",
+                "executionTimeInPercentage": "1"
+              }
+            },
+            {
+              "id": "UNT0003",
+              "shortDescription": {
+                "text": "Usage of non generic GetComponent"
+              },
+              "fullDescription": {
+                "text": "Usage of the generic form of GetComponent is preferred for type safety."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0003.md",
+              "properties": {
+                "category": "TypeSafety",
+                "executionTimeInSeconds": "<0.001",
+                "executionTimeInPercentage": "<1"
+              }
+            },
+            {
+              "id": "UNT0004",
+              "shortDescription": {
+                "text": "Time.fixedDeltaTime used with Update"
+              },
+              "fullDescription": {
+                "text": "Update is dependent on the frame rate. Use Time.deltaTime instead of Time.fixedDeltaTime."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0004.md",
+              "properties": {
+                "category": "Correctness",
+                "executionTimeInSeconds": "0.006",
+                "executionTimeInPercentage": "5"
+              }
+            },
+            {
+              "id": "UNT0005",
+              "shortDescription": {
+                "text": "Time.deltaTime used with FixedUpdate"
+              },
+              "fullDescription": {
+                "text": "FixedUpdate is independent of the frame rate. Use Time.fixedDeltaTime instead of Time.deltaTime."
+              },
+              "defaultConfiguration": {
+                "level": "note",
+                "enabled": false
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0005.md",
+              "properties": {
+                "category": "Correctness",
+                "executionTimeInSeconds": "0.006",
+                "executionTimeInPercentage": "5"
+              }
+            },
+            {
+              "id": "UNT0006",
+              "shortDescription": {
+                "text": "Incorrect message signature"
+              },
+              "fullDescription": {
+                "text": "This Unity message uses an incorrect method signature."
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0006.md",
+              "properties": {
+                "category": "TypeSafety",
+                "executionTimeInSeconds": "0.002",
+                "executionTimeInPercentage": "1"
+              }
+            },
+            {
+              "id": "UNT0007",
+              "shortDescription": {
+                "text": "Null coalescing on Unity objects"
+              },
+              "fullDescription": {
+                "text": "Unity overrides the null comparison operator for Unity objects, which is incompatible with null coalescing."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0007.md",
+              "properties": {
+                "category": "Correctness",
+                "executionTimeInSeconds": "0.002",
+                "executionTimeInPercentage": "1"
+              }
+            },
+            {
+              "id": "UNT0008",
+              "shortDescription": {
+                "text": "Null propagation on Unity objects"
+              },
+              "fullDescription": {
+                "text": "Unity overrides the null comparison operator for Unity objects, which is incompatible with null propagation."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0008.md",
+              "properties": {
+                "category": "Correctness",
+                "executionTimeInSeconds": "0.002",
+                "executionTimeInPercentage": "1"
+              }
+            },
+            {
+              "id": "UNT0009",
+              "shortDescription": {
+                "text": "Missing static constructor with InitializeOnLoad"
+              },
+              "fullDescription": {
+                "text": "Provide a static constructor when applying the InitializeOnLoad attribute to a class. This will call it when the editor launches."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0009.md",
+              "properties": {
+                "category": "Correctness",
+                "executionTimeInSeconds": "<0.001",
+                "executionTimeInPercentage": "<1"
+              }
+            },
+            {
+              "id": "UNT0010",
+              "shortDescription": {
+                "text": "Component instance creation"
+              },
+              "fullDescription": {
+                "text": "Use AddComponent() to create MonoBehaviours. A MonoBehaviour component needs to be attached to a GameObject."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0010.md",
+              "properties": {
+                "category": "TypeSafety",
+                "executionTimeInSeconds": "0.005",
+                "executionTimeInPercentage": "4"
+              }
+            },
+            {
+              "id": "UNT0011",
+              "shortDescription": {
+                "text": "ScriptableObject instance creation"
+              },
+              "fullDescription": {
+                "text": "Use CreateInstance() to create a ScriptableObject. To handle Unity message methods, the Unity engine needs to create the ScriptableObject."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0011.md",
+              "properties": {
+                "category": "TypeSafety",
+                "executionTimeInSeconds": "0.005",
+                "executionTimeInPercentage": "4"
+              }
+            },
+            {
+              "id": "UNT0012",
+              "shortDescription": {
+                "text": "Unused Unity Coroutine"
+              },
+              "fullDescription": {
+                "text": "Use StartCoroutine() to start a coroutine. Calling the coroutine method directly will result in the coroutine never being executed."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0012.md",
+              "properties": {
+                "category": "Correctness",
+                "executionTimeInSeconds": "0.002",
+                "executionTimeInPercentage": "1"
+              }
+            },
+            {
+              "id": "UNT0013",
+              "shortDescription": {
+                "text": "Remove invalid SerializeField attribute"
+              },
+              "fullDescription": {
+                "text": "SerializeField attribute does not work on properties, and are unnecessary for public fields."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0013.md",
+              "properties": {
+                "category": "Correctness",
+                "executionTimeInSeconds": "0.003",
+                "executionTimeInPercentage": "2"
+              }
+            },
+            {
+              "id": "UNT0014",
+              "shortDescription": {
+                "text": "Invalid type for call to GetComponent"
+              },
+              "fullDescription": {
+                "text": "GetComponent only supports arguments that are a Unity Component or an interface type."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0014.md",
+              "properties": {
+                "category": "TypeSafety",
+                "executionTimeInSeconds": "<0.001",
+                "executionTimeInPercentage": "<1"
+              }
+            },
+            {
+              "id": "UNT0015",
+              "shortDescription": {
+                "text": "Use a static and parameterless method"
+              },
+              "fullDescription": {
+                "text": "Unity needs a method decorated with InitializeOnLoadMethod, RuntimeInitializeOnLoadMethod or DidReloadScripts attribute to be static and parameterless. Else either Unity won't call it or will throw NullReferenceException."
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0015.md",
+              "properties": {
+                "category": "TypeSafety",
+                "executionTimeInSeconds": "0.001",
+                "executionTimeInPercentage": "1"
+              }
+            },
+            {
+              "id": "UNT0016",
+              "shortDescription": {
+                "text": "Unsafe way to get the method name"
+              },
+              "fullDescription": {
+                "text": "Usage of nameof or direct call is preferred for type safety."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0016.md",
+              "properties": {
+                "category": "TypeSafety",
+                "executionTimeInSeconds": "<0.001",
+                "executionTimeInPercentage": "<1"
+              }
+            },
+            {
+              "id": "UNT0017",
+              "shortDescription": {
+                "text": "SetPixels invocation is slow"
+              },
+              "fullDescription": {
+                "text": "Compared to SetPixels, SetPixels32 is much faster and uses less memory."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0017.md",
+              "properties": {
+                "category": "Performance",
+                "executionTimeInSeconds": "0.016",
+                "executionTimeInPercentage": "14"
+              }
+            },
+            {
+              "id": "UNT0018",
+              "shortDescription": {
+                "text": "System.Reflection features in performance critical messages"
+              },
+              "fullDescription": {
+                "text": "You should not use System.Reflection features in performance critical messages."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0018.md",
+              "properties": {
+                "category": "Performance",
+                "executionTimeInSeconds": "0.007",
+                "executionTimeInPercentage": "5"
+              }
+            },
+            {
+              "id": "UNT0019",
+              "shortDescription": {
+                "text": "Indirection call"
+              },
+              "fullDescription": {
+                "text": "Do not use unnecessary indirection."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0019.md",
+              "properties": {
+                "category": "Performance",
+                "executionTimeInSeconds": "<0.001",
+                "executionTimeInPercentage": "<1"
+              }
+            },
+            {
+              "id": "UNT0020",
+              "shortDescription": {
+                "text": "Make method static"
+              },
+              "fullDescription": {
+                "text": "MenuItem can only be used on static methods."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0020.md",
+              "properties": {
+                "category": "Correctness",
+                "executionTimeInSeconds": "0.002",
+                "executionTimeInPercentage": "1"
+              }
+            },
+            {
+              "id": "UNT0021",
+              "shortDescription": {
+                "text": "Prefer protected Unity Message."
+              },
+              "fullDescription": {
+                "text": "Unity message should be protected."
+              },
+              "defaultConfiguration": {
+                "level": "note",
+                "enabled": false
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0021.md",
+              "properties": {
+                "category": "Correctness",
+                "isEverSuppressed": "true",
+                "suppressionKinds": [
+                  "external"
+                ],
+                "executionTimeInSeconds": "<0.001",
+                "executionTimeInPercentage": "<1"
+              }
+            },
+            {
+              "id": "UNT0022",
+              "shortDescription": {
+                "text": "Inefficient position/rotation assignment"
+              },
+              "fullDescription": {
+                "text": "Prefer using SetPositionAndRotation() method."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0022.md",
+              "properties": {
+                "category": "Performance",
+                "executionTimeInSeconds": "0.001",
+                "executionTimeInPercentage": "<1"
+              }
+            },
+            {
+              "id": "UNT0023",
+              "shortDescription": {
+                "text": "Coalescing assignment on Unity objects"
+              },
+              "fullDescription": {
+                "text": "Unity overrides the null comparison operator for Unity objects, which is incompatible with coalescing assignment."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0023.md",
+              "properties": {
+                "category": "Correctness",
+                "executionTimeInSeconds": "0.002",
+                "executionTimeInPercentage": "1"
+              }
+            },
+            {
+              "id": "UNT0024",
+              "shortDescription": {
+                "text": "Give priority to scalar calculations over vector calculations"
+              },
+              "fullDescription": {
+                "text": "Scalar calculations are faster than vector calculations."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0024.md",
+              "properties": {
+                "category": "Performance",
+                "executionTimeInSeconds": "0.003",
+                "executionTimeInPercentage": "2"
+              }
+            },
+            {
+              "id": "UNT0025",
+              "shortDescription": {
+                "text": "Input.GetKey overloads with KeyCode argument"
+              },
+              "fullDescription": {
+                "text": "Usage of the method overload with KeyCode argument is preferred."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0025.md",
+              "properties": {
+                "category": "Correctness",
+                "executionTimeInSeconds": "<0.001",
+                "executionTimeInPercentage": "<1"
+              }
+            },
+            {
+              "id": "UNT0026",
+              "shortDescription": {
+                "text": "GetComponent always allocates"
+              },
+              "fullDescription": {
+                "text": "TryGetComponent will not allocate memory in case it fails."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0026.md",
+              "properties": {
+                "category": "Performance",
+                "executionTimeInSeconds": "<0.001",
+                "executionTimeInPercentage": "<1"
+              }
+            },
+            {
+              "id": "UNT0027",
+              "shortDescription": {
+                "text": "Do not call PropertyDrawer.OnGUI()"
+              },
+              "fullDescription": {
+                "text": "Default implementation for PropertyDrawer.OnGUI() will display \"no GUI implemented\" in the inspector."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0027.md",
+              "properties": {
+                "category": "Correctness",
+                "executionTimeInSeconds": "<0.001",
+                "executionTimeInPercentage": "<1"
+              }
+            },
+            {
+              "id": "UNT0028",
+              "shortDescription": {
+                "text": "Use non-allocating physics APIs"
+              },
+              "fullDescription": {
+                "text": "Avoid using allocating versions of Physics functions."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0028.md",
+              "properties": {
+                "category": "Performance",
+                "executionTimeInSeconds": "0.041",
+                "executionTimeInPercentage": "37"
+              }
+            },
+            {
+              "id": "UNT0029",
+              "shortDescription": {
+                "text": "Pattern matching with null on Unity objects"
+              },
+              "fullDescription": {
+                "text": "Unity overrides the null comparison operator for Unity objects, which is incompatible with pattern matching with null."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0029.md",
+              "properties": {
+                "category": "Correctness",
+                "executionTimeInSeconds": "0.002",
+                "executionTimeInPercentage": "1"
+              }
+            },
+            {
+              "id": "UNT0030",
+              "shortDescription": {
+                "text": "Calling Destroy or DestroyImmediate on a Transform"
+              },
+              "fullDescription": {
+                "text": "You cannot destroy a Transform component of a GameObject, but you can destroy the whole GameObject."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0030.md",
+              "properties": {
+                "category": "Correctness",
+                "executionTimeInSeconds": "0.002",
+                "executionTimeInPercentage": "1"
+              }
+            },
+            {
+              "id": "UNT0031",
+              "shortDescription": {
+                "text": "Asset operations in LoadAttribute method"
+              },
+              "fullDescription": {
+                "text": "Asset operations such as asset loading should be avoided in LoadAttribute method."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0031.md",
+              "properties": {
+                "category": "Correctness",
+                "executionTimeInSeconds": "<0.001",
+                "executionTimeInPercentage": "<1"
+              }
+            },
+            {
+              "id": "UNT0032",
+              "shortDescription": {
+                "text": "Inefficient localPosition/localRotation assignment"
+              },
+              "fullDescription": {
+                "text": "Prefer using SetLocalPositionAndRotation() method."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0032.md",
+              "properties": {
+                "category": "Performance",
+                "executionTimeInSeconds": "<0.001",
+                "executionTimeInPercentage": "<1"
+              }
+            },
+            {
+              "id": "UNT0033",
+              "shortDescription": {
+                "text": "Incorrect message case"
+              },
+              "fullDescription": {
+                "text": "This Unity message uses an incorrect method case"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0033.md",
+              "properties": {
+                "category": "Correctness",
+                "executionTimeInSeconds": "0.004",
+                "executionTimeInPercentage": "4"
+              }
+            },
+            {
+              "id": "UNT0034",
+              "shortDescription": {
+                "text": "A Vector3 can be converted into a Vector2."
+              },
+              "fullDescription": {
+                "text": "A Vector3 can be converted into a Vector2. (The z is discarded)."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0034.md",
+              "properties": {
+                "category": "Performance",
+                "executionTimeInSeconds": "<0.001",
+                "executionTimeInPercentage": "<1"
+              }
+            },
+            {
+              "id": "UNT0035",
+              "shortDescription": {
+                "text": "A Vector3 can be converted into a Vector2."
+              },
+              "fullDescription": {
+                "text": "A Vector3 can be converted into a Vector2. (The z is discarded)."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0035.md",
+              "properties": {
+                "category": "Performance",
+                "executionTimeInSeconds": "0.003",
+                "executionTimeInPercentage": "2"
+              }
+            },
+            {
+              "id": "UNT0036",
+              "shortDescription": {
+                "text": "Inefficient position/rotation read"
+              },
+              "fullDescription": {
+                "text": "Prefer using GetPositionAndRotation() method."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0036.md",
+              "properties": {
+                "category": "Performance",
+                "executionTimeInSeconds": "0.004",
+                "executionTimeInPercentage": "3"
+              }
+            },
+            {
+              "id": "UNT0037",
+              "shortDescription": {
+                "text": "Inefficient localPosition/localRotation read"
+              },
+              "fullDescription": {
+                "text": "Prefer using GetLocalPositionAndRotation() method."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0037.md",
+              "properties": {
+                "category": "Performance",
+                "executionTimeInSeconds": "<0.001",
+                "executionTimeInPercentage": "<1"
+              }
+            }
+          ]
+        }
+      },
+      "columnKind": "utf16CodeUnits"
+    }
+  ]
+}

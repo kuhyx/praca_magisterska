@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "67thBlp2R2E=",
+  "success": true,
+  "projectFilePath": "/home/kuchy/praca_magisterska/games/unity/.unity-analyzers/UnityAnalyzer.csproj",
+  "expectedPackageFiles": [
+    "/home/kuchy/.nuget/packages/microsoft.unity.analyzers/1.19.0/microsoft.unity.analyzers.1.19.0.nupkg.sha512"
+  ],
+  "logs": []
+}

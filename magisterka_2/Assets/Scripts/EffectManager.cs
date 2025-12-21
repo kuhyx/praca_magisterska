@@ -86,12 +86,18 @@ namespace Magisterka.BulletHell
                 PlayPulse(position, color, start, end, duration);
             }
 
-            _cameraShaker?.Shake(0.4f, 1.2f * radius);
+            if (_cameraShaker != null)
+            {
+                _cameraShaker.Shake(0.4f, 1.2f * radius);
+            }
         }
 
         public void ShakeCamera(float duration, float strength)
         {
-            _cameraShaker?.Shake(duration, strength);
+            if (_cameraShaker != null)
+            {
+                _cameraShaker.Shake(duration, strength);
+            }
         }
 
         private void Warmup(int count)

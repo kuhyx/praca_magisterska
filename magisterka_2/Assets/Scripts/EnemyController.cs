@@ -54,7 +54,10 @@ namespace Magisterka.BulletHell
             float bottomLimit = -_worldBounds.y - despawnPadding;
             if (transform.position.y < bottomLimit)
             {
-                _spawner?.DespawnEnemy(this);
+                if (_spawner != null)
+                {
+                    _spawner.DespawnEnemy(this);
+                }
             }
         }
 
@@ -190,9 +193,18 @@ namespace Magisterka.BulletHell
 
         private void HandleDeath(Health _)
         {
-            EffectManager.Instance?.SpawnExplosion(transform.position, Faction.Enemy, 2.6f + _difficulty * 0.2f);
-            ScoreManager.Instance?.AddScore(_config.Score + Mathf.RoundToInt(_difficulty * 20f));
-            _spawner?.NotifyEnemyKilled(this);
+            if (EffectManager.Instance != null)
+            {
+                EffectManager.Instance.SpawnExplosion(transform.position, Faction.Enemy, 2.6f + _difficulty * 0.2f);
+            }
+            if (ScoreManager.Instance != null)
+            {
+                ScoreManager.Instance.AddScore(_config.Score + Mathf.RoundToInt(_difficulty * 20f));
+            }
+            if (_spawner != null)
+            {
+                _spawner.NotifyEnemyKilled(this);
+            }
             Destroy(gameObject);
         }
 
@@ -204,8 +216,14 @@ namespace Magisterka.BulletHell
             }
 
             player.ApplyDamage(Mathf.Max(10f, _config.ContactDamage));
-            EffectManager.Instance?.SpawnHitEffect(player.transform.position, Faction.Player, 0.9f);
-            _health?.Kill();
+            if (EffectManager.Instance != null)
+            {
+                EffectManager.Instance.SpawnHitEffect(player.transform.position, Faction.Player, 0.9f);
+            }
+            if (_health != null)
+            {
+                _health.Kill();
+            }
         }
 
         private void OnDestroy()

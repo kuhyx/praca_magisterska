@@ -1,0 +1,102 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETStandard,Version=v2.1": {
+      "Microsoft.Unity.Analyzers/1.19.0": {
+        "type": "package"
+      }
+    }
+  },
+  "libraries": {
+    "Microsoft.Unity.Analyzers/1.19.0": {
+      "sha512": "QpHY0CSN7Aw/E4DAXgr8zqSnC7CTS+ikuUT2C/ynOnkZg4ZsOGEz1m2i4Wpfcp6axYBZji6hF/0bdnaTLp2qTg==",
+      "type": "package",
+      "path": "microsoft.unity.analyzers/1.19.0",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "analyzers/dotnet/cs/Microsoft.Unity.Analyzers.dll",
+        "microsoft.unity.analyzers.1.19.0.nupkg.sha512",
+        "microsoft.unity.analyzers.nuspec",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETStandard,Version=v2.1": [
+      "Microsoft.Unity.Analyzers >= 1.19.0"
+    ]
+  },
+  "packageFolders": {
+    "/home/kuchy/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/home/kuchy/praca_magisterska/games/unity/.unity-analyzers/UnityAnalyzer.csproj",
+      "projectName": "UnityAnalyzer",
+      "projectPath": "/home/kuchy/praca_magisterska/games/unity/.unity-analyzers/UnityAnalyzer.csproj",
+      "packagesPath": "/home/kuchy/.nuget/packages/",
+      "outputPath": "/home/kuchy/praca_magisterska/games/unity/.unity-analyzers/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/home/kuchy/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "netstandard2.1"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "10.0.100"
+    },
+    "frameworks": {
+      "netstandard2.1": {
+        "targetAlias": "netstandard2.1",
+        "dependencies": {
+          "Microsoft.Unity.Analyzers": {
+            "include": "Runtime, Build, Native, ContentFiles, Analyzers",
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "[1.19.0, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "NETStandard.Library": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.100/RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

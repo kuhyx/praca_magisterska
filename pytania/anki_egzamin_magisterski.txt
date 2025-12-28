@@ -1,0 +1,330 @@
+#separator:Tab
+#html:true
+#notetype:Basic
+#deck:Egzamin Magisterski ISY
+#columns:Front	Back	Tags
+#tags column:3
+
+Porównać 'siłę wyrazu' automatu skończonego, automatu ze stosem oraz maszyny Turinga. Jakie klasy języków rozpoznaje każdy z nich?	<b>Automat Skończony (FA)</b>: Języki regularne (Typ 3)<br><br><b>Automat ze Stosem (PDA)</b>: Języki bezkontekstowe (Typ 2)<br><br><b>Maszyna Turinga (TM)</b>: Języki rekurencyjnie przeliczalne (Typ 0)	egzamin_magisterski pyt01 AISDI pytanie_glowne
+Wyjaśnij: Hierarchia Chomsky'ego - fundament teoretyczny	Noam Chomsky w 1956 roku zaproponował hierarchię czterech klas języków formalnych, gdzie każda kolejna klasa zawiera poprzednią:	egzamin_magisterski pyt01 AISDI szczegoly
+Wyjaśnij: Automat Skończony (Finite Automaton - FA)	Automat skończony to piątka: <b>M = (Q, Σ, δ, q₀, F)</b>
+- <b>Q</b> - skończony zbiór stanów<br>• <b>Pamięć</b>: Brak pamięci pomocniczej - tylko aktualny stan<br>• <b>Moc obliczeniowa</b>: Nie potrafi &quot;liczyć&quot; (porównywać ilości)<br>• <b>Równoważne formalizmy</b>	egzamin_magisterski pyt01 AISDI szczegoly
+Wyjaśnij: Automat ze Stosem (Pushdown Automaton - PDA)	Automat ze stosem to siódemka: <b>M = (Q, Σ, Γ, δ, q₀, Z₀, F)</b>
+- <b>Q</b> - skończony zbiór stanów<br>• <b>Pamięć</b>: Stos (LIFO) - pamięć potencjalnie nieskończona, ale z ograniczonym dostępem<br>• <b>Moc obliczeniowa</b>: Potrafi &quot;liczyć&quot; (porównywać pary ilości)<br>• <b>DPDA ⊂ NPDA</b>: Deterministyczne PDA są SŁABSZE niż niedeterministyczne!<br>• <b>Równoważne formalizmy</b>: Gramatyki bezkontekstowe (CFG)	egzamin_magisterski pyt01 AISDI szczegoly
+Wyjaśnij: Maszyna Turinga (Turing Machine - TM)	Maszyna Turinga to siódemka: <b>M = (Q, Σ, Γ, δ, q₀, qaccept, qreject)</b>
+- <b>Q</b> - skończony zbiór stanów<br>• <b>Pamięć</b>: Taśma nieskończona z dostępem swobodnym (R/W)<br>• <b>Moc obliczeniowa</b>: Maksymalna możliwa (teza Churcha-Turinga)<br>• <b>DTM ≡ NTM</b>: Deterministyczne i niedeterministyczne TM są RÓWNOWAŻNE pod względem mocy (ale różnią się złożonością czasową)	egzamin_magisterski pyt01 AISDI szczegoly
+Omówić i porównać algorytmy najkrótszej ścieżki wskazując ich kluczowe właściwości i logikę budowy: Dijkstry, Belmana-Forda, A*.	<b>Problem:</b> Dany jest graf G = (V, E) z funkcją wag w: E → ℝ. Znajdź ścieżkę z wierzchołka źródłowego s do wierzchołka docelowego t o minimalnej sumie wag krawędzi.	egzamin_magisterski pyt02 AISDI pytanie_glowne
+Wyjaśnij: Wprowadzenie - problem najkrótszej ścieżki	<b>Problem:</b> Dany jest graf G = (V, E) z funkcją wag w: E → ℝ. Znajdź ścieżkę z wierzchołka źródłowego s do wierzchołka docelowego t o minimalnej sumie wag krawędzi.	egzamin_magisterski pyt02 AISDI szczegoly
+Wyjaśnij: Charakterystyka	• <b>Autor:</b>: Edsger Dijkstra (1956, opublikowany 1959)<br>• <b>Typ:</b>: Zachłanny (greedy)<br>• <b>Problem:</b>: SSSP - najkrótsze ścieżki z jednego źródła do wszystkich wierzchołków<br>• <b>Ograniczenie:</b>: ⚠️ <b>Tylko nieujemne wagi krawędzi</b> (w(e) ≥ 0)	egzamin_magisterski pyt02 AISDI szczegoly
+Wyjaśnij: Idea algorytmu (logika budowy)	1. <b>Relaksacja:</b> Stopniowe ulepszanie oszacowań odległości	egzamin_magisterski pyt02 AISDI szczegoly
+Wyjaśnij: Pseudokod	Q ← priority_queue(V) // min-heap według d[v]	egzamin_magisterski pyt02 AISDI szczegoly
+Dlaczego nie działa dla ujemnych wag?	Dijkstra przetwarza wierzchołki w kolejności rosnącej odległości i oznacza je jako &quot;zakończone&quot;. Jeśli waga może być ujemna, późniejszy wierzchołek może &quot;poprawić&quot; już zakończony.	egzamin_magisterski pyt02 AISDI szczegoly
+Wyjaśnij: Złożoność czasowa	<b>O(V · E)</b> - zawsze, niezależnie od implementacji	egzamin_magisterski pyt02 AISDI szczegoly
+Wyjaśnij: Wykrywanie cyklu ujemnego	Po |V|-1 iteracjach, wszystkie najkrótsze ścieżki (bez cykli) są znalezione.	egzamin_magisterski pyt02 AISDI szczegoly
+Wyjaśnij: Optymalizacja: wczesne zakończenie	if d[u] + w(u,v) < d[v]:	egzamin_magisterski pyt02 AISDI szczegoly
+Wyjaśnij: Heurystyka - kluczowy element	1. <b>Dopuszczalność (Admissibility):</b>	egzamin_magisterski pyt02 AISDI szczegoly
+Wyjaśnij: Przypadki specjalne:	• <b>h(n) = 0:</b>: A* = Dijkstra	egzamin_magisterski pyt02 AISDI szczegoly
+Wyjaśnij: Dijkstra	• <b>Nawigacja GPS</b>: (drogi nie mają ujemnych odległości)<br>• <b>Routing w sieciach</b>: (OSPF protocol)<br>• <b>Mapy Google/Apple</b>: (dla małych obszarów)	egzamin_magisterski pyt02 AISDI szczegoly
+Wyjaśnij: Bellman-Ford	• <b>Routing w sieciach</b>: (RIP protocol - prostszy)<br>• <b>Arbitraż walutowy</b>: (szukanie cykli ujemnych = zysk!)<br>• <b>Systemy z &quot;karami&quot;</b>: (ujemne wagi = bonusy)	egzamin_magisterski pyt02 AISDI szczegoly
+Wyjaśnij: A*	• <b>Gry komputerowe</b>: - pathfinding NPC, RTS<br>• <b>Robotyka</b>: - planowanie ruchu<br>• <b>Puzzle</b>: - 8-puzzle, 15-puzzle<br>• <b>Nawigacja</b>: - gdy znamy pozycję celu<br>• <b>Dijkstra:</b>: Relaksuje krawędzie wychodzące z wierzchołka o minimalnym d[v]	egzamin_magisterski pyt02 AISDI szczegoly
+Omówić zagadnienia redundancji i normalizacji w relacyjnej bazie danych oraz wynikające z tego wymagania.	<b>Redundancja</b> (nadmiarowość) i <b>normalizacja</b> to dwa fundamentalne, przeciwstawne pojęcia w projektowaniu relacyjnych baz danych:	egzamin_magisterski pyt03 BD2 pytanie_glowne
+Wyjaśnij: Wprowadzenie	• <b>Redundancja</b>: = niepożądane powtarzanie danych<br>• <b>Normalizacja</b>: = proces eliminacji redundancji poprzez dekompozycję relacji	egzamin_magisterski pyt03 BD2 szczegoly
+Wyjaśnij: Definicja	<b>Redundancja</b> występuje, gdy ta sama informacja jest przechowywana w wielu miejscach bazy danych, co prowadzi do:	egzamin_magisterski pyt03 BD2 szczegoly
+Wyjaśnij: Trzy typy anomalii	<b>Problem:</b> Nie można dodać danych bez dodania innych, niepotrzebnych danych.	egzamin_magisterski pyt03 BD2 szczegoly
+Wyjaśnij: Podstawowe pojęcia	<b>X → Y</b> oznacza: wartość X jednoznacznie określa wartość Y	egzamin_magisterski pyt03 BD2 szczegoly
+Wyjaśnij: Hierarchia postaci normalnych	5NF ⊂ 4NF ⊂ BCNF ⊂ 3NF ⊂ 2NF ⊂ 1NF	egzamin_magisterski pyt03 BD2 szczegoly
+Wyjaśnij: 1NF - Pierwsza Postać Normalna	1. <b>Atomowość wartości</b> - każda komórka zawiera jedną, niepodzielną wartość	egzamin_magisterski pyt03 BD2 szczegoly
+Wyjaśnij: 2NF - Druga Postać Normalna	2. <b>Każdy atrybut wtórny jest w pełni funkcyjnie zależny od całego klucza głównego</b> (nie od jego części)	egzamin_magisterski pyt03 BD2 szczegoly
+Wyjaśnij: 3NF - Trzecia Postać Normalna	2. <b>Brak przechodnich zależności funkcyjnych</b> - atrybuty wtórne nie zależą od innych atrybutów wtórnych	egzamin_magisterski pyt03 BD2 szczegoly
+Wyjaśnij: BCNF - Postać Normalna Boyce'a-Codda	2. <b>Dla każdej nietrywialnej FD X → Y, X jest nadkluczem</b>	egzamin_magisterski pyt03 BD2 szczegoly
+Wyjaśnij: 4NF - Czwarta Postać Normalna	2. <b>Brak nietrywialnych zależności wielowartościowych</b> (MVD - Multivalued Dependencies)	egzamin_magisterski pyt03 BD2 szczegoly
+Wyjaśnij: 5NF - Piąta Postać Normalna (PJNF)	2. <b>Brak zależności połączeniowych</b> (Join Dependencies)	egzamin_magisterski pyt03 BD2 szczegoly
+Wyjaśnij: Algorytm dekompozycji do 3NF	1. <b>Znajdź pokrycie kanoniczne</b> zbioru zależności funkcyjnych	egzamin_magisterski pyt03 BD2 szczegoly
+Wyjaśnij: Własności dobrej dekompozycji	Po dekompozycji można odtworzyć oryginalną relację przez złączenie naturalne.	egzamin_magisterski pyt03 BD2 szczegoly
+Kiedy stosować?	• <b>Optymalizacja wydajności</b>: - złączenia są kosztowne<br>• <b>Systemy OLAP/hurtownie danych</b>: - dane głównie odczytywane<br>• <b>Raportowanie</b>: - predefiniowane zapytania	egzamin_magisterski pyt03 BD2 szczegoly
+Wyjaśnij: Techniki denormalizacji:	1. <b>Dodanie redundantnych kolumn</b> - unikanie złączeń	egzamin_magisterski pyt03 BD2 szczegoly
+Wyjaśnij: Kompromis:	NORMALIZACJA ←————————————→ DENORMALIZACJA	egzamin_magisterski pyt03 BD2 szczegoly
+Wyjaśnij: Wzór na 3NF:	> &quot;Każdy atrybut zależy od <b>klucza</b>, <b>całego klucza</b> i <b>tylko od klucza</b>.&quot;	egzamin_magisterski pyt03 BD2 szczegoly
+Dlaczego baza danych stanowi dobry fundament do budowy wielu systemów informatycznych?	Baza danych to <b>centralny komponent</b> większości systemów informatycznych, ponieważ zapewnia:	egzamin_magisterski pyt04 BD2 pytanie_glowne
+Wyjaśnij: Trójpoziomowa architektura ANSI/SPARC	┌─────────────────────────────────────────┐	egzamin_magisterski pyt04 BD2 szczegoly
+Wyjaśnij: Rodzaje niezależności	Zmiana sposobu przechowywania (indeksy, partycjonowanie, kompresja) <b>nie wpływa</b> na aplikacje.	egzamin_magisterski pyt04 BD2 szczegoly
+Wyjaśnij: Mechanizmy wymuszania integralności	id INT PRIMARY KEY, -- Klucz główny	egzamin_magisterski pyt04 BD2 szczegoly
+Wyjaśnij: Optymalizator zapytań	1. <b>Analizuje zapytanie</b> (parsing)	egzamin_magisterski pyt04 BD2 szczegoly
+Wyjaśnij: Wielopoziomowe zabezpieczenia	┌─────────────────────────────────────────┐	egzamin_magisterski pyt04 BD2 szczegoly
+Wyjaśnij: Kontrola dostępu	GRANT SELECT ON Sprzedaz TO analityk;	egzamin_magisterski pyt04 BD2 szczegoly
+Wyjaśnij: Skalowanie poziome (Scale-out)	• <b>Replikacja</b>: - kopie do odczytu<br>• <b>Sharding</b>: - podział danych między serwery<br>• <b>Klastry</b>: - wysoka dostępność	egzamin_magisterski pyt04 BD2 szczegoly
+Wyjaśnij: SQL jako lingua franca	• <b>Standardowy język</b>: - SQL:2016, SQL:2023<br>• <b>Przenośność</b>: - kod działa na różnych SZBD<br>• <b>Narzędzia</b>: - uniwersalne IDE, ORM, ETL	egzamin_magisterski pyt04 BD2 szczegoly
+Wyjaśnij: Bogaty ekosystem	• <b>ORM</b>: (Hibernate, Entity Framework, SQLAlchemy)<br>• <b>Narzędzia migracji</b>: (Flyway, Liquibase)<br>• <b>Monitorowanie</b>: (Grafana, Datadog)<br>• <b>Backup</b>: (pg_dump, mysqldump, RMAN)	egzamin_magisterski pyt04 BD2 szczegoly
+Wyjaśnij: Polyglot Persistence	Nowoczesne systemy często używają <b>wielu baz</b> - każda do swojego celu.	egzamin_magisterski pyt04 BD2 szczegoly
+Omówić główne kategorie elementów biblioteki STL. Jaka jest ich rola i wzajemne powiązania? Odpowiedź uzasadnić na przykładach.	<b>STL (Standard Template Library)</b> to część standardowej biblioteki C++ zawierająca generyczne struktury danych i algorytmy. Została zaprojektowana przez Alexandra Stepanova i weszła do standardu C++98.	egzamin_magisterski pyt05 PROI pytanie_glowne
+Wyjaśnij: Filozofia STL	• <b>Generyczność</b>: - szablony (templates) umożliwiają pracę z dowolnymi typami<br>• <b>Wydajność</b>: - zero-overhead abstraction<br>• <b>Modularność</b>: - komponenty są niezależne i wymienne<br>• <b>Ortogonalność</b>: - kontenery i algorytmy są rozdzielone (przez iteratory)	egzamin_magisterski pyt05 PROI szczegoly
+Wyjaśnij: Kategorie kontenerów	Przechowują elementy w określonej kolejności.	egzamin_magisterski pyt05 PROI szczegoly
+Wyjaśnij: Hierarchia iteratorów	Input Iterator Output Iterator	egzamin_magisterski pyt05 PROI szczegoly
+Wyjaśnij: Kategorie iteratorów	std::vector<int> vec = {1, 2, 3, 4, 5};	egzamin_magisterski pyt05 PROI szczegoly
+Wyjaśnij: Iteratory specjalne	std::vector<int> vec = {1, 2, 3};	egzamin_magisterski pyt05 PROI szczegoly
+Wyjaśnij: Kategorie algorytmów	std::vector<int> vec = {1, 2, 3, 4, 5, 3};	egzamin_magisterski pyt05 PROI szczegoly
+Wyjaśnij: Rodzaje funktorów	std::vector<int> vec = {3, 1, 4, 1, 5};	egzamin_magisterski pyt05 PROI szczegoly
+Wyjaśnij: Kluczowa zasada: Ortogonalność	<b>M kontenerów × N algorytmów = M + N implementacji</b> (nie M × N!)	egzamin_magisterski pyt05 PROI szczegoly
+Omówić metody reużywalności kodu i struktur danych w obiektowych językach programowania.	<b>Reużywalność kodu (code reuse)</b> to fundamentalna zasada inżynierii oprogramowania - &quot;nie wynajduj koła na nowo&quot;. W programowaniu obiektowym mamy kilka mechanizmów umożliwiających wielokrotne wykorzystanie kodu.	egzamin_magisterski pyt06 PROI pytanie_glowne
+Wyjaśnij: Główne metody reużywalności	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt06 PROI szczegoly
+Wyjaśnij: Problem diamentu (Diamond Problem)	class A { public: void metoda() {} };	egzamin_magisterski pyt06 PROI szczegoly
+Wyjaśnij: Typy relacji obiektowych	// Kompozycja - silnik &quot;umiera&quot; z samochodem	egzamin_magisterski pyt06 PROI szczegoly
+Wyjaśnij: Szablony w C++	// Użycie - kompilator generuje wersje dla każdego typu	egzamin_magisterski pyt06 PROI szczegoly
+Wyjaśnij: Generyki w Java/C#	public void set(T value) { this.value = value; }	egzamin_magisterski pyt06 PROI szczegoly
+Wyjaśnij: Wzorzec strategii (Strategy Pattern)	virtual void sort(std::vector<int>& data) = 0;	egzamin_magisterski pyt06 PROI szczegoly
+Wyjaśnij: Mixiny (Mixins)	Klasy dostarczające funkcjonalność do &quot;wmieszania&quot; do innych klas.	egzamin_magisterski pyt06 PROI szczegoly
+Wyjaśnij: Traity (Traits)	fn move_to(&mut self, x: i32, y: i32);	egzamin_magisterski pyt06 PROI szczegoly
+Wyjaśnij: Poziomy reużywalności	┌─────────────────────────────────────────────────────┐	egzamin_magisterski pyt06 PROI szczegoly
+Które serwery DNS najwięcej zyskują dzięki buforowaniu zapytań (caching) w serwerach rekursywnych? Jakie znasz rodzaje serwerów DNS?	Przechowują oryginalne rekordy DNS dla danej domeny. Są &quot;źródłem prawdy&quot;.<br><br>Wykonują pełne rozwiązywanie nazw w imieniu klienta, pytając kolejno serwery autorytatywne.<br><br>Prosty klient DNS w systemie operacyjnym. Wysyła zapytanie do rekursywnego resolvera i czeka na odpowiedź.	egzamin_magisterski pyt07 SKM pytanie_glowne
+Wyjaśnij: Wprowadzenie do DNS	<b>DNS (Domain Name System)</b> to hierarchiczny, rozproszony system tłumaczenia nazw domenowych na adresy IP (i odwrotnie).	egzamin_magisterski pyt07 SKM szczegoly
+Wyjaśnij: Hierarchia DNS	. (root)	egzamin_magisterski pyt07 SKM szczegoly
+Wyjaśnij: 1 Serwery autorytatywne (Authoritative)	• <b>13 logicznych serwerów:</b>: a.root-servers.net do m.root-servers.net<br>• <b>Fizycznie:</b>: Setki serwerów (anycast)<br>• <b>Funkcja:</b>: Wskazują serwery TLD<br>• <b>gTLD:</b>: .com, .org, .net (generic)<br>• <b>ccTLD:</b>: .pl, .de, .uk (country code)	egzamin_magisterski pyt07 SKM szczegoly
+Wyjaśnij: 2 Serwery rekursywne (Recursive Resolvers)	<b>Definicja:</b> Wykonują pełne rozwiązywanie nazw w imieniu klienta, pytając kolejno serwery autorytatywne.	egzamin_magisterski pyt07 SKM szczegoly
+Wyjaśnij: 3 Stub Resolvers (Resolwery klienckie)	<b>Definicja:</b> Prosty klient DNS w systemie operacyjnym. Wysyła zapytanie do rekursywnego resolvera i czeka na odpowiedź.	egzamin_magisterski pyt07 SKM szczegoly
+Wyjaśnij: 4 Forwarding Servers (Przekazujące)	<b>Definicja:</b> Przyjmują zapytania i przekazują je do innego resolvera zamiast samodzielnie rozwiązywać.	egzamin_magisterski pyt07 SKM szczegoly
+Wyjaśnij: Zapytanie rekursywne vs iteracyjne	ZAPYTANIE REKURSYWNE (klient → resolver):	egzamin_magisterski pyt07 SKM szczegoly
+Wyjaśnij: Pełny proces rozwiązywania	Klient Recursive Root .com TLD example.com	egzamin_magisterski pyt07 SKM szczegoly
+Jak działa caching?	1. <b>Resolver otrzymuje odpowiedź</b> z serwera autorytatywnego	egzamin_magisterski pyt07 SKM szczegoly
+Wyjaśnij: TTL (Time To Live)	www.example.com. 300 IN A 93.184.216.34	egzamin_magisterski pyt07 SKM szczegoly
+Dlaczego root servers zyskują najwięcej?	┌────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt07 SKM szczegoly
+Dlaczego ROOT i TLD zyskują więcej niż authoritative?	1. <b>Mniejsza liczba = więcej zapytań na serwer:</b>	egzamin_magisterski pyt07 SKM szczegoly
+Wyjaśnij: Podsumowanie zysków z cachingu	REDUKCJA RUCHU DZIĘKI CACHINGOWI:	egzamin_magisterski pyt07 SKM szczegoly
+Jaki jest cel uzgadniania trójetapowego (three way handshake) w protokole TCP? Jaka jest interpretacja numerów sekwencyjnych i potwierdzenia? Jaka jest wartość początkowa numeru sekwencyjnego?	<b>TCP (Transmission Control Protocol)</b> to protokół warstwy transportowej zapewniający:	egzamin_magisterski pyt08 SKM pytanie_glowne
+Wyjaśnij: Wprowadzenie do TCP	<b>TCP (Transmission Control Protocol)</b> to protokół warstwy transportowej zapewniający:	egzamin_magisterski pyt08 SKM szczegoly
+Wyjaśnij: Cele uzgadniania trójetapowego	1. <b>Nawiązanie połączenia</b> - obie strony zgadzają się na komunikację	egzamin_magisterski pyt08 SKM szczegoly
+Wyjaśnij: Przebieg (diagram)	Klient Serwer	egzamin_magisterski pyt08 SKM szczegoly
+Wyjaśnij: Szczegółowy opis kroków	┌────────────────────────────────────────┐	egzamin_magisterski pyt08 SKM szczegoly
+Wyjaśnij: Interpretacja	<b>Sequence Number (SEQ)</b> = numer pierwszego bajtu danych w segmencie	egzamin_magisterski pyt08 SKM szczegoly
+Wyjaśnij: Kumulatywne potwierdzenia	TCP używa <b>cumulative ACK</b> - potwierdza wszystkie bajty do danego numeru:	egzamin_magisterski pyt08 SKM szczegoly
+Wyjaśnij: Selective ACK (SACK)	Opcja TCP pozwalająca potwierdzać niesąsiednie bloki:	egzamin_magisterski pyt08 SKM szczegoly
+Dlaczego ISN nie zaczyna od 0?	1. <b>Bezpieczeństwo</b> - przewidywalny ISN umożliwia ataki (TCP hijacking)	egzamin_magisterski pyt08 SKM szczegoly
+Wyjaśnij: Generowanie ISN	• <b>M</b>: = timer (jak wyżej)<br>• <b>F</b>: = funkcja kryptograficzna (MD5/SHA)<br>• <b>secretkey</b>: = tajny klucz serwera	egzamin_magisterski pyt08 SKM szczegoly
+Wyjaśnij: Zakres numerów sekwencyjnych	SEQ: 32 bity → zakres 0 do 4,294,967,295 (2^32 - 1)	egzamin_magisterski pyt08 SKM szczegoly
+Procesy i wątki w systemie operacyjnym. Omówić budowę, szybkość działania i zakres zastosowania. Przedstawić problemy i możliwości komunikacji i synchronizacji.	<b>Proces</b> i <b>wątek</b> to podstawowe jednostki wykonania w systemach operacyjnych. Różnią się poziomem izolacji i kosztami przełączania.	egzamin_magisterski pyt09 SOI pytanie_glowne
+Wyjaśnij: Budowa procesu	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt09 SOI szczegoly
+Wyjaśnij: PCB (Process Control Block)	Struktura w jądrze przechowująca informacje o procesie:	egzamin_magisterski pyt09 SOI szczegoly
+Wyjaśnij: Stany procesu	┌──────────────────┐	egzamin_magisterski pyt09 SOI szczegoly
+Wyjaśnij: Budowa wątku	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt09 SOI szczegoly
+Wyjaśnij: Wątki użytkownika (User-level Threads)	┌─────────────────────────────────────────┐	egzamin_magisterski pyt09 SOI szczegoly
+Wyjaśnij: Wątki jądra (Kernel-level Threads)	┌─────────────────────────────────────────┐	egzamin_magisterski pyt09 SOI szczegoly
+Wyjaśnij: Mechanizmy IPC	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt09 SOI szczegoly
+Wyjaśnij: Szczegóły mechanizmów	// Potok nienazwany (anonimowy)	egzamin_magisterski pyt09 SOI szczegoly
+Wyjaśnij: Problemy współbieżności	Wątek A: lock(mutex1) → czeka na mutex2	egzamin_magisterski pyt09 SOI szczegoly
+Wyjaśnij: Mechanizmy synchronizacji	• <b>Binarny</b>: (0/1) - jak mutex<br>• <b>Licznikowy</b>: - ogranicza liczbę wątków (np. pula połączeń)	egzamin_magisterski pyt09 SOI szczegoly
+Kiedy procesy?	• <b>Izolacja</b>: - awaria jednego nie wpływa na inne<br>• <b>Bezpieczeństwo</b>: - różne uprawnienia<br>• <b>Różne języki/technologie</b>: - mikrousługi<br>• <b>Niezawodność</b>: - restart bez wpływu na system	egzamin_magisterski pyt09 SOI szczegoly
+Kiedy wątki?	• <b>Współdzielenie danych</b>: - bez kopiowania<br>• <b>Responsywność</b>: - UI thread + worker threads<br>• <b>Równoległość CPU</b>: - obliczenia na wielu rdzeniach<br>• <b>I/O asynchroniczne</b>: - czekanie nie blokuje wszystkiego	egzamin_magisterski pyt09 SOI szczegoly
+Scharakteryzować problemy i mechanizmy zarządzania pamięcią. Porównać cechy i przeznaczenie mechanizmów stronicowania i segmentacji.	<b>Zarządzanie pamięcią</b> to jeden z kluczowych zadań systemu operacyjnego:	egzamin_magisterski pyt10 SOI pytanie_glowne
+Wyjaśnij: 1 Fragmentacja	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt10 SOI szczegoly
+Wyjaśnij: 3 Relokacja	<b>Problem:</b> Program kompilowany z założeniem konkretnych adresów musi działać pod różnymi adresami.	egzamin_magisterski pyt10 SOI szczegoly
+Wyjaśnij: 1 Partycjonowanie stałe (Fixed Partitioning)	┌────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt10 SOI szczegoly
+Wyjaśnij: 2 Partycjonowanie dynamiczne (Dynamic Partitioning)	┌────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt10 SOI szczegoly
+Wyjaśnij: Idea	• <b>Strona (Page)</b>: - blok pamięci wirtualnej (4KB typowo)<br>• <b>Ramka (Frame)</b>: - blok pamięci fizycznej (ten sam rozmiar)	egzamin_magisterski pyt10 SOI szczegoly
+Wyjaśnij: Translacja adresu	Adres wirtualny (32-bit, strony 4KB):	egzamin_magisterski pyt10 SOI szczegoly
+Wyjaśnij: Wielopoziomowe tablice stron	<b>Problem:</b> Tablica stron dla 32-bit przestrzeni z 4KB stronami = 2²⁰ wpisów × 4B = <b>4MB per proces!</b>	egzamin_magisterski pyt10 SOI szczegoly
+Wyjaśnij: TLB (Translation Lookaside Buffer)	<b>Problem:</b> Każdy dostęp do pamięci wymaga 2+ odczytów (tablica + dane).	egzamin_magisterski pyt10 SOI szczegoly
+Wyjaśnij: Ochrona w segmentacji	• <b>R</b>: (Read) - odczyt dozwolony<br>• <b>W</b>: (Write) - zapis dozwolony<br>• <b>X</b>: (Execute) - wykonanie dozwolone	egzamin_magisterski pyt10 SOI szczegoly
+Wyjaśnij: Intel x86 (tryb chroniony)	Adres logiczny (Selector:Offset)	egzamin_magisterski pyt10 SOI szczegoly
+Wyjaśnij: Zalety hybrydowego podejścia	1. <b>Ochrona</b> z segmentacji (kod vs dane vs stos)	egzamin_magisterski pyt10 SOI szczegoly
+Wyjaśnij: Algorytm Clock (Second Chance)	┌──→│ 1 │──┐ Bit referencji:	egzamin_magisterski pyt10 SOI szczegoly
+Scharakteryzować standardy i narzędzia do modelowania procesów biznesowych.	| CO robimy (flow) | JAK robimy (instrukcja) |	egzamin_magisterski pyt11 WSYZ pytanie_glowne
+Wyjaśnij: Przegląd standardów	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt11 WSYZ szczegoly
+Wyjaśnij: Podstawowe elementy BPMN	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt11 WSYZ szczegoly
+Wyjaśnij: Elementy Activity Diagrams	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt11 WSYZ szczegoly
+Wyjaśnij: Elementy EPC	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt11 WSYZ szczegoly
+Wyjaśnij: Reguły EPC	1. <b>Start i koniec:</b> Zdarzenie	egzamin_magisterski pyt11 WSYZ szczegoly
+Wyjaśnij: IDEF0 - Modelowanie funkcji	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt11 WSYZ szczegoly
+Wyjaśnij: Flowcharts (Schematy blokowe)	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt11 WSYZ szczegoly
+Wyjaśnij: Value Stream Map (VSM)	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt11 WSYZ szczegoly
+Wyjaśnij: Petri Nets (Sieci Petriego)	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt11 WSYZ szczegoly
+Przedstawić sieciowe modele optymalizacji stosowane w systemach zarządzania. Omówić ich właściwości.	<b>Sieciowe modele optymalizacji</b> to matematyczne reprezentacje problemów decyzyjnych w postaci grafów (sieci), gdzie:	egzamin_magisterski pyt12 WSYZ pytanie_glowne
+Wyjaśnij: Właściwości	• <b>NP-trudny</b>: - brak algorytmu wielomianowego	egzamin_magisterski pyt12 WSYZ szczegoly
+Wyjaśnij: CPM (Critical Path Method)	A(2)──┤ ├──E(2)──F(1)	egzamin_magisterski pyt12 WSYZ szczegoly
+Omówić szczegółowo teorie, definicje, standardy i narzędzia wykorzystywane przy projektowaniu i implementacji systemów opartych na koncepcji agenta i aktora.	Zachowania niskopoziomowe mogą być &quot;nadpisane&quot; przez wyższe.	egzamin_magisterski pyt13 AASD pytanie_glowne
+Wyjaśnij: Definicje fundamentalne	<b>Agent</b> = system komputerowy umieszczony w środowisku, zdolny do <b>autonomicznego działania</b> w celu realizacji celów.	egzamin_magisterski pyt13 AASD szczegoly
+Wyjaśnij: Architektury agentów	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt13 AASD szczegoly
+Wyjaśnij: Standardy komunikacji agentów	<b>FIPA-ACL</b> (Agent Communication Language):	egzamin_magisterski pyt13 AASD szczegoly
+Wyjaśnij: Protokoły interakcji	┌─────────┐ cfp ┌─────────┐	egzamin_magisterski pyt13 AASD szczegoly
+Wymienić i szczegółowo opisać wybrane algorytmy i metody wykorzystywane w systemach wieloagentowych i aktorowych.	<b>Zastosowania:</b> Przydział zadań, zarządzanie zasobami, e-commerce<br><br>Problem: Środowisko niestacjonarne (inni agenci się zmieniają)<br><br>Ordering constraints: flexible (równoległość gdy możliwa)	egzamin_magisterski pyt14 AASD pytanie_glowne
+Wyjaśnij: Algorytmy negocjacji i aukcji	1. ANNOUNCEMENT - Manager ogłasza zadanie (cfp)	egzamin_magisterski pyt14 AASD szczegoly
+Wyjaśnij: Algorytmy konsensusu	Stany węzłów: FOLLOWER → CANDIDATE → LEADER	egzamin_magisterski pyt14 AASD szczegoly
+Wyjaśnij: Algorytmy koordynacji	1. Wyślij REQUEST(timestamp) do wszystkich	egzamin_magisterski pyt14 AASD szczegoly
+Wyjaśnij: Algorytmy uczenia wieloagentowego	Każdy agent uczy się niezależnie:	egzamin_magisterski pyt14 AASD szczegoly
+Wyjaśnij: Algorytmy dla aktorów	// One-for-One: restart tylko tego aktora	egzamin_magisterski pyt14 AASD szczegoly
+Wyjaśnij: Algorytmy planowania (BDI)	plan1: walk(X,Y) :- distance(X,Y) < 1km	egzamin_magisterski pyt14 AASD szczegoly
+Wyjaśnij: Algorytmy formowania koalicji	Sprawiedliwy podział zysków w koalicji:	egzamin_magisterski pyt14 AASD szczegoly
+Wyjaśnij: Frameworki architektoniczne	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt15 AIS szczegoly
+Wyjaśnij: Notacje i języki modelowania	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt15 AIS szczegoly
+Wyjaśnij: ADR (Architecture Decision Records)	System wymaga przechowywania danych użytkowników...	egzamin_magisterski pyt15 AIS szczegoly
+Wyjaśnij: Metody analizy architektury	2. Identify quality attribute scenarios	egzamin_magisterski pyt15 AIS szczegoly
+Czemu służą wzorce architektoniczne? Jak powstają? Jak są katalogowane? Omówić przykładowe wzorce architektoniczne.	Zasada: Warstwa zna tylko warstwę bezpośrednio niższą	egzamin_magisterski pyt16 AIS pytanie_glowne
+Wyjaśnij: Jak powstają wzorce	• <b>Nazwa</b>: - identyfikator<br>• <b>Kontekst</b>: - kiedy stosować<br>• <b>Problem</b>: - co rozwiązuje<br>• <b>Rozwiązanie</b>: - struktura i zachowanie<br>• <b>Konsekwencje</b>: - trade-offs	egzamin_magisterski pyt16 AIS szczegoly
+Przedstawić warunki konieczne i dostateczne optymalności różniczkowalnych zadań optymalizacji bez ograniczeń i z ograniczeniami oraz warunki regularności i omówić metody poszukiwania rozwiązań zadań optymalizacji nieliniowej.	<b>Sprawdzenie:</b> Wszystkie wartości własne $\lambda_i > 0 \Rightarrow H \succ 0$<br><br>Jeśli $x^*$ jest minimum i spełnione są warunki regularności:<br><br><b>LICQ:</b> $\{\nabla g_i(x^<i>) : g_i(x^</i>) = 0\} \cup \{\nabla h_j(x^*)\}$ są liniowo niezależne	egzamin_magisterski pyt17 AMO pytanie_glowne
+Wyjaśnij: Optymalizacja bez ograniczeń	$$\min_{x \in \mathbb{R}^n} f(x)$$	egzamin_magisterski pyt17 AMO szczegoly
+Wyjaśnij: Optymalizacja z ograniczeniami	$$\text{s.t. } g_i(x) \leq 0, \quad i = 1, \ldots, m$$	egzamin_magisterski pyt17 AMO szczegoly
+Wyjaśnij: Warunki KKT (Karush-Kuhn-Tucker)	Jeśli $x^*$ jest minimum i spełnione są warunki regularności:	egzamin_magisterski pyt17 AMO szczegoly
+Wyjaśnij: Warunki regularności (Constraint Qualification)	Warunki zapewniające, że KKT są konieczne:	egzamin_magisterski pyt17 AMO szczegoly
+Wyjaśnij: Warunki dostateczne II rzędu	Jeśli spełnione KKT i dla hesjanu Lagrangianu:	egzamin_magisterski pyt17 AMO szczegoly
+Wyjaśnij: Metody optymalizacji nieliniowej	x_{k+1} = x_k - [∇²f(x_k)]^{-1} ∇f(x_k)	egzamin_magisterski pyt17 AMO szczegoly
+Omówić metody rozwiązywania zadań liniowych i kwadratowych optymalizacji.	<b>Złożoność:</b> O(2^n) worst-case, ale praktycznie bardzo szybki<br><br><b>Rozwiązanie:</b> $(A^T A)x = A^T b$ (równanie normalne)	egzamin_magisterski pyt18 AMO pytanie_glowne
+Wyjaśnij: Programowanie liniowe (LP)	$$\text{s.t. } Ax = b, \quad x \geq 0$$	egzamin_magisterski pyt18 AMO szczegoly
+Wyjaśnij: Programowanie kwadratowe (QP)	$$\min \frac{1}{2} x^T Q x + c^T x$$	egzamin_magisterski pyt18 AMO szczegoly
+Wyjaśnij: Metody rozwiązywania QP	Idea: Traktuj aktywne ograniczenia jako równości	egzamin_magisterski pyt18 AMO szczegoly
+Wyjaśnij: Przypadki szczególne	$$\min \|Ax - b\|_2^2 = \min x^T A^T A x - 2b^T A x + b^T b$$	egzamin_magisterski pyt18 AMO szczegoly
+Przedstawić metody wyznaczania cech (parametryzacji) sygnału mowy: MFCC (cechy mel-cepstralne) i LPC (cechy według liniowej predykcji).	- <b>Redukcja wymiarowości:</b> 16kHz × 16bit → ~13-40 cech/ramkę<br><br><b>Typowo:</b> p = 10-16 dla mowy (8kHz), p = 16-20 (16kHz)	egzamin_magisterski pyt19 EASAR pytanie_glowne
+Wyjaśnij: Cel parametryzacji mowy	• <b>Redukcja wymiarowości:</b>: 16kHz × 16bit → ~13-40 cech/ramkę<br>• <b>Ekstrakcja informacji fonetycznej</b>: - <b>Usunięcie informacji mówcy</b> (częściowo)<br>• <b>Reprezentacja kompaktowa</b>: dla modeli (HMM, DNN)	egzamin_magisterski pyt19 EASAR szczegoly
+Wyjaśnij: MFCC (Mel-Frequency Cepstral Coefficients)	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt19 EASAR szczegoly
+Wyjaśnij: LPC (Linear Predictive Coding)	• <b>Dźwięczne:</b>: pobudzenie okresowe (struny głosowe)<br>• <b>Bezdźwięczne:</b>: pobudzenie szumowe	egzamin_magisterski pyt19 EASAR szczegoly
+Wyjaśnij: Rozszerzenia	Łączy LPC z percepcją słuchową:	egzamin_magisterski pyt19 EASAR szczegoly
+Przedstawić klasyczną metodę rozpoznawania mowy opartą o HMM (Ukryte Modele Markowa). Porównać ją z metodami korzystającymi z głębokich sieci neuronowych.	Każdy stan emituje obserwacje (MFCC) według rozkładu GMM:<br><br>Backtrace: ψ_t(j) = argmax_{i} [α_{t-1}(i) · a_{ij}]	egzamin_magisterski pyt20 EASAR pytanie_glowne
+Wyjaśnij: System rozpoznawania mowy - architektura	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt20 EASAR szczegoly
+Wyjaśnij: HMM (Hidden Markov Model) - klasyczne podejście	a₁₂ a₂₃ a₃₄	egzamin_magisterski pyt20 EASAR szczegoly
+Wyjaśnij: Deep Learning w rozpoznawaniu mowy	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt20 EASAR szczegoly
+Jak wykorzystuje się agenta upostaciowionego do specyfikacji sterowników robotów?	<b>Agent upostaciowiony</b> = agent posiadający fizyczne ciało, osadzony w rzeczywistym środowisku, zdolny do:	egzamin_magisterski pyt21 ERPM pytanie_glowne
+Wyjaśnij: Agent upostaciowiony (Embodied Agent)	• <b>Percepcji</b>: poprzez sensory<br>• <b>Działania</b>: poprzez efektory<br>• <b>Interakcji</b>: ze środowiskiem	egzamin_magisterski pyt21 ERPM szczegoly
+Wyjaśnij: Specyfikacja sterownika robota	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt21 ERPM szczegoly
+Wyjaśnij: Formalny model agenta	Agent: Percept* → Action (historia percepcji)	egzamin_magisterski pyt21 ERPM szczegoly
+Wyjaśnij: Zastosowanie w ROS (Robot Operating System)	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt21 ERPM szczegoly
+Wyjaśnij: Hybrydowa architektura 3T	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt21 ERPM szczegoly
+Omówić specjalizowane języki programowania robotów. Uwypuklić ich klasyfikację.	| Cecha | RAPID (ABB) | KRL (KUKA) | Karel (FANUC) |<br><br>move_group = moveit_commander.MoveGroupCommander(&quot;arm&quot;)	egzamin_magisterski pyt22 ERPM pytanie_glowne
+Wyjaśnij: Klasyfikacja języków programowania robotów	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt22 ERPM szczegoly
+Wyjaśnij: Języki producentów robotów przemysłowych	MoveJ pHome, v1000, z50, tool1;	egzamin_magisterski pyt22 ERPM szczegoly
+Wyjaśnij: Języki uniwersalne i frameworki	from geometry_msgs.msg import Twist	egzamin_magisterski pyt22 ERPM szczegoly
+Wyjaśnij: Klasyfikacja wg poziomu abstrakcji	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt22 ERPM szczegoly
+Przedstawić koncepcję i przeznaczenie zegarów logicznych i wektorów stempli czasowych.	<b>Problem:</b> Nie możemy polegać na zegarach fizycznych - drift, opóźnienia sieciowe, brak atomowej synchronizacji.<br><br>Zdarzenie <b>a</b> happened-before <b>b</b> (a → b) jeśli:<br><br>Jeśli ¬(a → b) ∧ ¬(b → a), to <b>a || b</b> (współbieżne).	egzamin_magisterski pyt23 ERSMS pytanie_glowne
+Wyjaśnij: Problem czasu w systemach rozproszonych	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt23 ERSMS szczegoly
+Wyjaśnij: Zegar Lamporta (Scalar Clock)	Każdy proces P_i ma licznik C_i:	egzamin_magisterski pyt23 ERSMS szczegoly
+Wyjaśnij: Zegary wektorowe (Vector Clocks)	Każdy z N procesów ma wektor V[1..N]:	egzamin_magisterski pyt23 ERSMS szczegoly
+Wyjaśnij: Zastosowania	Put(key, value) z vector clock:	egzamin_magisterski pyt23 ERSMS szczegoly
+Omówić silne i słabe modele spójności danych w środowisku rozproszonym.	<b>Implementacja:</b> Consensus (Paxos, Raft), single leader<br><br>Niezależne zapisy mogą być widziane w różnej kolejności.	egzamin_magisterski pyt24 ERSMS pytanie_glowne
+Wyjaśnij: Problem spójności w systemach rozproszonych	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt24 ERSMS szczegoly
+Wyjaśnij: Spektrum modeli spójności	Silne ←─────────────────────────────────────────→ Słabe	egzamin_magisterski pyt24 ERSMS szczegoly
+Wyjaśnij: Silne modele spójności	Definicja: Każda operacja wygląda jakby wykonała się atomowo	egzamin_magisterski pyt24 ERSMS szczegoly
+Wyjaśnij: Słabe modele spójności	Definicja: Jeśli nie ma nowych zapisów, ostatecznie	egzamin_magisterski pyt24 ERSMS szczegoly
+Wyjaśnij: CAP Theorem	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt24 ERSMS szczegoly
+Wyjaśnij: Strategie rozwiązywania konfliktów	Konflikt: write(x=1) || write(x=2)	egzamin_magisterski pyt24 ERSMS szczegoly
+Wyjaśnij: Definicja MIP (Mixed Integer Programming)	Programowanie całkowitoliczbowe:	egzamin_magisterski pyt25 MOD szczegoly
+Wyjaśnij: Branch and Bound (B&B) - metoda dokładna	1. Relaksacja LP: rozwiąż bez ograniczeń całkowitoliczbowych	egzamin_magisterski pyt25 MOD szczegoly
+Wyjaśnij: Ulepszenia: Branch and Cut	Branch and Bound + Cutting Planes:	egzamin_magisterski pyt25 MOD szczegoly
+Wyjaśnij: Kategorie narzędzi	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt26 MOD szczegoly
+Wyjaśnij: Porównanie wydajności (benchmark)	Typowe czasy dla problemów MIPLIB (średnie):	egzamin_magisterski pyt26 MOD szczegoly
+Wyjaśnij: Języki modelowania	var produce{PRODUCTS} >= 0 integer;	egzamin_magisterski pyt26 MOD szczegoly
+Wyjaśnij: Typowe wymagania sprzętowe	Mały problem (< 1000 zmiennych):	egzamin_magisterski pyt26 MOD szczegoly
+Wyjaśnij: Diagnostyka problemów	1. solver.computeIIS() # znajdź konflikt	egzamin_magisterski pyt26 MOD szczegoly
+Wyjaśnij: Best practices	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt26 MOD szczegoly
+Wyjaśnij: Model danych jako fundament systemu	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt27 MODA szczegoly
+Wyjaśnij: Wpływ na różne aspekty projektu	JOIN customers ON orders.customer_name = customers.name -- string comparison!	egzamin_magisterski pyt27 MODA szczegoly
+Wyjaśnij: Koszty naprawy złego modelu	Koszt zmiany modelu danych w czasie:	egzamin_magisterski pyt27 MODA szczegoly
+Wyjaśnij: Wpływ na jakość danych (GIGO)	│ Złe dane wejść. │ → Zły model → Złe decyzje biznesowe	egzamin_magisterski pyt27 MODA szczegoly
+Wyjaśnij: Model danych a architektura aplikacji	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt27 MODA szczegoly
+Omówić typowe fazy ewolucji modelu danych i pożądane cechy modelu w każdej z faz.	Brak typów danych, kluczy, atrybutów szczegółowych!<br><br>Encje: Klient, Zamówienie, Produkt, Kategoria, Dostawca, Płatność<br><br>┌────────────────────────┐ ┌────────────────────────┐	egzamin_magisterski pyt28 MODA pytanie_glowne
+Wyjaśnij: Przegląd faz ewolucji	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt28 MODA szczegoly
+Wyjaśnij: Model konceptualny (Conceptual Data Model)	Diagram ERD (Entity-Relationship) - uproszczony:	egzamin_magisterski pyt28 MODA szczegoly
+Wyjaśnij: Model logiczny (Logical Data Model)	ERD szczegółowy (np. Crow's Foot):	egzamin_magisterski pyt28 MODA szczegoly
+Wyjaśnij: Model fizyczny (Physical Data Model)	klient_id SERIAL PRIMARY KEY,	egzamin_magisterski pyt28 MODA szczegoly
+Wyjaśnij: Transformacje między fazami	┌──────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt28 MODA szczegoly
+Wyjaśnij: Ewolucja w czasie (produkcja)	✓ Backward compatible (add, nie remove)	egzamin_magisterski pyt28 MODA szczegoly
+Oszacować ilościowo przyśpieszenie wykonania programu sekwencyjnego z fragmentami równoległymi na maszynie wielordzeniowej. Co osłabia to ograniczenie?	$$S_{max} = \lim_{n \to \infty} S(n) = \frac{1}{1-p}$$<br><br><b>Obserwacja:</b> Krzywe szybko się spłaszczają - dodawanie procesorów daje coraz mniejszy zysk.<br><br>┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt29 PORR pytanie_glowne
+Wyjaśnij: Prawo Amdahla	$$S(n) = \frac{1}{(1-p) + \frac{p}{n}}$$	egzamin_magisterski pyt29 PORR szczegoly
+Wyjaśnij: Wizualizacja ograniczenia	20 ┤ ........... p=99%	egzamin_magisterski pyt29 PORR szczegoly
+Co osłabia ograniczenie Amdahla?	Amdahl: Stały problem, więcej procesorów	egzamin_magisterski pyt29 PORR szczegoly
+Wyjaśnij: Czynniki zmniejszające rzeczywiste przyśpieszenie	S_real < S_Amdahl ze względu na:	egzamin_magisterski pyt29 PORR szczegoly
+Wyjaśnij: Efektywność równoległa	$$E(n) = \frac{S(n)}{n} = \frac{1}{n \cdot (1-p) + p}$$	egzamin_magisterski pyt29 PORR szczegoly
+Wyjaśnij: Rozszerzone prawo Amdahla (z overhead)	$$S(n) = \frac{1}{(1-p) + \frac{p}{n} + O(n)}$$	egzamin_magisterski pyt29 PORR szczegoly
+Wyjaśnij: Struktura modelu matematycznego	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt30 MOM szczegoly
+Wyjaśnij: Metody modelowania	┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐	egzamin_magisterski pyt30 MOM szczegoly
+Wyjaśnij: Typowe problemy w modelowaniu	Problem: Ile zmiennych? Jakie typy?	egzamin_magisterski pyt30 MOM szczegoly
+Wyjaśnij: Techniki modelowania	Problem: xy (iloczyn zmiennych ciągłych)	egzamin_magisterski pyt30 MOM szczegoly
+Wyjaśnij: Wielokryterialne podejmowanie decyzji	min f₁(x), f₂(x), ..., f_k(x) ← konfliktujące cele	egzamin_magisterski pyt30 MOM szczegoly
+Wyjaśnij: Analiza wrażliwości	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt30 MOM szczegoly
+Wyjaśnić główne zagadnienia modelowania matematycznego w systemach decyzyjnych z wykorzystaniem pojęć (nie)wypukłości i (nie)liniowości.	$$S \text{ wypukły} \Leftrightarrow \forall x,y \in S, \forall \lambda \in [0,1]: \lambda x + (1-\lambda)y \in S$$<br><br>$$f \text{ wypukła} \Leftrightarrow f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1-\lambda) f(y)$$<br><br>$$\min c^T x \quad \text{s.t.} \quad Ax \leq b, \quad x \geq 0$$	egzamin_magisterski pyt31 MOM pytanie_glowne
+Wyjaśnij: Klasyfikacja problemów optymalizacyjnych	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt31 MOM szczegoly
+Wyjaśnij: Definicje kluczowe	$$S \text{ wypukły} \Leftrightarrow \forall x,y \in S, \forall \lambda \in [0,1]: \lambda x + (1-\lambda)y \in S$$	egzamin_magisterski pyt31 MOM szczegoly
+Wyjaśnij: Znaczenie wypukłości	Problem │ Złożoność │ Gwarancja	egzamin_magisterski pyt31 MOM szczegoly
+Wyjaśnij: Liniowość vs nieliniowość	$$\min c^T x \quad \text{s.t.} \quad Ax \leq b, \quad x \geq 0$$	egzamin_magisterski pyt31 MOM szczegoly
+Wyjaśnij: Testowanie wypukłości	1. HESJAN: H = ∇²f(x) ≽ 0 (dodatnio półokreślony) dla wszystkich x	egzamin_magisterski pyt31 MOM szczegoly
+Wyjaśnij: Problemy niewypukłe	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt31 MOM szczegoly
+Wyjaśnij: Dualność	Primal (P): Dual (D):	egzamin_magisterski pyt31 MOM szczegoly
+Podać definicję komunikacji synchronicznej i asynchronicznej oraz blokującej i nieblokującej. Jak uniknąć zakleszczenia, gdy dwa symetryczne procesy (np. realizujące algorytm iteracyjny Jacobiego) mają w kodzie następujące po sobie wywołania funkcji wysyłającej komunikat do partnera i odbierającej komunikat wysłany przez niego?	| Funkcja MPI | Blokująca? | Synchroniczna? | Opis |<br><br>MPI_Irecv(from=partner, data_in, &req_recv); // Nieblokujące recv	egzamin_magisterski pyt32 PORR pytanie_glowne
+Wyjaśnij: Definicje podstawowe	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt32 PORR szczegoly
+Wyjaśnij: Problem zakleszczenia (Deadlock)	// DEADLOCK! - oba procesy czekają na siebie nawzajem	egzamin_magisterski pyt32 PORR szczegoly
+Wyjaśnij: Rozwiązania problemu zakleszczenia	// Proces 0: // Proces 1:	egzamin_magisterski pyt32 PORR szczegoly
+Wyjaśnij: Algorytm Jacobiego - pełny przykład	// Iteracyjne rozwiązanie równania Laplace'a	egzamin_magisterski pyt32 PORR szczegoly
+Wyjaśnij: Wzorce komunikacji	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt32 PORR szczegoly
+Scharakteryzować model przesyłania komunikatów publikuj-subskrybuj oraz przykładowe rozwiązania techniczne wykorzystujące ten model.	channel.queue_bind(exchange='logs', queue=queue_name)<br><br>| Cecha | Kafka | RabbitMQ | MQTT | Redis Pub/Sub |<br><br>2. CQRS (Command Query Responsibility Segregation):	egzamin_magisterski pyt33 PSD pytanie_glowne
+Wyjaśnij: Definicja modelu Pub/Sub	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt33 PSD szczegoly
+Wyjaśnij: Wildcardy (MQTT)	home/living-room/# → wszystko z living-room	egzamin_magisterski pyt33 PSD szczegoly
+Wyjaśnij: Gwarancje dostarczenia	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt33 PSD szczegoly
+Wyjaśnij: Rozwiązania techniczne	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt33 PSD szczegoly
+Wyjaśnij: Zalety i wady Pub/Sub	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt33 PSD szczegoly
+Wyjaśnij: Wzorce użycia	[Service] ─publish─→ [Kafka] ←─consume─ [Projections]	egzamin_magisterski pyt33 PSD szczegoly
+Scharakteryzować rozwiązania analityczne działające na danych o charakterze strumieniowym.	KStream<String, String> source = builder.stream(&quot;input-topic&quot;);<br><br>| Cecha | Kafka Streams | Flink | Spark Streaming |<br><br>Query(x): min(h1[hash1(x)], h2[hash2(x)], h3[hash3(x)])	egzamin_magisterski pyt34 PSD pytanie_glowne
+Wyjaśnij: Charakterystyka danych strumieniowych	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt34 PSD szczegoly
+Wyjaśnij: Modele przetwarzania	Event Time: Kiedy zdarzenie faktycznie nastąpiło	egzamin_magisterski pyt34 PSD szczegoly
+Wyjaśnij: Platformy Stream Processing	StreamsBuilder builder = new StreamsBuilder();	egzamin_magisterski pyt34 PSD szczegoly
+Wyjaśnij: Algorytmy strumieniowe	Problem: Zlicz unikalne elementy w strumieniu	egzamin_magisterski pyt34 PSD szczegoly
+Wyjaśnij: Obsługa opóźnień i Out-of-Order	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt34 PSD szczegoly
+Wyjaśnij: Exactly-Once Semantics	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt34 PSD szczegoly
+Na czym polega specyfika modelowania matematycznego układów cyber-fizycznych? Podać przykłady współpracy agentów w sieci i problemów w osiąganiu pożądanego zachowania układu.	┌─────────────────────────────────────────────────────────────────┐<br><br>┌─────────────────────────────────────────────────────────────────┐<br><br>Szybkość zbieżności ~ λ₂(L) (algebraic connectivity)	egzamin_magisterski pyt35 SIU pytanie_glowne
+Wyjaśnij: Definicja układów cyber-fizycznych (CPS)	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt35 SIU szczegoly
+Wyjaśnij: Specyfika modelowania CPS	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt35 SIU szczegoly
+Wyjaśnij: Współpraca agentów w sieci	Problem: Agenty mają osiągnąć wspólną wartość	egzamin_magisterski pyt35 SIU szczegoly
+Wyjaśnij: Problemy w osiąganiu pożądanego zachowania	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt35 SIU szczegoly
+Wyjaśnij: Warunki zbieżności consensus	Twierdzenie: Protokół consensus ẋ = -Lx zbiega do consensus ⟺	egzamin_magisterski pyt35 SIU szczegoly
+Omówić ogólny algorytm, elementy składowe oraz własności uczenia się ze wzmocnieniem.	$$V^\pi(s) = \mathbb{E}_\pi \left[ \sum_{t=0}^{\infty} \gamma^t r_t \mid s_0 = s \right]$$<br><br>$$Q^\pi(s,a) = \mathbb{E}_\pi \left[ \sum_{t=0}^{\infty} \gamma^t r_t \mid s_0 = s, a_0 = a \right]$$<br><br>Q<i>(s,a) = R(s,a) + γ Σ_s' P(s'|s,a) max_a' Q</i>(s',a')	egzamin_magisterski pyt36 SIU pytanie_glowne
+Wyjaśnij: Model uczenia ze wzmocnieniem	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt36 SIU szczegoly
+Wyjaśnij: Markov Decision Process (MDP)	P: P(s'|s,a) - prawdopodobieństwa przejść	egzamin_magisterski pyt36 SIU szczegoly
+Wyjaśnij: Funkcje wartości	$$V^\pi(s) = \mathbb{E}_\pi \left[ \sum_{t=0}^{\infty} \gamma^t r_t \mid s_0 = s \right]$$	egzamin_magisterski pyt36 SIU szczegoly
+Wyjaśnij: Algorytmy	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt36 SIU szczegoly
+Wyjaśnij: Klasyfikacja algorytmów	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt36 SIU szczegoly
+Wyjaśnij: Własności i wyzwania	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt36 SIU szczegoly
+Wyjaśnij: Właściwości rzeczywistych sieci	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt37 TASS szczegoly
+Wyjaśnij: Model Erdős-Rényi (Random Graph)	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt37 TASS szczegoly
+Wyjaśnij: Model Watts-Strogatz (Small-World)	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt37 TASS szczegoly
+Wyjaśnij: Model Barabási-Albert (Scale-Free)	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt37 TASS szczegoly
+Wyjaśnij: Porównanie zbiorcze	┌──────────────┬───────────────┬───────────────┬───────────────┐	egzamin_magisterski pyt37 TASS szczegoly
+Wyjaśnij: Modele rozszerzone	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt37 TASS szczegoly
+Wyjaśnij: Grafy dwudzielne (Bipartite Graphs)	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt38 TASS szczegoly
+Wyjaśnij: Projekcja grafu dwudzielnego	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt38 TASS szczegoly
+Wyjaśnij: Metody projekcji	P = B · Bᵀ (dla projekcji na U)	egzamin_magisterski pyt38 TASS szczegoly
+Wyjaśnij: Zastosowanie w grupowaniu dokumentów	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt38 TASS szczegoly
+Wyjaśnij: Algorytmy grupowania na projekcji	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt38 TASS szczegoly
+Scharakteryzować problem segmentacji obrazu. Przedstawić podstawowe strategie i algorytmy segmentacji przy użyciu metod klasycznych oraz sieci neuronowych.	┌──────────────────┐ Threshold ┌──────────────────┐<br><br>| Architektura | mIoU (ADE20K) | Parametry | Cechy |	egzamin_magisterski pyt39 TWM pytanie_glowne
+Wyjaśnij: Definicja problemu segmentacji	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt39 TWM szczegoly
+Wyjaśnij: Metody klasyczne	pixel_out = 255 if pixel_in > T else 0	egzamin_magisterski pyt39 TWM szczegoly
+Wyjaśnij: Metody deep learning	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt39 TWM szczegoly
+Wyjaśnij: Loss functions	Problem: class imbalance (dużo tła, mało obiektów)	egzamin_magisterski pyt39 TWM szczegoly
+Opisać problem detekcji obiektów w obrazach. Przedstawić podstawowe strategie i algorytmy detekcji przy użyciu metod klasycznych oraz sieci neuronowych. Jak skonstruować detektor obiektów dysponując istniejącym klasyfikatorem tych obiektów?	┌─────────────────────────────────────────────────────────────────┐<br><br>┌─────────────────────────────────────────────────────────────────┐<br><br>┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt40 TWM pytanie_glowne
+Wyjaśnij: Definicja problemu detekcji	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt40 TWM szczegoly
+Wyjaśnij: Metody Deep Learning	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt40 TWM szczegoly
+Wyjaśnij: Konstrukcja detektora z klasyfikatora	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt40 TWM szczegoly
+Wyjaśnij: Non-Maximum Suppression (NMS)	Problem: Wiele overlapping detections	egzamin_magisterski pyt40 TWM szczegoly
+Przedstawić metody interaktywne wspomagania decyzji w warunkach ryzyka.	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt41 WDWR pytanie_glowne
+Wyjaśnij: Decyzje w warunkach ryzyka	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt41 WDWR szczegoly
+Wyjaśnij: Metody interaktywne - przegląd	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt41 WDWR szczegoly
+Wyjaśnij: Metoda loterii (Lottery Method)	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt41 WDWR szczegoly
+Wyjaśnij: Metoda pewnego ekwiwalentu (Certainty Equivalent)	CE (Certainty Equivalent) = pewna kwota równoważna loterii	egzamin_magisterski pyt41 WDWR szczegoly
+Wyjaśnij: Metoda AHP (Analytic Hierarchy Process)	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt41 WDWR szczegoly
+Wyjaśnij: Metoda PROMETHEE	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt41 WDWR szczegoly
+Wyjaśnij: Metoda ELECTRE	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt41 WDWR szczegoly
+Scharakteryzować relacje dominacji stochastycznej pierwszego i drugiego rzędu. Jak mogą być użyte w modelach wyboru w warunkach ryzyka?	$$A \succeq_{FSD} B \Leftrightarrow F_A(x) \leq F_B(x) \quad \forall x$$<br><br>$$A \succeq_{SSD} B \Leftrightarrow \int_{-\infty}^{x} F_A(t) dt \leq \int_{-\infty}^{x} F_B(t) dt \quad \forall x$$	egzamin_magisterski pyt42 WDWR pytanie_glowne
+Wyjaśnij: Idea dominacji stochastycznej	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt42 WDWR szczegoly
+Wyjaśnij: Dominacja stochastyczna pierwszego rzędu (FSD)	$$A \succeq_{FSD} B \Leftrightarrow F_A(x) \leq F_B(x) \quad \forall x$$	egzamin_magisterski pyt42 WDWR szczegoly
+Wyjaśnij: Dominacja stochastyczna drugiego rzędu (SSD)	$$A \succeq_{SSD} B \Leftrightarrow \int_{-\infty}^{x} F_A(t) dt \leq \int_{-\infty}^{x} F_B(t) dt \quad \forall x$$	egzamin_magisterski pyt42 WDWR szczegoly
+Wyjaśnij: Porównanie FSD i SSD	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt42 WDWR szczegoly
+Wyjaśnij: Zastosowanie w modelach wyboru	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt42 WDWR szczegoly
+Wyjaśnij: Testowanie dominacji	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt42 WDWR szczegoly
+Wyjaśnij: Notacja Graham'a (α|β|γ)	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt43 ZBOP szczegoly
+Wyjaśnij: Pole α - Środowisko maszynowe	Job 1 ──→ ┌───┐ ──→ ┌───┐ ──→ ┌───┐ ──→	egzamin_magisterski pyt43 ZBOP szczegoly
+Wyjaśnij: Pole γ - Kryteria optymalizacji	Lⱼ = Cⱼ - dⱼ (lateness, może być ujemne)	egzamin_magisterski pyt43 ZBOP szczegoly
+Wyjaśnij: Złożoność obliczeniowa	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt43 ZBOP szczegoly
+Wyjaśnij: Algorytm Johnsona (F2 || Cmax)	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt43 ZBOP szczegoly
+Jakie problemy wiążą się z zarządzaniem zapasami w łańcuchu dostaw? Omówić przykładowy model zarządzania zapasami w łańcuchu dostaw.	Ordering cost = K × (D/Q) (D/Q zamówień rocznie)	egzamin_magisterski pyt44 ZBOP pytanie_glowne
+Wyjaśnij: Łańcuch dostaw - struktura	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt44 ZBOP szczegoly
+Wyjaśnij: Problemy zarządzania zapasami	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt44 ZBOP szczegoly
+Wyjaśnij: Koszty zapasów	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt44 ZBOP szczegoly
+Wyjaśnij: Model EOQ (Economic Order Quantity)	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt44 ZBOP szczegoly
+Wyjaśnij: Model z punktem zamawiania (ROP)	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt44 ZBOP szczegoly
+Wyjaśnij: Model (s, S) / (R, Q)	s │──────╲──────────────╲──	egzamin_magisterski pyt44 ZBOP szczegoly
+Wyjaśnij: Vendor Managed Inventory (VMI)	┌─────────────────────────────────────────────────────────────────┐	egzamin_magisterski pyt44 ZBOP szczegoly
+Wyjaśnij: Pytanie	<b>&quot;Jaki jest cel Pana pracy magisterskiej i dlaczego wybrano akurat temat porównania silników gier?&quot;</b>	egzamin_magisterski pyt45 Ogólne szczegoly
+Wyjaśnij: Odpowiedź wzorcowa	Celem pracy jest <b>kompleksowe porównanie wydajności i możliwości współczesnych silników gier</b> (Unity i Unreal Engine), ze szczególnym uwzględnieniem ich wpływu na proces tworzenia gier oraz końcową jakość produktu.	egzamin_magisterski pyt45 Ogólne szczegoly

@@ -1,0 +1,1947 @@
+#separator:Tab
+#html:true
+#notetype:Basic
+#deck:Egzamin_extract
+
+Porównać 'siłę wyrazu' automatu skończonego, automatu ze stosem oraz maszyny Turinga. Jakie klasy języków rozpoznaje każdy z nich?	<b>Definicja:</b> Automat skończony to piątka: <b>M = (Q, Σ, δ, q₀, F)</b><br>• <b>Q</b>: skończony zbiór stanów<br>• <b>Σ</b>: alfabet wejściowy (skończony zbiór symboli)<br>• <b>δ</b>: funkcja przejścia: Q × Σ → Q (DFA) lub Q × Σ → P(Q) (NFA)<br>• <b>q₀</b>: stan początkowy (q₀ ∈ Q)<br>• <b>F</b>: zbiór stanów akceptujących (F ⊆ Q)	egzamin pyt01 AISDI main
+Wyjaśnij: Hierarchia Chomsky'ego - fundament teoretyczny	Noam Chomsky w 1956 roku zaproponował hierarchię czterech klas języków formalnych, gdzie każda kolejna klasa zawiera poprzednią:	egzamin pyt01 AISDI detail
+Wyjaśnij: Automat Skończony (Finite Automaton - FA)	<b>Definicja:</b> Automat skończony to piątka: <b>M = (Q, Σ, δ, q₀, F)</b><br>• <b>Q</b>: skończony zbiór stanów<br>• <b>Σ</b>: alfabet wejściowy (skończony zbiór symboli)<br>• <b>δ</b>: funkcja przejścia: Q × Σ → Q (DFA) lub Q × Σ → P(Q) (NFA)<br>• <b>q₀</b>: stan początkowy (q₀ ∈ Q)<br>• <b>F</b>: zbiór stanów akceptujących (F ⊆ Q)	egzamin pyt01 AISDI detail
+Wyjaśnij: Automat ze Stosem (Pushdown Automaton - PDA)	<b>Definicja:</b> Automat ze stosem to siódemka: <b>M = (Q, Σ, Γ, δ, q₀, Z₀, F)</b><br>• <b>Q</b>: skończony zbiór stanów<br>• <b>Σ</b>: alfabet wejściowy<br>• <b>Γ</b>: alfabet stosowy<br>• <b>δ</b>: funkcja przejścia: Q × (Σ ∪ {ε}) × Γ → P(Q × Γ*)<br>• <b>q₀</b>: stan początkowy	egzamin pyt01 AISDI detail
+Wyjaśnij: Maszyna Turinga (Turing Machine - TM)	<b>Definicja:</b> Maszyna Turinga to siódemka: <b>M = (Q, Σ, Γ, δ, q₀, qaccept, qreject)</b><br>• <b>Q</b>: skończony zbiór stanów<br>• <b>Σ</b>: alfabet wejściowy (nie zawiera symbolu pustego ␣)<br>• <b>Γ</b>: alfabet taśmowy (Σ ⊂ Γ, ␣ ∈ Γ)<br>• <b>δ</b>: funkcja przejścia: Q × Γ → Q × Γ × {L, R}<br>• <b>q₀</b>: stan początkowy	egzamin pyt01 AISDI detail
+Omówić i porównać algorytmy najkrótszej ścieżki wskazując ich kluczowe właściwości i logikę budowy: Dijkstry, Belmana-Forda, A*.	<b>Single-Source Shortest Path (SSSP)</b>: z jednego źródła do wszystkich wierzchołków<br><b>Single-Pair Shortest Path</b>: z s do konkretnego t<br><b>All-Pairs Shortest Path (APSP)</b>: między wszystkimi parami (Floyd-Warshall)	egzamin pyt02 AISDI main
+Wyjaśnij: Wprowadzenie - problem najkrótszej ścieżki	<b>Single-Source Shortest Path (SSSP)</b>: z jednego źródła do wszystkich wierzchołków<br><b>Single-Pair Shortest Path</b>: z s do konkretnego t<br><b>All-Pairs Shortest Path (APSP)</b>: między wszystkimi parami (Floyd-Warshall)	egzamin pyt02 AISDI detail
+Wyjaśnij: Charakterystyka	• <b>Autor:</b>: Edsger Dijkstra (1956, opublikowany 1959)<br>• <b>Typ:</b>: Zachłanny (greedy)<br>• <b>Problem:</b>: SSSP - najkrótsze ścieżki z jednego źródła do wszystkich wierzchołków<br>• <b>Ograniczenie:</b>: ⚠️ <b>Tylko nieujemne wagi krawędzi</b> (w(e) ≥ 0)	egzamin pyt02 AISDI detail
+Wyjaśnij: Idea algorytmu (logika budowy)	1. <b>Relaksacja:</b> Stopniowe ulepszanie oszacowań odległości
+2. <b>Zachłanność:</b> W każdym kroku wybieramy wierzchołek o najmniejszej znanej odległości
+3. <b>Optymalna podstruktura:</b> Najkrótsza ścieżka składa się z najkrótszych podścieżek	egzamin pyt02 AISDI detail
+Wyjaśnij: Pseudokod	```
+DIJKSTRA(G, w, s):
+ // Inicjalizacja
+ for each v ∈ V:
+ d[v] ← ∞
+ π[v] ← NIL
+ d[s] ← 0
+ 
+ Q ← priority_queue(V) // min-heap według d[v]
+ S ← ∅ // zbiór przetworzonych
+ 
+ while Q ≠ ∅:
+ u ← EXTRACT-MIN(Q)
+ S ← S ∪ {u}	egzamin pyt02 AISDI detail
+Wyjaśnij: Złożoność czasowa	| Implementacja kolejki | EXTRACT-MIN | DECREASE-KEY | Całkowita |
+|----------------------|-------------|--------------|-----------|
+| Lista/tablica | O(V) | O(1) | <b>O(V²)</b> |
+| Kopiec binarny | O(log V) | O(log V) | <b>O((V + E) log V)</b> |
+| Kopiec Fibonacciego | O(log V)<i> | O(1)</i> | **O(V log V + E	egzamin pyt02 AISDI detail
+Wyjaśnij: Dlaczego nie działa dla ujemnych wag?	```
+ A ---(-5)--- B
+ | |
+ (1) (1)
+ | |
+ S -----------C
+ (2)
+```<br>Dijkstra przetwarza wierzchołki w kolejności rosnącej odległości i oznacza je jako &quot;zakończone&quot;. Jeśli waga może być ujemna, późniejszy wierzchołek może &quot;poprawić&quot; już zakończony.	egzamin pyt02 AISDI detail
+Wyjaśnij: Wykrywanie cyklu ujemnego	Po |V|-1 iteracjach, wszystkie najkrótsze ścieżki (bez cykli) są znalezione.
+Jeśli w iteracji |V| nadal można zrelaksować krawędź → istnieje cykl ujemny.	egzamin pyt02 AISDI detail
+Wyjaśnij: Heurystyka - kluczowy element	1. <b>Dopuszczalność (Admissibility):</b>
+ h(n) ≤ h<i>(n) dla każdego n
+ 
+ gdzie h</i>(n) = rzeczywisty koszt n → cel
+ 
+ → Gwarantuje optymalność rozwiązania<br>2. <b>Spójność/Monotoniczność (Consistency):</b>
+ h(n) ≤ w(n, m) + h(m) dla każdej krawędzi (n, m)
+ 
+ → Gwarantuje, że węzeł nie musi być ponownie otwarty
+ → Spójność implikuje dopuszczalność	egzamin pyt02 AISDI detail
+Wyjaśnij: Przypadki specjalne:	• <b>h(n) = 0:</b>: A* = Dijkstra	egzamin pyt02 AISDI detail
+Wyjaśnij: Dijkstra	• <b>Nawigacja GPS</b>: (drogi nie mają ujemnych odległości)<br>• <b>Routing w sieciach</b>: (OSPF protocol)<br>• <b>Mapy Google/Apple</b>: (dla małych obszarów)	egzamin pyt02 AISDI detail
+Wyjaśnij: Bellman-Ford	• <b>Routing w sieciach</b>: (RIP protocol - prostszy)<br>• <b>Arbitraż walutowy</b>: (szukanie cykli ujemnych = zysk!)<br>• <b>Systemy z &quot;karami&quot;</b>: (ujemne wagi = bonusy)	egzamin pyt02 AISDI detail
+Wyjaśnij: A*	• <b>Gry komputerowe</b>: pathfinding NPC, RTS<br>• <b>Robotyka</b>: planowanie ruchu<br>• <b>Puzzle</b>: 8-puzzle, 15-puzzle<br>• <b>Nawigacja</b>: gdy znamy pozycję celu<br>• <b>Dijkstra:</b>: Relaksuje krawędzie wychodzące z wierzchołka o minimalnym d[v]	egzamin pyt02 AISDI detail
+Omówić zagadnienia redundancji i normalizacji w relacyjnej bazie danych oraz wynikające z tego wymagania.	• <b>Redundancja</b>: = niepożądane powtarzanie danych<br>• <b>Normalizacja</b>: = proces eliminacji redundancji poprzez dekompozycję relacji	egzamin pyt03 BD2 main
+Wyjaśnij: Wprowadzenie	• <b>Redundancja</b>: = niepożądane powtarzanie danych<br>• <b>Normalizacja</b>: = proces eliminacji redundancji poprzez dekompozycję relacji	egzamin pyt03 BD2 detail
+Wyjaśnij: Definicja	<b>Redundancja</b> występuje, gdy ta sama informacja jest przechowywana w wielu miejscach bazy danych, co prowadzi do:
+- Marnowania pamięci
+- Niespójności danych (anomalii)
+- Trudności w utrzymaniu	egzamin pyt03 BD2 detail
+Wyjaśnij: Anomalie wynikające z redundancji	<b>Problemy:</b>: &quot;Bazy Danych&quot; i &quot;Dr Nowak&quot; powtórzono 3 razy	egzamin pyt03 BD2 detail
+Wyjaśnij: Trzy typy anomalii	#### 1. Anomalia wstawiania (Insertion Anomaly)
+<b>Problem:</b> Nie można dodać danych bez dodania innych, niepotrzebnych danych.<br><b>Przykład:</b> Nie możemy dodać nowego kursu &quot;Sieci komputerowe&quot; bez przypisania do niego studenta.	egzamin pyt03 BD2 detail
+Wyjaśnij: Podstawowe pojęcia	#### Zależność funkcyjna (Functional Dependency - FD)
+<b>X → Y</b> oznacza: wartość X jednoznacznie określa wartość Y<br><b>Przykład:</b> StudentID → (Imię, Nazwisko)
+- Znając StudentID, możemy jednoznacznie określić imię i nazwisko	egzamin pyt03 BD2 detail
+Wyjaśnij: Hierarchia postaci normalnych	```
+5NF ⊂ 4NF ⊂ BCNF ⊂ 3NF ⊂ 2NF ⊂ 1NF
+```<br>Każda wyższa postać implikuje niższą.	egzamin pyt03 BD2 detail
+Wyjaśnij: 1NF - Pierwsza Postać Normalna	<b>Atomowość wartości</b>: każda komórka zawiera jedną, niepodzielną wartość<br><b>Brak powtarzających się grup</b>: brak tablic/list w komórkach	egzamin pyt03 BD2 detail
+Wyjaśnij: 2NF - Druga Postać Normalna	#### Wymagania:
+1. Spełnia 1NF
+2. <b>Każdy atrybut wtórny jest w pełni funkcyjnie zależny od całego klucza głównego</b> (nie od jego części)<br>Dotyczy tylko tabel z <b>kluczem złożonym</b> (wielokolumnowym).	egzamin pyt03 BD2 detail
+Wyjaśnij: 3NF - Trzecia Postać Normalna	<b>Brak przechodnich zależności funkcyjnych</b>: atrybuty wtórne nie zależą od innych atrybutów wtórnych	egzamin pyt03 BD2 detail
+Wyjaśnij: BCNF - Postać Normalna Boyce'a-Codda	#### Wymagania:
+1. Spełnia 3NF
+2. <b>Dla każdej nietrywialnej FD X → Y, X jest nadkluczem</b><br>BCNF jest silniejsza niż 3NF - eliminuje przypadki, gdy atrybut pierwszy zależy od atrybutu niebędącego nadkluczem.	egzamin pyt03 BD2 detail
+Wyjaśnij: 4NF - Czwarta Postać Normalna	#### Wymagania:
+1. Spełnia BCNF
+2. <b>Brak nietrywialnych zależności wielowartościowych</b> (MVD - Multivalued Dependencies)<br><b>Zależność wielowartościowa X ↠ Y:</b> Dla danego X istnieje zbiór wartości Y niezależny od innych atrybutów.	egzamin pyt03 BD2 detail
+Wyjaśnij: 5NF - Piąta Postać Normalna (PJNF)	#### Wymagania:
+1. Spełnia 4NF
+2. <b>Brak zależności połączeniowych</b> (Join Dependencies)
+3. Dekompozycja bez strat tylko na podstawie kluczy kandydujących<br>5NF eliminuje redundancję wynikającą z niemożliwości odtworzenia oryginalnej relacji przez złączenie jej projekcji.	egzamin pyt03 BD2 detail
+Wyjaśnij: Algorytm dekompozycji do 3NF	1. <b>Znajdź pokrycie kanoniczne</b> zbioru zależności funkcyjnych
+2. <b>Dla każdej FD X → A</b> utwórz relację R(X, A)
+3. <b>Jeśli żadna relacja nie zawiera klucza kandydującego</b>, dodaj relację z atrybutami klucza
+4. <b>Usuń relacje zawarte w innych relacjach</b>	egzamin pyt03 BD2 detail
+Wyjaśnij: Własności dobrej dekompozycji	#### 1. Bezstratność (Lossless Join)
+Po dekompozycji można odtworzyć oryginalną relację przez złączenie naturalne.<br><b>Twierdzenie:</b> Dekompozycja R na R₁ i R₂ jest bezstratna wtw gdy:
+- R₁ ∩ R₂ → R₁, lub
+- R₁ ∩ R₂ → R₂	egzamin pyt03 BD2 detail
+Wyjaśnij: Kiedy stosować?	• <b>Optymalizacja wydajności</b>: złączenia są kosztowne<br>• <b>Systemy OLAP/hurtownie danych</b>: dane głównie odczytywane<br>• <b>Raportowanie</b>: predefiniowane zapytania	egzamin pyt03 BD2 detail
+Wyjaśnij: Techniki denormalizacji:	<b>Dodanie redundantnych kolumn</b>: unikanie złączeń<br><b>Tabele historyczne</b>: snapshoty<br><b>Materializowane widoki</b>: cache wyników	egzamin pyt03 BD2 detail
+Wyjaśnij: Wzór na 3NF:	> &quot;Każdy atrybut zależy od <b>klucza</b>, <b>całego klucza</b> i <b>tylko od klucza</b>.&quot;
+> (The key, the whole key, and nothing but the key - so help me Codd!)<br>## ❓ Możliwe pytania dodatkowe (follow-up)	egzamin pyt03 BD2 detail
+Dlaczego baza danych stanowi dobry fundament do budowy wielu systemów informatycznych?	Baza danych to <b>centralny komponent</b> większości systemów informatycznych, ponieważ zapewnia:
+- Trwałe przechowywanie danych
+- Współbieżny dostęp
+- Integralność i spójność
+- Niezależność danych od aplikacji	egzamin pyt04 BD2 main
+Wyjaśnij: Transakcyjność - gwarancje ACID	| Właściwość | Opis | Znaczenie |
+|------------|------|-----------|
+| <b>A</b>tomicity (Atomowość) | Transakcja wykonuje się w całości lub wcale | Brak częściowych zmian |
+| <b>C</b>onsistency (Spójność) | Dane przechodzą z jednego spójnego stanu w drugi | Reguły biznesowe zawsze spełnione |
+| <b>I</b>solati	egzamin pyt04 BD2 detail
+Wyjaśnij: Trójpoziomowa architektura ANSI/SPARC	```
+┌─────────────────────────────────────────┐
+│ Poziom zewnętrzny (widoki) │ ← Aplikacje widzą różne &quot;okna&quot;
+├─────────────────────────────────────────┤
+│ Poziom konceptualny (logiczny) │ ← Struktura logiczna danych
+├─────────────────────────────────────────┤
+│ Poziom we	egzamin pyt04 BD2 detail
+Wyjaśnij: Rodzaje niezależności	#### 1. Niezależność fizyczna
+Zmiana sposobu przechowywania (indeksy, partycjonowanie, kompresja) <b>nie wpływa</b> na aplikacje.<br><b>Przykład:</b> Dodanie indeksu przyspiesza zapytania bez zmiany kodu aplikacji.	egzamin pyt04 BD2 detail
+Wyjaśnij: Problem współbieżności	Wiele aplikacji/użytkowników <b>jednocześnie</b> korzysta z tych samych danych.	egzamin pyt04 BD2 detail
+Wyjaśnij: Mechanizmy kontroli współbieżności	| Mechanizm | Opis | Zastosowanie |
+|-----------|------|--------------|
+| <b>Blokady (Locks)</b> | Pesymistyczne - blokuj przed dostępem | Wysokie konflikty |
+| <b>MVCC</b> | Optymistyczne - wersjonowanie | Dużo odczytów |
+| <b>Timestamp Ordering</b> | Szeregowanie po czasie | Systemy rozproszone |
+| **Snaps	egzamin pyt04 BD2 detail
+Wyjaśnij: Poziomy izolacji (SQL Standard)	| Poziom | Dirty Read | Non-repeatable Read | Phantom Read |
+|--------|------------|---------------------|--------------|
+| READ UNCOMMITTED | Możliwy | Możliwy | Możliwy |
+| READ COMMITTED | Niemożliwy | Możliwy | Możliwy |
+| REPEATABLE READ | Niemożliwy | Niemożliwy | Możliwy |
+| SERIALIZABLE | Ni	egzamin pyt04 BD2 detail
+Wyjaśnij: Mechanizmy wymuszania integralności	#### 1. Ograniczenia deklaratywne
+```sql
+CREATE TABLE Zamowienia (
+ id INT PRIMARY KEY, -- Klucz główny
+ klient_id INT NOT NULL, -- NOT NULL
+ data DATE DEFAULT CURRENT_DATE, -- Wartość domyślna
+ kwota DECIMAL(10,2) CHECK (kwota ><br>#### 2. Wyzwalacze (Triggers)
+```sql
+CREATE TRIGGER sprawdz_saldo
+BEFORE UPDATE ON Konta
+FOR EACH ROW
+BEGIN
+ IF NEW.saldo < 0 THEN
+ SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Brak środków';
+ END IF;
+END;
+```	egzamin pyt04 BD2 detail
+Wyjaśnij: Optymalizator zapytań	SZBD automatycznie:
+1. <b>Analizuje zapytanie</b> (parsing)
+2. <b>Generuje plany wykonania</b> (alternatywy)
+3. <b>Szacuje koszty</b> (statystyki)
+4. <b>Wybiera najlepszy plan</b> (optymalizacja)	egzamin pyt04 BD2 detail
+Wyjaśnij: Mechanizmy wydajności	| Mechanizm | Funkcja |
+|-----------|---------|
+| <b>Indeksy</b> | Szybkie wyszukiwanie (B-tree, Hash, GiST) |
+| <b>Buforowanie</b> | Cache często używanych danych |
+| <b>Partycjonowanie</b> | Podział dużych tabel |
+| <b>Materializowane widoki</b> | Prekompilowane złączenia |
+| <b>Query cache</b> | Cache wyników z	egzamin pyt04 BD2 detail
+Wyjaśnij: Wielopoziomowe zabezpieczenia	```
+┌─────────────────────────────────────────┐
+│ Autoryzacja (GRANT/REVOKE) │
+├─────────────────────────────────────────┤
+│ Autentykacja (użytkownicy, role) │
+├─────────────────────────────────────────┤
+│ Szyfrowanie (TDE, SSL/TLS) │
+├───────────────────────────────	egzamin pyt04 BD2 detail
+Wyjaśnij: Kontrola dostępu	-- Przypisanie użytkownika
+GRANT analityk TO jan_kowalski;<br>-- Widok ograniczający dane
+CREATE VIEW MojeZamowienia AS
+ SELECT * FROM Zamowienia WHERE sprzedawca = CURRENT_USER;
+```	egzamin pyt04 BD2 detail
+Wyjaśnij: Skalowanie pionowe (Scale-up)	- Więcej RAM, szybsze CPU, dyski SSD
+- Proste, ale ograniczone	egzamin pyt04 BD2 detail
+Wyjaśnij: Skalowanie poziome (Scale-out)	• <b>Replikacja</b>: kopie do odczytu<br>• <b>Sharding</b>: podział danych między serwery<br>• <b>Klastry</b>: wysoka dostępność	egzamin pyt04 BD2 detail
+Wyjaśnij: Wysoka dostępność (HA)	| Rozwiązanie | Opis |
+|-------------|------|
+| <b>Replikacja Master-Slave</b> | Odczyty z replik |
+| <b>Replikacja Master-Master</b> | Zapisy na wielu węzłach |
+| <b>Failover automatyczny</b> | Przełączanie przy awarii |
+| <b>Backup/Recovery</b> | Odtwarzanie po katastrofie |<br>## 8. Standaryzacja i ekosystem	egzamin pyt04 BD2 detail
+Wyjaśnij: SQL jako lingua franca	• <b>Standardowy język</b>: SQL:2016, SQL:2023<br>• <b>Przenośność</b>: kod działa na różnych SZBD<br>• <b>Narzędzia</b>: uniwersalne IDE, ORM, ETL	egzamin pyt04 BD2 detail
+Wyjaśnij: Bogaty ekosystem	• <b>ORM</b>: (Hibernate, Entity Framework, SQLAlchemy)<br>• <b>Narzędzia migracji</b>: (Flyway, Liquibase)<br>• <b>Monitorowanie</b>: (Grafana, Datadog)<br>• <b>Backup</b>: (pg_dump, mysqldump, RMAN)	egzamin pyt04 BD2 detail
+Wyjaśnij: Jeden fundament, wiele modeli	| Model | SZBD | Zastosowanie |
+|-------|------|--------------|
+| <b>Relacyjny</b> | PostgreSQL, MySQL, Oracle | OLTP, dane strukturalne |
+| <b>Dokumentowy</b> | MongoDB, CouchDB | JSON, elastyczne schematy |
+| <b>Klucz-wartość</b> | Redis, DynamoDB | Cache, sesje |
+| <b>Grafowy</b> | Neo4j, Amazon Neptune | Re	egzamin pyt04 BD2 detail
+Wyjaśnij: Polyglot Persistence	<b>wielu baz</b>: każda do swojego celu.	egzamin pyt04 BD2 detail
+Omówić główne kategorie elementów biblioteki STL. Jaka jest ich rola i wzajemne powiązania? Odpowiedź uzasadnić na przykładach.	• <b>Generyczność</b>: szablony (templates) umożliwiają pracę z dowolnymi typami<br>• <b>Wydajność</b>: zero-overhead abstraction<br>• <b>Modularność</b>: komponenty są niezależne i wymienne<br>• <b>Ortogonalność</b>: kontenery i algorytmy są rozdzielone (przez iteratory)	egzamin pyt05 PROI main
+Wyjaśnij: Filozofia STL	• <b>Generyczność</b>: szablony (templates) umożliwiają pracę z dowolnymi typami<br>• <b>Wydajność</b>: zero-overhead abstraction<br>• <b>Modularność</b>: komponenty są niezależne i wymienne<br>• <b>Ortogonalność</b>: kontenery i algorytmy są rozdzielone (przez iteratory)	egzamin pyt05 PROI detail
+Wyjaśnij: Kategorie kontenerów	#### 1.1 Kontenery sekwencyjne (Sequence Containers)<br>Przechowują elementy w określonej kolejności.	egzamin pyt05 PROI detail
+Wyjaśnij: Hierarchia iteratorów	```
+ Input Iterator Output Iterator
+ ↓ ↓
+ Forward Iterator ←────────┘
+ ↓
+ Bidirectional Iterator
+ ↓
+ Random Access Iterator	egzamin pyt05 PROI detail
+Wyjaśnij: Kategorie iteratorów	| Kategoria | Operacje | Przykłady kontenerów |
+|-----------|----------|---------------------|
+| <b>Input</b> | `++`, `<i>`, `==`, `!=` | istream_iterator |
+| <b>Output</b> | `++`, `</i>` (zapis) | ostream_iterator |
+| <b>Forward</b> | Input + wielokrotne przejście | forward_list, unordered_* |
+| **Bidirectional*<br>std::vector<int> vec = {1, 2, 3, 4, 5};	egzamin pyt05 PROI detail
+Wyjaśnij: Iteratory specjalne	```cpp
+#include <iterator>
+#include <iostream>
+#include <vector><br>std::vector<int> vec = {1, 2, 3};	egzamin pyt05 PROI detail
+Wyjaśnij: Kategorie algorytmów	#### 3.1 Algorytmy niemodyfikujące<br>std::vector<int> vec = {1, 2, 3, 4, 5, 3};	egzamin pyt05 PROI detail
+Wyjaśnij: Rodzaje funktorów	#### 4.1 Predefiniowane funktory (`<functional>`)<br>std::vector<int> vec = {3, 1, 4, 1, 5};	egzamin pyt05 PROI detail
+Wyjaśnij: Kluczowa zasada: Ortogonalność	<b>M kontenerów × N algorytmów = M + N implementacji</b> (nie M × N!)<br>Dzięki iteratorom:
+- Algorytm `sort` działa z `vector`, `deque`, `array`
+- Każdy nowy kontener automatycznie współpracuje z istniejącymi algorytmami
+- Każdy nowy algorytm automatycznie współpracuje z istniejącymi kontenerami	egzamin pyt05 PROI detail
+Omówić metody reużywalności kodu i struktur danych w obiektowych językach programowania.	<b>Reużywalność kodu (code reuse)</b> to fundamentalna zasada inżynierii oprogramowania - &quot;nie wynajduj koła na nowo&quot;. W programowaniu obiektowym mamy kilka mechanizmów umożliwiających wielokrotne wykorzystanie kodu.<br>### Główne metody reużywalności	egzamin pyt06 PROI main
+Wyjaśnij: Główne metody reużywalności	```
+┌─────────────────────────────────────────────────────────────────┐
+│ METODY REUŻYWALNOŚCI │
+├─────────────────┬─────────────────┬─────────────────────────────┤
+│ DZIEDZICZENIE │ KOMPOZYCJA │ PROGRAMOWANIE │
+│ (Inheritance) │ (C<br>## 1. Dziedziczenie (Inheritance)	egzamin pyt06 PROI detail
+Wyjaśnij: Typy dziedziczenia	| Typ | Opis | Języki |
+|-----|------|--------|
+| <b>Pojedyncze</b> | Jedna klasa bazowa | Java, C# |
+| <b>Wielokrotne</b> | Wiele klas bazowych | C++, Python |
+| <b>Wielopoziomowe</b> | A → B → C | Wszystkie |
+| <b>Hierarchiczne</b> | A → B, A → C | Wszystkie |	egzamin pyt06 PROI detail
+Wyjaśnij: Zalety i wady dziedziczenia	| Zalety | Wady |
+|--------|------|
+| Naturalne modelowanie hierarchii | Silne wiązanie (tight coupling) |
+| Polimorfizm | Problem kruchej klasy bazowej |
+| Łatwe rozszerzanie | Problemy z wielodziedziczeniem (diamond) |
+| Współdzielenie implementacji | Narusza enkapsulację |	egzamin pyt06 PROI detail
+Wyjaśnij: Problem diamentu (Diamond Problem)	```
+ A
+ / \
+ B C
+ \ /
+ D
+```<br>D d;
+// d.metoda(); // BŁĄD: niejednoznaczne!
+d.B::metoda(); // OK - jawne wskazanie
+```	egzamin pyt06 PROI detail
+Wyjaśnij: Typy relacji obiektowych	| Relacja | Siła | Cykl życia | Przykład |
+|---------|------|------------|----------|
+| <b>Kompozycja</b> | Silna | Zależny (owns) | Samochód → Silnik |
+| <b>Agregacja</b> | Słaba | Niezależny (uses) | Uniwersytet → Student |
+| <b>Asocjacja</b> | Luźna | Niezależny | Klient ↔ Zamówienie |<br>// Agregacja - student istnieje niezależnie od uniwersytetu
+class Uniwersytet {
+private:
+ std::vector<Student<i>> studenci; // Wskaźniki/referencje
+public:
+ void dodajStudenta(Student</i> s) { studenci.push_back(s); }
+ // ~Uniwersytet() NIE niszczy studentów
+};
+```	egzamin pyt06 PROI detail
+Wyjaśnij: Szablony w C++	```cpp
+// Szablon funkcji
+template<typename T>
+T maximum(T a, T b) {
+ return (a > b) ? a : b;
+}<br>// Użycie - kompilator generuje wersje dla każdego typu
+int m1 = maximum(3, 5); // int
+double m2 = maximum(3.14, 2.71); // double
+std::string m3 = maximum(&quot;abc&quot;, &quot;xyz&quot;); // string	egzamin pyt06 PROI detail
+Wyjaśnij: Generyki w Java/C#	```java
+// Java
+public class Box<T> {
+ private T value;
+ 
+ public void set(T value) { this.value = value; }
+ public T get() { return value; }
+}<br>// Ograniczenia typów (bounded type parameters)
+public <T extends Comparable<T>> T max(T a, T b) {
+ return a.compareTo(b) > 0 ? a : b;
+}
+```	egzamin pyt06 PROI detail
+Wyjaśnij: Zalety programowania generycznego	| Zaleta | Opis |
+|--------|------|
+| <b>Type safety</b> | Błędy wykrywane w czasie kompilacji |
+| <b>Brak duplikacji</b> | Jeden kod dla wielu typów |
+| <b>Wydajność</b> | C++: specjalizacja w kompilacji, brak rzutowania |
+| <b>Czytelność</b> | Jawne wymagania typów |	egzamin pyt06 PROI detail
+Wyjaśnij: Interfejsy vs Klasy abstrakcyjne	| Cecha | Interfejs | Klasa abstrakcyjna |
+|-------|-----------|-------------------|
+| Wielodziedziczenie | TAK | NIE (Java/C#) |
+| Pola | NIE (do Java 8) | TAK |
+| Konstruktor | NIE | TAK |
+| Implementacja metod | default (Java 8+) | TAK |
+| Cel | Definiuje kontrakt | Współdzieli implementację |	egzamin pyt06 PROI detail
+Wyjaśnij: Wzorzec strategii (Strategy Pattern)	```cpp
+// Interfejs strategii
+class SortStrategy {
+public:
+ virtual void sort(std::vector<int>& data) = 0;
+ virtual ~SortStrategy() = default;
+};<br>class QuickSort : public SortStrategy {
+public:
+ void sort(std::vector<int>& data) override { /<i> quicksort </i>/ }
+};	egzamin pyt06 PROI detail
+Wyjaśnij: Mixiny (Mixins)	Klasy dostarczające funkcjonalność do &quot;wmieszania&quot; do innych klas.<br>class XMLSerializableMixin:
+ def to_xml(self):
+ # implementacja...
+ pass	egzamin pyt06 PROI detail
+Wyjaśnij: Traity (Traits)	```rust
+// Rust - traits
+trait Drawable {
+ fn draw(&self);
+}<br>trait Movable {
+ fn move_to(&mut self, x: i32, y: i32);
+}	egzamin pyt06 PROI detail
+Wyjaśnij: Poziomy reużywalności	```
+┌─────────────────────────────────────────────────────┐
+│ FRAMEWORK │
+│ (IoC, definiuje architekturę aplikacji) │
+├─────────────────────────────────────────────────────┤
+│ BIBLIOTEKA │
+│ (kolekcja	egzamin pyt06 PROI detail
+Wyjaśnij: Wzorce wspierające reużywalność	| Wzorzec | Typ | Cel |
+|---------|-----|-----|
+| <b>Factory Method</b> | Kreacyjny | Delegacja tworzenia obiektów |
+| <b>Abstract Factory</b> | Kreacyjny | Rodziny powiązanych obiektów |
+| <b>Prototype</b> | Kreacyjny | Klonowanie obiektów |
+| <b>Adapter</b> | Strukturalny | Dopasowanie interfejsów |
+| **Decor	egzamin pyt06 PROI detail
+Które serwery DNS najwięcej zyskują dzięki buforowaniu zapytań (caching) w serwerach rekursywnych? Jakie znasz rodzaje serwerów DNS?	<b>DNS (Domain Name System)</b> to hierarchiczny, rozproszony system tłumaczenia nazw domenowych na adresy IP (i odwrotnie).	egzamin pyt07 SKM main
+Wyjaśnij: Wprowadzenie do DNS	<b>DNS (Domain Name System)</b> to hierarchiczny, rozproszony system tłumaczenia nazw domenowych na adresy IP (i odwrotnie).	egzamin pyt07 SKM detail
+Wyjaśnij: Hierarchia DNS	```
+ . (root)
+ /|\
+ / | \
+ com org pl
+ /|\ |
+ / | \ |
+ google amazon pw
+ | |
+ www elka
+```	egzamin pyt07 SKM detail
+Wyjaśnij: 1 Serwery autorytatywne (Authoritative)	• <b>13 logicznych serwerów:</b>: a.root-servers.net do m.root-servers.net<br>• <b>Fizycznie:</b>: Setki serwerów (anycast)<br>• <b>Funkcja:</b>: Wskazują serwery TLD<br>• <b>gTLD:</b>: .com, .org, .net (generic)<br>• <b>ccTLD:</b>: .pl, .de, .uk (country code)	egzamin pyt07 SKM detail
+Wyjaśnij: 2 Serwery rekursywne (Recursive Resolvers)	<b>Definicja:</b> Wykonują pełne rozwiązywanie nazw w imieniu klienta, pytając kolejno serwery autorytatywne.	egzamin pyt07 SKM detail
+Wyjaśnij: 3 Stub Resolvers (Resolwery klienckie)	<b>Definicja:</b> Prosty klient DNS w systemie operacyjnym. Wysyła zapytanie do rekursywnego resolvera i czeka na odpowiedź.<br>- Windows: usługa DNS Client
+- Linux: libc resolver (nsswitch.conf, resolv.conf)
+- Nie wykonuje rekurencji sam	egzamin pyt07 SKM detail
+Wyjaśnij: 4 Forwarding Servers (Przekazujące)	<b>Definicja:</b> Przyjmują zapytania i przekazują je do innego resolvera zamiast samodzielnie rozwiązywać.<br>## 2. Proces rozwiązywania DNS (Resolution)	egzamin pyt07 SKM detail
+Wyjaśnij: Zapytanie rekursywne vs iteracyjne	```
+ZAPYTANIE REKURSYWNE (klient → resolver):
+&quot;Daj mi odpowiedź na www.example.com&quot;
+→ Resolver musi zwrócić ostateczną odpowiedź lub błąd<br>ZAPYTANIE ITERACYJNE (resolver → authoritative):
+&quot;Co wiesz o www.example.com?&quot;
+→ Serwer zwraca odpowiedź lub odesłanie (referral)
+```	egzamin pyt07 SKM detail
+Wyjaśnij: Pełny proces rozwiązywania	```
+Klient Recursive Root .com TLD example.com
+ │ Resolver │ │ │
+ │──(1) www.example.com?──→│ │ │ │
+ │ │──(2) query?───→│ │ │<br>## 3. Buforowanie (Caching) w DNS	egzamin pyt07 SKM detail
+Wyjaśnij: Jak działa caching?	<b>Po wygaśnięciu TTL</b>: pyta ponownie serwer autorytatywny	egzamin pyt07 SKM detail
+Wyjaśnij: TTL (Time To Live)	```
+; Fragment strefy DNS
+www.example.com. 300 IN A 93.184.216.34
+ ↑
+ TTL = 300 sekund (5 minut)
+```<br>## 4. Które serwery zyskują najwięcej na cachingu?	egzamin pyt07 SKM detail
+Wyjaśnij: Dlaczego root servers zyskują najwięcej?	```
+BEZ CACHINGU:
+┌────────────────────────────────────────────────────────────────┐
+│ Każde zapytanie DNS → najpierw pytanie do root server │
+│ Miliardy zapytań dziennie → root servers byłyby przeciążone! │
+└────────────────────────────────────────────────────────────────┘<br>Z CACHINGIEM:
+┌────────────────────────────────────────────────────────────────┐
+│ Resolver pyta root server RAZ o serwery .com │
+│ Cache przechowuje referral przez długi czas (np. 48h) │
+│ Kolejne tysiące zapytań o .com → z cache, bez root │
+└────────────────────	egzamin pyt07 SKM detail
+Wyjaśnij: Analiza ilościowa	| Poziom | Liczba domen | Zapytania bez cache | Z cache |
+|--------|--------------|---------------------|---------|
+| <b>Root</b> | 1 (.) | ~100% zapytań | ~0.01% |
+| <b>TLD</b> | ~1500 | ~100% zapytań | ~0.1% |
+| <b>Authoritative</b> | Miliony | Proporcjonalnie | Zależne od TTL |	egzamin pyt07 SKM detail
+Wyjaśnij: Dlaczego ROOT i TLD zyskują więcej niż authoritative?	<b>Mniejsza liczba = więcej zapytań na serwer:</b>: 13 root servers vs miliony domen<br><b>Długie TTL referrali:</b>: Root NS referrals: TTL 48h - 7 dni	egzamin pyt07 SKM detail
+Wyjaśnij: Podsumowanie zysków z cachingu	```
+REDUKCJA RUCHU DZIĘKI CACHINGOWI:<br>Root Servers: ████████████████████████████░░ ~99.9% redukcja
+TLD Servers: ██████████████████████████░░░░ ~99% redukcja 
+Authoritative: ████████████░░░░░░░░░░░░░░░░░░ ~50-90% redukcja*	egzamin pyt07 SKM detail
+Jaki jest cel uzgadniania trójetapowego (three way handshake) w protokole TCP? Jaka jest interpretacja numerów sekwencyjnych i potwierdzenia? Jaka jest wartość początkowa numeru sekwencyjnego?	<b>TCP (Transmission Control Protocol)</b> to protokół warstwy transportowej zapewniający:
+- Niezawodne dostarczanie danych
+- Kontrolę przepływu
+- Kontrolę przeciążenia
+- Połączeniowość (connection-oriented)	egzamin pyt08 SKM main
+Wyjaśnij: Wprowadzenie do TCP	<b>TCP (Transmission Control Protocol)</b> to protokół warstwy transportowej zapewniający:
+- Niezawodne dostarczanie danych
+- Kontrolę przepływu
+- Kontrolę przeciążenia
+- Połączeniowość (connection-oriented)<br>## 1. Three-Way Handshake - cel i przebieg	egzamin pyt08 SKM detail
+Wyjaśnij: Cele uzgadniania trójetapowego	<b>Nawiązanie połączenia</b>: obie strony zgadzają się na komunikację<br><b>Synchronizacja numerów sekwencyjnych</b>: ISN (Initial Sequence Number)<br><b>Uzgodnienie parametrów</b>: MSS, Window Scale, SACK, Timestamps<br><b>Weryfikacja dostępności</b>: obie strony są aktywne i gotowe	egzamin pyt08 SKM detail
+Wyjaśnij: Przebieg (diagram)	```
+ Klient Serwer
+ │ │
+ │ (1) SYN, seq=x │
+ │──────────────────────────────────────────→│
+ │ │
+ │ (2) SYN+ACK, seq=y, ack=	egzamin pyt08 SKM detail
+Wyjaśnij: Szczegółowy opis kroków	#### Krok 1: SYN (Synchronize)
+```
+Klient → Serwer:
+┌────────────────────────────────────────┐
+│ Flaga: SYN = 1 │
+│ Sequence Number: x (ISN klienta) │
+│ Acknowledgment Number: 0 (nieistotny) │
+│ Opcje: MSS, Window Scale, SACK, etc. │
+└────────────────────────────────<br>#### Krok 2: SYN-ACK (Synchronize-Acknowledge)
+```
+Serwer → Klient:
+┌────────────────────────────────────────┐
+│ Flagi: SYN = 1, ACK = 1 │
+│ Sequence Number: y (ISN serwera) │
+│ Acknowledgment Number: x + 1 │
+│ Opcje: MSS, Window Scale, etc. │
+└────────────────	egzamin pyt08 SKM detail
+Wyjaśnij: Interpretacja	<b>Sequence Number (SEQ)</b> = numer pierwszego bajtu danych w segmencie<br>Segment 1: SEQ=0, dane = bajty 0-4 (5 bajtów)
+Segment 2: SEQ=5, dane = bajty 5-9 (5 bajtów) 
+Segment 3: SEQ=10, dane = bajty 10-12 (3 bajty)
+```	egzamin pyt08 SKM detail
+Wyjaśnij: Funkcje numerów sekwencyjnych	| Funkcja | Opis |
+|---------|------|
+| <b>Kolejność</b> | Odbiorca składa segmenty we właściwej kolejności |
+| <b>Wykrywanie duplikatów</b> | Ten sam SEQ = duplikat |
+| <b>Wykrywanie braków</b> | Luka w SEQ = brakujący segment |
+| <b>Potwierdzanie</b> | ACK wskazuje oczekiwany następny SEQ |	egzamin pyt08 SKM detail
+Wyjaśnij: Kumulatywne potwierdzenia	<b>cumulative ACK</b>: potwierdza wszystkie bajty do danego numeru:	egzamin pyt08 SKM detail
+Wyjaśnij: Selective ACK (SACK)	Opcja TCP pozwalająca potwierdzać niesąsiednie bloki:<br>## 4. Wartość początkowa numeru sekwencyjnego (ISN)	egzamin pyt08 SKM detail
+Wyjaśnij: Dlaczego ISN nie zaczyna od 0?	<b>Bezpieczeństwo</b>: przewidywalny ISN umożliwia ataki (TCP hijacking)<br><b>Unikanie kolizji</b>: stare segmenty z poprzednich połączeń nie będą mylone z nowymi	egzamin pyt08 SKM detail
+Wyjaśnij: Generowanie ISN	• <b>M</b>: = timer (jak wyżej)<br>• <b>F</b>: = funkcja kryptograficzna (MD5/SHA)<br>• <b>secretkey</b>: = tajny klucz serwera	egzamin pyt08 SKM detail
+Wyjaśnij: Właściwości dobrego ISN	| Właściwość | Powód |
+|------------|-------|
+| <b>Losowy</b> | Utrudnia ataki typu sequence prediction |
+| <b>Unikalny</b> | Różny dla każdego połączenia |
+| <b>Monotonicznie rosnący</b> | Unikanie kolizji z poprzednimi połączeniami |	egzamin pyt08 SKM detail
+Wyjaśnij: Zakres numerów sekwencyjnych	```
+SEQ: 32 bity → zakres 0 do 4,294,967,295 (2^32 - 1)<br>Przy szybkości 1 Gbps:
+- 125 MB/s danych
+- Przepełnienie (wrap-around) co ~34 sekundy!	egzamin pyt08 SKM detail
+Procesy i wątki w systemie operacyjnym. Omówić budowę, szybkość działania i zakres zastosowania. Przedstawić problemy i możliwości komunikacji i synchronizacji.	<b>Proces</b> i <b>wątek</b> to podstawowe jednostki wykonania w systemach operacyjnych. Różnią się poziomem izolacji i kosztami przełączania.	egzamin pyt09 SOI main
+Wyjaśnij: Budowa procesu	```
+┌─────────────────────────────────────────────────────────────────┐
+│ PRZESTRZEŃ ADRESOWA PROCESU │
+├─────────────────────────────────────────────────────────────────┤
+│ ┌─────────────────┐ │
+│ │ STOS │	egzamin pyt09 SOI detail
+Wyjaśnij: PCB (Process Control Block)	Struktura w jądrze przechowująca informacje o procesie:	egzamin pyt09 SOI detail
+Wyjaśnij: Stany procesu	```
+ ┌──────────────────┐
+ (utworzenie) │ │ (zakończenie)
+ ↓ │ │ ↓
+ ┌─────────┐ │ ┌──────────┐ │ ┌──────────┐
+ │ NEW │───┼──→│ READY │←──┼──│TERMINATED│
+ └─────────┘ │ └──────────┘ │	egzamin pyt09 SOI detail
+Wyjaśnij: Budowa wątku	```
+┌─────────────────────────────────────────────────────────────────┐
+│ PROCES │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ WSPÓŁDZIELONE:	egzamin pyt09 SOI detail
+Wyjaśnij: TCB (Thread Control Block)	| Pole | Opis |
+|------|------|
+| <b>TID</b> | Identyfikator wątku |
+| <b>Stan</b> | Running, Ready, Blocked |
+| <b>Rejestry</b> | PC, SP, rejestry ogólne |
+| <b>Stos</b> | Wskaźnik do prywatnego stosu |
+| <b>Priorytet</b> | Szeregowanie |
+| <b>Wskaźnik do PCB</b> | Proces macierzysty |<br>## 3. Porównanie: Proces vs Wątek	egzamin pyt09 SOI detail
+Wyjaśnij: Tabela porównawcza	| Cecha | Proces | Wątek |
+|-------|--------|-------|
+| <b>Przestrzeń adresowa</b> | Własna, izolowana | Współdzielona z procesem |
+| <b>Tworzenie</b> | Wolne (~ms) | Szybkie (~μs) |
+| <b>Przełączanie kontekstu</b> | Wolne (TLB flush) | Szybkie (tylko rejestry) |
+| <b>Komunikacja</b> | IPC (pipe, socket, shm) |	egzamin pyt09 SOI detail
+Wyjaśnij: Koszty czasowe (typowe)	| Operacja | Czas |
+|----------|------|
+| Tworzenie procesu | 1-10 ms |
+| Tworzenie wątku | 10-100 μs |
+| Przełączanie procesu | 1-10 μs |
+| Przełączanie wątku | 0.1-1 μs |
+| Komunikacja IPC | 1-100 μs |
+| Współdzielona pamięć | 10-100 ns |	egzamin pyt09 SOI detail
+Wyjaśnij: Wątki użytkownika (User-level Threads)	```
+┌─────────────────────────────────────────┐
+│ PRZESTRZEŃ UŻYTKOWNIKA │
+│ ┌─────────────────────────────────┐ │
+│ │ Biblioteka wątków (pthread) │ │
+│ │ ┌─────┐ ┌─────┐ ┌─────┐ │ │
+│ │ │ W1 │ │ W2 │ │ W3 │ │ │
+│ │ └─────┘ └─────┘ └─────┘<br><b>Zalety:</b> Szybkie przełączanie, przenośność
+<b>Wady:</b> Blokujące wywołanie blokuje wszystkie wątki, brak prawdziwej równoległości	egzamin pyt09 SOI detail
+Wyjaśnij: Wątki jądra (Kernel-level Threads)	```
+┌─────────────────────────────────────────┐
+│ PRZESTRZEŃ UŻYTKOWNIKA │
+│ ┌─────┐ ┌─────┐ ┌─────┐ │
+│ │ W1 │ │ W2 │ │ W3 │ │
+│ └──┬──┘ └──┬──┘ └──┬──┘ │
+├─────────┼───────┼───────┼───────────────┤
+│ ↓ ↓ ↓<br><b>Zalety:</b> Prawdziwa równoległość, blokada jednego nie blokuje innych
+<b>Wady:</b> Wolniejsze operacje (wywołanie systemowe)	egzamin pyt09 SOI detail
+Wyjaśnij: Modele mapowania	| Model | Opis | Przykłady |
+|-------|------|-----------|
+| <b>1:1</b> | 1 wątek user = 1 wątek kernel | Linux, Windows |
+| <b>N:1</b> | N wątków user = 1 wątek kernel | Green threads |
+| <b>M:N</b> | M wątków user = N wątków kernel | Solaris, Go goroutines |<br>## 5. Komunikacja między procesami (IPC)	egzamin pyt09 SOI detail
+Wyjaśnij: Mechanizmy IPC	```
+┌─────────────────────────────────────────────────────────────────┐
+│ MECHANIZMY IPC │
+├─────────────────┬─────────────────┬─────────────────────────────┤
+│ SYGNAŁY │ POTOKI │ PAMIĘĆ WSPÓŁDZIELONA │
+│ (Signals) │	egzamin pyt09 SOI detail
+Wyjaśnij: Szczegóły mechanizmów	// Potok nazwany (FIFO)
+mkfifo(&quot;/tmp/myfifo&quot;, 0666);
+```<br><b>Cechy:</b> Jednokierunkowe, FIFO, między powiązanymi procesami (anonimowe)	egzamin pyt09 SOI detail
+Wyjaśnij: Problemy współbieżności	<b>Mutual exclusion</b>: zasób może mieć tylko jeden właściciel<br><b>Hold and wait</b>: trzymaj i czekaj na więcej<br><b>No preemption</b>: nie można odebrać zasobu<br><b>Circular wait</b>: cykliczne oczekiwanie	egzamin pyt09 SOI detail
+Wyjaśnij: Mechanizmy synchronizacji	• <b>Binarny</b>: (0/1) - jak mutex<br>• <b>Licznikowy</b>: ogranicza liczbę wątków (np. pula połączeń)	egzamin pyt09 SOI detail
+Wyjaśnij: Kiedy procesy?	• <b>Izolacja</b>: awaria jednego nie wpływa na inne<br>• <b>Bezpieczeństwo</b>: różne uprawnienia<br>• <b>Różne języki/technologie</b>: mikrousługi<br>• <b>Niezawodność</b>: restart bez wpływu na system	egzamin pyt09 SOI detail
+Wyjaśnij: Kiedy wątki?	• <b>Współdzielenie danych</b>: bez kopiowania<br>• <b>Responsywność</b>: UI thread + worker threads<br>• <b>Równoległość CPU</b>: obliczenia na wielu rdzeniach<br>• <b>I/O asynchroniczne</b>: czekanie nie blokuje wszystkiego	egzamin pyt09 SOI detail
+Scharakteryzować problemy i mechanizmy zarządzania pamięcią. Porównać cechy i przeznaczenie mechanizmów stronicowania i segmentacji.	<b>Zarządzanie pamięcią</b> to jeden z kluczowych zadań systemu operacyjnego:
+- Przydzielanie pamięci procesom
+- Ochrona pamięci między procesami
+- Efektywne wykorzystanie ograniczonego zasobu
+- Abstrakcja (programista nie musi znać fizycznych adresów)	egzamin pyt10 SOI main
+Wyjaśnij: 1 Fragmentacja	#### Fragmentacja zewnętrzna (External Fragmentation)<br><b>Problem:</b> Wolna pamięć jest rozproszona w małych, nieciągłych blokach.	egzamin pyt10 SOI detail
+Wyjaśnij: 2 Ochrona pamięci	- Proces A nie może czytać/pisać pamięci procesu B
+- Jądro chronione przed aplikacjami użytkownika
+- Mechanizmy: rejestry bazowy/graniczny, bity ochrony, ringi	egzamin pyt10 SOI detail
+Wyjaśnij: 3 Relokacja	<b>Rozwiązania:</b>: Relokacja statyczna (loader)	egzamin pyt10 SOI detail
+Wyjaśnij: 4 Współdzielenie	- Biblioteki współdzielone (DLL, .so)
+- Pamięć współdzielona między procesami
+- Copy-on-Write (COW)	egzamin pyt10 SOI detail
+Wyjaśnij: 5 Ograniczona pamięć fizyczna	- Więcej procesów niż RAM
+- Rozwiązanie: pamięć wirtualna + swap<br>## 2. Mechanizmy zarządzania pamięcią	egzamin pyt10 SOI detail
+Wyjaśnij: 1 Partycjonowanie stałe (Fixed Partitioning)	```
+┌────────────────────────────────────────────────────────────────┐
+│ Pamięć podzielona na stałe partycje: │
+│ ┌──────────┬──────────┬──────────┬──────────┐ │
+│ │ Partycja │ Partycja │ Partycja │ Partycja │ │
+│ │ 1MB │ 2MB │	egzamin pyt10 SOI detail
+Wyjaśnij: 2 Partycjonowanie dynamiczne (Dynamic Partitioning)	```
+┌────────────────────────────────────────────────────────────────┐
+│ Partycje tworzone według potrzeb: │
+│ ┌─────┬───────────┬────────┬─────────────────────────────┐ │
+│ │ P1 │ P2 │ P3 │ WOLNA │ │
+│ │ 3MB │ 5MB │ 2MB	egzamin pyt10 SOI detail
+Wyjaśnij: Idea	• <b>Strona (Page)</b>: blok pamięci wirtualnej (4KB typowo)<br>• <b>Ramka (Frame)</b>: blok pamięci fizycznej (ten sam rozmiar)	egzamin pyt10 SOI detail
+Wyjaśnij: Translacja adresu	```
+Adres wirtualny (32-bit, strony 4KB):
+┌────────────────────────┬──────────────┐
+│ Numer strony (20b) │ Offset (12b) │
+└────────────────────────┴──────────────┘
+ │ │
+ ↓ │
+ Tablica stron │
+ │	egzamin pyt10 SOI detail
+Wyjaśnij: Wielopoziomowe tablice stron	<b>Problem:</b> Tablica stron dla 32-bit przestrzeni z 4KB stronami = 2²⁰ wpisów × 4B = <b>4MB per proces!</b><br><b>Rozwiązanie:</b> Hierarchiczna tablica stron	egzamin pyt10 SOI detail
+Wyjaśnij: TLB (Translation Lookaside Buffer)	<b>Problem:</b> Każdy dostęp do pamięci wymaga 2+ odczytów (tablica + dane).<br><b>Rozwiązanie:</b> Cache translacji adresów	egzamin pyt10 SOI detail
+Wyjaśnij: Zalety i wady stronicowania	| Zalety | Wady |
+|--------|------|
+| Brak fragmentacji zewnętrznej | Fragmentacja wewnętrzna (ostatnia strona) |
+| Prosta alokacja (bitmapa ramek) | Narzut tablicy stron |
+| Łatwe współdzielenie (COW) | TLB miss kosztowny |
+| Pamięć wirtualna naturalna | Nie odpowiada strukturze programu |<br>## 4. Segmentacja (Segmentation)	egzamin pyt10 SOI detail
+Wyjaśnij: Ochrona w segmentacji	• <b>R</b>: (Read) - odczyt dozwolony<br>• <b>W</b>: (Write) - zapis dozwolony<br>• <b>X</b>: (Execute) - wykonanie dozwolone	egzamin pyt10 SOI detail
+Wyjaśnij: Zalety i wady segmentacji	| Zalety | Wady |
+|--------|------|
+| Odpowiada strukturze programu | Fragmentacja zewnętrzna |
+| Naturalna ochrona (per segment) | Segmenty o zmiennej wielkości |
+| Łatwe współdzielenie (cały segment) | Kompaktowanie potrzebne |
+| Dynamiczny wzrost segmentów | Skomplikowana alokacja |<br>## 5. Porównanie: Stronicowanie vs Segmentacja	egzamin pyt10 SOI detail
+Wyjaśnij: Intel x86 (tryb chroniony)	<b>flat memory model</b>: wszystkie segmenty pokrywają całą przestrzeń adresową, efektywnie wyłączając segmentację.	egzamin pyt10 SOI detail
+Wyjaśnij: Zalety hybrydowego podejścia	1. <b>Ochrona</b> z segmentacji (kod vs dane vs stos)
+2. <b>Brak fragmentacji zewnętrznej</b> ze stronicowania
+3. <b>Pamięć wirtualna</b> ze stronicowania<br>## 7. Pamięć wirtualna (Virtual Memory)	egzamin pyt10 SOI detail
+Wyjaśnij: Algorytmy zastępowania stron	| Algorytm | Opis | Właściwości |
+|----------|------|-------------|
+| <b>FIFO</b> | Najstarsza strona | Prosty, anomalia Bélády'ego |
+| <b>LRU</b> | Najdawniej używana | Optymalny offline, kosztowny |
+| <b>LRU Approximation</b> | Clock, Second Chance | Praktyczny kompromis |
+| <b>LFU</b> | Najrzadziej używana |	egzamin pyt10 SOI detail
+Wyjaśnij: Algorytm Clock (Second Chance)	```
+ ┌───┐
+ ┌──→│ 1 │──┐ Bit referencji:
+ │ └───┘ │ 1 = używana ostatnio
+ │ ↓ 0 = kandydat do usunięcia
+┌───┐ ┌───┐
+│ 0 │ │ 1 │ Wskazówka zegara:
+└───┘ └───┘ - Jeśli bit=1: zeruj, idź dalej
+ ↑ │ - Jeśli bit=0: zastąp	egzamin pyt10 SOI detail
+Scharakteryzować standardy i narzędzia do modelowania procesów biznesowych.	<b>Modelowanie procesów biznesowych</b> to graficzne przedstawienie przepływu pracy, działań i decyzji w organizacji. Służy do:
+- Dokumentowania procesów
+- Analizy i optymalizacji
+- Automatyzacji (workflow, BPM)
+- Komunikacji między działami	egzamin pyt11 WSYZ main
+Wyjaśnij: Przegląd standardów	```
+┌─────────────────────────────────────────────────────────────────┐
+│ STANDARDY MODELOWANIA PROCESÓW │
+├─────────────────┬─────────────────┬─────────────────────────────┤
+│ BPMN │ UML │ EPC │
+│ Business │ Act<br>## 2. BPMN (Business Process Model and Notation)	egzamin pyt11 WSYZ detail
+Wyjaśnij: Podstawowe elementy BPMN	#### Flow Objects (Obiekty przepływu)<br>┌─────────────────────────────────────────────────────────────────┐
+│ CZYNNOŚCI (Activities) │
+│ │
+│ ┌─────────┐ │
+│ │ │ Zadanie (	egzamin pyt11 WSYZ detail
+Wyjaśnij: Elementy Activity Diagrams	```
+┌─────────────────────────────────────────────────────────────────┐
+│ WĘZŁY AKCJI │
+│ │
+│ ╭─────────╮ │
+│ │ Akcja │ Actio<br>┌─────────────────────────────────────────────────────────────────┐
+│ WĘZŁY STERUJĄCE │
+│ │
+│ ● Initial Node (początek) │
+│ ◉ Activity Final (kon	egzamin pyt11 WSYZ detail
+Wyjaśnij: Porównanie BPMN vs UML Activity	| Cecha | BPMN | UML Activity |
+|-------|------|--------------|
+| <b>Cel</b> | Procesy biznesowe | Logika oprogramowania |
+| <b>Odbiorcy</b> | Analitycy, biznes | Programiści, architekci |
+| <b>Swimlanes</b> | Pool/Lane | Partition |
+| <b>Zdarzenia</b> | Bogate (timer, message...) | Ograniczone |
+| **Automatyza<br>## 4. EPC (Event-driven Process Chain)	egzamin pyt11 WSYZ detail
+Wyjaśnij: Elementy EPC	```
+┌─────────────────────────────────────────────────────────────────┐
+│ │
+│ ⬡ Zdarzenie (Event) - pasywne, opisuje stan │
+│ np. &quot;Zamówienie otrzymane&quot; │
+│	egzamin pyt11 WSYZ detail
+Wyjaśnij: Reguły EPC	1. <b>Start i koniec:</b> Zdarzenie
+2. <b>Naprzemienność:</b> Zdarzenie → Funkcja → Zdarzenie
+3. <b>Łączniki:</b> Między zdarzeniami a funkcjami<br>⬡ Zamówienie otrzymane
+ │
+ ↓
+ ▭ Sprawdź dostępność
+ │
+ ↓
+ XOR
+ / \
+ ↓ ↓
+⬡ Produkt ⬡ Produkt
+ dostępny niedostępny
+ │ │
+ ↓ ↓
+▭ Przygotuj ▭ Złóż 
+ wysyłkę zamówienie
+ │ u dostawcy
+ ↓	egzamin pyt11 WSYZ detail
+Wyjaśnij: Rodzina IDEF	| Standard | Nazwa | Zastosowanie |
+|----------|-------|--------------|
+| <b>IDEF0</b> | Function Modeling | Hierarchia funkcji |
+| <b>IDEF1</b> | Information Modeling | Struktura danych |
+| <b>IDEF1X</b> | Data Modeling | Bazy danych (ERD) |
+| <b>IDEF3</b> | Process Description | Przepływ procesów |
+| **IDEF4*	egzamin pyt11 WSYZ detail
+Wyjaśnij: IDEF0 - Modelowanie funkcji	```
+┌─────────────────────────────────────────────────────────────────┐
+│ KONTROLA (C) │
+│ │ │
+│ ↓ │
+│ WEJŚCIE (I) ────→ ┌	egzamin pyt11 WSYZ detail
+Wyjaśnij: Dekompozycja IDEF0	```
+Poziom 0: A0 - Całość procesu
+ │
+ ├── A1 - Podfunkcja 1
+ │ ├── A11
+ │ ├── A12
+ │ └── A13
+ │
+ ├── A2 - Podfunkcja 2
+ │
+ └── A3 - Podfunkcja 3
+```	egzamin pyt11 WSYZ detail
+Wyjaśnij: Flowcharts (Schematy blokowe)	```
+┌─────────────────────────────────────────────────────────────────┐
+│ Symbole: │
+│ │
+│ ⬭ Terminal (Start/End) │
+│ ▭ Process (Operac<br><b>Zalety:</b> Proste, uniwersalne, znane
+<b>Wady:</b> Brak standaryzacji, niewystarczające dla złożonych procesów	egzamin pyt11 WSYZ detail
+Wyjaśnij: Value Stream Map (VSM)	```
+┌─────────────────────────────────────────────────────────────────┐
+│ Lean Manufacturing │
+│ │
+│ Supplier ──→ [Magazyn] ──→ [Produkcja] ──→ [QC] ──→ Customer │
+│ Inv: 5d	egzamin pyt11 WSYZ detail
+Wyjaśnij: Petri Nets (Sieci Petriego)	```
+┌─────────────────────────────────────────────────────────────────┐
+│ Formalizm matematyczny dla współbieżności │
+│ │
+│ ○ Place (Miejsce) - stan │
+│ ▭ Transition (Prz	egzamin pyt11 WSYZ detail
+Wyjaśnij: Przegląd narzędzi	| Narzędzie | Standardy | Typ | Cena |
+|-----------|-----------|-----|------|
+| <b>Bizagi Modeler</b> | BPMN | Dedykowane | Free/Paid |
+| <b>Camunda Modeler</b> | BPMN, DMN | Open Source | Free |
+| <b>Signavio</b> | BPMN, EPC | Cloud | Paid |
+| <b>ARIS</b> | EPC, BPMN | Enterprise | Paid |
+| **Enterprise Archit	egzamin pyt11 WSYZ detail
+Wyjaśnij: Funkcjonalności narzędzi	| Funkcja | Podstawowe | Zaawansowane |
+|---------|------------|--------------|
+| Modelowanie graficzne | ✓ | ✓ |
+| Walidacja modelu | ✗ | ✓ |
+| Symulacja | ✗ | ✓ |
+| Wykonywanie (engine) | ✗ | ✓ |
+| Eksport (XML, PDF) | ✓ | ✓ |
+| Współpraca | ✗/Cloud | ✓ |
+| Integracja z IT | ✗ | ✓ |	egzamin pyt11 WSYZ detail
+Przedstawić sieciowe modele optymalizacji stosowane w systemach zarządzania. Omówić ich właściwości.	• <b>Węzły</b>: = punkty decyzyjne, lokalizacje, zdarzenia<br>• <b>Krawędzie</b>: = połączenia, przepływy, zależności<br>• <b>Wagi</b>: = koszty, czasy, przepustowości	egzamin pyt12 WSYZ main
+Wyjaśnij: Zastosowania w zarządzaniu	- Optymalizacja tras dostaw
+- Planowanie logistyki
+- Routing w sieciach telekomunikacyjnych<br>## 2. Problem maksymalnego przepływu (Max Flow)	egzamin pyt12 WSYZ detail
+Wyjaśnij: Zastosowania	- Planowanie produkcji (przepustowość linii)
+- Zarządzanie siecią dystrybucji
+- Przydział zasobów<br>## 3. Problem minimalnego kosztu przepływu (Min Cost Flow)	egzamin pyt12 WSYZ detail
+Wyjaśnij: Właściwości	• <b>NP-trudny</b>: brak algorytmu wielomianowego<br><b>NP-trudny</b>: brak algorytmu wielomianowego	egzamin pyt12 WSYZ detail
+Wyjaśnij: CPM (Critical Path Method)	```
+ ┌──B(3)──┐
+ ╱ ╲
+A(2)──┤ ├──E(2)──F(1)
+ ╲ ╱
+ └──C(4)──D(1)<br>Ścieżka krytyczna: A→C→D→E→F (czas: 2+4+1+2+1=10)
+```	egzamin pyt12 WSYZ detail
+Omówić szczegółowo teorie, definicje, standardy i narzędzia wykorzystywane przy projektowaniu i implementacji systemów opartych na koncepcji agenta i aktora.	<b>prywatny stan</b>: Komunikuje się wyłącznie przez<br><b>wiadomości</b>: Może tworzyć nowych aktorów	egzamin pyt13 AASD main
+Wyjaśnij: Definicje fundamentalne	<b>prywatny stan</b>: Komunikuje się wyłącznie przez<br><b>wiadomości</b>: Może tworzyć nowych aktorów	egzamin pyt13 AASD detail
+Wyjaśnij: Agent vs Aktor	| Cecha | Agent | Aktor |
+|-------|-------|-------|
+| <b>Cel</b> | Inteligentne zachowanie | Współbieżność |
+| <b>Stan</b> | Beliefs, Goals, Intentions | Prywatny, izolowany |
+| <b>Komunikacja</b> | ACL (semantyka) | Wiadomości (asynchroniczne) |
+| <b>Autonomia</b> | Wysoka (decyzje) | Średnia (reaktywność) |
+|	egzamin pyt13 AASD detail
+Wyjaśnij: Architektury agentów	#### BDI (Belief-Desire-Intention)<br>#### Subsumption Architecture (Brooks)	egzamin pyt13 AASD detail
+Wyjaśnij: Standardy komunikacji agentów	#### FIPA (Foundation for Intelligent Physical Agents)<br><b>FIPA-ACL</b> (Agent Communication Language):	egzamin pyt13 AASD detail
+Wymienić i szczegółowo opisać wybrane algorytmy i metody wykorzystywane w systemach wieloagentowych i aktorowych.	### 1. Algorytmy negocjacji i aukcji<br>#### Contract Net Protocol (CNP)	egzamin pyt14 AASD main
+Wyjaśnij: Algorytmy negocjacji i aukcji	#### Contract Net Protocol (CNP)<br>Manager Contractors
+ │ ┌───┬───┬───┐
+ │────── cfp ──────────→│ A │ B │ C │
+ │ └───┴───┴───┘
+ │←───── propose ─────── │ │
+ │←───── propose ──────────── │
+ │←───── propose ──	egzamin pyt14 AASD detail
+Wyjaśnij: Algorytmy konsensusu	#### Raft (dla systemów aktorowych)<br>Leader Election:
+1. Follower timeout → staje się Candidate
+2. Candidate wysyła RequestVote do wszystkich
+3. Większość głosów → nowy Leader
+4. Leader wysyła heartbeats	egzamin pyt14 AASD detail
+Wyjaśnij: Algorytmy koordynacji	#### Distributed Mutual Exclusion<br><b>Algorytm Ricarta-Agrawali:</b>
+```
+Wejście do sekcji krytycznej:
+1. Wyślij REQUEST(timestamp) do wszystkich
+2. Czekaj na REPLY od wszystkich
+3. Wejdź do sekcji krytycznej	egzamin pyt14 AASD detail
+Wyjaśnij: Algorytmy uczenia wieloagentowego	#### Q-Learning (Independent Learners)<br>Q(s,a) ← Q(s,a) + α[r + γ max Q(s',a') - Q(s,a)]	egzamin pyt14 AASD detail
+Wyjaśnij: Algorytmy dla aktorów	#### Supervision Strategies (Akka)<br>// All-for-One: restart wszystkich dzieci
+override val supervisorStrategy =
+ AllForOneStrategy() {
+ case _: Exception => Restart
+ }
+```	egzamin pyt14 AASD detail
+Wyjaśnij: Algorytmy planowania (BDI)	Plans:
+ plan1: walk(X,Y) :- distance(X,Y) < 1km
+ plan2: drive(X,Y) :- have(car), distance(X,Y) >= 1km
+ plan3: take_bus(X,Y) :- bus_available(X,Y)<br>Wybór planu na podstawie:
+- Kontekstu (beliefs)
+- Preferencji
+- Kosztu
+```	egzamin pyt14 AASD detail
+Wyjaśnij: Algorytmy formowania koalicji	φᵢ = Σ [|S|!(n-|S|-1)!/n!] × [v(S∪{i}) - v(S)]<br>Gdzie:
+- S = podzbiór agentów bez i
+- v(S) = wartość koalicji S
+- n = liczba agentów	egzamin pyt14 AASD detail
+Omówić metody modelowania architektury systemów informatycznych. Przedstawić cele i metody modelowania architektury.	<b>Domeny TOGAF:</b>: Business Architecture	egzamin pyt15 AIS main
+Wyjaśnij: Cele modelowania architektury	| Cel | Opis |
+|-----|------|
+| <b>Komunikacja</b> | Wspólny język dla stakeholderów |
+| <b>Dokumentacja</b> | Zapis decyzji architektonicznych |
+| <b>Analiza</b> | Weryfikacja atrybutów jakościowych |
+| <b>Planowanie</b> | Roadmapa rozwoju systemu |
+| <b>Zarządzanie złożonością</b> | Abstrakcja, dekompozycja |	egzamin pyt15 AIS detail
+Wyjaśnij: Frameworki architektoniczne	<b>Domeny TOGAF:</b>: Business Architecture	egzamin pyt15 AIS detail
+Wyjaśnij: Notacje i języki modelowania	#### UML (Unified Modeling Language)<br>Zasada: Zoom in/out między poziomami
+```	egzamin pyt15 AIS detail
+Wyjaśnij: ADR (Architecture Decision Records)	```markdown
+# ADR-001: Wybór bazy danych<br>## Context
+System wymaga przechowywania danych użytkowników...	egzamin pyt15 AIS detail
+Wyjaśnij: Metody analizy architektury	#### ATAM (Architecture Tradeoff Analysis Method)<br>#### Quality Attributes (ISO 25010)	egzamin pyt15 AIS detail
+Czemu służą wzorce architektoniczne? Jak powstają? Jak są katalogowane? Omówić przykładowe wzorce architektoniczne.	• <b>Nazwa</b>: identyfikator<br>• <b>Kontekst</b>: kiedy stosować<br>• <b>Problem</b>: co rozwiązuje<br>• <b>Rozwiązanie</b>: struktura i zachowanie<br>• <b>Konsekwencje</b>: trade-offs	egzamin pyt16 AIS main
+Wyjaśnij: Cel wzorców architektonicznych	| Cel | Opis |
+|-----|------|
+| <b>Reużywalność</b> | Sprawdzone rozwiązania typowych problemów |
+| <b>Komunikacja</b> | Wspólne słownictwo (&quot;używamy MVC&quot;) |
+| <b>Dokumentacja</b> | Zapis wiedzy architektonicznej |
+| <b>Jakość</b> | Adresowanie atrybutów jakościowych |
+| <b>Edukacja</b> | Nauka z doświadczeń innyc	egzamin pyt16 AIS detail
+Wyjaśnij: Jak powstają wzorce	• <b>Nazwa</b>: identyfikator<br>• <b>Kontekst</b>: kiedy stosować<br>• <b>Problem</b>: co rozwiązuje<br>• <b>Rozwiązanie</b>: struktura i zachowanie<br>• <b>Konsekwencje</b>: trade-offs	egzamin pyt16 AIS detail
+Wyjaśnij: Katalogowanie wzorców	| Katalog | Zakres | Przykłady |
+|---------|--------|-----------|
+| <b>POSA</b> (Pattern-Oriented Software Architecture) | Architektura | Layers, Pipes&Filters |
+| <b>GoF</b> (Gang of Four) | Projektowe | Factory, Observer |
+| <b>EIP</b> (Enterprise Integration Patterns) | Integracja | Message Router, Aggreg	egzamin pyt16 AIS detail
+Wyjaśnij: Porównanie wzorców	| Wzorzec | Skalowalność | Złożoność | Use Case |
+|---------|--------------|-----------|----------|
+| <b>Monolith</b> | Niska | Niska | MVP, małe zespoły |
+| <b>Layered</b> | Średnia | Niska | Enterprise CRUD |
+| <b>Microservices</b> | Wysoka | Wysoka | Duże systemy |
+| <b>Event-Driven</b> | Wysoka | Średnia |	egzamin pyt16 AIS detail
+Przedstawić warunki konieczne i dostateczne optymalności różniczkowalnych zadań optymalizacji bez ograniczeń i z ograniczeniami oraz warunki regularności i omówić metody poszukiwania rozwiązań zadań optymalizacji nieliniowej.	### 1. Optymalizacja bez ograniczeń<br>#### Problem
+$$\min_{x \in \mathbb{R}^n} f(x)$$	egzamin pyt17 AMO main
+Wyjaśnij: Optymalizacja bez ograniczeń	#### Problem
+$$\min_{x \in \mathbb{R}^n} f(x)$$<br>#### Warunki konieczne (I rzędu)
+Jeśli $x^<i>$ jest minimum lokalnym i $f$ jest różniczkowalna:
+$$\nabla f(x^</i>) = 0$$	egzamin pyt17 AMO detail
+Wyjaśnij: Optymalizacja z ograniczeniami	#### Problem ogólny
+$$\min_{x} f(x)$$
+$$\text{s.t. } g_i(x) \leq 0, \quad i = 1, \ldots, m$$
+$$\quad\quad h_j(x) = 0, \quad j = 1, \ldots, p$$<br>#### Lagrangian
+$$L(x, \lambda, \mu) = f(x) + \sum_{i=1}^{m} \lambda_i g_i(x) + \sum_{j=1}^{p} \mu_j h_j(x)$$	egzamin pyt17 AMO detail
+Wyjaśnij: Warunki KKT (Karush-Kuhn-Tucker)	Jeśli $x^*$ jest minimum i spełnione są warunki regularności:<br>1. <b>Stacjonarność:</b>
+$$\nabla_x L(x^<i>, \lambda^</i>, \mu^*) = 0$$	egzamin pyt17 AMO detail
+Wyjaśnij: Warunki regularności (Constraint Qualification)	Warunki zapewniające, że KKT są konieczne:<br><b>LICQ:</b> $\{\nabla g_i(x^<i>) : g_i(x^</i>) = 0\} \cup \{\nabla h_j(x^*)\}$ są liniowo niezależne	egzamin pyt17 AMO detail
+Wyjaśnij: Warunki dostateczne II rzędu	Jeśli spełnione KKT i dla hesjanu Lagrangianu:
+$$d^T \nabla_{xx}^2 L(x^<i>, \lambda^</i>, \mu^*) d > 0$$<br>dla wszystkich $d \neq 0$ spełniających:
+- $\nabla g_i(x^<i>)^T d = 0$ dla aktywnych $g_i$
+- $\nabla h_j(x^</i>)^T d = 0$ dla wszystkich $h_j$	egzamin pyt17 AMO detail
+Wyjaśnij: Metody optymalizacji nieliniowej	#### Metody gradientowe (bez ograniczeń)<br>Newton:
+x_{k+1} = x_k - [∇²f(x_k)]^{-1} ∇f(x_k)
+```	egzamin pyt17 AMO detail
+Wyjaśnij: Porównanie metod	| Metoda | Ograniczenia | Złożoność iter. | Zbieżność |
+|--------|--------------|-----------------|-----------|
+| <b>Gradient</b> | Bez | O(n) | Liniowa |
+| <b>Newton</b> | Bez | O(n³) | Kwadratowa |
+| <b>BFGS</b> | Bez | O(n²) | Superlinearna |
+| <b>SQP</b> | Z | O(n³) per QP | Superlinearna |
+| **Interior Poi	egzamin pyt17 AMO detail
+Omówić metody rozwiązywania zadań liniowych i kwadratowych optymalizacji.	### 1. Programowanie liniowe (LP)<br>#### Postać standardowa
+$$\min c^T x$$
+$$\text{s.t. } Ax = b, \quad x \geq 0$$	egzamin pyt18 AMO main
+Wyjaśnij: Programowanie liniowe (LP)	#### Postać standardowa
+$$\min c^T x$$
+$$\text{s.t. } Ax = b, \quad x \geq 0$$<br>c^T x = const
+ ↘
+ ●───────●
+ /│ /│
+ / │ / │ Wielościan dopuszczalny
+ ●──┼────● │
+ │ ●────┼──●
+ │ / │ /
+ │/ │/
+ ●───────● ← optimum (wierzchołek)
+```	egzamin pyt18 AMO detail
+Wyjaśnij: Programowanie kwadratowe (QP)	#### Postać ogólna
+$$\min \frac{1}{2} x^T Q x + c^T x$$
+$$\text{s.t. } Ax \leq b, \quad Ex = d$$<br>Gdzie Q jest macierzą symetryczną.	egzamin pyt18 AMO detail
+Wyjaśnij: Metody rozwiązywania QP	1. Zgadnij zbiór aktywnych ograniczeń W
+2. Rozwiąż QP z ograniczeniami W jako równości
+3. Sprawdź:
+ - Czy rozwiązanie dopuszczalne? (jeśli nie: usuń z W)
+ - Czy mnożniki ≥ 0? (jeśli nie: dodaj do W)
+4. Powtarzaj do zbieżności
+```<br><b>Zalety:</b> Dokładne rozwiązanie, warm start
+<b>Wady:</b> Liczba iteracji zależy od kombinatoryki	egzamin pyt18 AMO detail
+Wyjaśnij: Przypadki szczególne	#### Least Squares (najmniejsze kwadraty)
+$$\min \|Ax - b\|_2^2 = \min x^T A^T A x - 2b^T A x + b^T b$$<br><b>Rozwiązanie:</b> $(A^T A)x = A^T b$ (równanie normalne)	egzamin pyt18 AMO detail
+Wyjaśnij: Narzędzia	| Narzędzie | Typ | Metody |
+|-----------|-----|--------|
+| <b>CPLEX</b> | Komercyjny | Simplex, Barrier, QP |
+| <b>Gurobi</b> | Komercyjny | Simplex, Barrier, QP |
+| <b>GLPK</b> | Open source | Simplex |
+| <b>OSQP</b> | Open source | ADMM dla QP |
+| <b>CVXPY</b> | Python | Interfejs do solverów |	egzamin pyt18 AMO detail
+Przedstawić metody wyznaczania cech (parametryzacji) sygnału mowy: MFCC (cechy mel-cepstralne) i LPC (cechy według liniowej predykcji).	• <b>Redukcja wymiarowości:</b>: 16kHz × 16bit → ~13-40 cech/ramkę<br>• <b>Ekstrakcja informacji fonetycznej</b>: <b>Usunięcie informacji mówcy</b> (częściowo)<br>• <b>Reprezentacja kompaktowa</b>: dla modeli (HMM, DNN)<br>• <b>Dźwięczne:</b>: pobudzenie okresowe (struny głosowe)<br>• <b>Bezdźwięczne:</b>: pobudzenie szumowe	egzamin pyt19 EASAR main
+Wyjaśnij: Cel parametryzacji mowy	• <b>Redukcja wymiarowości:</b>: 16kHz × 16bit → ~13-40 cech/ramkę<br>• <b>Ekstrakcja informacji fonetycznej</b>: <b>Usunięcie informacji mówcy</b> (częściowo)<br>• <b>Reprezentacja kompaktowa</b>: dla modeli (HMM, DNN)	egzamin pyt19 EASAR detail
+Wyjaśnij: MFCC (Mel-Frequency Cepstral Coefficients)	mel(f) = 2595 · log₁₀(1 + f/700)<br>Hz: 0 500 1000 2000 4000 8000
+Mel: 0 607 1000 1500 2146 2840	egzamin pyt19 EASAR detail
+Wyjaśnij: LPC (Linear Predictive Coding)	• <b>Dźwięczne:</b>: pobudzenie okresowe (struny głosowe)<br>• <b>Bezdźwięczne:</b>: pobudzenie szumowe	egzamin pyt19 EASAR detail
+Wyjaśnij: Porównanie MFCC vs LPC	| Cecha | MFCC | LPC |
+|-------|------|-----|
+| <b>Podstawa</b> | Percepcja słuchowa | Model produkcji mowy |
+| <b>Filtracja</b> | Bank filtrów Mel | Model all-pole |
+| <b>Wymiarowość</b> | 12-13 + delty | 10-20 |
+| <b>Zastosowanie</b> | Rozpoznawanie mowy | Kodowanie, synteza |
+| <b>Korelacja</b> | Niska (DCT dek	egzamin pyt19 EASAR detail
+Wyjaśnij: Rozszerzenia	#### PLP (Perceptual Linear Prediction)
+Łączy LPC z percepcją słuchową:
+- Filtracja w skali Bark
+- Krzywa równej głośności
+- Kompresja intensity-loudness<br>#### Filter Banks (dla DNN)
+Nowoczesne podejście:
+- Log Mel filterbanks (bez DCT)
+- 40-80 filtrów
+- DNN uczy się własnych cech	egzamin pyt19 EASAR detail
+Przedstawić klasyczną metodę rozpoznawania mowy opartą o HMM (Ukryte Modele Markowa). Porównać ją z metodami korzystającymi z głębokich sieci neuronowych.	### 1. System rozpoznawania mowy - architektura<br>### 2. HMM (Hidden Markov Model) - klasyczne podejście	egzamin pyt20 EASAR main
+Wyjaśnij: System rozpoznawania mowy - architektura	```
+┌─────────────────────────────────────────────────────────────────┐
+│ Sygnał audio │
+│ ↓ │
+│ [Ekstrakcja cech] ──→ MFCC/Filterbanks │
+│ ↓	egzamin pyt20 EASAR detail
+Wyjaśnij: HMM (Hidden Markov Model) - klasyczne podejście	Każdy stan emituje obserwacje (MFCC) według rozkładu GMM:
+b_j(o) = Σ_m c_{jm} N(o; μ_{jm}, Σ_{jm})
+```<br>α_t(j) = max_{i} [α_{t-1}(i) · a_{ij}] · b_j(o_t)	egzamin pyt20 EASAR detail
+Wyjaśnij: Deep Learning w rozpoznawaniu mowy	Attention-based (Seq2Seq):
+┌──────────────────────────────────────────────────────────────┐
+│ Audio → [Encoder] → [Attention] → [Decoder] → Tekst │
+│ ↓ │
+│ Wyrównanie uczone │
+│<br>Audio waveform
+ ↓
+[CNN Feature Encoder]
+ ↓
+[Transformer Encoder] × N
+ ↓
+[CTC / Attention Decoder]
+ ↓
+Tekst	egzamin pyt20 EASAR detail
+Wyjaśnij: Porównanie HMM vs DNN	| Aspekt | GMM-HMM | DNN-HMM | End-to-End |
+|--------|---------|---------|------------|
+| <b>Model akustyczny</b> | GMM | DNN | DNN |
+| <b>Model czasowy</b> | HMM | HMM | CTC/Attention |
+| <b>Wyrównanie</b> | Viterbi | Viterbi | Uczone/CTC |
+| <b>Trening</b> | EM (Baum-Welch) | Backprop | Backprop |
+| **Interpr	egzamin pyt20 EASAR detail
+Wyjaśnij: Ewolucja wydajności	```
+WER na Switchboard (telefon):<br>Rok Model WER
+2010 GMM-HMM ~18%
+2012 DNN-HMM ~12%
+2015 LSTM-HMM ~8%
+2017 LAS (Seq2Seq) ~6%
+2020 Conformer ~4%
+2023 Whisper Large ~3%
+ Poziom ludzki ~4%
+```	egzamin pyt20 EASAR detail
+Jak wykorzystuje się agenta upostaciowionego do specyfikacji sterowników robotów?	• <b>Percepcji</b>: poprzez sensory<br>• <b>Działania</b>: poprzez efektory<br>• <b>Interakcji</b>: ze środowiskiem	egzamin pyt21 ERPM main
+Wyjaśnij: Agent upostaciowiony (Embodied Agent)	• <b>Percepcji</b>: poprzez sensory<br>• <b>Działania</b>: poprzez efektory<br>• <b>Interakcji</b>: ze środowiskiem	egzamin pyt21 ERPM detail
+Wyjaśnij: Specyfikacja sterownika robota	#### Architektura agentowa sterownika	egzamin pyt21 ERPM detail
+Wyjaśnij: Formalny model agenta	Formalnie:
+ see: E → P (funkcja percepcji)
+ action: P* → A (funkcja decyzyjna)
+ next: E × A → E (funkcja przejścia środowiska)
+```<br>#### Specyfikacja w logice temporalnej	egzamin pyt21 ERPM detail
+Wyjaśnij: Zastosowanie w ROS (Robot Operating System)	[Selector ?]
+ / | \
+ / | \
+ [Seq→] [Seq→] [Idle]
+ / \ |
+ / \ |
+[Check] [Pick] [Navigate]<br>Węzły:
+- Sequence (→): wykonaj wszystkie po kolei
+- Selector (?): wykonaj pierwszy sukces
+- Action: atomowa akcja
+- Condition: sprawdzenie warunku
+```	egzamin pyt21 ERPM detail
+Wyjaśnij: Hybrydowa architektura 3T	```
+┌─────────────────────────────────────────────────────────────────┐
+│ THREE-TIER (3T) Architecture │
+│ │
+│ ┌─────────────────────────────────────────────────────────┐ │
+│ │ PLANNER (deliberati	egzamin pyt21 ERPM detail
+Wyjaśnij: Korzyści podejścia agentowego	| Korzyść | Opis |
+|---------|------|
+| <b>Modularność</b> | Rozdzielenie percepcji, decyzji, akcji |
+| <b>Abstrakcja</b> | Ukrycie szczegółów sprzętu |
+| <b>Autonomia</b> | Robot sam decyduje o działaniach |
+| <b>Reużywalność</b> | Zachowania przenośne między platformami |
+| <b>Weryfikowalność</b> | Formalna spec	egzamin pyt21 ERPM detail
+Omówić specjalizowane języki programowania robotów. Uwypuklić ich klasyfikację.	### 1. Klasyfikacja języków programowania robotów<br>### 2. Klasyfikacja wg metody programowania	egzamin pyt22 ERPM main
+Wyjaśnij: Klasyfikacja języków programowania robotów	```
+┌─────────────────────────────────────────────────────────────────┐
+│ JĘZYKI PROGRAMOWANIA ROBOTÓW │
+├─────────────────────────────────────────────────────────────────┤
+│ POZIOM ABSTRAKCJI: │
+│	egzamin pyt22 ERPM detail
+Wyjaśnij: Klasyfikacja wg metody programowania	| Metoda | Opis | Przykłady |
+|--------|------|-----------|
+| <b>Online (Teach-in)</b> | Programowanie przez demonstrację | Pendant, prowadzenie ręczne |
+| <b>Offline</b> | Programowanie bez robota | Symulacja, CAD/CAM |
+| <b>Tekstowe</b> | Kod źródłowy | RAPID, KRL, Karel |
+| <b>Graficzne</b> | Bloki, flowchar	egzamin pyt22 ERPM detail
+Wyjaśnij: Języki producentów robotów przemysłowych	! MoveJ = ruch w przestrzeni złączy (Joint)
+! MoveL = ruch liniowy (Linear)
+! v500 = prędkość 500 mm/s
+! fine/z50 = dokładność (fine = dokładnie)
+```<br>; PTP = Point-to-Point (ruch złączowy)
+; LIN = ruch liniowy
+; CIRC = ruch kołowy
+```	egzamin pyt22 ERPM detail
+Wyjaśnij: Porównanie języków producentów	| Cecha | RAPID (ABB) | KRL (KUKA) | Karel (FANUC) |
+|-------|-------------|------------|---------------|
+| <b>Paradygmat</b> | Proceduralny | Proceduralny | Proceduralny |
+| <b>Typy ruchów</b> | MoveJ, MoveL, MoveC | PTP, LIN, CIRC | MOVE TO |
+| <b>Zmienne</b> | VAR, PERS, CONST | DECL | VAR |
+| <b>I/O</b> | S	egzamin pyt22 ERPM detail
+Wyjaśnij: Języki uniwersalne i frameworki	#### ROS (Robot Operating System)<br>rospy.init_node('robot_controller')
+pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)	egzamin pyt22 ERPM detail
+Wyjaśnij: Języki graficzne	| Narzędzie | Producent | Opis |
+|-----------|-----------|------|
+| <b>RobotStudio</b> | ABB | RAPID + symulacja 3D |
+| <b>KUKA.Sim</b> | KUKA | KRL + symulacja |
+| <b>ROBOGUIDE</b> | FANUC | Karel + symulacja |
+| <b>Blockly</b> | Google | Programowanie wizualne (edukacja) |
+| <b>Scratch for Robots</b> | MIT | Edu	egzamin pyt22 ERPM detail
+Wyjaśnij: Klasyfikacja wg poziomu abstrakcji	```
+┌─────────────────────────────────────────────────────────────────┐
+│ Task-Level: │
+│ &quot;Złóż produkt X z części A, B, C&quot; │
+│ → Planowanie automatyczne, AI │
+│ Przykłady: STRIPS, PDD	egzamin pyt22 ERPM detail
+Przedstawić koncepcję i przeznaczenie zegarów logicznych i wektorów stempli czasowych.	### 1. Problem czasu w systemach rozproszonych<br><b>Problem:</b> Nie możemy polegać na zegarach fizycznych - drift, opóźnienia sieciowe, brak atomowej synchronizacji.	egzamin pyt23 ERSMS main
+Wyjaśnij: Problem czasu w systemach rozproszonych	```
+┌─────────────────────────────────────────────────────────────────┐
+│ Brak globalnego zegara: │
+│ │
+│ Node A: ──●────────●────────●──→ czas lokalny A │
+│ e1 e2<br><b>Problem:</b> Nie możemy polegać na zegarach fizycznych - drift, opóźnienia sieciowe, brak atomowej synchronizacji.	egzamin pyt23 ERSMS detail
+Wyjaśnij: Zegar Lamporta (Scalar Clock)	1. Przed każdym zdarzeniem lokalnym:
+ C_i := C_i + 1<br>2. Wysyłając wiadomość m:
+ C_i := C_i + 1
+ Dołącz timestamp(m) = C_i	egzamin pyt23 ERSMS detail
+Wyjaśnij: Zegary wektorowe (Vector Clocks)	1. Przed każdym zdarzeniem lokalnym:
+ V_i[i] := V_i[i] + 1<br>2. Wysyłając wiadomość m:
+ V_i[i] := V_i[i] + 1
+ Dołącz timestamp(m) = V_i	egzamin pyt23 ERSMS detail
+Wyjaśnij: Porównanie	| Cecha | Lamport | Vector Clock |
+|-------|---------|--------------|
+| <b>Rozmiar</b> | O(1) | O(N) |
+| <b>a → b ⟹ C(a) < C(b)</b> | ✅ | ✅ |
+| <b>C(a) < C(b) ⟹ a → b</b> | ❌ | ✅ |
+| <b>Wykrycie współbieżności</b> | ❌ | ✅ |
+| <b>Zastosowanie</b> | Uporządkowanie | Wykrywanie konfliktów |	egzamin pyt23 ERSMS detail
+Wyjaśnij: Warianty i rozszerzenia	| Wariant | Opis |
+|---------|------|
+| <b>Interval Tree Clocks</b> | Dynamiczna liczba procesów |
+| <b>Bloom Clocks</b> | Probabilistyczne, kompaktowe |
+| <b>Hybrid Logical Clocks</b> | Lamport + czas fizyczny |
+| <b>Matrix Clocks</b> | Wiedza o wiedzy innych |	egzamin pyt23 ERSMS detail
+Omówić silne i słabe modele spójności danych w środowisku rozproszonym.	### 1. Problem spójności w systemach rozproszonych<br>### 2. Spektrum modeli spójności	egzamin pyt24 ERSMS main
+Wyjaśnij: Problem spójności w systemach rozproszonych	```
+┌─────────────────────────────────────────────────────────────────┐
+│ Repliki danych: │
+│ │
+│ Client A Client B │
+│ │ write(x=1)	egzamin pyt24 ERSMS detail
+Wyjaśnij: Spektrum modeli spójności	```
+Silne ←─────────────────────────────────────────→ Słabe
+ 
+Linearizability Eventual
+ │ Consistency
+ ↓ ↑
+Sequential	egzamin pyt24 ERSMS detail
+Wyjaśnij: Silne modele spójności	#### Linearizability (Linearyzacja)<br>Timeline:
+Client A: ─────[write(x=1)]─────────────────────→
+Client B: ───────────[read(x)]──────────────────→
+ ↓
+ Musi zwrócić 1!	egzamin pyt24 ERSMS detail
+Wyjaśnij: Słabe modele spójności	Timeline:
+write(x=1) @ Replica A
+ ↓ (propagacja)
+ ↓
+ ↓ ... czas ...
+ ↓
+read(x)=1 @ Replica B (eventually)<br>Gwarancje:
+✅ Dostępność (AP w CAP)
+✅ Niska latencja
+❌ Stare dane przez jakiś czas
+❌ Możliwe konflikty
+```	egzamin pyt24 ERSMS detail
+Wyjaśnij: CAP Theorem	```
+┌─────────────────────────────────────────────────────────────────┐
+│ CAP Theorem │
+│ │
+│ Consistency (C) │
+│	egzamin pyt24 ERSMS detail
+Wyjaśnij: Porównanie modeli	| Model | Gwarancje | Wydajność | Przykłady |
+|-------|-----------|-----------|-----------|
+| <b>Linearizable</b> | Najsilniejsze | Niska | Spanner, CockroachDB |
+| <b>Sequential</b> | Silne | Średnia | Zookeeper |
+| <b>Causal</b> | Przyczynowe | Dobra | COPS, MongoDB |
+| <b>Session</b> | Per-sesja | Dobra | Dy	egzamin pyt24 ERSMS detail
+Wyjaśnij: Strategie rozwiązywania konfliktów	#### Last-Writer-Wins (LWW)
+```
+Konflikt: write(x=1) || write(x=2)
+Rozwiązanie: Większy timestamp wygrywa
+Problem: Utrata danych!
+```<br>#### Multi-Value (Siblings)
+```
+Konflikt: write(x=1) || write(x=2)
+Rozwiązanie: Przechowaj oba: x=[1,2]
+Klient rozwiązuje przy odczycie (Riak)
+```	egzamin pyt24 ERSMS detail
+Gdzie znajdują zastosowania zadania programowania matematycznego całkowitoliczbowego i jak można je rozwiązywać? Omówić wybraną metodę dokładną, wyjaśnić dla jakich praktycznych problemów ma ona zastosowanie i co może wpływać na jej efektywność.	### 1. Definicja MIP (Mixed Integer Programming)<br>min c^T x
+s.t. Ax ≤ b
+ x_i ∈ Z dla i ∈ I (zmienne całkowite)
+ x_j ∈ R dla j ∈ J (zmienne ciągłe)
+ x ≥ 0	egzamin pyt25 MOD main
+Wyjaśnij: Definicja MIP (Mixed Integer Programming)	```
+Programowanie całkowitoliczbowe:<br>min c^T x
+s.t. Ax ≤ b
+ x_i ∈ Z dla i ∈ I (zmienne całkowite)
+ x_j ∈ R dla j ∈ J (zmienne ciągłe)
+ x ≥ 0	egzamin pyt25 MOD detail
+Wyjaśnij: Metody rozwiązywania	| Metoda | Typ | Gwarancja optimum |
+|--------|-----|-------------------|
+| <b>Branch and Bound</b> | Dokładna | ✅ |
+| <b>Branch and Cut</b> | Dokładna | ✅ |
+| <b>Branch and Price</b> | Dokładna | ✅ |
+| <b>Cutting Planes</b> | Dokładna | ✅ |
+| <b>Heurystyki</b> | Przybliżona | ❌ |
+| <b>Metaheurystyki</b> | Przybliżon	egzamin pyt25 MOD detail
+Wyjaśnij: Branch and Bound (B&B) - metoda dokładna	LP relaxation
+ x* = 2.7
+ /\
+ / \
+ x ≤ 2 x ≥ 3
+ / \
+ LP: z=10 LP: z=8
+ / \
+ (dalej) (przycinaj jeśli
+ najlepsze ≥ 8)
+```<br>#### Przykład: Max 3x + 2y, x + y ≤ 4, x,y ∈ Z+	egzamin pyt25 MOD detail
+Wyjaśnij: Czynniki wpływające na efektywność B&B	| Czynnik | Wpływ | Strategie |
+|---------|-------|-----------|
+| <b>Jakość relaksacji</b> | Lepsza → mniej węzłów | Silne formulacje, cutting planes |
+| <b>Wybór zmiennej do branch</b> | Balans drzewa | Most fractional, strong branching |
+| <b>Wybór węzła</b> | DFS vs BFS | Best-first (best bound) |
+| **Prz<br>#### Strategie wyboru zmiennej (branching)	egzamin pyt25 MOD detail
+Wyjaśnij: Ulepszenia: Branch and Cut	```
+Branch and Bound + Cutting Planes:<br>W każdym węźle:
+1. Rozwiąż LP relaksację
+2. Jeśli rozwiązanie niecałkowite:
+ - Generuj cięcia (Gomory, Cover, Clique...)
+ - Dodaj cięcia do LP
+ - Powtórz do limitu
+3. Jeśli nadal niecałkowite → branch	egzamin pyt25 MOD detail
+Scharakteryzować informatyczne narzędzia optymalizacji dyskretnej. Jakie są warunki i wymagania, jakie możliwości oraz trudności wiążą się ze stosowaniem gotowych narzędzi.	### Porównanie wydajności (benchmark)<br>CPLEX ████████████████████████████ 100%
+Gurobi ███████████████████████████ 98%
+SCIP ████████████████ 60%
+CBC ████████████ 45%
+GLPK ████████ 30%
+```	egzamin pyt26 MOD main
+Wyjaśnij: Kategorie narzędzi	```
+┌─────────────────────────────────────────────────────────────────┐
+│ NARZĘDZIA OPTYMALIZACJI DYSKRETNEJ │
+├─────────────────────────────────────────────────────────────────┤
+│ SOLVERY MIP │ SOLVERY CP │ METAHEURYSTYKI │
+│ (Mixed Integer │	egzamin pyt26 MOD detail
+Wyjaśnij: Solvery MIP	| Solver | Licencja | Cechy |
+|--------|----------|-------|
+| <b>CPLEX</b> | Komercyjny (IBM) | Najszybszy dla dużych MIP |
+| <b>Gurobi</b> | Komercyjny (academic free) | Bardzo szybki, dobry API |
+| <b>SCIP</b> | Open source (ZIB) | Framework extensible |
+| <b>CBC</b> | Open source (COIN-OR) | Dobry darmowy so	egzamin pyt26 MOD detail
+Wyjaśnij: Porównanie wydajności (benchmark)	```
+Typowe czasy dla problemów MIPLIB (średnie):<br>CPLEX ████████████████████████████ 100%
+Gurobi ███████████████████████████ 98%
+SCIP ████████████████ 60%
+CBC ████████████ 45%
+GLPK ████████ 30%
+```	egzamin pyt26 MOD detail
+Wyjaśnij: Solvery Constraint Programming	| Solver | Język | Cechy |
+|--------|-------|-------|
+| <b>CP-SAT</b> | Python/C++ | Google, bardzo szybki |
+| <b>Gecode</b> | C++ | Akademicki, elastyczny |
+| <b>Chuffed</b> | MiniZinc | Lazy clause generation |
+| <b>OR-Tools</b> | Multi | Google, CP + routing + MIP |	egzamin pyt26 MOD detail
+Wyjaśnij: Kiedy CP vs MIP?	| Aspekt | MIP | CP |
+|--------|-----|-----|
+| <b>Ograniczenia globalne</b> | Słabo | Świetnie (alldiff, cumulative) |
+| <b>Relaksacja</b> | LP (silna) | Słabsza |
+| <b>Scheduling</b> | Średnio | Świetnie |
+| <b>Kombinatoryczne</b> | Dobrze | Bardzo dobrze |	egzamin pyt26 MOD detail
+Wyjaśnij: Języki modelowania	#### AMPL
+```ampl
+set PRODUCTS;
+param profit{PRODUCTS};
+param capacity;<br>var produce{PRODUCTS} >= 0 integer;	egzamin pyt26 MOD detail
+Wyjaśnij: Warunki i wymagania	| Wymaganie | Opis |
+|-----------|------|
+| <b>Licencja</b> | Komercyjne (CPLEX, Gurobi) vs Open source |
+| <b>API/Język</b> | Python, C++, Java, Julia |
+| <b>Format modelu</b> | MPS, LP, AMPL, własny |
+| <b>Pamięć</b> | Duże modele = duże wymagania RAM |
+| <b>Wielowątkowość</b> | Parallel B&B, concurrent LP |	egzamin pyt26 MOD detail
+Wyjaśnij: Typowe wymagania sprzętowe	```
+Mały problem (< 1000 zmiennych):
+ - RAM: 4 GB
+ - CPU: dowolny
+ - Czas: sekundy<br>Średni problem (1000-100k zmiennych):
+ - RAM: 16-32 GB
+ - CPU: multi-core
+ - Czas: minuty-godziny	egzamin pyt26 MOD detail
+Wyjaśnij: Możliwości	| Możliwość | Opis |
+|-----------|------|
+| <b>Gwarancja optimum</b> | Metody dokładne (B&B, B&C) |
+| <b>Gap tracking</b> | Śledzenie jakości rozwiązania |
+| <b>Callbacks</b> | Własne cięcia, heurystyki, lazy constraints |
+| <b>Warm start</b> | Start od znanego rozwiązania |
+| <b>Tuning</b> | Automatyczne dostraja	egzamin pyt26 MOD detail
+Wyjaśnij: Trudności	| Trudność | Opis | Rozwiązanie |
+|----------|------|-------------|
+| <b>Czas obliczeń</b> | NP-trudność | Heurystyki, time limit |
+| <b>Słaba formulacja</b> | Duży integrality gap | Silniejsze modele, cięcia |
+| <b>Symetria</b> | Wiele równoważnych rozw. | Symmetry breaking |
+| <b>Numeryka</b> | Błędy zaokrągl	egzamin pyt26 MOD detail
+Wyjaśnij: Diagnostyka problemów	Diagnoza:
+1. solver.computeIIS() # znajdź konflikt
+2. Sprawdź constraints
+3. Poluzuj ograniczenia<br>Diagnoza:
+1. Gap się nie zmniejsza → słaba formulacja
+2. Dużo węzłów B&B → symetria
+3. LP wolne → presolve, scaling
+```	egzamin pyt26 MOD detail
+Wyjaśnij: Best practices	```
+┌─────────────────────────────────────────────────────────────────┐
+│ 1. FORMULACJA │
+│ - Unikaj big-M (słaba relaksacja) │
+│ - Używaj wskaźnikowych (indicator constraints) │
+│ - Tight bounds na zmi	egzamin pyt26 MOD detail
+Dlaczego jakość modelu danych jest krytycznie ważnym czynnikiem jakości projektu informatycznego?	<b>Reguła 1:10:100:</b>: Naprawa w fazie projektowania: 1x	egzamin pyt27 MODA main
+Wyjaśnij: Model danych jako fundament systemu	```
+┌─────────────────────────────────────────────────────────────────┐
+│ ARCHITEKTURA SYSTEMU │
+│ │
+│ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
+│ │ UI │ │	egzamin pyt27 MODA detail
+Wyjaśnij: Konsekwencje złego modelu danych	| Problem | Konsekwencje |
+|---------|--------------|
+| <b>Redundancja</b> | Anomalie (insert, update, delete), niespójność |
+| <b>Brak normalizacji</b> | Duplikacja, trudna aktualizacja |
+| <b>Nadmierna normalizacja</b> | Wolne zapytania (wiele JOIN) |
+| <b>Złe typy danych</b> | Błędy konwersji, utrata precyzj	egzamin pyt27 MODA detail
+Wyjaśnij: Wpływ na różne aspekty projektu	Dobry model:
+SELECT * FROM orders o
+JOIN customers c ON o.customer_id = c.id -- integer FK
+JOIN products p ON o.product_id = p.id
+WHERE c.city_id = 1; -- indexed lookup
+→ Index scans, szybkie JOIN na integer PK/FK
+```<br>Dobry model:
+- Dedykowane tabele i kolumny z opisowymi nazwami
+- ENUM lub tabela słownikowa dla statusów
+- Komentarze w schemacie, dokumentacja ERD
+```	egzamin pyt27 MODA detail
+Wyjaśnij: Koszty naprawy złego modelu	<b>Reguła 1:10:100:</b>: Naprawa w fazie projektowania: 1x	egzamin pyt27 MODA detail
+Wyjaśnij: Cechy dobrego modelu danych	| Cecha | Opis |
+|-------|------|
+| <b>Poprawność</b> | Odzwierciedla dziedzinę biznesową |
+| <b>Kompletność</b> | Wszystkie wymagane dane |
+| <b>Spójność</b> | Brak sprzeczności, integralność |
+| <b>Minimalizm</b> | Brak zbędnej redundancji |
+| <b>Elastyczność</b> | Możliwość rozszerzenia |
+| <b>Wydajność</b> | Odpo	egzamin pyt27 MODA detail
+Wyjaśnij: Wpływ na jakość danych (GIGO)	┌──────────────────┐
+│ Złe dane wejść. │ → Zły model → Złe decyzje biznesowe
+│ (brak walidacji) │
+└──────────────────┘<br>Dobry model wymusza jakość:
+- NOT NULL gdzie wymagane
+- CHECK constraints (age > 0)
+- FOREIGN KEY (referential integrity)
+- UNIQUE (brak duplikatów)
+- Trigger dla złożonej walidacji
+```	egzamin pyt27 MODA detail
+Wyjaśnij: Model danych a architektura aplikacji	```
+┌─────────────────────────────────────────────────────────────────┐
+│ Model danych wpływa na: │
+│ │
+│ • ORM mapping (Entity classes) │
+│ • API endpoints (REST r	egzamin pyt27 MODA detail
+Omówić typowe fazy ewolucji modelu danych i pożądane cechy modelu w każdej z faz.	### 2. Model konceptualny (Conceptual Data Model)<br>#### Cel
+- Zrozumienie dziedziny biznesowej
+- Komunikacja z interesariuszami (nietechnicznymi)
+- Identyfikacja głównych encji i relacji	egzamin pyt28 MODA main
+Wyjaśnij: Przegląd faz ewolucji	```
+┌─────────────────────────────────────────────────────────────────┐
+│ FAZY EWOLUCJI MODELU DANYCH │
+│ │
+│ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ │
+│ │ KONCEPTUALNY │ → │	egzamin pyt28 MODA detail
+Wyjaśnij: Model konceptualny (Conceptual Data Model)	#### Cel
+- Zrozumienie dziedziny biznesowej
+- Komunikacja z interesariuszami (nietechnicznymi)
+- Identyfikacja głównych encji i relacji<br>┌──────────┐ ┌──────────┐
+ │ KLIENT │ składa │ZAMÓWIENIE│
+ │ │ 1────M │ │
+ └──────────┘ └──────────┘
+ │
+ │ zawiera
+ │ M
+ │	egzamin pyt28 MODA detail
+Wyjaśnij: Model logiczny (Logical Data Model)	#### Cel
+- Szczegółowa struktura danych
+- Normalizacja
+- Definicja atrybutów i kluczy
+- Niezależność od DBMS<br>┌────────────────────────┐ ┌────────────────────────┐
+│ KLIENT │ │ ZAMÓWIENIE │
+├────────────────────────┤ ├────────────────────────┤
+│ PK klient_id │───┐ │ PK zamowienie_id │
+│ imie │ │ │ FK klient_id │─	egzamin pyt28 MODA detail
+Wyjaśnij: Model fizyczny (Physical Data Model)	#### Cel
+- Implementacja w konkretnym DBMS
+- Optymalizacja wydajności
+- Definicja indeksów, partycji, storage<br>CREATE INDEX idx_klient_email ON klient(email);
+CREATE INDEX idx_klient_nazwisko ON klient(nazwisko);	egzamin pyt28 MODA detail
+Wyjaśnij: Porównanie faz	| Aspekt | Konceptualny | Logiczny | Fizyczny |
+|--------|--------------|----------|----------|
+| <b>Odbiorcy</b> | Biznes | Analitycy, projektanci | DBA, developerzy |
+| <b>Abstrakcja</b> | Wysoka | Średnia | Niska |
+| <b>DBMS</b> | Niezależny | Niezależny | Specyficzny |
+| <b>Typy danych</b> | Brak | Logiczne	egzamin pyt28 MODA detail
+Wyjaśnij: Transformacje między fazami	```
+┌──────────────────────────────────────────────────────────────────┐
+│ Konceptualny → Logiczny: │
+│ • Encje → Tabele │
+│ • Atrybuty → Kolumny │
+│ • Relacje M:N → Ta	egzamin pyt28 MODA detail
+Wyjaśnij: Ewolucja w czasie (produkcja)	```
+Wersja 1.0 → 1.1 → 2.0 → ...<br>Narzędzia migracji:
+- Flyway
+- Liquibase
+- Django migrations
+- Alembic (SQLAlchemy)	egzamin pyt28 MODA detail
+Oszacować ilościowo przyśpieszenie wykonania programu sekwencyjnego z fragmentami równoległymi na maszynie wielordzeniowej. Co osłabia to ograniczenie?	$$S(n) = \frac{1}{(1-p) + \frac{p}{n}}$$<br>Gdzie:
+- $S(n)$ = przyśpieszenie (speedup)
+- $p$ = część programu, która może być zrównoleglona (0 ≤ p ≤ 1)
+- $n$ = liczba procesorów/rdzeni
+- $(1-p)$ = część sekwencyjna	egzamin pyt29 PORR main
+Wyjaśnij: Prawo Amdahla	$$S(n) = \frac{1}{(1-p) + \frac{p}{n}}$$<br>Gdzie:
+- $S(n)$ = przyśpieszenie (speedup)
+- $p$ = część programu, która może być zrównoleglona (0 ≤ p ≤ 1)
+- $n$ = liczba procesorów/rdzeni
+- $(1-p)$ = część sekwencyjna	egzamin pyt29 PORR detail
+Wyjaśnij: Wizualizacja ograniczenia	```
+Speedup
+ ↑
+20 ┤ ........... p=99%
+ │ ......
+ │ ......
+15 ┤ .....
+ │ .....
+ │ .... ______ p=95%
+10 ┤ .... _____/<br><b>Obserwacja:</b> Krzywe szybko się spłaszczają - dodawanie procesorów daje coraz mniejszy zysk.	egzamin pyt29 PORR detail
+Wyjaśnij: Co osłabia ograniczenie Amdahla?	#### 3.1 Prawo Gustafsona-Barsisa (Scaled Speedup)<br>S_scaled(n) = n - (1-p)(n-1) = 1 - p + p·n	egzamin pyt29 PORR detail
+Wyjaśnij: Czynniki zmniejszające rzeczywiste przyśpieszenie	```
+S_real < S_Amdahl ze względu na:<br>┌─────────────────────────────────────────────────────────────────┐
+│ 1. OVERHEAD SYNCHRONIZACJI │
+│ - Mutex, semaphore contention │
+│ - Barrier wait time │
+│ - Lock granularity (coar	egzamin pyt29 PORR detail
+Wyjaśnij: Efektywność równoległa	$$E(n) = \frac{S(n)}{n} = \frac{1}{n \cdot (1-p) + p}$$<br><b>Wniosek:</b> Efektywność spada z liczbą procesorów. Trzeba zwiększać problem (Gustafson) lub zmniejszać (1-p).	egzamin pyt29 PORR detail
+Wyjaśnij: Rozszerzone prawo Amdahla (z overhead)	$$S(n) = \frac{1}{(1-p) + \frac{p}{n} + O(n)}$$<br>Gdzie $O(n)$ = overhead zależny od n (komunikacja, synchronizacja).	egzamin pyt29 PORR detail
+Omówić metody oraz typowe problemy w modelowaniu matematycznym dla problemów decyzyjnych i optymalizacyjnych.	### 1. Struktura modelu matematycznego<br>#### 2.1 Etapy tworzenia modelu	egzamin pyt30 MOM main
+Wyjaśnij: Struktura modelu matematycznego	```
+┌─────────────────────────────────────────────────────────────────┐
+│ MODEL OPTYMALIZACYJNY │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ min/max f(x)	egzamin pyt30 MOM detail
+Wyjaśnij: Metody modelowania	#### 2.1 Etapy tworzenia modelu	egzamin pyt30 MOM detail
+Wyjaśnij: Typowe problemy w modelowaniu	#### 3.1 Wybór zmiennych decyzyjnych<br>Przykład - planowanie produkcji:	egzamin pyt30 MOM detail
+Wyjaśnij: Techniki modelowania	McCormick envelopes:
+w ≥ x·LB_y + y·LB_x - LB_x·LB_y
+w ≥ x·UB_y + y·UB_x - UB_x·UB_y
+w ≤ x·LB_y + y·UB_x - LB_y·UB_x
+w ≤ x·UB_y + y·LB_x - UB_y·LB_x<br>Problem: |x| (wartość bezwzględna)	egzamin pyt30 MOM detail
+Wyjaśnij: Wielokryterialne podejmowanie decyzji	```
+min f₁(x), f₂(x), ..., f_k(x) ← konfliktujące cele<br>1. WEIGHTED SUM:
+ min Σ w_i · f_i(x)
+ Problem: nie znajduje wszystkich Pareto-optymalnych	egzamin pyt30 MOM detail
+Wyjaśnij: Analiza wrażliwości	```
+┌─────────────────────────────────────────────────────────────────┐
+│ Co się zmieni gdy zmienią się dane wejściowe? │
+├─────────────────────────────────────────────────────────────────┤
+│ Shadow price (dual variable): │
+│ - Ile warta jest jedn	egzamin pyt30 MOM detail
+Wyjaśnij: Częste błędy	| Błąd | Konsekwencja | Rozwiązanie |
+|------|--------------|-------------|
+| <b>Brak bounds</b> | Unbounded lub słaba relaxation | Zawsze definiuj LB, UB |
+| <b>Za duże M</b> | Numerical issues, wolne | Tight big-M |
+| <b>Redundantne ograniczenia</b> | Wolniejsze, confusion | Minimalizuj |
+| <b>Zła skala</b> |	egzamin pyt30 MOM detail
+Wyjaśnić główne zagadnienia modelowania matematycznego w systemach decyzyjnych z wykorzystaniem pojęć (nie)wypukłości i (nie)liniowości.	### 1. Klasyfikacja problemów optymalizacyjnych<br>$$S \text{ wypukły} \Leftrightarrow \forall x,y \in S, \forall \lambda \in [0,1]: \lambda x + (1-\lambda)y \in S$$	egzamin pyt31 MOM main
+Wyjaśnij: Klasyfikacja problemów optymalizacyjnych	```
+┌─────────────────────────────────────────────────────────────────┐
+│ KLASYFIKACJA PROBLEMÓW │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ LINIOW	egzamin pyt31 MOM detail
+Wyjaśnij: Definicje kluczowe	$$S \text{ wypukły} \Leftrightarrow \forall x,y \in S, \forall \lambda \in [0,1]: \lambda x + (1-\lambda)y \in S$$<br>$$f \text{ wypukła} \Leftrightarrow f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1-\lambda) f(y)$$	egzamin pyt31 MOM detail
+Wyjaśnij: Znaczenie wypukłości	#### Własności problemów wypukłych	egzamin pyt31 MOM detail
+Wyjaśnij: Liniowość vs nieliniowość	#### Programowanie liniowe (LP)<br>$$\min c^T x \quad \text{s.t.} \quad Ax \leq b, \quad x \geq 0$$	egzamin pyt31 MOM detail
+Wyjaśnij: Testowanie wypukłości	1. HESJAN: H = ∇²f(x) ≽ 0 (dodatnio półokreślony) dla wszystkich x<br>2. Kompozycja:
+ - Suma wypukłych → wypukła
+ - max(f, g) gdzie f, g wypukłe → wypukła
+ - f(Ax+b) gdzie f wypukła → wypukła	egzamin pyt31 MOM detail
+Wyjaśnij: Problemy niewypukłe	#### Strategie dla niewypukłych	egzamin pyt31 MOM detail
+Wyjaśnij: Dualność	```
+Primal (P): Dual (D):
+min f(x) max L(λ, μ)
+s.t. g(x) ≤ 0 s.t. λ ≥ 0
+ h(x) = 0<br>Lagrangian: L(x,λ,μ) = f(x) + λᵀg(x) + μᵀh(x)	egzamin pyt31 MOM detail
+Podać definicję komunikacji synchronicznej i asynchronicznej oraz blokującej i nieblokującej. Jak uniknąć zakleszczenia, gdy dwa symetryczne procesy (np. realizujące algorytm iteracyjny Jacobiego) mają w kodzie następujące po sobie wywołania funkcji wysyłającej komunikat do partnera i odbierającej komunikat wysłany przez niego?	#### Synchroniczna vs Asynchroniczna<br>KOMUNIKACJA ASYNCHRONICZNA:
+┌─────────────────────────────────────────────────────────────────┐
+│ Nadawca nie czeka na odbiorcę │
+│ │
+│ Proces A Proces B │	egzamin pyt32 PORR main
+Wyjaśnij: Definicje podstawowe	#### Synchroniczna vs Asynchroniczna<br>KOMUNIKACJA ASYNCHRONICZNA:
+┌─────────────────────────────────────────────────────────────────┐
+│ Nadawca nie czeka na odbiorcę │
+│ │
+│ Proces A Proces B │	egzamin pyt32 PORR detail
+Wyjaśnij: Kombinacje w MPI	| Funkcja MPI | Blokująca? | Synchroniczna? | Opis |
+|-------------|------------|----------------|------|
+| `MPI_Send` | Blokująca | Zależne od impl. | Standard send |
+| `MPI_Ssend` | Blokująca | Synchroniczna | Czeka na recv |
+| `MPI_Bsend` | Blokująca | Asynchroniczna | Buforowana |
+| `MPI_Rsend`	egzamin pyt32 PORR detail
+Wyjaśnij: Problem zakleszczenia (Deadlock)	#### Scenariusz: Algorytm Jacobiego<br>// Proces 0: // Proces 1:
+MPI_Send(to=1, data); MPI_Send(to=0, data);
+MPI_Recv(from=1, data); MPI_Recv(from=0, data);	egzamin pyt32 PORR detail
+Wyjaśnij: Rozwiązania problemu zakleszczenia	#### 4.1 Zmiana kolejności operacji<br>Przebieg:
+┌──────────────────┬──────────────────┐
+│ PROCES 0 │ PROCES 1 │
+├──────────────────┼──────────────────┤
+│ Send(to=1) ──────│──→ Recv(from=0) │
+│ [zakończone] │ [zakończone] │
+│ Recv(from=1) ←───│─── Send(to=0) │
+│ [zakończone] │ [zakończone] │
+└─────────	egzamin pyt32 PORR detail
+Wyjaśnij: Porównanie rozwiązań	| Rozwiązanie | Zalety | Wady |
+|-------------|--------|------|
+| <b>Zmiana kolejności</b> | Proste, brak overhead | Wymaga asymetrii kodu |
+| <b>Isend/Irecv</b> | Elastyczne, overlap | Złożoność kodu |
+| <b>Sendrecv</b> | Proste, bezpieczne | Mniej elastyczne |
+| <b>Bsend</b> | Podobne do standardowego | Wymag	egzamin pyt32 PORR detail
+Wyjaśnij: Algorytm Jacobiego - pełny przykład	```c
+// Iteracyjne rozwiązanie równania Laplace'a
+// Grid podzielony między procesy<br>for (int iter = 0; iter < MAX_ITER; iter++) {
+ // Wymiana granic z sąsiadami
+ 
+ // Bezpieczna wymiana z lewym sąsiadem
+ if (rank > 0) {
+ MPI_Sendrecv(
+ &u[1], 1, MPI_DOUBLE, rank-1, 0, // wyślij lewą granicę
+ &u[0], 1, MPI_DOUBLE, rank-1, 0, // odbi	egzamin pyt32 PORR detail
+Wyjaśnij: Wzorce komunikacji	```
+┌─────────────────────────────────────────────────────────────────┐
+│ RING (pierścień) - każdy z sąsiadami: │
+│ │
+│ ┌───→ P0 ───→ P1 ───→ P2 ───→ P3 ───┐ │
+│ └───────────────────	egzamin pyt32 PORR detail
+Scharakteryzować model przesyłania komunikatów publikuj-subskrybuj oraz przykładowe rozwiązania techniczne wykorzystujące ten model.	### 1. Definicja modelu Pub/Sub<br>Subskrypcje:
+ home/living-room/# → wszystko z living-room
+ home/+/temperature → temperatura ze wszystkich pomieszczeń
+ home/# → wszystko z home
+```	egzamin pyt33 PSD main
+Wyjaśnij: Definicja modelu Pub/Sub	```
+┌─────────────────────────────────────────────────────────────────┐
+│ MODEL PUBLISH-SUBSCRIBE │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ PUBLISHERS	egzamin pyt33 PSD detail
+Wyjaśnij: Typy subskrypcji	| Typ | Opis | Przykład |
+|-----|------|----------|
+| <b>Topic-based</b> | Subskrypcja na nazwany temat | `subscribe(&quot;orders&quot;)` |
+| <b>Content-based</b> | Filtrowanie po zawartości | `price > 100 AND category = &quot;electronics&quot;` |
+| <b>Type-based</b> | Na podstawie typu wiadomości | `subscribe(OrderEvent.class)	egzamin pyt33 PSD detail
+Wyjaśnij: Wildcardy (MQTT)	```
+Hierarchia tematów:
+ home/living-room/temperature
+ home/living-room/humidity
+ home/bedroom/temperature
+ home/kitchen/temperature<br>Subskrypcje:
+ home/living-room/# → wszystko z living-room
+ home/+/temperature → temperatura ze wszystkich pomieszczeń
+ home/# → wszystko z home
+```	egzamin pyt33 PSD detail
+Wyjaśnij: Gwarancje dostarczenia	```
+┌─────────────────────────────────────────────────────────────────┐
+│ QoS (Quality of Service) levels: │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ QoS 0: AT MOST ONCE (f	egzamin pyt33 PSD detail
+Wyjaśnij: Rozwiązania techniczne	// Producer
+producer.send(new ProducerRecord<>(&quot;orders&quot;, key, value));<br>// Consumer
+consumer.subscribe(Arrays.asList(&quot;orders&quot;));
+while (true) {
+ ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
+ for (ConsumerRecord<String, String> record : records) {
+ process(record);
+ }
+}
+```	egzamin pyt33 PSD detail
+Wyjaśnij: Zalety i wady Pub/Sub	```
+┌─────────────────────────────────────────────────────────────────┐
+│ ZALETY: │
+│ ✓ Luźne powiązanie (decoupling) │
+│ ✓ Skalowalność (dodawanie subskrybentów bez zmian publishera) │
+│ ✓ Asynchroniczność (brak	egzamin pyt33 PSD detail
+Wyjaśnij: Wzorce użycia	```
+1. EVENT SOURCING:
+ [Service] ─publish─→ [Kafka] ←─consume─ [Projections]
+ Wszystkie zmiany jako events, rebuild state z log<br>2. CQRS (Command Query Responsibility Segregation):
+ [Write Model] ─events─→ [Event Bus] ─→ [Read Model]
+ Oddzielne modele do zapisu i odczytu	egzamin pyt33 PSD detail
+Scharakteryzować rozwiązania analityczne działające na danych o charakterze strumieniowym.	### 1. Charakterystyka danych strumieniowych<br>#### Event Time vs Processing Time	egzamin pyt34 PSD main
+Wyjaśnij: Charakterystyka danych strumieniowych	```
+┌─────────────────────────────────────────────────────────────────┐
+│ DANE STRUMIENIOWE vs BATCH │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ BATCH:	egzamin pyt34 PSD detail
+Wyjaśnij: Modele przetwarzania	#### Event Time vs Processing Time<br>Timeline:
+Event time: ─●─────●───●─────────●───→
+ E1 E2 E3 E4	egzamin pyt34 PSD detail
+Wyjaśnij: Platformy Stream Processing	KStream<String, String> source = builder.stream(&quot;input-topic&quot;);<br>KTable<Windowed<String>, Long> counts = source
+ .groupByKey()
+ .windowedBy(TimeWindows.of(Duration.ofMinutes(5)))
+ .count();	egzamin pyt34 PSD detail
+Wyjaśnij: Porównanie platform	| Cecha | Kafka Streams | Flink | Spark Streaming |
+|-------|---------------|-------|-----------------|
+| <b>Model</b> | True streaming | True streaming | Micro-batch |
+| <b>Deployment</b> | Library | Cluster | Cluster |
+| <b>Latency</b> | Niska | Bardzo niska | Średnia (~100ms) |
+| <b>State</b> | RocksDB | Roc	egzamin pyt34 PSD detail
+Wyjaśnij: Algorytmy strumieniowe	#### Approximate counting - HyperLogLog<br>HyperLogLog:
+• O(1) space (kilka KB)
+• ~2% error dla 12-bit registers
+• Używa hash → trailing zeros	egzamin pyt34 PSD detail
+Wyjaśnij: Obsługa opóźnień i Out-of-Order	```
+┌─────────────────────────────────────────────────────────────────┐
+│ WATERMARKS + LATE DATA │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Stream: ─●(t=1)──●(	egzamin pyt34 PSD detail
+Wyjaśnij: Exactly-Once Semantics	```
+┌─────────────────────────────────────────────────────────────────┐
+│ GWARANCJE PRZETWARZANIA: │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ AT-MOST-ONCE:	egzamin pyt34 PSD detail
+Wyjaśnij: Use Cases	| Use Case | Technologia | Opis |
+|----------|-------------|------|
+| <b>Fraud detection</b> | Flink CEP | Pattern matching w czasie rzeczywistym |
+| <b>IoT analytics</b> | Kafka Streams | Agregacja danych z sensorów |
+| <b>Real-time dashboards</b> | Spark + Druid | Metryki biznesowe |
+| <b>Log analysis</b> | E	egzamin pyt34 PSD detail
+Na czym polega specyfika modelowania matematycznego układów cyber-fizycznych? Podać przykłady współpracy agentów w sieci i problemów w osiąganiu pożądanego zachowania układu.	### 1. Definicja układów cyber-fizycznych (CPS)<br>### 2. Specyfika modelowania CPS	egzamin pyt35 SIU main
+Wyjaśnij: Definicja układów cyber-fizycznych (CPS)	```
+┌─────────────────────────────────────────────────────────────────┐
+│ CYBER-PHYSICAL SYSTEM (CPS) │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ ┌──────────────────	egzamin pyt35 SIU detail
+Wyjaśnij: Specyfika modelowania CPS	#### Hybrid Systems (systemy hybrydowe)	egzamin pyt35 SIU detail
+Wyjaśnij: Współpraca agentów w sieci	Protokół consensus:
+ ẋᵢ = Σⱼ∈Nᵢ aᵢⱼ(xⱼ - xᵢ)<br>gdzie:
+- xᵢ = stan agenta i
+- Nᵢ = sąsiedzi agenta i
+- aᵢⱼ = waga połączenia	egzamin pyt35 SIU detail
+Wyjaśnij: Problemy w osiąganiu pożądanego zachowania	#### 4.1 Problemy komunikacyjne	egzamin pyt35 SIU detail
+Wyjaśnij: Warunki zbieżności consensus	```
+Twierdzenie: Protokół consensus ẋ = -Lx zbiega do consensus ⟺
+ Graf komunikacji jest (słabo) spójny<br>Szybkość zbieżności ~ λ₂(L) (algebraic connectivity)	egzamin pyt35 SIU detail
+Omówić ogólny algorytm, elementy składowe oraz własności uczenia się ze wzmocnieniem.	### 1. Model uczenia ze wzmocnieniem<br>### Markov Decision Process (MDP)	egzamin pyt36 SIU main
+Wyjaśnij: Model uczenia ze wzmocnieniem	```
+┌─────────────────────────────────────────────────────────────────┐
+│ REINFORCEMENT LEARNING LOOP │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ ┌─	egzamin pyt36 SIU detail
+Wyjaśnij: Elementy składowe	| Element | Symbol | Opis |
+|---------|--------|------|
+| <b>State</b> | s ∈ S | Obserwacja środowiska |
+| <b>Action</b> | a ∈ A | Decyzja agenta |
+| <b>Reward</b> | r ∈ ℝ | Sygnał zwrotny |
+| <b>Policy</b> | π(a\|s) | Strategia wyboru akcji |
+| <b>Value function</b> | V(s), Q(s,a) | Oczekiwana nagroda |
+| **Disco	egzamin pyt36 SIU detail
+Wyjaśnij: Markov Decision Process (MDP)	S: Zbiór stanów
+A: Zbiór akcji
+P: P(s'|s,a) - prawdopodobieństwa przejść
+R: R(s,a,s') - funkcja nagrody
+γ: Współczynnik dyskontowania<br>Właściwość Markowa:
+ P(sₜ₊₁|s₀,a₀,...,sₜ,aₜ) = P(sₜ₊₁|sₜ,aₜ)
+ 
+ Przyszłość zależy tylko od obecnego stanu!
+```	egzamin pyt36 SIU detail
+Wyjaśnij: Funkcje wartości	$$V^\pi(s) = \mathbb{E}_\pi \left[ \sum_{t=0}^{\infty} \gamma^t r_t \mid s_0 = s \right]$$<br>#### Action Value Function Q(s,a)	egzamin pyt36 SIU detail
+Wyjaśnij: Algorytmy	┌─────────────────────────────────────────────────────────────────┐
+│ SARSA (on-policy) │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Q(s,a) ← Q(s,a) + α[r + γ Q	egzamin pyt36 SIU detail
+Wyjaśnij: Klasyfikacja algorytmów	```
+┌─────────────────────────────────────────────────────────────────┐
+│ │
+│ ┌── Model-based (zna/uczy się P, R) │
+│ RL Methods ─┤ │
+│ └── Model	egzamin pyt36 SIU detail
+Wyjaśnij: Exploration vs Exploitation	| Strategia | Opis |
+|-----------|------|
+| <b>ε-greedy</b> | Z prawdop. ε losowa akcja |
+| <b>Softmax/Boltzmann</b> | P(a) ∝ exp(Q(s,a)/τ) |
+| <b>UCB</b> | a = argmax[Q(s,a) + c√(ln N / n(a))] |
+| <b>Thompson Sampling</b> | Próbkowanie z posterior |
+| <b>Curiosity-driven</b> | Bonus za nowość |	egzamin pyt36 SIU detail
+Wyjaśnij: Własności i wyzwania	```
+┌─────────────────────────────────────────────────────────────────┐
+│ WŁASNOŚCI: │
+│ ✓ Uczenie przez interakcję (nie supervised) │
+│ ✓ Delayed rewards (kredyt za sekwencję akcji) │
+│ ✓ Generalizacja (do nowyc	egzamin pyt36 SIU detail
+Porównać podstawowe modele sieci złożonych. Jak odpowiadają one własnościom rzeczywistych sieci?	### 1. Właściwości rzeczywistych sieci<br>### 2. Model Erdős-Rényi (Random Graph)	egzamin pyt37 TASS main
+Wyjaśnij: Właściwości rzeczywistych sieci	```
+┌─────────────────────────────────────────────────────────────────┐
+│ TYPOWE CECHY SIECI RZECZYWISTYCH │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ 1. SMALL-WORLD EFFECT:	egzamin pyt37 TASS detail
+Wyjaśnij: Model Erdős-Rényi (Random Graph)	```
+┌─────────────────────────────────────────────────────────────────┐
+│ G(n, p) - Graf losowy │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Konstrukcja:	egzamin pyt37 TASS detail
+Wyjaśnij: Porównanie z rzeczywistością	| Cecha | ER Model | Rzeczywiste sieci |
+|-------|----------|-------------------|
+| <b>Clustering</b> | C = p (niski) | C >> p (wysoki) ❌ |
+| <b>Średnia ścieżka</b> | L ~ log(n) ✓ | L ~ log(n) ✓ |
+| <b>Rozkład stopni</b> | Poisson | Power-law ❌ |
+| <b>Huby</b> | Brak | Istnieją ❌ |	egzamin pyt37 TASS detail
+Wyjaśnij: Model Watts-Strogatz (Small-World)	```
+┌─────────────────────────────────────────────────────────────────┐
+│ SMALL-WORLD MODEL │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Konstrukcja:	egzamin pyt37 TASS detail
+Wyjaśnij: Model Barabási-Albert (Scale-Free)	```
+┌─────────────────────────────────────────────────────────────────┐
+│ PREFERENTIAL ATTACHMENT MODEL │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Konstrukcja:	egzamin pyt37 TASS detail
+Wyjaśnij: Porównanie zbiorcze	```
+┌──────────────┬───────────────┬───────────────┬───────────────┐
+│ Właściwość │ Erdős-Rényi │ Watts-Strogatz│ Barabási-Albert│
+├──────────────┼───────────────┼───────────────┼───────────────┤
+│ Clustering │ Niski (C=p) │ Wysoki │ Niski │
+│ Śr. ścieżka │ log(n) │ lo<br>Rzeczywiste sieci (WWW, social, biological):
+• Wysoki clustering → WS lepszy
+• Power-law → BA lepszy
+• Short paths → wszystkie OK	egzamin pyt37 TASS detail
+Wyjaśnij: Modele rozszerzone	```
+┌─────────────────────────────────────────────────────────────────┐
+│ HOLME-KIM MODEL (BA + clustering): │
+│ Po preferential attachment → dodaj trójkąt z prawdop. p │
+│ Łączy power-law z wysokim clustering │
+├──────────────────────────	egzamin pyt37 TASS detail
+Porównać metody projekcji grafów dwudzielnych. Przedstawić ich użyteczność w grupowaniu dokumentów tekstowych.	### 1. Grafy dwudzielne (Bipartite Graphs)<br>### 2. Projekcja grafu dwudzielnego	egzamin pyt38 TASS main
+Wyjaśnij: Grafy dwudzielne (Bipartite Graphs)	```
+┌─────────────────────────────────────────────────────────────────┐
+│ GRAF DWUDZIELNY │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Zbiór U (np. dokume	egzamin pyt38 TASS detail
+Wyjaśnij: Projekcja grafu dwudzielnego	```
+┌─────────────────────────────────────────────────────────────────┐
+│ PROJEKCJA = przekształcenie grafu dwudzielnego na jednomodowy │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Graf dwudzielny:	egzamin pyt38 TASS detail
+Wyjaśnij: Metody projekcji	#### 3.1 Projekcja binarna (Simple/Unweighted)<br>P = B · Bᵀ (dla projekcji na U)
+P = Bᵀ · B (dla projekcji na V)	egzamin pyt38 TASS detail
+Wyjaśnij: Zastosowanie w grupowaniu dokumentów	```
+┌─────────────────────────────────────────────────────────────────┐
+│ PIPELINE GRUPOWANIA DOKUMENTÓW │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ 1. PREPROCESSING<br>Graf dwudzielny projekcja (cosine similarity):	egzamin pyt38 TASS detail
+Wyjaśnij: Algorytmy grupowania na projekcji	```
+┌─────────────────────────────────────────────────────────────────┐
+│ LOUVAIN (Community Detection): │
+│ • Optymalizuje modularność Q │
+│ • Iteracyjne przenoszenie węzłów między grupami │
+│ • O(n log n) - szybki	egzamin pyt38 TASS detail
+Wyjaśnij: Problemy i rozwiązania	| Problem | Opis | Rozwiązanie |
+|---------|------|-------------|
+| <b>Gęstość</b> | Projekcja tworzy gęste grafy | Threshold na wagi |
+| <b>Huby</b> | Popularne słowa łączą wszystko | TF-IDF, filtering |
+| <b>Skalowalność</b> | O(n²) krawędzi | Sparse representation, LSH |
+| <b>Utrata info</b> | Projekcja trac	egzamin pyt38 TASS detail
+Scharakteryzować problem segmentacji obrazu. Przedstawić podstawowe strategie i algorytmy segmentacji przy użyciu metod klasycznych oraz sieci neuronowych.	### 1. Definicja problemu segmentacji<br>#### 2.1 Thresholding (progowanie)	egzamin pyt39 TWM main
+Wyjaśnij: Definicja problemu segmentacji	```
+┌─────────────────────────────────────────────────────────────────┐
+│ SEGMENTACJA OBRAZU │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Obraz wejściowy:	egzamin pyt39 TWM detail
+Wyjaśnij: Metody klasyczne	#### 2.1 Thresholding (progowanie)<br>Otsu (automatyczny próg):
+ - Maksymalizuje wariancję między klasami
+ - σ²_between = w₀w₁(μ₀ - μ₁)²	egzamin pyt39 TWM detail
+Wyjaśnij: Porównanie metod klasycznych	| Metoda | Zalety | Wady |
+|--------|--------|------|
+| <b>Thresholding</b> | Szybki, prosty | Tylko 2 klasy, wrażliwy na oświetlenie |
+| <b>Region Growing</b> | Intuicyjny | Wymaga seedów, over-segmentation |
+| <b>Watershed</b> | Dobre krawędzie | Over-segmentation |
+| <b>Mean Shift</b> | Brak k | Wolny, param	egzamin pyt39 TWM detail
+Wyjaśnij: Metody deep learning	#### 4.1 FCN (Fully Convolutional Network)<br>#### 4.4 Transformer-based (SegFormer, Mask2Former)	egzamin pyt39 TWM detail
+Wyjaśnij: Porównanie architektur DL	| Architektura | mIoU (ADE20K) | Parametry | Cechy |
+|--------------|---------------|-----------|-------|
+| <b>FCN</b> | ~30% | ~135M | Pierwsze DL dla segmentacji |
+| <b>U-Net</b> | - | ~31M | Medical, skip connections |
+| <b>DeepLabv3+</b> | ~45% | ~60M | ASPP, dilated conv |
+| <b>SegFormer-B5</b> | ~51% | ~8	egzamin pyt39 TWM detail
+Wyjaśnij: Loss functions	```
+Cross-Entropy Loss:
+ L = -Σᵢ Σc yᵢc log(pᵢc)
+ 
+ Problem: class imbalance (dużo tła, mało obiektów)<br>Dice Loss:
+ L = 1 - 2|X ∩ Y| / (|X| + |Y|)
+ 
+ Bezpośrednio optymalizuje IoU-like metric	egzamin pyt39 TWM detail
+Wyjaśnij: Metryki	| Metryka | Formuła | Opis |
+|---------|---------|------|
+| <b>Pixel Accuracy</b> | TP / (TP+FP+FN+TN) | % poprawnych pikseli |
+| <b>IoU (Jaccard)</b> | TP / (TP+FP+FN) | Intersection over Union |
+| <b>mIoU</b> | mean IoU per class | Standard dla segmentacji |
+| <b>Dice</b> | 2TP / (2TP+FP+FN) | F1 dla segmenta	egzamin pyt39 TWM detail
+Opisać problem detekcji obiektów w obrazach. Przedstawić podstawowe strategie i algorytmy detekcji przy użyciu metod klasycznych oraz sieci neuronowych. Jak skonstruować detektor obiektów dysponując istniejącym klasyfikatorem tych obiektów?	### 1. Definicja problemu detekcji<br>#### 2.1 Sliding Window + HOG/SIFT	egzamin pyt40 TWM main
+Wyjaśnij: Definicja problemu detekcji	```
+┌─────────────────────────────────────────────────────────────────┐
+│ DETEKCJA OBIEKTÓW │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Obraz wejściowy:	egzamin pyt40 TWM detail
+Wyjaśnij: Metody Deep Learning	#### 3.1 Two-Stage Detectors (R-CNN family)<br>┌─────────────────────────────────────────────────────────────────┐
+│ Fast R-CNN (2015) │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Image → CNN → Feature map	egzamin pyt40 TWM detail
+Wyjaśnij: Konstrukcja detektora z klasyfikatora	```
+┌─────────────────────────────────────────────────────────────────┐
+│ JAK ZROBIĆ DETEKTOR MAJĄC KLASYFIKATOR? │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Metoda 1: SLIDING WINDO	egzamin pyt40 TWM detail
+Wyjaśnij: Non-Maximum Suppression (NMS)	```
+Problem: Wiele overlapping detections<br>┌─────────┐
+ │ ┌──────┼──┐
+ │ │ 🚗 │ │ ← 3 nakładające się bbox
+ │ │ │ │
+ └──┼──────┘ │
+ └─────────┘	egzamin pyt40 TWM detail
+Przedstawić metody interaktywne wspomagania decyzji w warunkach ryzyka.	### 1. Decyzje w warunkach ryzyka<br>### 2. Metody interaktywne - przegląd	egzamin pyt41 WDWR main
+Wyjaśnij: Decyzje w warunkach ryzyka	```
+┌─────────────────────────────────────────────────────────────────┐
+│ WARUNKI PODEJMOWANIA DECYZJI │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ PEWNOŚĆ: Znamy do	egzamin pyt41 WDWR detail
+Wyjaśnij: Metody interaktywne - przegląd	```
+┌─────────────────────────────────────────────────────────────────┐
+│ INTERAKTYWNE = Dialog z decydentem │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ ┌──────────────┐	egzamin pyt41 WDWR detail
+Wyjaśnij: Metoda loterii (Lottery Method)	```
+┌─────────────────────────────────────────────────────────────────┐
+│ ELICYTACJA FUNKCJI UŻYTECZNOŚCI │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Cel: Wyznaczyć U(x) dla	egzamin pyt41 WDWR detail
+Wyjaśnij: Metoda pewnego ekwiwalentu (Certainty Equivalent)	```
+CE (Certainty Equivalent) = pewna kwota równoważna loterii<br>Dla loterii L = (p₁: x₁, p₂: x₂, ...):
+ CE(L) taki że U(CE) = E[U(L)] = Σ pᵢ U(xᵢ)	egzamin pyt41 WDWR detail
+Wyjaśnij: Metoda AHP (Analytic Hierarchy Process)	```
+┌─────────────────────────────────────────────────────────────────┐
+│ AHP - Hierarchiczna struktura problemu (Saaty) │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ ┌───	egzamin pyt41 WDWR detail
+Wyjaśnij: Metoda PROMETHEE	```
+┌─────────────────────────────────────────────────────────────────┐
+│ PROMETHEE - Preference Ranking Organization Method │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ 1. Dla każdego kryteriu	egzamin pyt41 WDWR detail
+Wyjaśnij: Metoda ELECTRE	```
+┌─────────────────────────────────────────────────────────────────┐
+│ ELECTRE - ELimination Et Choix Traduisant la REalité │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Outranking: &quot;a jest co n	egzamin pyt41 WDWR detail
+Scharakteryzować relacje dominacji stochastycznej pierwszego i drugiego rzędu. Jak mogą być użyte w modelach wyboru w warunkach ryzyka?	### 1. Idea dominacji stochastycznej<br>### 2. Dominacja stochastyczna pierwszego rzędu (FSD)	egzamin pyt42 WDWR main
+Wyjaśnij: Idea dominacji stochastycznej	```
+┌─────────────────────────────────────────────────────────────────┐
+│ DOMINACJA STOCHASTYCZNA (Stochastic Dominance) │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Cel: Porównać rozkłady	egzamin pyt42 WDWR detail
+Wyjaśnij: Dominacja stochastyczna pierwszego rzędu (FSD)	$$A \succeq_{FSD} B \Leftrightarrow F_A(x) \leq F_B(x) \quad \forall x$$<br>gdzie $F(x) = P(X \leq x)$ to dystrybuanta (CDF)	egzamin pyt42 WDWR detail
+Wyjaśnij: Dominacja stochastyczna drugiego rzędu (SSD)	$$A \succeq_{SSD} B \Leftrightarrow \int_{-\infty}^{x} F_A(t) dt \leq \int_{-\infty}^{x} F_B(t) dt \quad \forall x$$<br>$$E[U(A)] \geq E[U(B)] \quad \forall U: U' \geq 0, U'' \leq 0$$	egzamin pyt42 WDWR detail
+Wyjaśnij: Porównanie FSD i SSD	```
+┌─────────────────────────────────────────────────────────────────┐
+│ FSD vs SSD │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Przykład 1: FSD	egzamin pyt42 WDWR detail
+Wyjaśnij: Zastosowanie w modelach wyboru	Test SSD:
+• E[A] = 10% > E[B] = 8% ✓
+• σ[A] = 15% < σ[B] = 20% ✓<br>Dla rozkładów normalnych z E[A] > E[B] i σ[A] < σ[B]:
+ A dominuje B (SSD)	egzamin pyt42 WDWR detail
+Wyjaśnij: Testowanie dominacji	```
+┌─────────────────────────────────────────────────────────────────┐
+│ ALGORYTM SPRAWDZANIA SD │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Dane: Dwa rozkłady emp	egzamin pyt42 WDWR detail
+Wyjaśnij: Ograniczenia	| Ograniczenie | Opis |
+|--------------|------|
+| <b>Częściowe uporządkowanie</b> | Nie wszystkie pary porównywalne |
+| <b>Konserwatywność</b> | Wiele par bez dominacji |
+| <b>Wymóg pełnego rozkładu</b> | Potrzebna cała dystrybuanta |
+| <b>Brak dominacji ≠ obojętność</b> | Brak dominacji nie znaczy równoważność	egzamin pyt42 WDWR detail
+Jakie cechy zadań szeregowania wykorzystuje się do ich klasyfikacji? Omówić przykładową metodę dla wybranego problemu szeregowania.	### 1. Notacja Graham'a (α|β|γ)<br>### 2. Pole α - Środowisko maszynowe	egzamin pyt43 ZBOP main
+Wyjaśnij: Notacja Graham'a (α|β|γ)	```
+┌─────────────────────────────────────────────────────────────────┐
+│ NOTACJA KLASYFIKACJI ZADAŃ SZEREGOWANIA │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ α |	egzamin pyt43 ZBOP detail
+Wyjaśnij: Pole α - Środowisko maszynowe	| Symbol | Opis |
+|--------|------|
+| <b>1</b> | Jedna maszyna |
+| <b>P</b> | Maszyny równoległe identyczne |
+| <b>Pm</b> | m maszyn równoległych identycznych |
+| <b>Q</b> | Maszyny równoległe o różnych prędkościach |
+| <b>R</b> | Maszyny niezwiązane (unrelated) |
+| <b>F</b> | Flow shop (linia produkcyjna) |
+| <b>Fm</b><br>MASZYNY RÓWNOLEGŁE (Pm):
+ Job 1 ──→ ┌───┐
+ │M1 │ ──→
+ Job 2 ──→ ├───┤
+ │M2 │ ──→ Output
+ Job 3 ──→ ├───┤
+ │M3 │ ──→
+ └───┘	egzamin pyt43 ZBOP detail
+Wyjaśnij: Pole β - Charakterystyki zadań	| Symbol | Opis |
+|--------|------|
+| <b>rⱼ</b> | Release dates (terminy dostępności) |
+| <b>dⱼ</b> | Due dates (terminy wymagane) |
+| <b>d̄ⱼ</b> | Deadlines (nieprzekraczalne terminy) |
+| <b>prec</b> | Precedence constraints (kolejność) |
+| <b>pmtn</b> | Preemption allowed (przerwanie dozwolone) |
+| <b>pⱼ=1</b> | Un	egzamin pyt43 ZBOP detail
+Wyjaśnij: Pole γ - Kryteria optymalizacji	| Symbol | Nazwa | Formuła |
+|--------|-------|---------|
+| <b>Cmax</b> | Makespan | max Cⱼ |
+| <b>ΣCⱼ</b> | Total completion time | Σ Cⱼ |
+| <b>Σwⱼ Cⱼ</b> | Weighted completion | Σ wⱼ Cⱼ |
+| <b>Lmax</b> | Max lateness | max(Cⱼ - dⱼ) |
+| <b>Tmax</b> | Max tardiness | max(0, Cⱼ - dⱼ) |
+| <b>ΣTⱼ</b> | Total tardiness |	egzamin pyt43 ZBOP detail
+Wyjaśnij: Złożoność obliczeniowa	```
+┌─────────────────────────────────────────────────────────────────┐
+│ ZŁOŻONOŚĆ WYBRANYCH PROBLEMÓW │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ WIELOMIANOWE (P):	egzamin pyt43 ZBOP detail
+Wyjaśnij: Inne klasyczne reguły	| Reguła | Problem | Opis |
+|--------|---------|------|
+| <b>SPT</b> | 1 \|\| ΣCⱼ | Shortest Processing Time |
+| <b>WSPT</b> | 1 \|\| ΣwⱼCⱼ | Weighted SPT (wⱼ/pⱼ malejąco) |
+| <b>EDD</b> | 1 \|\| Lmax | Earliest Due Date |
+| <b>LPT</b> | Pm \|\| Cmax | Longest Processing Time (heur.) |
+| <b>Moore</b> | 1 \|\| ΣUⱼ	egzamin pyt43 ZBOP detail
+Wyjaśnij: Algorytm Johnsona (F2 || Cmax)	```
+┌─────────────────────────────────────────────────────────────────┐
+│ ALGORYTM JOHNSONA - Flow shop 2 maszyny │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Dane: n zadań, czasy (a	egzamin pyt43 ZBOP detail
+Jakie problemy wiążą się z zarządzaniem zapasami w łańcuchu dostaw? Omówić przykładowy model zarządzania zapasami w łańcuchu dostaw.	### 1. Łańcuch dostaw - struktura<br>### 2. Problemy zarządzania zapasami	egzamin pyt44 ZBOP main
+Wyjaśnij: Łańcuch dostaw - struktura	```
+┌─────────────────────────────────────────────────────────────────┐
+│ ŁAŃCUCH DOSTAW │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Dostawcy → Producent	egzamin pyt44 ZBOP detail
+Wyjaśnij: Problemy zarządzania zapasami	#### 2.1 Bullwhip Effect (Efekt byczego bicza)	egzamin pyt44 ZBOP detail
+Wyjaśnij: Koszty zapasów	```
+┌─────────────────────────────────────────────────────────────────┐
+│ STRUKTURA KOSZTÓW │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ 1. KOSZTY UTRZYMANIA (	egzamin pyt44 ZBOP detail
+Wyjaśnij: Model EOQ (Economic Order Quantity)	Ordering cost = K × (D/Q) (D/Q zamówień rocznie)
+Holding cost = h × (Q/2) (średni zapas = Q/2)<br>┌──────────┐
+ Q* = │ 2·K·D │
+ │ ────── │
+ │ h │
+ └──────────┘	egzamin pyt44 ZBOP detail
+Wyjaśnij: Model z punktem zamawiania (ROP)	```
+┌─────────────────────────────────────────────────────────────────┐
+│ REORDER POINT (ROP) - uwzględnienie lead time │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Poziom zapasu:	egzamin pyt44 ZBOP detail
+Wyjaśnij: Model (s, S) / (R, Q)	| Model | Opis |
+|-------|------|
+| <b>(s, Q)</b> | Zamów Q gdy poziom spadnie do s |
+| <b>(s, S)</b> | Zamów do poziomu S gdy spadnie do s |
+| <b>(R, S)</b> | Co R okresów uzupełnij do S |
+| <b>(R, s, S)</b> | Co R okresów: jeśli ≤ s, uzupełnij do S |<br>Polityka: Gdy poziom ≤ s, zamów aby osiągnąć S
+```	egzamin pyt44 ZBOP detail
+Wyjaśnij: Vendor Managed Inventory (VMI)	```
+┌─────────────────────────────────────────────────────────────────┐
+│ VMI - Dostawca zarządza zapasami klienta │
+├─────────────────────────────────────────────────────────────────┤
+│ │
+│ Tradycyjnie:	egzamin pyt44 ZBOP detail
+Wyjaśnij: Wskaźniki efektywności	| Wskaźnik | Formuła | Cel |
+|----------|---------|-----|
+| <b>Inventory Turnover</b> | COGS / Avg Inventory | Wyższy = lepszy |
+| <b>Days of Inventory</b> | 365 / Turnover | Niższy = lepszy |
+| <b>Fill Rate</b> | Zamówienia zrealizowane / Wszystkie | Wyższy |
+| <b>Service Level</b> | P(brak stockout) | 95-99%	egzamin pyt44 ZBOP detail
+Wyjaśnij: Pytanie	<b>&quot;Jaki jest cel Pana pracy magisterskiej i dlaczego wybrano akurat temat porównania silników gier?&quot;</b>	egzamin pyt45 Ogólne detail
+Wyjaśnij: Odpowiedź wzorcowa	<b>Praktyczna potrzeba</b>: wybór silnika to kluczowa decyzja wpływająca na cały cykl życia projektu<br><b>Brak obiektywnych porównań</b>: większość istniejących materiałów ma charakter subiektywny lub marketingowy<br><b>Dominacja rynkowa</b>: Unity i Unreal wspólnie obsługują >70% globalnego rynku gier<br><b>Reprezentatywność architektur</b>: silniki reprezentują fundamentalnie różne podejścia (C# z GC vs C++ z ręcznym zarządzaniem pamięcią)	egzamin pyt45 Ogólne detail
+Wyjaśnij: Wydajność	- Szybkość renderowania (FPS)
+- Zużycie pamięci RAM
+- Obciążenie procesora
+- Zużycie pamięci karty graficznej
+- Czas ładowania scen	egzamin pyt45 Ogólne detail
+Wyjaśnij: Funkcjonalność	- Wsparcie dla różnych typów renderingu
+- Systemy fizyki
+- Systemy audio
+- Wsparcie dla VR/AR
+- Możliwości skryptowania	egzamin pyt45 Ogólne detail
+Wyjaśnij: Użyteczność	<b>Dlaczego te kryteria:</b>: Pokrywają wszystkie aspekty istotne dla deweloperów	egzamin pyt45 Ogólne detail

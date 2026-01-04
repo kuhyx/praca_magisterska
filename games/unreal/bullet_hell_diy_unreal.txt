@@ -290,6 +290,22 @@ STEP 2.4: Set Up Enhanced Input System
 UE5 uses the Enhanced Input System. Before creating movement logic in our 
 Blueprint, we first need to create Input Actions and an Input Mapping Context.
 
+0. ENABLE ENHANCED INPUT IN PROJECT SETTINGS (CRITICAL):
+
+   Before creating any input assets, you MUST configure the project to use
+   Enhanced Input as the default input system:
+   
+   1. Go to Edit → Project Settings
+   2. In the left sidebar, scroll down to "Engine" section
+   3. Click on "Input"
+   4. Find "Default Classes" section (near the top)
+   5. Set "Default Player Input Class" to: EnhancedPlayerInput
+   6. Set "Default Input Component Class" to: EnhancedInputComponent
+   7. Close Project Settings
+   
+   WARNING: If you skip this step, WASD controls will NOT work even if
+   everything else is set up correctly!
+
 1. SET UP INPUT ASSETS (in Content Drawer):
 
    A) CREATE INPUT ACTIONS:
@@ -372,9 +388,46 @@ Blueprint, we first need to create Input Actions and an Input Mapping Context.
       - Click dropdown and select "IMC_Default"
       - Or drag IMC_Default from Content Drawer
    5. Set "Priority" to 0
-   6. Connect Event BeginPlay → Add Mapping Context
+   
+   6. CRITICAL - Connect the execution wire (white wire):
+      - Drag from the WHITE pin on the right side of "Event BeginPlay"
+      - Connect it to the WHITE pin on the left side of "Add Mapping Context"
+      - Without this execution wire, the mapping context is NEVER added!
 
-4. MOVEMENT LOGIC - Create this node network:
+   VERIFY: You should have a white wire going:
+   Event BeginPlay (white pin) ──────► Add Mapping Context (white pin)
+
+4. SIMPLE MOVEMENT TEST (verify input works before building full logic):
+
+   Before creating the complex movement network, let's verify input is working:
+   
+   a) From "Event Tick" node, drag from the WHITE execution pin
+   b) Search "Print String" → add it
+   c) For the "In String" input, we'll connect the input value:
+      - Right-click → search "Get Player Controller" → add it
+      - From Player Controller, drag → "Get Enhanced Input Local Player Subsystem"
+      - From subsystem, drag → search "IA_Move" (under Input → Enhanced Action Values)
+      - Right-click on the IA_Move output → "To Text (Vector2D)" or just drag to Print String
+   
+   d) Compile and Save
+   e) Drag BP_Player into level, Press Play
+   f) Press WASD keys and look at top-left of screen
+   
+   EXPECTED: You should see numbers changing when you press WASD:
+   - W: Y value goes positive (like "X=0.0 Y=1.0")
+   - S: Y value goes negative
+   - A: X value goes negative  
+   - D: X value goes positive
+   
+   IF YOU SEE "X=0.0 Y=0.0" ALWAYS (no change when pressing WASD):
+   - Check that IMC_Default has the WASD keys mapped correctly
+   - Check that Event BeginPlay execution wire connects to Add Mapping Context
+   - Check Project Settings → Input → Default Classes are set to Enhanced versions
+   
+   IF THIS TEST WORKS: Delete the Print String node and continue to step 5.
+   IF THIS TEST FAILS: Fix the input setup before proceeding.
+
+5. MOVEMENT LOGIC - Create this node network:
 
    From "Event Tick" node:
    
@@ -451,9 +504,16 @@ Blueprint, we first need to create Input Actions and an Input Mapping Context.
       
    p) Right-click → "Set Actor Location"
       - Connect the clamped vector to "New Location"
-      - Connect Event Tick execution pin to this node
+      
+   q) CRITICAL - Connect the execution wire (white wire):
+      - Drag from the WHITE pin on the right side of "Event Tick"
+      - Connect it to the WHITE pin on the left side of "Set Actor Location"
+      - Without this execution wire, the movement code NEVER runs!
+      
+      VERIFY: You should have a white wire going:
+      Event Tick (white pin) ──────► Set Actor Location (white pin)
 
-4. Click Compile and Save
+6. Click Compile and Save
 
 EXPECTED RESULT after Compile:
 - Compile button shows GREEN checkmark (no errors)

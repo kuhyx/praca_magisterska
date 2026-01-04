@@ -42,9 +42,13 @@ STEP 1.1: Create New Project
 
 EXPECTED RESULT: Unreal Editor opens with an empty level. You should see:
 - Main 3D viewport in the center
-- Content Browser at the bottom
 - Outliner panel on the right (showing "Untitled" level)
 - Details panel on the right side
+
+NOTE: The Content Drawer is NOT open by default. To open it:
+- Click "Content Drawer" button at the bottom of the screen, OR
+- Press Ctrl+Space, OR
+- Go to Window → Content Drawer
 
 
 STEP 1.2: Set Up 2D Game View
@@ -53,11 +57,11 @@ Since bullet-hell games are typically 2D, we'll set up a top-down orthographic v
 
 1. In the main viewport, look at the top-left corner
 2. Click the dropdown that says "Perspective"
-3. Select "Top" from the dropdown menu
+3. Select "Top" from the dropdown menu (alt + J)
 
 4. To set up proper camera for the game:
-   - Go to menu bar: Edit → Project Settings
-   - In the left sidebar, search for "Maps & Modes"
+   - Go to menu bar (the top bar): Edit (Second from left, next fo "File" and "Window") → Project Settings
+   - In the left sidebar, search for "Maps & Modes" (Project -> 4th from the top, next to GameplayTags and Movies)
    - Click on "Maps & Modes"
    
 5. Under "Default Modes":
@@ -114,16 +118,17 @@ EXPECTED RESULT: A new tab opens showing the Blueprint Editor with:
 - Components panel on the left
 - Viewport in the center
 - Details panel on the right
-- Event Graph tab at the bottom
+- Tab bar above the Viewport with: Viewport | Construction Script | Event Graph (third from left)
 
 
 STEP 2.2: Add Player Visual Components
 --------------------------------------------------------------------------------
 1. In the Components panel (left side), you'll see "DefaultSceneRoot"
+   - Click on "DefaultSceneRoot" to select it (this ensures new components are added as children)
 
-2. Click "Add" button (green, top of Components panel)
+2. With DefaultSceneRoot selected, click "Add" button (green, top of Components panel)
    - Search for "Paper Sprite"
-   - Click "Paper Sprite" to add it
+   - Click "Paper Sprite" to add it (it will be added as a child of DefaultSceneRoot)
    - Rename it to "PlayerSprite" (click on it, then press F2)
 
    NOTE: If Paper Sprite is not available:
@@ -137,21 +142,21 @@ STEP 2.2: Add Player Visual Components
    - For now, leave it empty (we'll create sprites later)
    - Under "Transform", set Scale to (1.0, 1.0, 1.0)
 
-4. Click "Add" button again:
+4. With DefaultSceneRoot still selected, click "Add" button again:
    - Search for "Box Collision"
-   - Click "Box Collision" to add it
+   - Click "Box Collision" to add it (it will be added as a child of DefaultSceneRoot)
    - Rename it to "PlayerCollision"
 
 5. With "PlayerCollision" selected, in Details panel:
    - Under "Shape", set Box Extent to: X=25, Y=25, Z=10
    - Under "Collision", click "Collision Presets" dropdown
    - Select "Custom..."
-   - Set "Collision Enabled" to "Query Only"
-   - Check "Generate Overlap Events" box
+   - Set "Collision Enabled" to "Query Only (No Physics Collision)"
+   - Enable "Generate Overlap Events" box
 
-6. Click "Add" button:
+6. With DefaultSceneRoot still selected, click "Add" button:
    - Search for "Arrow"
-   - Click "Arrow Component" to add
+   - Click "Arrow" to add it (it will be added as a child of DefaultSceneRoot)
    - This shows which direction is "forward" (useful for debugging)
 
 EXPECTED RESULT: Components panel shows:
@@ -163,17 +168,24 @@ EXPECTED RESULT: Components panel shows:
 
 STEP 2.3: Create Player Variables
 --------------------------------------------------------------------------------
-1. In the Blueprint Editor, look at the left panel
+(Continue in the same BP_Player Blueprint Editor tab that was opened in Step 2.1)
+
+1. In the Blueprint Editor, look at the left panel (below the Components panel)
 2. Find "My Blueprint" section
 3. Under "Variables", click the "+" button
 
 4. Create these variables one by one (click +, then set properties in Details):
 
+   NOTE: Variables are NOT added to the Components hierarchy. They appear in a 
+   separate "Variables" list within the "My Blueprint" panel. Variables store 
+   data values, while Components are physical/visual parts of the actor.
+
    Variable 1:
    - Name: "MoveSpeed"
    - Type: Float (click dropdown next to variable, select Float)
    - Click "eye" icon to make it public/editable
-   - In Details panel, set Default Value: 750.0
+   - Compile the blueprint (Click on "Compile" third option from left or cimply Ctrl + Alt)
+   - In Details panel, set Default Value: 750.0 
    
    Variable 2:
    - Name: "BoundsMin"
@@ -227,84 +239,200 @@ STEP 2.3: Create Player Variables
    
    Variable 12:
    - Name: "BulletClass"
-   - Type: Class Reference (search "Class", select "Class")
-   - In Details, under "Class", select "Actor" as the base class
-   - This will hold reference to bullet blueprint
+   - Type: In the type dropdown, go to "Object Types" category → "Actor" → 
+     select "Class Reference" (the subcategory under Actor)
+   - This will hold reference to bullet blueprint class for spawning
 
 5. Click "Compile" button (top left, blue checkmark icon)
 6. Click "Save" button (floppy disk icon next to Compile)
 
-EXPECTED RESULT: My Blueprint panel shows all 12 variables listed
+EXPECTED RESULT: My Blueprint panel shows:
+- All 12 variables you created listed under "Variables"
+- A "Components" category with 4 component references (DefaultSceneRoot, 
+  PlayerSprite, PlayerCollision, Arrow) - these are automatically created 
+  from the components you added in Step 2.2
 
 
-STEP 2.4: Create Player Movement Logic
+STEP 2.4: Set Up Enhanced Input System
 --------------------------------------------------------------------------------
-1. Click on "Event Graph" tab at the bottom of Blueprint Editor
+UE5 uses the Enhanced Input System. Before creating movement logic in our 
+Blueprint, we first need to create Input Actions and an Input Mapping Context.
 
-2. You should see three default events (red nodes):
+1. SET UP INPUT ASSETS (in Content Drawer):
+
+   A) CREATE INPUT ACTIONS:
+   
+   1. Open Content Drawer (Ctrl+Space or click "Content Drawer" at bottom)
+   2. In Content folder, right-click → New Folder → name it "Input"
+   
+   3. Inside Input folder, right-click → Input → Input Action
+      - Name it "IA_Move"
+      - Double-click to open
+      - Set "Value Type" to "Axis2D (Vector2D)"
+      - Save and close
+   
+   4. Create another Input Action: "IA_Fire"
+      - Set "Value Type" to "Digital (bool)" (default)
+   
+   5. Create another Input Action: "IA_Special"
+      - Set "Value Type" to "Digital (bool)"
+
+   B) CREATE INPUT MAPPING CONTEXT:
+   
+   1. In Input folder, right-click → Input → Input Mapping Context
+      - Name it "IMC_Default"
+      - Double-click to open
+   
+   2. Click "+" next to "Mappings" to add IA_Move:
+      - Select "IA_Move" from dropdown
+      - Click "+" under IA_Move to add key bindings:
+      
+      For W key (move up/forward):
+        - Click "+", select "W"
+        - Under W, click "+" next to "Modifiers"
+        - Add "Swizzle Input Axis Values" → set Order to "YXZ"
+        
+      For S key (move down/backward):
+        - Click "+", select "S"
+        - Add Modifier: "Swizzle Input Axis Values" → Order: "YXZ"
+        - Add Modifier: "Negate"
+        
+      For A key (move left):
+        - Click "+", select "A"
+        - Add Modifier: "Negate"
+        
+      For D key (move right):
+        - Click "+", select "D"
+        - No modifiers needed
+   
+   3. Click "+" to add IA_Fire:
+      - Select "IA_Fire"
+      - Add key: "Z"
+      - Add key: "Left Mouse Button"
+   
+   4. Click "+" to add IA_Special:
+      - Select "IA_Special"
+      - Add key: "X"
+      - Add key: "Right Mouse Button"
+   
+   5. Save the Input Mapping Context
+
+2. NOW OPEN BP_PLAYER BLUEPRINT:
+
+   1. In Content Drawer, navigate to Content → Blueprints
+   2. Double-click "BP_Player" to open the Blueprint Editor
+   3. Click on "Event Graph" tab (above the main view, third tab from left, 
+      next to Construction Script)
+
+   You should see three default events (red nodes):
    - Event BeginPlay
    - Event ActorBeginOverlap  
    - Event Tick
 
-3. MOVEMENT LOGIC - Create this node network:
+3. ADD MAPPING CONTEXT IN BEGINPLAY:
+   
+   From "Event BeginPlay" node:
+   
+   1. Right-click → search "Get Player Controller" → add it
+   2. From the output, drag and search "Get Enhanced Input Local Player Subsystem"
+   3. From that output, drag and search "Add Mapping Context"
+   4. For "Mapping Context" input: 
+      - Click dropdown and select "IMC_Default"
+      - Or drag IMC_Default from Content Drawer
+   5. Set "Priority" to 0
+   6. Connect Event BeginPlay → Add Mapping Context
+
+4. MOVEMENT LOGIC - Create this node network:
 
    From "Event Tick" node:
    
-   a) Right-click empty space → search "Get Input Axis Value"
-      - Add one for "MoveForward" 
-      - Add another for "MoveRight"
-      
-   NOTE: If these don't work, you may need to set up input:
-      - Edit → Project Settings → Input
-      - Under "Axis Mappings", add:
-        - "MoveForward": W=1.0, S=-1.0
-        - "MoveRight": D=1.0, A=-1.0
+   a) Right-click → search "Get Player Controller" and add it
+   
+   b) From Player Controller output, right-click → "Get Enhanced Input Local Player Subsystem"
+   
+   c) From subsystem output, drag and right-click → search "IA_Move"
+      - Look under "Input" → "Enhanced Action Values" → select "IA_Move"
+      - This node returns the current value of the IA_Move input action
+   
+   d) The output is an Input Action Value (Vector2D since we set IA_Move to Axis2D).
+      Right-click the output pin → "Split Struct Pin" to get X and Y components,
+      OR drag from output and search "To Vector 2D" to convert it
 
-   b) Right-click → "Make Vector"
-      - Connect "MoveRight" to X
-      - Connect "MoveForward" to Y
+   e) Right-click → "Make Vector"
+      - Connect the X from movement input to X
+      - Connect the Y from movement input to Y  
       - Set Z to 0
       
-   c) Right-click → "Normalize"
+   f) Right-click → "Normalize"
       - Connect the vector output to Normalize input
       
-   d) Right-click → "Get World Delta Seconds"
+   g) Right-click → "Get World Delta Seconds"
    
-   e) Right-click → "Get MoveSpeed" (your variable)
+   h) Right-click → "Get MoveSpeed" (your variable)
    
-   f) Right-click → Multiply (float * float)
+   i) Right-click → Multiply (float * float)
       - Connect Delta Seconds output to first input
       - Connect MoveSpeed output to second input
       
-   g) Right-click → Multiply (vector * float)
-      - Connect Normalized vector to vector input
-      - Connect (DeltaSeconds * MoveSpeed) result to float input
+   j) Right-click → Multiply (vector * float)
+      - Connect Normalized vector (from step f) to vector input
+      - Connect (DeltaSeconds * MoveSpeed) result (from step i) to float input
+      - This output is the "movement delta" - how far to move this frame
       
-   h) Right-click → "Get Actor Location"
+   k) Right-click → "Get Actor Location"
    
-   i) Right-click → Add (vector + vector)
-      - Connect current location to first input
-      - Connect movement vector to second input
+   l) Right-click → Add (vector + vector)
+      - Connect current location (from step k) to first input
+      - Connect movement delta (from step j) to second input
       
-   j) Right-click → "Clamp" (for X)
-      - Search "Clamp (float)"
-      - Break the result vector (right-click output → Split Struct Pin)
-      - Connect X to Clamp Value
-      - Get BoundsMin, break it, connect X to Min
-      - Get BoundsMax, break it, connect X to Max
+   m) CLAMP X COORDINATE:
+      First, break apart the new position vector from step l:
+      - Right-click on the output pin of the Add node (from step l) → "Split Struct Pin"
+      - This splits the vector into three separate pins: X, Y, Z
       
-   k) Do the same Clamp for Y coordinate
+      Now clamp the X value:
+      - Right-click in empty space → search "Clamp (float)" → add it
+      - Connect the "X" output (from the split Add node) to "Value" input of Clamp
+      
+      Get the min bound:
+      - Right-click → search "Get BoundsMin" (your variable) → add it
+      - Right-click on BoundsMin output pin → "Split Struct Pin" (splits into X, Y)
+      - Connect BoundsMin's "X" to Clamp's "Min" input
+      
+      Get the max bound:
+      - Right-click → search "Get BoundsMax" (your variable) → add it
+      - Right-click on BoundsMax output pin → "Split Struct Pin"
+      - Connect BoundsMax's "X" to Clamp's "Max" input
+      
+      The Clamp node now outputs the X position clamped within bounds.
+      
+   n) CLAMP Y COORDINATE:
+      - Right-click → add another "Clamp (float)" node
+      - Connect the "Y" output (from the split Add node in step m) to "Value"
+      - Connect BoundsMin's "Y" (already split) to "Min"
+      - Connect BoundsMax's "Y" (already split) to "Max"
    
-   l) Right-click → "Make Vector"
+   o) Right-click → "Make Vector"
       - Connect clamped X
       - Connect clamped Y
       - Set Z to 0
       
-   m) Right-click → "Set Actor Location"
+   p) Right-click → "Set Actor Location"
       - Connect the clamped vector to "New Location"
       - Connect Event Tick execution pin to this node
 
 4. Click Compile and Save
+
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark (no errors)
+- No warnings about unconnected pins
+
+EXPECTED RESULT in Play mode (press Play button or Alt+P):
+- Player pawn moves smoothly when pressing WASD keys
+- Movement is frame-rate independent (consistent speed)
+- Player cannot move outside the screen bounds (stops at edges)
+- Releasing keys immediately stops movement (no drift)
+
 
 VISUAL DIAGRAM OF MOVEMENT NODES:
 ┌─────────────┐
@@ -312,19 +440,21 @@ VISUAL DIAGRAM OF MOVEMENT NODES:
 └─────────────┘                                               │
        │                                                      │
        ▼                                                      ▼
-┌─────────────────┐   ┌─────────────────┐            ┌────────────────────┐
-│GetAxisMoveRight │   │GetAxisMoveForward│            │ Set Actor Location │
-└────────┬────────┘   └────────┬────────┘            └────────────────────┘
-         │                     │                              ▲
-         ▼                     ▼                              │
-    ┌────────────────────────────┐                    ┌───────────────┐
-    │      Make Vector           │───►Normalize───►   │ Clamped Vector│
-    │  X=Right, Y=Forward, Z=0   │   (direction)      └───────────────┘
-    └────────────────────────────┘        │                   ▲
-                                          ▼                   │
-                                    ┌──────────────┐    ┌─────────────┐
-                                    │ * MoveSpeed  │───►│ + Location  │
-                                    │ * DeltaTime  │    └─────────────┘
+┌──────────────────────────────────┐                 ┌────────────────────┐
+│ Get Enhanced Input Subsystem     │                 │ Set Actor Location │
+│ → Get Action Value (IA_Move)     │                 └────────────────────┘
+│ → Get as Vector2D                │                          ▲
+└────────────────┬─────────────────┘                          │
+                 │                                    ┌───────────────┐
+                 ▼                                    │ Clamped Vector│
+    ┌────────────────────────────┐                    └───────────────┘
+    │      Make Vector           │───►Normalize───►          ▲
+    │  X=Input.X, Y=Input.Y, Z=0 │   (direction)             │
+    └────────────────────────────┘        │           ┌─────────────┐
+                                          ▼           │ + Location  │
+                                    ┌──────────────┐  └─────────────┘
+                                    │ * MoveSpeed  │─────────┘
+                                    │ * DeltaTime  │
                                     └──────────────┘
 
 
@@ -332,20 +462,21 @@ STEP 2.5: Create Player Firing Logic
 --------------------------------------------------------------------------------
 1. Continue in Event Graph, we'll add firing after movement
 
-2. After the movement logic, add firing check:
+2. After the movement logic, add firing check using Enhanced Input:
 
-   a) Right-click → "Is Input Key Down"
-      - Set Key to "Z"
+   a) Right-click → search "Enhanced Input Action" 
+      - Select "EnhancedInputAction IA_Fire"
+      - This creates an event node that fires when the action is triggered
       
-   b) Alternative: Right-click → "Is Mouse Button Down"
-      - Set Button to "Left Mouse Button"
-      
-   c) Right-click → "OR Boolean"
-      - Connect both input checks to OR
-      
+   ALTERNATIVE (checking in Tick):
+   If you prefer to check firing in Event Tick like the movement:
+   
+   a) After movement logic, get Enhanced Input subsystem again
+   b) Right-click → "Get Action Value"
+      - Select "IA_Fire" as the action
+   c) The return value is a boolean (true when pressed)
    d) Right-click → "Branch"
-      - Connect OR result to Condition
-      - Connect execution from after movement
+      - Connect the boolean to Condition
       
    e) On "True" branch:
       - Get FireTimer variable
@@ -353,6 +484,9 @@ STEP 2.5: Create Player Firing Logic
       - If FireTimer <= 0:
         - Reset FireTimer to FireInterval
         - Call "Fire Volley" function (we'll create this)
+   
+   NOTE: Since IA_Fire was set up with Z key and Left Mouse Button in the 
+   Input Mapping Context, both inputs will trigger this action automatically.
 
 3. CREATE FIRE VOLLEY FUNCTION:
    
@@ -390,6 +524,17 @@ STEP 2.5: Create Player Firing Logic
 
 5. Compile and Save
 
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark
+- "FireVolley" and "SpawnBullet" functions appear under Functions in My Blueprint panel
+
+EXPECTED RESULT in Play mode:
+- NOTE: Bullets won't spawn yet because BP_Bullet doesn't exist
+- After BP_Bullet is created (Part 3), pressing Z or Left Mouse Button will:
+  - Spawn 3 bullets in a spread pattern (VolleySize=3)
+  - Bullets travel upward from player position
+  - Rapid fire when holding the button (every 0.08 seconds)
+
 
 STEP 2.6: Create Player Damage and Special Ability
 --------------------------------------------------------------------------------
@@ -418,17 +563,42 @@ STEP 2.6: Create Player Damage and Special Ability
 
 3. SPECIAL ABILITY (Screen Clear):
 
-   a) In Event Graph, add to Event Tick:
-      - Is Input Key Down → Key = "X"
-      - OR with Right Mouse Button
-      - Branch on result
+   Using Enhanced Input (IA_Special was already set up with X and Right Mouse):
+
+   a) In Event Graph, add to Event Tick (after firing logic):
+      - Get Enhanced Input subsystem (same as before)
+      - "Get Action Value" for "IA_Special"
+      - Branch on the boolean result
+      - On True:
+        - Check if SpecialUsed is false
+        - If not used:
+          - Set SpecialUsed = true
+          - Call "ClearAllEnemies" (global function)
+          - Call "ClearAllEnemyBullets" (global function)
+   
+   ALTERNATIVE (Event-based):
+   a) Right-click → "EnhancedInputAction IA_Special"
+   b) From the "Triggered" execution pin:
       - Check if SpecialUsed is false
       - If not used:
         - Set SpecialUsed = true
-        - Call "ClearAllEnemies" (global function)
-        - Call "ClearAllEnemyBullets" (global function)
+        - Call "ClearAllEnemies"
+        - Call "ClearAllEnemyBullets"
 
 4. Compile and Save
+
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark
+- "TakeHit" and "HandleDeath" functions appear under Functions
+- Event Graph shows special ability logic connected to Event Tick
+
+EXPECTED RESULT in Play mode (after all parts are complete):
+- When enemy bullet hits player: Lives decrease by 1
+- When Lives reach 0: Player disappears, game shows "Game Over"
+- Pressing X or Right Mouse Button (once per game):
+  - All enemies on screen are destroyed
+  - All enemy bullets are destroyed
+  - Second press does nothing (SpecialUsed = true)
 
 
 ================================================================================
@@ -455,6 +625,15 @@ STEP 3.1: Create Bullet Blueprint
    - RemainingLifetime (Float) - Default: 4.0
    - IsEnemyProjectile (Boolean) - Default: false
    - Damage (Integer) - Default: 1
+
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark
+- Components panel shows: DefaultSceneRoot → BulletSprite, BulletCollision
+- Variables panel shows all 5 variables with correct types
+
+EXPECTED RESULT in Viewport (Blueprint Editor):
+- Small sphere collision visible (radius 8)
+- Sprite component visible (empty until sprite assigned)
 
 
 STEP 3.2: Bullet Movement Logic
@@ -490,6 +669,15 @@ STEP 3.2: Bullet Movement Logic
 
 3. Compile and Save
 
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark
+- "Initialize" function appears under Functions with 5 input parameters
+
+EXPECTED RESULT in Play mode (when spawned by player):
+- Bullets move in their assigned direction at TravelSpeed
+- Bullets automatically destroy after RemainingLifetime seconds (default 4s)
+- Movement is smooth and frame-rate independent
+
 
 STEP 3.3: Bullet Collision Logic
 --------------------------------------------------------------------------------
@@ -520,6 +708,17 @@ STEP 3.3: Bullet Collision Logic
         - Destroy this bullet
 
 4. Compile and Save
+
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark
+- Event Graph shows "On Component Begin Overlap" event connected to Branch
+
+EXPECTED RESULT in Play mode:
+- Player bullets (IsEnemyProjectile=false) hitting enemies:
+  - Enemy takes damage, bullet disappears
+- Enemy bullets (IsEnemyProjectile=true) hitting player:
+  - Player takes hit, bullet disappears
+- Bullets passing through other objects: No effect (bullets ignore non-targets)
 
 
 ================================================================================
@@ -557,6 +756,15 @@ STEP 4.1: Create Enemy Blueprint
    - FireTimer (Float) - Default: 0.0
    - BulletClass (Class Reference to Actor)
 
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark
+- Components panel shows: DefaultSceneRoot → EnemySprite, EnemyCollision
+- Variables panel shows all 16 variables with correct types and defaults
+
+EXPECTED RESULT in Viewport (Blueprint Editor):
+- Box collision visible (30x30x10)
+- Sprite component visible (empty until sprite assigned)
+
 
 STEP 4.2: Enemy Initialization
 --------------------------------------------------------------------------------
@@ -570,6 +778,15 @@ STEP 4.2: Enemy Initialization
       (6.28 ≈ 2π for wave randomization)
    
    d) Random Float in Range (0, FireInterval) → Set FireTimer
+
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark
+- BeginPlay event connected to variable setters
+
+EXPECTED RESULT in Play mode:
+- Each enemy spawns with randomized WaveSeed (0 to 6.28)
+- Each enemy starts with different FireTimer offset
+- This creates varied, non-synchronized enemy behavior
 
 
 STEP 4.3: Enemy Movement Logic
@@ -607,6 +824,16 @@ VISUAL DIAGRAM:
 │  NewX = BaseX + Sin(Time * Freq) * Amplitude │
 │  Set Location (NewX, NewY, 0)                │
 └──────────────────────────────────────────────┘
+
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark
+- Event Tick connected to movement and despawn logic
+
+EXPECTED RESULT in Play mode:
+- Enemies drift downward at VerticalSpeed (220 units/sec)
+- Enemies oscillate horizontally in sine wave pattern
+- Each enemy has different horizontal phase (due to WaveSeed)
+- Enemies disappear when Y < -750 or |X| > 1400
 
 
 STEP 4.4: Enemy Firing Logic
@@ -650,6 +877,16 @@ VISUAL: Radial bullet pattern (20 bullets in 360°)
                  ↘  |  ↙
                     ↓
 
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark
+- "FireBurst" function appears under Functions
+
+EXPECTED RESULT in Play mode:
+- Every 0.35 seconds (FireInterval), enemy fires bullet burst
+- 20 bullets spawn in a full 360° circle pattern
+- Bullets travel outward from enemy position
+- Different enemies fire at different times (randomized FireTimer)
+
 
 STEP 4.5: Enemy Damage and Death
 --------------------------------------------------------------------------------
@@ -678,6 +915,16 @@ STEP 4.5: Enemy Damage and Death
         - Call TakeHit(1) on player
         - Call HandleDeath() on self
 
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark
+- "ApplyDamage" and "HandleDeath" functions appear under Functions
+- EnemyCollision has overlap event in Event Graph
+
+EXPECTED RESULT in Play mode:
+- Player bullets hitting enemy: Enemy health decreases
+- After 12 hits (MaxHealth): Enemy disappears, score increases by 50
+- Player colliding with enemy: Player takes 1 damage, enemy dies
+
 
 ================================================================================
 PART 5: CREATE ENEMY SPAWNER
@@ -698,6 +945,11 @@ STEP 5.1: Create Spawner Blueprint
    - ElapsedTime (Float) - Default: 0.0
    - SpawnTimer (Float) - Default: 0.0
    - SpawningActive (Boolean) - Default: true
+
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark
+- Variables panel shows all 7 variables with correct types
+- No components needed (spawner is invisible logic actor)
 
 
 STEP 5.2: Spawn Rate Curve
@@ -721,6 +973,15 @@ STEP 5.2: Spawn Rate Curve
    - The Y axis is spawns per second
 
 4. In BP_EnemySpawner, set SpawnCurve default to this curve asset
+
+EXPECTED RESULT in Curve Editor:
+- Curve line visible starting at (0, 0.4), rising through (0.5, 2.0), ending at (1.0, 4.5)
+- Smooth interpolation between keyframes
+
+EXPECTED RESULT in Play mode:
+- Game start: ~0.4 enemies spawn per second (slow)
+- At 2.5 minutes: ~2 enemies spawn per second (medium)
+- At 5 minutes: ~4.5 enemies spawn per second (intense)
 
 
 STEP 5.3: Spawning Logic
@@ -779,6 +1040,16 @@ STEP 5.3: Spawning Logic
 4. CREATE "StopSpawning" FUNCTION:
    - Set SpawningActive = false
 
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark
+- "SpawnWave", "SpawnEnemy", "StopSpawning" functions appear under Functions
+
+EXPECTED RESULT in Play mode:
+- Enemies spawn at top of screen (Y=500) at random X positions
+- Spawn rate increases over time following the curve
+- Maximum 120 enemies on screen at once
+- When StopSpawning called: No new enemies appear
+
 
 ================================================================================
 PART 6: CREATE GAME DIRECTOR
@@ -798,6 +1069,11 @@ STEP 6.1: Create Game Director Blueprint
    - ElapsedTime (Float) - Default: 0.0
    - GameActive (Boolean) - Default: true
 
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark
+- Variables panel shows all 5 variables with correct types
+- No components needed (director is invisible logic actor)
+
 
 STEP 6.2: Game Director Initialization
 --------------------------------------------------------------------------------
@@ -816,6 +1092,14 @@ STEP 6.2: Game Director Initialization
    c) Initialize ScoreManager:
       - Get ScoreManager reference
       - Call RegisterGameStart with initial lives and duration
+
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark
+- BeginPlay event connected to "Get All Actors of Class" nodes
+
+EXPECTED RESULT in Play mode:
+- Game Director automatically finds Player, Spawner, and ScoreManager
+- UI initializes with correct starting values (Lives: 3, Time: 05:00)
 
 
 STEP 6.3: Game Director Update Logic
@@ -848,6 +1132,16 @@ STEP 6.3: Game Director Update Logic
       - Set GameActive = false
       - Get SpawnerReference → Call StopSpawning
       - Get ScoreManager → Call HandleGameOver
+
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark
+- "HandlePlayerDeath" function appears under Functions
+- Event Tick connected to timer update and victory check
+
+EXPECTED RESULT in Play mode:
+- Timer counts down from 05:00 to 00:00
+- At 00:00: "Mission Complete" appears, enemies stop spawning
+- When player dies: "Game Over" appears, enemies stop spawning
 
 
 ================================================================================
@@ -927,6 +1221,10 @@ STEP 7.3: Create Score Manager Blueprint
    - HUDWidget (Object Reference to WBP_HUD)
    - HUDWidgetClass (Class Reference) - set to WBP_HUD
 
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark
+- Variables panel shows all 4 variables with correct types
+
 
 STEP 7.4: Score Manager Initialization
 --------------------------------------------------------------------------------
@@ -943,6 +1241,15 @@ STEP 7.4: Score Manager Initialization
    c) Add to viewport:
       - Right-click → "Add to Viewport"
       - Connect widget reference as target
+
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark
+- BeginPlay event connected to Create Widget → Add to Viewport
+
+EXPECTED RESULT in Play mode:
+- HUD appears immediately when game starts
+- HUD displays in top-left corner of screen
+- Text is visible and readable (white on game background)
 
 
 STEP 7.5: Score Manager Functions
@@ -981,6 +1288,16 @@ STEP 7.5: Score Manager Functions
 6. CREATE "HandleGameClear" FUNCTION:
    - Set Timer text to "Mission Complete"
 
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark
+- All 6 functions appear under Functions panel
+
+EXPECTED RESULT in Play mode:
+- Score updates instantly when enemies are killed (+50 each)
+- Lives display updates when player is hit
+- Timer counts down in MM:SS format
+- "Game Over" or "Mission Complete" replaces timer at game end
+
 
 ================================================================================
 PART 8: CREATE GAME MODE AND LEVEL
@@ -1001,6 +1318,10 @@ STEP 8.1: Create Custom Game Mode
    - Default Pawn Class: Select "BP_Player"
    - Player Controller Class: Keep default
 
+EXPECTED RESULT after Compile:
+- Compile button shows GREEN checkmark
+- Details panel shows "Default Pawn Class" set to BP_Player
+
 
 STEP 8.2: Configure Project to Use Game Mode
 --------------------------------------------------------------------------------
@@ -1009,6 +1330,10 @@ STEP 8.2: Configure Project to Use Game Mode
 3. Under "Default Modes":
    - Default GameMode: Select BP_BulletHellGameMode
 4. Close Project Settings
+
+EXPECTED RESULT:
+- Project Settings shows BP_BulletHellGameMode as Default GameMode
+- This means the game will automatically spawn BP_Player when Play is pressed
 
 
 STEP 8.3: Create Game Level
@@ -1019,6 +1344,11 @@ STEP 8.3: Create Game Level
 4. Navigate to Content folder
 5. Name: "BulletHellLevel"
 6. Click Save
+
+EXPECTED RESULT:
+- New level file "BulletHellLevel" appears in Content folder
+- Level is completely empty (black viewport)
+- Outliner shows only default actors (if any)
 
 
 STEP 8.4: Set Up Level Components
@@ -1061,6 +1391,19 @@ STEP 8.4: Set Up Level Components
 
 7. Save the level (Ctrl+S)
 
+EXPECTED RESULT in Level Viewport:
+- Camera actor visible at top of scene (Z=1000)
+- BP_Player visible at bottom center (Y=-300)
+- BP_EnemySpawner visible at top (Y=500)
+- BP_GameDirector and BP_ScoreManager in Outliner (invisible actors)
+
+EXPECTED RESULT in Outliner:
+- CameraActor
+- BP_Player
+- BP_EnemySpawner  
+- BP_GameDirector
+- BP_ScoreManager
+
 
 STEP 8.5: Set Default Level
 --------------------------------------------------------------------------------
@@ -1069,6 +1412,10 @@ STEP 8.5: Set Default Level
 3. Under "Default Maps":
    - Editor Startup Map: Select BulletHellLevel
    - Game Default Map: Select BulletHellLevel
+
+EXPECTED RESULT:
+- Project Settings shows BulletHellLevel as both startup and default map
+- Launching the game (standalone or in editor) loads this level automatically
 
 
 ================================================================================
@@ -1088,6 +1435,18 @@ STEP 9.1: Assign Blueprint References
    - Set BulletClass: BP_Bullet
 
 4. Compile and Save all blueprints
+
+EXPECTED RESULT after Compile (all blueprints):
+- All blueprints compile with GREEN checkmark
+- No "None" or missing references in variable defaults
+- BP_Player.BulletClass → BP_Bullet
+- BP_Enemy.BulletClass → BP_Bullet  
+- BP_EnemySpawner.EnemyClass → BP_Enemy
+
+EXPECTED RESULT in Play mode:
+- Player can shoot bullets (BP_Bullet spawns)
+- Enemies spawn and shoot bullets
+- All collision/damage systems functional
 
 
 STEP 9.2: Create Simple Visuals (Placeholder)
@@ -1115,6 +1474,13 @@ If you don't have sprite assets, create simple colored materials:
 5. Apply materials to sprite components in each Blueprint
    (Or use Sprite assets if you have 2D images)
 
+EXPECTED RESULT in Play mode:
+- Player visible as blue shape
+- Player bullets visible as yellow shapes
+- Enemy bullets visible as red shapes
+- Enemies visible as magenta shapes
+- All game elements distinguishable by color
+
 
 STEP 9.3: Add Background (Optional)
 --------------------------------------------------------------------------------
@@ -1125,6 +1491,11 @@ STEP 9.3: Add Background (Optional)
 
 2. Create dark space material:
    - M_Background - Dark blue/black
+
+EXPECTED RESULT in Play mode:
+- Dark background visible behind all game elements
+- Game elements (player, enemies, bullets) clearly visible against background
+- Background doesn't interfere with gameplay (Z=-100, behind everything)
 
 
 STEP 9.4: Test the Game
@@ -1151,6 +1522,12 @@ STEP 9.4: Test the Game
 
 3. To stop playing: Press ESC or click "Stop" button
 
+EXPECTED RESULT - Complete Game Test:
+- All checklist items above should pass
+- Frame rate stable (60+ FPS recommended)
+- No crashes or Blueprint errors in Output Log
+- Game is playable from start to victory/defeat
+
 
 STEP 9.5: Build Standalone Game
 --------------------------------------------------------------------------------
@@ -1159,6 +1536,13 @@ STEP 9.5: Build Standalone Game
 3. Wait for build to complete
 4. Navigate to output folder → WindowsNoEditor → [ProjectName].exe
 5. Run the executable to play standalone
+
+EXPECTED RESULT:
+- Build completes without errors (check Output Log)
+- Executable file created in output folder
+- Running .exe launches the game in fullscreen
+- Game plays identically to editor Play mode
+- Can close with Alt+F4 or in-game quit (if implemented)
 
 
 ================================================================================
@@ -1231,10 +1615,12 @@ APPENDIX B: TROUBLESHOOTING
 
 PROBLEM: Player doesn't move
 SOLUTIONS:
-1. Check Input Mappings in Project Settings → Input
-2. Ensure "Possess" is called on player pawn
-3. Verify MoveSpeed > 0
-4. Check if blueprint has errors (Compile button should be green checkmark)
+1. Verify IMC_Default Input Mapping Context is added in BeginPlay
+2. Check that IA_Move Input Action exists and has correct key bindings
+3. Ensure "Possess" is called on player pawn (automatic with GameMode)
+4. Verify MoveSpeed > 0
+5. Check if blueprint has errors (Compile button should be green checkmark)
+6. Make sure Enhanced Input plugin is enabled (Edit → Plugins → Enhanced Input)
 
 PROBLEM: Bullets don't spawn
 SOLUTIONS:
@@ -1283,7 +1669,11 @@ COORDINATE SYSTEM:
 
 INPUT:
 - Unity: Input.GetAxisRaw("Horizontal")
-- Unreal: Get Input Axis Value → MoveRight
+- Unreal (Enhanced Input): 
+  1. Create Input Action (IA_Move) with Axis2D type
+  2. Create Input Mapping Context with key bindings
+  3. Add Mapping Context in BeginPlay
+  4. Use "Get Action Value" node to read input
 
 INSTANTIATE:
 - Unity: Instantiate(prefab, position, rotation)

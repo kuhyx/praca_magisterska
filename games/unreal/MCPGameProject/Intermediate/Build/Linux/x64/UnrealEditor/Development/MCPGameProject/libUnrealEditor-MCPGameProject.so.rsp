@@ -1,0 +1,18 @@
+"/home/kuhy/praca_magisterska/games/unreal/MCPGameProject/Intermediate/Build/Linux/x64/UnrealEditor/Development/MCPGameProject/STGPawn.gen.cpp.o"
+"/home/kuhy/praca_magisterska/games/unreal/MCPGameProject/Intermediate/Build/Linux/x64/UnrealEditor/Development/MCPGameProject/STGEnemy.gen.cpp.o"
+"/home/kuhy/praca_magisterska/games/unreal/MCPGameProject/Intermediate/Build/Linux/x64/UnrealEditor/Development/MCPGameProject/STGProjectile.gen.cpp.o"
+"/home/kuhy/praca_magisterska/games/unreal/MCPGameProject/Intermediate/Build/Linux/x64/UnrealEditor/Development/MCPGameProject/STGGameMode.gen.cpp.o"
+"/home/kuhy/praca_magisterska/games/unreal/MCPGameProject/Intermediate/Build/Linux/x64/UnrealEditor/Development/MCPGameProject/MCPGameProject.init.gen.cpp.o"
+"/home/kuhy/praca_magisterska/games/unreal/MCPGameProject/Intermediate/Build/Linux/x64/UnrealEditor/Development/MCPGameProject/MCPGameProject.cpp.o"
+"/home/kuhy/praca_magisterska/games/unreal/MCPGameProject/Intermediate/Build/Linux/x64/UnrealEditor/Development/MCPGameProject/STGProjectile.cpp.o"
+"/home/kuhy/praca_magisterska/games/unreal/MCPGameProject/Intermediate/Build/Linux/x64/UnrealEditor/Development/MCPGameProject/STGPawn.cpp.o"
+"/home/kuhy/praca_magisterska/games/unreal/MCPGameProject/Intermediate/Build/Linux/x64/UnrealEditor/Development/MCPGameProject/STGEnemy.cpp.o"
+"/home/kuhy/praca_magisterska/games/unreal/MCPGameProject/Intermediate/Build/Linux/x64/UnrealEditor/Development/MCPGameProject/STGGameMode.cpp.o"
+"/home/kuhy/praca_magisterska/games/unreal/MCPGameProject/Intermediate/Build/Linux/x64/UnrealEditor/Development/MCPGameProject/PerModuleInline.gen.cpp.o"
+ -soname="libUnrealEditor-MCPGameProject.so"
+ -rpath="${ORIGIN}/../../../../../../aur/unreal-engine-bin/Engine/Plugins/EnhancedInput/Binaries/Linux"
+ -rpath-link="/home/kuhy/praca_magisterska/games/unreal/MCPGameProject/Binaries/Linux"
+ -L"/home/kuhy/aur/unreal-engine-bin/Engine/Binaries/Linux"
+ -L"/home/kuhy/aur/unreal-engine-bin/Engine/Plugins/EnhancedInput/Binaries/Linux"
+ --start-group
+ --end-group

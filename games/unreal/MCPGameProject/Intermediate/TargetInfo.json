@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "MCPGameProject",
+			"Path": "../Source/MCPGameProject.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "MCPGameProjectEditor",
+			"Path": "../Source/MCPGameProjectEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

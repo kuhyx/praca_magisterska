@@ -1,0 +1,17 @@
+{
+	"version": 1,
+	"changelists": [
+		{
+			"guid": "00000000000000000000000000000000",
+			"description": "Default Uncontrolled Changelist",
+			"files": [
+				"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellGame/Content/Blueprints/BP_Player.uasset",
+				"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellGame/Content/Blueprints/IA_Move.uasset",
+				"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellGame/Content/Input/IMC_Default.uasset",
+				"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellGame/Content/Input/IA_Move.uasset",
+				"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellGame/Content/Input/IA_Fire.uasset",
+				"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellGame/Content/Input/IA_Special.uasset"
+			]
+		}
+	]
+}

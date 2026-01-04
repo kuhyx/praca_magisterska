@@ -1,0 +1,9 @@
+{
+	"SourceFiles": [
+		"/home/kuhy/praca_magisterska/games/unreal/MCPGameProject/Source/MCPGameProject/MCPGameProject.Build.cs",
+		"/home/kuhy/praca_magisterska/games/unreal/MCPGameProject/Plugins/UnrealMCP/Source/UnrealMCP/UnrealMCP.Build.cs",
+		"/home/kuhy/praca_magisterska/games/unreal/MCPGameProject/Source/MCPGameProject.Target.cs",
+		"/home/kuhy/praca_magisterska/games/unreal/MCPGameProject/Source/MCPGameProjectEditor.Target.cs"
+	],
+	"EngineVersion": "5.5.3"
+}

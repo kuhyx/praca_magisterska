@@ -159,11 +159,43 @@ STEP 2.2: Add Player Visual Components
    - Click "Arrow" to add it (it will be added as a child of DefaultSceneRoot)
    - This shows which direction is "forward" (useful for debugging)
 
+7. With DefaultSceneRoot still selected, click "Add" button:
+   - Search for "Cube" → add "Cube" (Static Mesh)
+   - Rename it to "TempVisual"
+   - In Details panel, set Scale to (0.5, 0.5, 0.1) so it's small and flat
+   - This provides a visible placeholder until we add proper sprites in Part 9
+
+8. With DefaultSceneRoot still selected, click "Add" button:
+   - Search for "Camera" → add "Camera"
+   - Rename it to "PlayerCamera"
+   - In Details panel, set Location to: X=0, Y=0, Z=1000 (1000 units above player)
+   - Set Rotation to: X=0, Y=-90, Z=0 (looking straight down)
+   - In Details panel, find "Activation" category → "Auto Activate" checkbox
+     - This should already be ENABLED by default
+     - If not, check/enable it - this tells Unreal to use THIS camera when playing
+   - This camera will follow the player, making testing easy
+   
+   NOTE: This temporary camera ensures you can see the player during testing.
+   In Part 8, we'll set up a proper fixed camera for the final game.
+
 EXPECTED RESULT: Components panel shows:
    DefaultSceneRoot
    ├── PlayerSprite (Paper Sprite)
    ├── PlayerCollision (Box Collision)
-   └── Arrow
+   ├── Arrow
+   ├── TempVisual (Cube)
+   └── PlayerCamera (Camera)
+
+9. IMPORTANT - Enable Auto Possession for testing:
+   - Click on "BP_Player (Self)" at the top of the Components panel (the root)
+   - In Details panel, find "Pawn" category
+   - Find "Auto Possess Player" dropdown (currently set to "Disabled")
+   - Change it to "Player 0"
+   - This makes the engine automatically possess this pawn when playing,
+     which activates the PlayerCamera
+   
+   NOTE: This setting will be overridden later when we set up the GameMode
+   in Part 8, which handles possession automatically.
 
 
 STEP 2.3: Create Player Variables
@@ -427,11 +459,19 @@ EXPECTED RESULT after Compile:
 - Compile button shows GREEN checkmark (no errors)
 - No warnings about unconnected pins
 
-EXPECTED RESULT in Play mode (press Play button or Alt+P):
+HOW TO TEST AT THIS STAGE:
+1. Open any level (or the default "Untitled" level)
+2. From Content Drawer, drag BP_Player into the viewport
+3. Press Play (Alt+P)
+4. You should see the cube (TempVisual added in Step 2.2) and control it with WASD
+
+EXPECTED RESULT when tested:
 - Player pawn moves smoothly when pressing WASD keys
 - Movement is frame-rate independent (consistent speed)
 - Player cannot move outside the screen bounds (stops at edges)
 - Releasing keys immediately stops movement (no drift)
+
+NOTE: Full game testing will be possible after completing Part 8 (Level Setup).
 
 
 VISUAL DIAGRAM OF MOVEMENT NODES:
@@ -467,23 +507,13 @@ STEP 2.5: Create Player Firing Logic
    a) Right-click → search "Enhanced Input Action" 
       - Select "EnhancedInputAction IA_Fire"
       - This creates an event node that fires when the action is triggered
-      
-   ALTERNATIVE (checking in Tick):
-   If you prefer to check firing in Event Tick like the movement:
    
-   a) After movement logic, get Enhanced Input subsystem again
-   b) Right-click → "Get Action Value"
-      - Select "IA_Fire" as the action
-   c) The return value is a boolean (true when pressed)
-   d) Right-click → "Branch"
-      - Connect the boolean to Condition
-      
-   e) On "True" branch:
+   b) From the "Triggered" execution pin:
       - Get FireTimer variable
       - Subtract Delta Seconds from it
-      - If FireTimer <= 0:
+      - Branch: if FireTimer <= 0:
         - Reset FireTimer to FireInterval
-        - Call "Fire Volley" function (we'll create this)
+        - Call "FireVolley" function (we'll create this)
    
    NOTE: Since IA_Fire was set up with Z key and Left Mouse Button in the 
    Input Mapping Context, both inputs will trigger this action automatically.
@@ -565,25 +595,15 @@ STEP 2.6: Create Player Damage and Special Ability
 
    Using Enhanced Input (IA_Special was already set up with X and Right Mouse):
 
-   a) In Event Graph, add to Event Tick (after firing logic):
-      - Get Enhanced Input subsystem (same as before)
-      - "Get Action Value" for "IA_Special"
-      - Branch on the boolean result
-      - On True:
-        - Check if SpecialUsed is false
-        - If not used:
-          - Set SpecialUsed = true
-          - Call "ClearAllEnemies" (global function)
-          - Call "ClearAllEnemyBullets" (global function)
+   a) Right-click → search "EnhancedInputAction IA_Special"
+      - This creates an event node that fires when X or Right Mouse is pressed
    
-   ALTERNATIVE (Event-based):
-   a) Right-click → "EnhancedInputAction IA_Special"
    b) From the "Triggered" execution pin:
-      - Check if SpecialUsed is false
-      - If not used:
+      - Get SpecialUsed variable
+      - Branch: if SpecialUsed is false:
         - Set SpecialUsed = true
-        - Call "ClearAllEnemies"
-        - Call "ClearAllEnemyBullets"
+        - Call "ClearAllEnemies" (global function)
+        - Call "ClearAllEnemyBullets" (global function)
 
 4. Compile and Save
 
@@ -618,6 +638,9 @@ STEP 3.1: Create Bullet Blueprint
      - Radius: 8
      - Generate Overlap Events: CHECKED
      - Collision Preset: Custom → Query Only
+   - Cube (Static Mesh) → name "TempVisual"
+     - Scale: (0.1, 0.1, 0.05) - small bullet-sized cube
+     - This provides visibility until proper visuals in Part 9
 
 6. Create Variables:
    - TravelDirection (Vector) - Default: (0, 1, 0)
@@ -628,12 +651,12 @@ STEP 3.1: Create Bullet Blueprint
 
 EXPECTED RESULT after Compile:
 - Compile button shows GREEN checkmark
-- Components panel shows: DefaultSceneRoot → BulletSprite, BulletCollision
+- Components panel shows: DefaultSceneRoot → BulletSprite, BulletCollision, TempVisual
 - Variables panel shows all 5 variables with correct types
 
 EXPECTED RESULT in Viewport (Blueprint Editor):
-- Small sphere collision visible (radius 8)
-- Sprite component visible (empty until sprite assigned)
+- Small cube visible (the TempVisual placeholder)
+- Sphere collision visible (radius 8)
 
 
 STEP 3.2: Bullet Movement Logic
@@ -737,6 +760,9 @@ STEP 4.1: Create Enemy Blueprint
    - Box Collision → "EnemyCollision"
      - Box Extent: X=30, Y=30, Z=10
      - Generate Overlap Events: CHECKED
+   - Cube (Static Mesh) → name "TempVisual"
+     - Scale: (0.6, 0.6, 0.1) - larger than player cube
+     - This provides visibility until proper visuals in Part 9
 
 6. Create Variables:
    - MaxHealth (Integer) - Default: 12
@@ -758,12 +784,12 @@ STEP 4.1: Create Enemy Blueprint
 
 EXPECTED RESULT after Compile:
 - Compile button shows GREEN checkmark
-- Components panel shows: DefaultSceneRoot → EnemySprite, EnemyCollision
+- Components panel shows: DefaultSceneRoot → EnemySprite, EnemyCollision, TempVisual
 - Variables panel shows all 16 variables with correct types and defaults
 
 EXPECTED RESULT in Viewport (Blueprint Editor):
+- Cube visible (the TempVisual placeholder, larger than player)
 - Box collision visible (30x30x10)
-- Sprite component visible (empty until sprite assigned)
 
 
 STEP 4.2: Enemy Initialization
@@ -1449,13 +1475,20 @@ EXPECTED RESULT in Play mode:
 - All collision/damage systems functional
 
 
-STEP 9.2: Create Simple Visuals (Placeholder)
+STEP 9.2: Create Final Visuals (Replace Placeholder)
 --------------------------------------------------------------------------------
-If you don't have sprite assets, create simple colored materials:
+Now replace the temporary cube visuals with proper colored materials:
 
-1. Content Browser → Materials folder
+1. REMOVE TEMPORARY COMPONENTS:
+   a) Open BP_Player blueprint
+   b) In Components panel, select "TempVisual" (the cube added in Step 2.2)
+   c) Press Delete to remove it
+   d) Select "PlayerCamera" and delete it (the level camera from Step 8.4 will be used)
+   e) Repeat for BP_Bullet and BP_Enemy (delete their TempVisual cubes)
 
-2. PLAYER MATERIAL:
+2. Content Browser → Materials folder
+
+3. PLAYER MATERIAL:
    a) Right-click → Material
    b) Name: "M_Player"
    c) Double-click to open Material Editor
@@ -1464,14 +1497,14 @@ If you don't have sprite assets, create simple colored materials:
    f) Connect to Base Color
    g) Save and Close
 
-3. BULLET MATERIAL:
+4. BULLET MATERIAL:
    a) Create "M_PlayerBullet" - Yellow (1, 1, 0)
    b) Create "M_EnemyBullet" - Red (1, 0, 0)
 
-4. ENEMY MATERIAL:
+5. ENEMY MATERIAL:
    a) Create "M_Enemy" - Magenta (1, 0, 1)
 
-5. Apply materials to sprite components in each Blueprint
+6. Apply materials to sprite components in each Blueprint
    (Or use Sprite assets if you have 2D images)
 
 EXPECTED RESULT in Play mode:

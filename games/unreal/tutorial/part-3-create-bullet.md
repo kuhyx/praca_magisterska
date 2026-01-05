@@ -117,7 +117,17 @@ Event Tick ──► Set Actor Location ──► Set RemainingLifetime ──�
 
 ### 2. CREATE "Initialize" FUNCTION:
 
-#### a) Add input parameters:
+#### a) Create the function:
+1. In "My Blueprint" panel (left side), find "Functions" section
+2. Click the **"+"** button next to Functions
+3. Name the new function `Initialize`
+4. Double-click to open the function graph
+
+#### b) Add input parameters:
+1. In the function graph, you should see a purple "Initialize" entry node
+2. With the entry node selected, look at the Details panel (right side)
+3. Find "Inputs" section and click "+" to add parameters:
+
 | Parameter | Type | Default |
 |-----------|------|---------|
 | `Direction` | Vector | - |
@@ -126,12 +136,59 @@ Event Tick ──► Set Actor Location ──► Set RemainingLifetime ──�
 | `Lifetime` | Float | - |
 | `DamageValue` | Integer | 1 |
 
-#### b) Inside:
-- Normalize Direction → Set TravelDirection
-- Set TravelSpeed = Speed
-- Set IsEnemyProjectile = bIsEnemy
-- Set RemainingLifetime = Lifetime
-- Set Damage = DamageValue
+The entry node should now show 5 input pins.
+
+#### c) Build the function logic:
+
+1. **Normalize and set direction:**
+   - Drag from **Direction** parameter (yellow pin) → search `Normalize` → add it
+   - Right-click → `Set TravelDirection`
+   - Connect Normalize's "Return Value" → Set TravelDirection input
+
+2. **Set travel speed:**
+   - Right-click → `Set TravelSpeed`
+   - Drag from **Speed** parameter → Set TravelSpeed input
+
+3. **Set enemy projectile flag:**
+   - Right-click → `Set IsEnemyProjectile`
+   - Drag from **bIsEnemy** parameter → Set IsEnemyProjectile input
+
+4. **Set remaining lifetime:**
+   - Right-click → `Set RemainingLifetime`
+   - Drag from **Lifetime** parameter → Set RemainingLifetime input
+
+5. **Set damage:**
+   - Right-click → `Set Damage`
+   - Drag from **DamageValue** parameter → Set Damage input
+
+#### d) CRITICAL - Connect execution wires:
+
+> **IMPORTANT:** Without execution wires, the SET nodes will NEVER run! You must chain them together.
+
+6. From **Initialize** entry node (white triangle on right), drag execution → **Set TravelDirection**
+7. From Set TravelDirection (white triangle), drag execution → **Set TravelSpeed**
+8. From Set TravelSpeed, drag execution → **Set IsEnemyProjectile**
+9. From Set IsEnemyProjectile, drag execution → **Set RemainingLifetime**
+10. From Set RemainingLifetime, drag execution → **Set Damage**
+
+**Visual:**
+
+```
+┌─────────────────────────┐
+│ Initialize              │
+│ Direction ○─────────────┼──► Normalize ──► Set TravelDirection
+│ Speed ○─────────────────┼──────────────────► Set TravelSpeed
+│ bIsEnemy ○──────────────┼──────────────────► Set IsEnemyProjectile
+│ Lifetime ○──────────────┼──────────────────► Set RemainingLifetime
+│ DamageValue ○───────────┼──────────────────► Set Damage
+└──────────┬──────────────┘
+           │ (white execution wire)
+           ▼
+    Set TravelDirection ──► Set TravelSpeed ──► Set IsEnemyProjectile
+                                                         │
+                                                         ▼
+                              Set Damage ◄── Set RemainingLifetime
+```
 
 ### 3. Compile and Save
 

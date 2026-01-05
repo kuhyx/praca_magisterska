@@ -6,11 +6,12 @@
 
 ## Scale Conversion
 
-| Unity | Unreal | Notes |
-|-------|--------|-------|
+| Unity            | Unreal                | Notes                        |
+| ---------------- | --------------------- | ---------------------------- |
 | 1 unit = 1 meter | 1 unit = 1 centimeter | Multiply Unity values by 100 |
 
 **Example:**
+
 - Unity speed: `7.5` → Unreal speed: `750`
 - Unity position: `(5, 10, 0)` → Unreal position: `(500, 1000, 0)`
 
@@ -18,13 +19,14 @@
 
 ## Coordinate System
 
-| Axis | Unity | Unreal |
-|------|-------|--------|
-| Up | Y | Z |
-| Forward | Z | X |
-| Right | X | Y |
+| Axis    | Unity | Unreal |
+| ------- | ----- | ------ |
+| Up      | Y     | Z      |
+| Forward | Z     | X      |
+| Right   | X     | Y      |
 
 **For 2D top-down games:**
+
 - Both use X for horizontal
 - Y/Z swap for vertical
 
@@ -35,12 +37,14 @@
 ### Input
 
 **Unity:**
+
 ```csharp
 float h = Input.GetAxisRaw("Horizontal");
 float v = Input.GetAxisRaw("Vertical");
 ```
 
 **Unreal (Enhanced Input):**
+
 1. Create Input Action (IA_Move) with Axis2D type
 2. Create Input Mapping Context with key bindings
 3. Add Mapping Context in BeginPlay
@@ -51,11 +55,13 @@ float v = Input.GetAxisRaw("Vertical");
 ### Instantiate / Spawn
 
 **Unity:**
+
 ```csharp
 Instantiate(prefab, position, rotation);
 ```
 
 **Unreal:**
+
 ```
 Spawn Actor from Class
 ├── Class: YourBlueprintClass
@@ -68,11 +74,13 @@ Spawn Actor from Class
 ### Destroy
 
 **Unity:**
+
 ```csharp
 Destroy(gameObject);
 ```
 
 **Unreal:**
+
 ```
 Destroy Actor
 └── Target: Self (or reference)
@@ -83,11 +91,13 @@ Destroy Actor
 ### Delta Time
 
 **Unity:**
+
 ```csharp
 Time.deltaTime
 ```
 
 **Unreal:**
+
 ```
 Get World Delta Seconds
 ```
@@ -97,12 +107,14 @@ Get World Delta Seconds
 ### Find Objects
 
 **Unity:**
+
 ```csharp
 FindObjectOfType<PlayerController>();
 FindObjectsOfType<Enemy>();
 ```
 
 **Unreal:**
+
 ```
 Get All Actors of Class
 ├── Actor Class: BP_Player
@@ -116,6 +128,7 @@ Then: Get (a ref) → index 0
 ### Singleton Pattern
 
 **Unity:**
+
 ```csharp
 public static GameManager Instance { get; private set; }
 
@@ -125,6 +138,7 @@ void Awake() {
 ```
 
 **Unreal Options:**
+
 1. **Game Instance** - Persists across levels
 2. **Subsystem** - Engine-managed singleton
 3. **Get All Actors of Class** - Find at runtime
@@ -134,6 +148,7 @@ void Awake() {
 ### Coroutines vs Timers
 
 **Unity:**
+
 ```csharp
 StartCoroutine(DelayedAction());
 
@@ -144,6 +159,7 @@ IEnumerator DelayedAction() {
 ```
 
 **Unreal:**
+
 ```
 Set Timer by Function Name
 ├── Function Name: "DelayedAction"
@@ -158,10 +174,12 @@ Or use **Delay** node in blueprints.
 ### Physics Layers vs Collision Channels
 
 **Unity:**
+
 - Layer-based collision matrix
 - `Physics.IgnoreLayerCollision()`
 
 **Unreal:**
+
 - Collision Channels (Object Types)
 - Collision Presets
 - Per-component collision settings
@@ -171,11 +189,13 @@ Or use **Delay** node in blueprints.
 ### Tags
 
 **Unity:**
+
 ```csharp
 if (other.CompareTag("Enemy")) { }
 ```
 
 **Unreal:**
+
 ```
 Actor Has Tag
 ├── Target: Other Actor
@@ -188,11 +208,11 @@ Or use **Cast To** for type checking (preferred).
 
 ### Vector Math
 
-| Operation | Unity | Unreal |
-|-----------|-------|--------|
-| Normalize | `vector.normalized` | `Normalize` node |
-| Magnitude | `vector.magnitude` | `Vector Length` node |
-| Dot Product | `Vector3.Dot(a, b)` | `Dot Product` node |
+| Operation     | Unity                 | Unreal               |
+| ------------- | --------------------- | -------------------- |
+| Normalize     | `vector.normalized`   | `Normalize` node     |
+| Magnitude     | `vector.magnitude`    | `Vector Length` node |
+| Dot Product   | `Vector3.Dot(a, b)`   | `Dot Product` node   |
 | Cross Product | `Vector3.Cross(a, b)` | `Cross Product` node |
 
 ---
@@ -200,12 +220,14 @@ Or use **Cast To** for type checking (preferred).
 ### Random
 
 **Unity:**
+
 ```csharp
 Random.Range(0f, 1f);
 Random.Range(0, 10); // int, exclusive max
 ```
 
 **Unreal:**
+
 ```
 Random Float in Range
 ├── Min: 0.0
@@ -223,12 +245,14 @@ Random Integer in Range
 ### Debug
 
 **Unity:**
+
 ```csharp
 Debug.Log("Message");
 Debug.DrawLine(start, end, Color.red);
 ```
 
 **Unreal:**
+
 ```
 Print String
 └── In String: "Message"
@@ -243,16 +267,16 @@ Draw Debug Line
 
 ## Quick Reference Table
 
-| Concept | Unity | Unreal |
-|---------|-------|--------|
-| Script | C# MonoBehaviour | Blueprint / C++ Actor |
-| Prefab | .prefab asset | Blueprint Class |
-| Scene | .unity scene | Level (.umap) |
-| Inspector | Inspector window | Details panel |
-| Hierarchy | Hierarchy window | Outliner |
-| Project | Project window | Content Browser |
-| Console | Console window | Output Log |
-| Play | Play button | Play (Alt+P) |
+| Concept   | Unity            | Unreal                |
+| --------- | ---------------- | --------------------- |
+| Script    | C# MonoBehaviour | Blueprint / C++ Actor |
+| Prefab    | .prefab asset    | Blueprint Class       |
+| Scene     | .unity scene     | Level (.umap)         |
+| Inspector | Inspector window | Details panel         |
+| Hierarchy | Hierarchy window | Outliner              |
+| Project   | Project window   | Content Browser       |
+| Console   | Console window   | Output Log            |
+| Play      | Play button      | Play (Alt+P)          |
 
 ---
 

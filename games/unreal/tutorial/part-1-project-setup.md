@@ -14,7 +14,6 @@
 5. In the "Unreal Project Browser" window that appears:
    - At the top, select "Games" category (should be selected by default)
    - Click "Blank" template (empty square icon)
-   
 6. On the right side panel, configure:
    - **Project Defaults:** Blueprint (not C++)
    - **Target Platform:** Desktop
@@ -25,17 +24,18 @@
 7. At the bottom:
    - Choose folder location where you want to save
    - Name the project: `BulletHellGame`
-   
 8. Click "Create" button (bottom right, yellow)
 
 ### Expected Result
 
 Unreal Editor opens with an empty level. You should see:
+
 - Main 3D viewport in the center
 - Outliner panel on the right (showing "Untitled" level)
 - Details panel on the right side
 
 > **NOTE:** The Content Drawer is NOT open by default. To open it:
+>
 > - Click "Content Drawer" button at the bottom of the screen, OR
 > - Press `Ctrl+Space`, OR
 > - Go to Window → Content Drawer
@@ -54,7 +54,6 @@ Since bullet-hell games are typically 2D, we'll set up a top-down orthographic v
    - Go to menu bar (the top bar): **Edit** (Second from left, next to "File" and "Window") → **Project Settings**
    - In the left sidebar, search for "Maps & Modes" (Project → 4th from the top, next to GameplayTags and Movies)
    - Click on "Maps & Modes"
-   
 5. Under "Default Modes":
    - Find "Default GameMode" dropdown
    - We'll create our own later, leave it for now

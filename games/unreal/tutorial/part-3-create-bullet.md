@@ -23,20 +23,22 @@
 
 6. **Create Variables:**
 
-| Variable Name | Type | Default Value |
-|---------------|------|---------------|
-| `TravelDirection` | Vector | (0, 1, 0) |
-| `TravelSpeed` | Float | 1200.0 |
-| `RemainingLifetime` | Float | 4.0 |
-| `IsEnemyProjectile` | Boolean | false |
-| `Damage` | Integer | 1 |
+| Variable Name       | Type    | Default Value |
+| ------------------- | ------- | ------------- |
+| `TravelDirection`   | Vector  | (0, 1, 0)     |
+| `TravelSpeed`       | Float   | 1200.0        |
+| `RemainingLifetime` | Float   | 4.0           |
+| `IsEnemyProjectile` | Boolean | false         |
+| `Damage`            | Integer | 1             |
 
-### Expected Result after Compile:
+### Expected Result after Compile
+
 - Compile button shows GREEN checkmark
 - Components panel shows: DefaultSceneRoot → BulletSprite, BulletCollision, TempVisual
 - Variables panel shows all 5 variables with correct types
 
-### Expected Result in Viewport (Blueprint Editor):
+### Expected Result in Viewport (Blueprint Editor)
+
 - Small cube visible (the TempVisual placeholder)
 - Sphere collision visible (radius 8)
 
@@ -46,7 +48,7 @@
 
 1. In Event Graph, from **Event Tick:**
 
-#### a) Calculate movement:
+### a) Calculate movement
 
 1. Right-click → `Get TravelDirection`
 2. Right-click → `Get TravelSpeed`
@@ -70,7 +72,7 @@
    - Connect the Add result to "New Location"
    - Connect execution wire from Event Tick to Set Actor Location
 
-#### b) Check lifetime and destroy when expired:
+#### b) Check lifetime and destroy when expired
 
 9. Right-click → `Get RemainingLifetime`
 
@@ -115,30 +117,32 @@ Event Tick ──► Set Actor Location ──► Set RemainingLifetime ──�
                                                       Destroy Actor        (nothing)
 ```
 
-### 2. CREATE "Initialize" FUNCTION:
+### 2. CREATE "Initialize" FUNCTION
 
-#### a) Create the function:
+#### a) Create the function
+
 1. In "My Blueprint" panel (left side), find "Functions" section
 2. Click the **"+"** button next to Functions
 3. Name the new function `Initialize`
 4. Double-click to open the function graph
 
-#### b) Add input parameters:
+#### b) Add input parameters
+
 1. In the function graph, you should see a purple "Initialize" entry node
 2. With the entry node selected, look at the Details panel (right side)
 3. Find "Inputs" section and click "+" to add parameters:
 
-| Parameter | Type | Default |
-|-----------|------|---------|
-| `Direction` | Vector | - |
-| `Speed` | Float | - |
-| `bIsEnemy` | Boolean | - |
-| `Lifetime` | Float | - |
-| `DamageValue` | Integer | 1 |
+| Parameter     | Type    | Default |
+| ------------- | ------- | ------- |
+| `Direction`   | Vector  | -       |
+| `Speed`       | Float   | -       |
+| `bIsEnemy`    | Boolean | -       |
+| `Lifetime`    | Float   | -       |
+| `DamageValue` | Integer | 1       |
 
 The entry node should now show 5 input pins.
 
-#### c) Build the function logic:
+#### c) Build the function logic
 
 1. **Normalize and set direction:**
    - Drag from **Direction** parameter (yellow pin) → search `Normalize` → add it
@@ -161,7 +165,7 @@ The entry node should now show 5 input pins.
    - Right-click → `Set Damage`
    - Drag from **DamageValue** parameter → Set Damage input
 
-#### d) CRITICAL - Connect execution wires:
+#### d) CRITICAL - Connect execution wires
 
 > **IMPORTANT:** Without execution wires, the SET nodes will NEVER run! You must chain them together.
 
@@ -192,7 +196,8 @@ The entry node should now show 5 input pins.
 
 ### 3. Compile and Save
 
-### Expected Result after Compile:
+### Expected Result after Compile
+
 - Compile button shows GREEN checkmark
 - "Initialize" function appears under Functions with 5 input parameters
 
@@ -202,7 +207,7 @@ The entry node should now show 5 input pins.
 
 ## Step 3.3: Bullet Collision Logic
 
-### 1. ADD THE OVERLAP EVENT:
+### 1. ADD THE OVERLAP EVENT
 
 1. In the Components panel (top-left), click on **"BulletCollision"** to select it
 
@@ -214,7 +219,7 @@ The entry node should now show 5 input pins.
 3. The Event Graph now shows a red node: **"On Component Begin Overlap (BulletCollision)"**
    - This fires whenever another actor overlaps with the bullet's collision sphere
 
-### 2. CHECK IF THIS IS AN ENEMY PROJECTILE:
+### 2. CHECK IF THIS IS AN ENEMY PROJECTILE
 
 4. Right-click → `Get IsEnemyProjectile`
    - This gets your boolean variable
@@ -224,7 +229,7 @@ The entry node should now show 5 input pins.
    - TRUE = this is an enemy bullet (should damage player)
    - FALSE = this is a player bullet (should damage enemies)
 
-### 3. TRUE BRANCH - Enemy Bullet Hits Player:
+### 3. TRUE BRANCH - Enemy Bullet Hits Player
 
 6. From the **"On Component Begin Overlap"** node, look for the **"Other Actor"** output pin
    - This is the actor that overlapped with the bullet
@@ -254,7 +259,7 @@ The entry node should now show 5 input pins.
 12. Connect execution wire:
     - Cast to BP_Player → TakeHit → Destroy Actor
 
-### 4. FALSE BRANCH - Player Bullet Hits Enemy (PLACEHOLDER):
+### 4. FALSE BRANCH - Player Bullet Hits Enemy (PLACEHOLDER)
 
 > **NOTE:** BP_Enemy doesn't exist yet, so we'll add a placeholder. You'll complete this logic in [Part 4, Step 4.7](part-4-create-enemy.md#step-47-complete-bullet-collision-logic-bp_bullet).
 
@@ -293,7 +298,8 @@ The entry node should now show 5 input pins.
 
 ### 4. Compile and Save
 
-### Expected Result after Compile:
+### Expected Result after Compile
+
 - Compile button shows GREEN checkmark
 - Event Graph shows "On Component Begin Overlap" event connected to Branch
 
@@ -305,11 +311,12 @@ The entry node should now show 5 input pins.
 
 Now that BP_Bullet exists, we can complete the player's firing functions.
 
-### 1. Open BP_Player Blueprint:
+### 1. Open BP_Player Blueprint
+
 - In Content Drawer, navigate to Content → Blueprints
 - Double-click "BP_Player" to open the Blueprint Editor
 
-### 2. SET THE BULLET CLASS VARIABLE:
+### 2. SET THE BULLET CLASS VARIABLE
 
 1. In My Blueprint panel, find the `BulletClass` variable
 2. Click on it to select it
@@ -317,25 +324,28 @@ Now that BP_Bullet exists, we can complete the player's firing functions.
 4. Click the dropdown and select `BP_Bullet`
 5. Compile to save the change
 
-### 3. CREATE SPAWN BULLET FUNCTION:
+### 3. CREATE SPAWN BULLET FUNCTION
 
 #### a) In "My Blueprint" panel, under "Functions", click "+"
+
 #### b) Name the function `SpawnBullet`
+
 #### c) Double-click to open function graph
 
-#### d) Add input parameters to the function:
+#### d) Add input parameters to the function
+
 - In the function graph, look at the purple "SpawnBullet" entry node
 - In Details panel (right side), find "Inputs" section
 - Click "+" to add a new input parameter
 
-| Parameter | Type |
-|-----------|------|
+| Parameter       | Type   |
+| --------------- | ------ |
 | `SpawnLocation` | Vector |
-| `Direction` | Vector |
+| `Direction`     | Vector |
 
 The entry node should now show two input pins: SpawnLocation and Direction
 
-#### e) Build the spawning logic:
+#### e) Build the spawning logic
 
 1. Right-click → search `Spawn Actor from Class` → add it
 
@@ -352,7 +362,7 @@ The entry node should now show two input pins: SpawnLocation and Direction
 4. Connect execution wire:
    - Drag from SpawnBullet entry node (white triangle) → SpawnActor (white triangle)
 
-#### f) Initialize the spawned bullet:
+#### f) Initialize the spawned bullet
 
 5. Add the Cast node:
    - From SpawnActor's **"Return Value"** output (blue pin on right side), drag → search `Cast to BP_Bullet`
@@ -408,13 +418,15 @@ The entry node should now show two input pins: SpawnLocation and Direction
 
 #### g) Compile (should have no errors now)
 
-### 4. CREATE FIRE VOLLEY FUNCTION:
+### 4. CREATE FIRE VOLLEY FUNCTION
 
 #### a) In "My Blueprint" panel, under "Functions", click "+"
+
 #### b) Name the function `FireVolley`
+
 #### c) Double-click to open function graph
 
-#### d) Inside FireVolley function graph, build this logic step by step:
+#### d) Inside FireVolley function graph, build this logic step by step
 
 ---
 
@@ -477,73 +489,68 @@ The entry node should now show two input pins: SpawnLocation and Direction
 
 9. From Branch FALSE pin, we need to loop through each bullet.
    First, calculate the starting angle:
-   
+
    The spread is CENTERED on "straight up". For 3 bullets with 12° spread:
    - Bullet 0: -12° (left of center)
-   - Bullet 1: 0° (center, straight up)  
+   - Bullet 1: 0° (center, straight up)
    - Bullet 2: +12° (right of center)
-   
+
    **Formula:** `StartAngle = -(VolleySpread * (VolleySize - 1)) / 2`
 
 10. **Calculate StartAngle:**
     - Right-click → `Get VolleySize`
     - Right-click → `Subtract (Integer)` → connect VolleySize, type `1`
       - Result: (VolleySize - 1) = 2 for default
-    
     - Right-click → `Get VolleySpread`
     - Right-click → `Multiply (float)` → connect VolleySpread and (VolleySize-1)
       - NOTE: The integer will auto-convert to float
-      - Result: VolleySpread * (VolleySize - 1) = 12 * 2 = 24
-    
+      - Result: VolleySpread _(VolleySize - 1) = 12_ 2 = 24
     - Right-click → `Divide (float)` → connect the multiply result, type `2`
       - Result: 24 / 2 = 12
-    
     - Right-click → `Negate (float)` or "Multiply by -1"
       - Result: -12 (this is StartAngle)
-    
     - Right-click → `Set` → create a LOCAL variable "StartAngle" (Float)
       - OR just keep the wire connected (we'll use it in the loop)
 
 11. **Set up the FOR loop:**
     - From Branch FALSE pin, drag → right-click → search `For Loop`
     - "First Index": type `0`
-    - "Last Index": connect (VolleySize - 1) 
+    - "Last Index": connect (VolleySize - 1)
       - You already calculated this in step 10, reuse it or calculate again:
       - Get VolleySize → Subtract 1 → connect to Last Index
-    
+
     The loop will run with Index = 0, 1, 2 for VolleySize=3
 
 12. **Inside the loop (from "Loop Body" execution pin):**
-    
+
     Calculate angle for THIS bullet:
     - Right-click → `Multiply (float)`
       - Connect loop "Index" to first input (auto-converts int to float)
       - Connect VolleySpread to second input
-      - Result: Index * VolleySpread (0, 12, 24 for indices 0, 1, 2)
-    
+      - Result: Index \* VolleySpread (0, 12, 24 for indices 0, 1, 2)
     - Right-click → `Add (float)`
       - Connect StartAngle (the -12 from step 10) to first input
-      - Connect (Index * VolleySpread) to second input
-      - Result: StartAngle + (Index * VolleySpread) = -12, 0, +12 degrees
-    
+      - Connect (Index \* VolleySpread) to second input
+      - Result: StartAngle + (Index \* VolleySpread) = -12, 0, +12 degrees
+
     This is the angle in DEGREES. Store or continue with this value.
 
 13. **Convert angle from degrees to a direction vector:**
-    
+
     In Unreal's top-down view (looking down Z axis):
     - X axis = up/down on screen (vertical)
     - Y axis = left/right on screen (horizontal)
     - Angle 0° = straight up = direction (1, 0, 0)
     - Angle 90° = right = direction (0, 1, 0)
-    
+
     ```
     Direction.X = Cos(angle)   // Cos for vertical (forward/up)
     Direction.Y = Sin(angle)   // Sin for horizontal offset
     Direction.Z = 0
     ```
-    
+
     BUT Unreal's Sin/Cos use RADIANS, not degrees!
-    
+
     **a) Convert degrees to radians:**
     - Right-click → search `Degrees To Radians` → add it
     - Connect your angle (from step 12) to the input
@@ -552,14 +559,14 @@ The entry node should now show two input pins: SpawnLocation and Direction
     **b) Calculate X component (Cos - forward/up direction):**
     - Right-click → `Cos (Radians)` → add it
     - Connect the Degrees To Radians output to Cos input
-    
+
     **c) Calculate Y component (Sin - horizontal offset):**
     - Right-click → `Sin (Radians)` → add it
     - To connect the SAME radians value to Sin (without losing the Cos connection):
       - **Option 1:** Ctrl+drag from "Degrees To Radians" output to Sin input (creates second wire)
       - **Option 2:** Drag directly from "Degrees To Radians" output again - UE5 allows multiple wires from one output pin
     - Both Cos and Sin should now be connected to the same radians value
-    
+
     **d) Make the direction vector:**
     - Right-click → `Make Vector`
     - Connect Cos result to X (forward/up direction)
@@ -606,12 +613,13 @@ The entry node should now show two input pins: SpawnLocation and Direction
 ```
 
 **Test Values (VolleySize=3, VolleySpread=12):**
-- StartAngle = -(12 * 2) / 2 = -12°
-- Bullet 0: -12 + (0 * 12) = -12° → slightly left
-- Bullet 1: -12 + (1 * 12) = 0° → straight up
-- Bullet 2: -12 + (2 * 12) = +12° → slightly right
 
-### 5. CONNECT FIREVOLLEY TO THE FIRE RATE LIMITER:
+- StartAngle = -(12 \* 2) / 2 = -12°
+- Bullet 0: -12 + (0 \* 12) = -12° → slightly left
+- Bullet 1: -12 + (1 \* 12) = 0° → straight up
+- Bullet 2: -12 + (2 \* 12) = +12° → slightly right
+
+### 5. CONNECT FIREVOLLEY TO THE FIRE RATE LIMITER
 
 1. Go back to the Event Graph tab
 2. Find your IA_Fire logic from [Step 2.5](part-2-create-player.md#step-25-create-player-firing-logic)
@@ -629,11 +637,13 @@ The entry node should now show two input pins: SpawnLocation and Direction
 
 ### 6. Compile and Save
 
-### Expected Result after Compile:
+### Expected Result after Compile
+
 - Compile button shows GREEN checkmark
 - "FireVolley" and "SpawnBullet" functions appear under Functions in My Blueprint panel
 
-### Expected Result in Play mode:
+### Expected Result in Play mode
+
 - Pressing Z or Left Mouse Button spawns 3 bullets in a spread pattern
 - Bullets travel upward from player position
 - Rapid fire when holding the button (every 0.08 seconds)

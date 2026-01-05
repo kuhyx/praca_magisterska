@@ -143,25 +143,31 @@
 ## General Debugging Tips
 
 ### Enable Print Statements
+
 ```
 Right-click → Print String → Type message
 ```
+
 Add these throughout your blueprints to track execution flow.
 
 ### Check Output Log
+
 - **Window → Developer Tools → Output Log**
 - Shows blueprint errors, warnings, and print statements
 
 ### Use Breakpoints
+
 - Right-click any blueprint node → **Add Breakpoint**
 - Execution pauses at that point during Play mode
 - Step through with F10/F11
 
 ### Visualize Collisions
+
 - In viewport: **Show → Collision**
 - Shows collision shapes in play mode
 
 ### Console Commands
+
 - Press `~` (tilde) to open console
 - `stat fps` - Show frame rate
 - `show collision` - Toggle collision visualization

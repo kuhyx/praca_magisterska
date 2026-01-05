@@ -19,7 +19,8 @@
    - Default Pawn Class: Select `BP_Player`
    - Player Controller Class: Keep default
 
-### Expected Result after Compile:
+### Expected Result after Compile
+
 - Compile button shows GREEN checkmark
 - Details panel shows "Default Pawn Class" set to BP_Player
 
@@ -33,7 +34,8 @@
    - Default GameMode: Select `BP_BulletHellGameMode`
 4. Close Project Settings
 
-### Expected Result:
+### Expected Result
+
 - Project Settings shows BP_BulletHellGameMode as Default GameMode
 - This means the game will automatically spawn BP_Player when Play is pressed
 
@@ -48,7 +50,8 @@
 5. Name: `BulletHellLevel`
 6. Click Save
 
-### Expected Result:
+### Expected Result
+
 - New level file "BulletHellLevel" appears in Content folder
 - Level is completely empty (black viewport)
 - Outliner shows only default actors (if any)
@@ -59,7 +62,7 @@
 
 In the level (main viewport), we need to add game actors:
 
-### 1. ADD CAMERA:
+### 1. ADD CAMERA
 
 1. In Place Actors panel (left side, or Window → Place Actors)
 2. Search for "Camera Actor"
@@ -73,44 +76,47 @@ In the level (main viewport), we need to add game actors:
    - Check the box, set Player Index to `0`
 
 **For Orthographic View:**
+
 - Click on Camera component
 - In Details, set "Projection Mode" to `Orthographic`
 - Set "Ortho Width" to `1920` (or your screen width)
 
-### 2. ADD PLAYER:
+### 2. ADD PLAYER
 
 1. From Content Browser, drag `BP_Player` into level
 2. Position: `X=0, Y=-300, Z=0` (bottom center)
 
-### 3. ADD ENEMY SPAWNER:
+### 3. ADD ENEMY SPAWNER
 
 1. Drag `BP_EnemySpawner` into level
 2. Position: `X=0, Y=500, Z=0` (top of screen)
 3. In Details panel, set EnemyClass to `BP_Enemy`
 
-### 4. ADD GAME DIRECTOR:
+### 4. ADD GAME DIRECTOR
 
 1. Drag `BP_GameDirector` into level
 2. Position doesn't matter (it's invisible)
 
-### 5. ADD SCORE MANAGER:
+### 5. ADD SCORE MANAGER
 
 1. Drag `BP_ScoreManager` into level
 2. Position doesn't matter
 
 ### 6. Save the level (`Ctrl+S`)
 
-### Expected Result in Level Viewport:
+### Expected Result in Level Viewport
+
 - Camera actor visible at top of scene (Z=1000)
 - BP_Player visible at bottom center (Y=-300)
 - BP_EnemySpawner visible at top (Y=500)
 - BP_GameDirector and BP_ScoreManager in Outliner (invisible actors)
 
-### Expected Result in Outliner:
+### Expected Result in Outliner
+
 ```
 - CameraActor
 - BP_Player
-- BP_EnemySpawner  
+- BP_EnemySpawner
 - BP_GameDirector
 - BP_ScoreManager
 ```
@@ -125,7 +131,8 @@ In the level (main viewport), we need to add game actors:
    - Editor Startup Map: Select `BulletHellLevel`
    - Game Default Map: Select `BulletHellLevel`
 
-### Expected Result:
+### Expected Result
+
 - Project Settings shows BulletHellLevel as both startup and default map
 - Launching the game (standalone or in editor) loads this level automatically
 

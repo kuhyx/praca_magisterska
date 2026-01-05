@@ -47,15 +47,73 @@
 1. In Event Graph, from **Event Tick:**
 
 #### a) Calculate movement:
-- Get TravelDirection
-- Multiply by TravelSpeed
-- Multiply by Delta Seconds
-- Add to current location
-- Set Actor Location
 
-#### b) Check lifetime:
-- Subtract Delta Seconds from RemainingLifetime
-- If <= 0: Destroy Actor
+1. Right-click → `Get TravelDirection`
+2. Right-click → `Get TravelSpeed`
+3. Right-click → search `Multiply (Vector * Float)` → add it
+   - Connect TravelDirection to the Vector input
+   - Connect TravelSpeed to the Float input
+   - Result: a vector representing full speed in travel direction
+
+4. Right-click → `Get World Delta Seconds`
+5. Right-click → search `Multiply (Vector * Float)` → add another one
+   - Connect the RESULT from step 3 to the Vector input
+   - Connect World Delta Seconds to the Float input
+   - Result: movement delta for this frame (frame-rate independent)
+
+6. Right-click → `Get Actor Location`
+7. Right-click → search `Add (Vector + Vector)` → add it
+   - Connect Actor Location to first input
+   - Connect the movement delta (from step 5) to second input
+
+8. Right-click → `Set Actor Location`
+   - Connect the Add result to "New Location"
+   - Connect execution wire from Event Tick to Set Actor Location
+
+#### b) Check lifetime and destroy when expired:
+
+9. Right-click → `Get RemainingLifetime`
+
+10. Right-click → `Get World Delta Seconds`
+
+11. Right-click → search `Subtract (Float)` → add it
+    - Connect RemainingLifetime to the TOP input (A)
+    - Connect World Delta Seconds to the BOTTOM input (B)
+    - Result: RemainingLifetime minus DeltaSeconds
+
+12. Right-click → `Set RemainingLifetime`
+    - Connect the Subtract result to it
+    - This ALWAYS stores the new decreased lifetime value
+
+13. Connect execution wire:
+    - From `Set Actor Location` (from step 8) → `Set RemainingLifetime`
+
+14. Right-click → search `<= (Float)` (less than or equal) → add it
+    - Connect RemainingLifetime (from Set node output, or Get again) to TOP input
+    - Type `0` in BOTTOM input
+    - Result: true if lifetime has expired
+
+15. From `Set RemainingLifetime`, drag execution → `Branch`
+    - Connect the `<=` result to Branch's "Condition" input
+
+16. **On TRUE (lifetime expired):**
+    - From Branch's "True" pin, drag → `Destroy Actor`
+    - Target: leave as "Self" (destroys this bullet)
+
+17. **On FALSE (still alive):**
+    - Leave unconnected (bullet continues to exist, will check again next frame)
+
+**Visual:**
+
+```
+Event Tick ──► Set Actor Location ──► Set RemainingLifetime ──► Branch
+               (movement)              = Remaining - Delta      (Remaining <= 0?)
+                                                                     │
+                                                          TRUE ──────┴────── FALSE
+                                                            │                  │
+                                                            ▼                  ▼
+                                                      Destroy Actor        (nothing)
+```
 
 ### 2. CREATE "Initialize" FUNCTION:
 
@@ -81,40 +139,100 @@
 - Compile button shows GREEN checkmark
 - "Initialize" function appears under Functions with 5 input parameters
 
-### Expected Result in Play mode (when spawned by player):
-- Bullets move in their assigned direction at TravelSpeed
-- Bullets automatically destroy after RemainingLifetime seconds (default 4s)
-- Movement is smooth and frame-rate independent
+> **NOTE:** Bullet testing is possible after completing [Step 3.4](#step-34-complete-player-firing-logic-bp_player).
 
 ---
 
 ## Step 3.3: Bullet Collision Logic
 
-1. Click on "BulletCollision" component in Components panel
+### 1. ADD THE OVERLAP EVENT:
 
-2. In Details panel, scroll to "Events" section
-   - Click "+" next to **"On Component Begin Overlap"**
-   - This creates event node in Event Graph
+1. In the Components panel (top-left), click on **"BulletCollision"** to select it
 
-3. In the Event Graph, from "On Component Begin Overlap":
+2. In the Details panel (right side), scroll down to find the **"Events"** section
+   - Look for "On Component Begin Overlap"
+   - Click the green **"+"** button next to it
+   - This creates an event node in the Event Graph
 
-#### a) First, check if this is enemy projectile:
-- Get IsEnemyProjectile
-- Branch
+3. The Event Graph now shows a red node: **"On Component Begin Overlap (BulletCollision)"**
+   - This fires whenever another actor overlaps with the bullet's collision sphere
 
-#### b) IF IS ENEMY PROJECTILE (True branch):
-- Get Other Actor from the overlap event
-- Cast to BP_Player
-- If cast succeeds:
-  - Call TakeHit on player, passing Damage
-  - Destroy this bullet (Destroy Actor)
-  
-#### c) IF IS PLAYER BULLET (False branch):
-- Get Other Actor
-- Cast to BP_Enemy
-- If cast succeeds:
-  - Call ApplyDamage on enemy, passing Damage
-  - Destroy this bullet
+### 2. CHECK IF THIS IS AN ENEMY PROJECTILE:
+
+4. Right-click → `Get IsEnemyProjectile`
+   - This gets your boolean variable
+
+5. From "On Component Begin Overlap", drag execution → `Branch`
+   - Connect IsEnemyProjectile to Branch's "Condition" input
+   - TRUE = this is an enemy bullet (should damage player)
+   - FALSE = this is a player bullet (should damage enemies)
+
+### 3. TRUE BRANCH - Enemy Bullet Hits Player:
+
+6. From the **"On Component Begin Overlap"** node, look for the **"Other Actor"** output pin
+   - This is the actor that overlapped with the bullet
+   - Drag from "Other Actor" → search `Cast to BP_Player`
+
+7. Connect execution wire:
+   - From Branch **TRUE** pin → `Cast to BP_Player`
+
+8. The cast has two execution outputs:
+   - **"Cast Succeeded"** (top) - the other actor IS a player
+   - **"Cast Failed"** (bottom) - the other actor is NOT a player
+
+9. From "Cast Succeeded", we need to damage the player:
+   - From the cast's **"As BP Player"** output pin, drag → search `TakeHit`
+   - This calls the TakeHit function you created in [Part 2](part-2-create-player.md)
+   - **IMPORTANT:** The "Target" pin on TakeHit should now be connected to "As BP Player" (this happened automatically when you dragged from that pin)
+   - If Target shows "self", you must manually connect "As BP Player" to the "Target" pin - TakeHit must be called ON the player, not on the bullet!
+
+10. Connect the Damage parameter:
+    - Right-click → `Get Damage` (your bullet's damage variable)
+    - Connect to TakeHit's "DamageAmount" input
+
+11. After damaging the player, destroy the bullet:
+    - From TakeHit, drag execution → `Destroy Actor`
+    - Leave "Target" as "Self" (destroys this bullet)
+
+12. Connect execution wire:
+    - Cast to BP_Player → TakeHit → Destroy Actor
+
+### 4. FALSE BRANCH - Player Bullet Hits Enemy (PLACEHOLDER):
+
+> **NOTE:** BP_Enemy doesn't exist yet, so we'll add a placeholder. You'll complete this logic in [Part 4, Step 4.7](part-4-create-enemy.md#step-47-complete-bullet-collision-logic-bp_bullet).
+
+13. From Branch **FALSE** pin, drag execution → `Print String`
+    - In the "In String" field, type: `TODO: Damage enemy`
+    - This is temporary - we'll replace it with real enemy damage logic in Part 4
+
+**Visual:**
+
+```
+┌──────────────────────────────────────┐
+│ On Component Begin Overlap           │
+│ (BulletCollision)                    │
+│                          Other Actor ○─────────────────────┐
+└──────────────┬───────────────────────┘                     │
+               │                                             │
+               ▼                                             ▼
+        ┌─────────────────┐                       ┌──────────────────┐
+        │ Branch          │                       │ Cast to BP_Player│
+        │ IsEnemyProjectile                       └────────┬─────────┘
+        └───────┬───┬─────┘                                │
+                │   │                             Cast Succeeded
+          TRUE ─┘   └─ FALSE                               │
+                │         │                                ▼
+                ▼         │                       ┌──────────────────┐
+     Cast to BP_Player    │                       │ TakeHit          │
+     (see above)          │                       │ Damage: Damage   │
+                          │                       └────────┬─────────┘
+                          ▼                                │
+               ┌──────────────────┐                        ▼
+               │ Print String     │               ┌──────────────────┐
+               │ "TODO: Damage    │               │ Destroy Actor    │
+               │  enemy"          │               │ (Self)           │
+               └──────────────────┘               └──────────────────┘
+```
 
 ### 4. Compile and Save
 
@@ -122,12 +240,7 @@
 - Compile button shows GREEN checkmark
 - Event Graph shows "On Component Begin Overlap" event connected to Branch
 
-### Expected Result in Play mode:
-- Player bullets (IsEnemyProjectile=false) hitting enemies:
-  - Enemy takes damage, bullet disappears
-- Enemy bullets (IsEnemyProjectile=true) hitting player:
-  - Player takes hit, bullet disappears
-- Bullets passing through other objects: No effect (bullets ignore non-targets)
+> **NOTE:** Collision testing requires player firing (Step 3.4) and enemies (Part 4). Full collision behavior is testable after completing [Part 4](part-4-create-enemy.md).
 
 ---
 
@@ -171,53 +284,68 @@ The entry node should now show two input pins: SpawnLocation and Direction
 
 2. For the "Class" input:
    - Right-click → `Get BulletClass` (your variable)
-   - Connect to "Class" pin
+   - Connect BulletClass output (blue pin) to SpawnActor's "Class" input (purple pin)
 
-3. For the "Spawn Transform" input:
-   - Right-click on the "Spawn Transform" pin → "Split Struct Pin"
-   - This splits it into Location, Rotation, Scale
-   - Connect "SpawnLocation" (from entry node) to "Spawn Transform Location"
-   - Leave Rotation and Scale at defaults
+3. For the "Spawn Transform Location" input:
+   - On the SpawnActor node, look for "Spawn Transform Location" (orange pin)
+   - If you only see "Spawn Transform", right-click on it → "Split Struct Pin" to expand it
+   - Drag a wire from the **SpawnLocation** parameter (on the SpawnBullet entry node) to **"Spawn Transform Location"**
+   - Leave Rotation and Scale at defaults (0,0,0 and 1,1,1)
 
 4. Connect execution wire:
-   - Drag from SpawnBullet entry node → Spawn Actor from Class
+   - Drag from SpawnBullet entry node (white triangle) → SpawnActor (white triangle)
 
 #### f) Initialize the spawned bullet:
 
-5. The "Spawn Actor from Class" has a "Return Value" output (the spawned actor)
-   - Drag from Return Value → search `Cast to BP_Bullet`
-   - This works now because BP_Bullet exists!
+5. Add the Cast node:
+   - From SpawnActor's **"Return Value"** output (blue pin on right side), drag → search `Cast to BP_Bullet`
+   - Connect "Return Value" to the Cast's "Object" input
 
-6. From the cast's "As BP Bullet" output, drag → search `Initialize`
-   - This calls the Initialize function on the bullet (created in Step 3.2)
-   - Connect "Direction" (from entry node) to Initialize's Direction input
-   - Right-click → `Get BulletSpeed` → connect to Speed input
-   - For "bIsEnemy" input: leave unchecked (false) - player bullets aren't enemy
-   - For "Lifetime": type `4.0` (or leave default)
+6. Connect execution wire:
+   - From SpawnActor (white triangle output) → Cast to BP_Bullet (white triangle input)
 
-7. Connect execution wires:
-   - Spawn Actor → Cast to BP_Bullet → Initialize
+7. Add the Initialize call:
+   - From the Cast's **"As BP Bullet"** output (blue pin), drag → search `Initialize`
+   - This calls the Initialize function you created in Step 3.2
+   - **IMPORTANT:** The "Target" pin should automatically connect to "As BP Bullet"
+
+8. Connect Initialize parameters:
+   - **Direction**: Drag from the **Direction** parameter (on SpawnBullet entry node, yellow pin) → Initialize's "Direction" input
+   - **Speed**: Right-click → `Get BulletSpeed` → connect to Initialize's "Speed" input
+   - **bIsEnemy**: Leave unchecked (false) - player bullets aren't enemy projectiles
+   - **Lifetime**: Type `4.0` in the input field (or leave default)
+   - **DamageValue**: Leave at default `1`
+
+9. Connect execution wire:
+   - From Cast to BP_Bullet → Initialize
 
 **Visual:**
 
 ```
-┌───────────────────────┐      ┌─────────────────────────┐
-│ SpawnBullet           │─────►│ Spawn Actor from Class  │
-│ SpawnLocation ○       │      │ Class: BulletClass      │
-│ Direction ○           │      │ Location: SpawnLocation │
-└───────────────────────┘      └───────────┬─────────────┘
-                                           │
+┌───────────────────────┐      ┌─────────────────────────────────┐
+│ SpawnBullet           │─────►│ Spawn Actor from Class          │
+│ SpawnLocation ○───────┼─────►│   Class: BulletClass            │
+│ Direction ○           │      │   Spawn Transform Location ○◄───┘
+└───────────────────────┘      │   Return Value ○────────────────┐
+                               └─────────────────────────────────┘
+                                                                 │
+                                           ┌─────────────────────┘
                                            ▼
                                ┌─────────────────────────┐
                                │ Cast to BP_Bullet       │
-                               └───────────┬─────────────┘
-                                           │
+                               │   Object ○◄─────────────┘
+                               │   As BP Bullet ○────────┐
+                               └─────────────────────────┘
+                                                         │
+                                           ┌─────────────┘
                                            ▼
                                ┌─────────────────────────┐
                                │ Initialize              │
-                               │ Direction: Direction    │
-                               │ Speed: BulletSpeed      │
-                               │ bIsEnemy: false         │
+                               │   Target ○◄─────────────┘
+                               │   Direction ○◄──────────── (from entry node)
+                               │   Speed ○◄────────────── BulletSpeed
+                               │   bIsEnemy: false       │
+                               │   Lifetime: 4.0         │
                                └─────────────────────────┘
 ```
 
@@ -360,19 +488,20 @@ The entry node should now show two input pins: SpawnLocation and Direction
     BUT Unreal's Sin/Cos use RADIANS, not degrees!
     
     **a) Convert degrees to radians:**
-    - Right-click → search `Radians` or `Degrees to Radians`
-    - Connect your angle (from step 12) to input
+    - Right-click → search `Degrees To Radians` → add it
+    - Connect your angle (from step 12) to the input
     - Output is angle in radians
-    
+
     **b) Calculate X component (Cos):**
-    - Right-click → `Cos (Radians)`
-    - Connect radians output
-    - This is the X direction component
+    - Right-click → `Cos (Radians)` → add it
+    - Connect the Degrees To Radians output to Cos input
     
     **c) Calculate Y component (Sin):**
-    - Right-click → `Sin (Radians)`
-    - Connect radians output (same value as Cos input)
-    - This is the Y direction component
+    - Right-click → `Sin (Radians)` → add it
+    - To connect the SAME radians value to Sin (without losing the Cos connection):
+      - **Option 1:** Ctrl+drag from "Degrees To Radians" output to Sin input (creates second wire)
+      - **Option 2:** Drag directly from "Degrees To Radians" output again - UE5 allows multiple wires from one output pin
+    - Both Cos and Sin should now be connected to the same radians value
     
     **d) Make the direction vector:**
     - Right-click → `Make Vector`

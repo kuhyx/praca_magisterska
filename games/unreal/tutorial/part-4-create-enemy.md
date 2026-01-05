@@ -346,4 +346,84 @@ Now that BP_Enemy exists (and BP_Bullet from Part 3), we can complete the specia
 
 ---
 
+## Step 4.7: Complete Bullet Collision Logic (BP_Bullet)
+
+Now that BP_Enemy exists (and the `ApplyDamage` function from Step 4.3), we can complete the collision logic that was set up as a placeholder in [Part 3, Step 3.3](part-3-create-bullet.md#step-33-bullet-collision-logic).
+
+### 1. Open BP_Bullet Blueprint:
+1. Content Browser → Blueprints → double-click `BP_Bullet`
+2. Go to **Event Graph** tab
+3. Find the `On Component Begin Overlap (BulletCollision)` event node
+4. Locate the `Print String "TODO: Damage enemy"` node on the FALSE branch
+
+### 2. Replace Print String with enemy damage logic:
+
+#### a) Delete the placeholder:
+- Select the `Print String` node
+- Press Delete
+
+#### b) Add Cast to BP_Enemy:
+1. Right-click → search `Cast to BP_Enemy` → add it
+
+2. Connect execution wire:
+   - From Branch **FALSE** pin → `Cast to BP_Enemy`
+
+3. Connect the "Other Actor" to the cast:
+   - From the **"On Component Begin Overlap"** node, drag from **"Other Actor"** to the Cast's "Object" input
+   - (You can Ctrl+drag to create a second wire without removing the existing one to BP_Player)
+
+#### c) Call ApplyDamage on the enemy:
+4. From "Cast Succeeded" on the BP_Enemy cast:
+   - From the cast's **"As BP Enemy"** output pin, drag → search `ApplyDamage`
+   - This calls the ApplyDamage function you created in Step 4.3
+
+5. Connect the Damage parameter:
+   - Right-click → `Get Damage` (the bullet's damage variable)
+   - Connect to ApplyDamage's "DamageAmount" input
+
+#### d) Destroy the bullet after damaging:
+6. From ApplyDamage, drag execution → `Destroy Actor`
+   - Leave "Target" as "Self" (destroys this bullet)
+
+**Visual:**
+
+```
+                                  FALSE
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+  Other Actor ──────────►│ Cast to BP_Enemy     │
+                         └──────────┬───────────┘
+                                    │
+                           Cast Succeeded
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │ ApplyDamage          │
+  Get Damage ───────────►│   DamageAmount       │
+                         └──────────┬───────────┘
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │ Destroy Actor        │
+                         │ (Self)               │
+                         └──────────────────────┘
+```
+
+### 3. Compile and Save
+
+### Expected Result after Compile:
+- Compile button shows GREEN checkmark
+- No warnings - both BP_Player and BP_Enemy casts are valid now
+
+### Expected Result in Play mode:
+- Player bullets (IsEnemyProjectile=false) hitting enemies:
+  - Enemy takes damage, bullet disappears
+  - After enough hits, enemy dies and awards score
+- Enemy bullets (IsEnemyProjectile=true) hitting player:
+  - Player takes hit, bullet disappears
+- Bullets passing through other objects: No effect (bullets ignore non-targets)
+
+---
+
 [← Previous: Part 3 - Create the Bullet](part-3-create-bullet.md) | [Back to Index](README.md) | [Next: Part 5 - Create Enemy Spawner →](part-5-create-spawner.md)

@@ -42,6 +42,7 @@ This tutorial recreates the Unity "magisterka_1" bullet-hell shooter in Unreal E
 - [Step 4.4: Enemy Firing Logic](part-4-create-enemy.md#step-44-enemy-firing-logic)
 - [Step 4.5: Enemy Damage and Death](part-4-create-enemy.md#step-45-enemy-damage-and-death)
 - [Step 4.6: Complete Special Ability in BP_Player](part-4-create-enemy.md#step-46-complete-special-ability-in-bp_player)
+- [Step 4.7: Complete Bullet Collision Logic](part-4-create-enemy.md#step-47-complete-bullet-collision-logic-bp_bullet)
 
 ### Part 5: Create Enemy Spawner
 - [Step 5.1: Create Spawner Blueprint](part-5-create-spawner.md#step-51-create-spawner-blueprint)

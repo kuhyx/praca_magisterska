@@ -474,14 +474,14 @@ The entry node should now show two input pins: SpawnLocation and Direction
 13. **Convert angle from degrees to a direction vector:**
     
     In Unreal's top-down view (looking down Z axis):
-    - X axis = forward/back (up/down on screen)
-    - Y axis = left/right
+    - X axis = up/down on screen (vertical)
+    - Y axis = left/right on screen (horizontal)
     - Angle 0° = straight up = direction (1, 0, 0)
     - Angle 90° = right = direction (0, 1, 0)
     
     ```
-    Direction.X = Cos(angle)
-    Direction.Y = Sin(angle)
+    Direction.X = Cos(angle)   // Cos for vertical (forward/up)
+    Direction.Y = Sin(angle)   // Sin for horizontal offset
     Direction.Z = 0
     ```
     
@@ -492,11 +492,11 @@ The entry node should now show two input pins: SpawnLocation and Direction
     - Connect your angle (from step 12) to the input
     - Output is angle in radians
 
-    **b) Calculate X component (Cos):**
+    **b) Calculate X component (Cos - forward/up direction):**
     - Right-click → `Cos (Radians)` → add it
     - Connect the Degrees To Radians output to Cos input
     
-    **c) Calculate Y component (Sin):**
+    **c) Calculate Y component (Sin - horizontal offset):**
     - Right-click → `Sin (Radians)` → add it
     - To connect the SAME radians value to Sin (without losing the Cos connection):
       - **Option 1:** Ctrl+drag from "Degrees To Radians" output to Sin input (creates second wire)
@@ -505,8 +505,8 @@ The entry node should now show two input pins: SpawnLocation and Direction
     
     **d) Make the direction vector:**
     - Right-click → `Make Vector`
-    - Connect Cos result to X
-    - Connect Sin result to Y
+    - Connect Cos result to X (forward/up direction)
+    - Connect Sin result to Y (horizontal spread)
     - Set Z = 0
 
 14. **Spawn the bullet:**

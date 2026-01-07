@@ -8,17 +8,21 @@
 
 ### 1. Choose Your Path
 
-- **New to Unreal?** → Start with [Code-First Tutorial](code-first-approach.md) (recommended)
-- **Want comparison?** → Read [Blueprint vs Code Comparison](blueprint-vs-code-comparison.md)
-- **Need copy-paste code?** → Go to [Appendix D: C++ Reference](appendix-d-cpp-reference.md)
+- **New Project?** → Start with [Part 1 (C++): Project Setup](part-1-cpp-project-setup.md)
+- **Already have Blueprint project?** → See [Migration Guide](#migrating-from-blueprint-to-c) below
+- **Just need code?** → See existing implementations in `Source/MCPGameProject/`
 
-### 2. Create C++ Project
+### 2. Create C++ Project (New Projects Only)
+
+If starting fresh:
 
 ```
 Unreal Engine → New Project → Games → Blank
 ✅ Project Type: C++ (NOT Blueprint!)
 Name: BulletHellGame
 ```
+
+If you already have a Blueprint project, skip to [Migration Guide](#migrating-from-blueprint-to-c) below.
 
 ### 3. Copy-Paste the Classes
 
@@ -159,6 +163,147 @@ Replace All → Done!
 
 ---
 
+## 🔄 Migrating from Blueprint to C++
+
+**Already started with the Blueprint tutorial?** Here's how to move to C++ without losing your work.
+
+### Option 1: Add C++ to Existing Blueprint Project (Recommended)
+
+This approach keeps your existing Blueprints and adds C++ support.
+
+#### Step 1: Add C++ Support to Project
+
+1. In Unreal Editor: **Tools → New C++ Class**
+2. Choose any parent (e.g., "Actor") → Next
+3. Name it anything (e.g., `Dummy`) → Create Class
+4. **This triggers C++ project generation!**
+   - Visual Studio/Rider opens
+   - `Source/` folder is created
+   - Project compiles (~2-5 minutes first time)
+
+5. After compilation, you'll have:
+   ```
+   YourProject/
+   ├── Source/              ← NEW! C++ folder created
+   ├── Content/             ← Your existing Blueprints (unchanged)
+   └── YourProject.uproject
+   ```
+
+#### Step 2: Create C++ Classes
+
+Now follow the C++ tutorial parts to create classes:
+
+1. **Tools → New C++ Class** → Pawn → `STGPawn`
+2. Copy-paste code from [Part 2 (C++)](part-2-cpp-create-player.md)
+3. Compile
+4. Repeat for bullets, enemies, etc.
+
+#### Step 3: Reparent Existing Blueprints
+
+Instead of creating new BP_Player, **reparent your existing one**:
+
+1. Open your existing `BP_Player` Blueprint
+2. **File → Reparent Blueprint** (top menu)
+3. In the dialog, click "All Classes" dropdown
+4. Search for `STGPawn` (your C++ class)
+5. Select it → Reparent
+
+**What happens:**
+- ✅ BP_Player now inherits from STGPawn (C++)
+- ✅ All C++ variables appear in Blueprint
+- ✅ Your existing visual assets (meshes, materials) are preserved
+- ✅ Old Blueprint variables become redundant (you can delete them)
+
+#### Step 4: Clean Up Duplicate Variables
+
+1. In BP_Player, look at "Variables" panel
+2. You'll see duplicates:
+   - `MoveSpeed` (from Blueprint - old)
+   - `MoveSpeed` (from STGPawn - new, with C++ icon)
+3. **Delete the old Blueprint variables** - keep only C++ ones
+4. Compile and Save
+
+#### Step 5: Migrate Logic (If Needed)
+
+If you had Blueprint nodes for logic:
+
+**Option A:** Keep Blueprint nodes for now (hybrid approach)
+- Blueprints can call C++ functions
+- Gradually move logic to C++ over time
+
+**Option B:** Move everything to C++ immediately
+- Copy Blueprint logic to C++ functions
+- Delete Blueprint nodes
+- Use Blueprints only for visual assets
+
+### Option 2: Fresh Start (Faster but Loses Visual Setup)
+
+If you haven't done much visual work:
+
+1. Create new C++ project
+2. Follow C++ tutorial from [Part 1](part-1-cpp-project-setup.md)
+3. Manually recreate any visual assets from old project
+
+**When to use:** If you're still early in the Blueprint tutorial (Parts 1-3).
+
+---
+
+### Migration Example: BP_Player → STGPawn
+
+**Before (Blueprint only):**
+```
+BP_Player (Blueprint)
+├── Components (added manually in editor)
+│   ├── ShipMesh
+│   ├── Camera
+│   └── Hitbox
+├── Variables (defined one-by-one in UI)
+│   ├── MoveSpeed = 750.0
+│   ├── BoundsMin = (-850, -450)
+│   └── ... (10 more)
+└── Event Graph (Blueprint nodes for logic)
+```
+
+**After (Reparented to C++):**
+```
+BP_Player (Blueprint, inherits from STGPawn C++)
+├── Parent Class: STGPawn ← NEW!
+├── Components (inherited from C++)
+│   ├── ShipMesh (from STGPawn)
+│   ├── Camera (from STGPawn)
+│   └── Hitbox (from STGPawn)
+├── Variables (inherited from C++)
+│   ├── MoveSpeed = 750.0 (from STGPawn)
+│   ├── BoundsMin = (-850, -450) (from STGPawn)
+│   └── ... (all from C++)
+└── Visual Assets Only (meshes, materials)
+    └── ShipMesh → Assign cone mesh
+```
+
+**Benefits:**
+- ✅ Variables now in version control (C++ files)
+- ✅ Can modify via IDE (autocomplete, refactoring)
+- ✅ Type-safe (compiler checks)
+- ✅ Blueprint kept for visual assets only
+
+---
+
+### Common Migration Pitfalls
+
+**Problem:** "I reparented but variables duplicated!"
+- **Solution:** Delete the old Blueprint variables manually. Keep only C++ ones (they have a C++ icon next to them).
+
+**Problem:** "Compilation errors after adding C++ support"
+- **Solution:** Make sure Visual Studio has "Desktop Development with C++" workload installed. Check Output Log for specific errors.
+
+**Problem:** "My Blueprint logic stopped working after reparenting"
+- **Solution:** Check that function names match. C++ functions must be marked `UFUNCTION(BlueprintCallable)` to be called from Blueprints.
+
+**Problem:** "Hot reload isn't working"
+- **Solution:** Close Unreal Editor before compiling C++ changes. Reopen after compilation. Hot reload is unreliable.
+
+---
+
 ## ❓ FAQ
 
 **Q: I'm new to C++, should I use Blueprint instead?**
@@ -178,7 +323,7 @@ A: Yes! That's the recommended approach:
 
 **Q: What if I already started with Blueprints?**
 
-A: You can migrate! See [Migration Guide in Appendix D](appendix-d-cpp-reference.md#migration-guide)
+A: See the [Migration Guide](#migrating-from-blueprint-to-c) above! You can reparent existing Blueprints to C++ classes.
 
 **Q: Do I need to know Unreal's C++ API?**
 
@@ -188,7 +333,9 @@ A: No! The tutorial provides **complete, working code** you can copy-paste. You'
 
 ## 🚀 Get Started Now
 
-**[→ Start the Code-First Tutorial](code-first-approach.md)**
+**New Project:** [→ Start with Part 1 (C++)](part-1-cpp-project-setup.md)
+
+**Existing Blueprint Project:** [→ See Migration Guide](#migrating-from-blueprint-to-c)
 
 Build the complete bullet-hell game in 2-3 hours with copy-paste ready code!
 

@@ -22,7 +22,11 @@ This tutorial offers **two ways** to implement the game:
 
 **→ [🚀 QUICK START: 3-Minute Code-First Guide](QUICKSTART-CODE-FIRST.md)** ⭐
 
-**→ [Complete Code-First C++ Tutorial](code-first-approach.md)**
+**→ Start the C++ Tutorial:**
+- [Part 1 (C++): Project Setup](part-1-cpp-project-setup.md)
+- [Part 2 (C++): Create Player](part-2-cpp-create-player.md)
+- [Part 3 (C++): Create Bullet](part-3-cpp-create-bullet.md)
+- [Parts 4-9 (C++) Summary](part-4-9-cpp-summary.md)
 
 - ✅ **90% faster** - copy-paste variable blocks instead of clicking UI
 - ✅ **Version control friendly** - readable Git diffs, not binary files
@@ -51,9 +55,9 @@ This tutorial offers **two ways** to implement the game:
 | Refactoring | ✅ IDE tools | ❌ Manual |
 | Full game time | ~2-3 hours | ~6-8 hours |
 
-**📖 [Read Detailed Comparison: Blueprint vs Code](blueprint-vs-code-comparison.md)** - See specific examples of time savings
-
 **💡 Pro Tip:** You can combine both! Use C++ for logic/variables, Blueprints for visual assets.
+
+**📖 Migrating from Blueprint?** See [Migration Guide in Quickstart](QUICKSTART-CODE-FIRST.md#migrating-from-blueprint-to-c)
 
 ---
 
@@ -129,10 +133,9 @@ This tutorial offers **two ways** to implement the game:
 
 ### Appendices
 
-- [Appendix A: Complete Variable Reference](appendix-a-variables.md)
+- [Appendix A: Complete Variable Reference](appendix-a-variables.md) (Blueprint)
 - [Appendix B: Troubleshooting](appendix-b-troubleshooting.md)
 - [Appendix C: Unity to Unreal Conversion Notes](appendix-c-unity-conversion.md)
-- [Appendix D: Complete C++ Reference](appendix-d-cpp-reference.md) **← NEW! Copy-paste ready code**
 
 ---
 
@@ -140,10 +143,11 @@ This tutorial offers **two ways** to implement the game:
 
 ### For Code-First Approach (Recommended)
 
-1. Start with [Code-First C++ Tutorial](code-first-approach.md)
-2. Copy-paste complete C++ classes from [Appendix D](appendix-d-cpp-reference.md)
-3. Create minimal Blueprint children for visual assets only
+1. Read [3-Minute Quickstart](QUICKSTART-CODE-FIRST.md)
+2. Start with [Part 1 (C++): Project Setup](part-1-cpp-project-setup.md)
+3. Follow parts 2-3, then [Parts 4-9 Summary](part-4-9-cpp-summary.md)
 4. **Complete the game in 2-3 hours** instead of 6-8 hours!
+5. **Already have Blueprint project?** See [Migration Guide](QUICKSTART-CODE-FIRST.md#migrating-from-blueprint-to-c)
 
 ### For Blueprint Approach
 

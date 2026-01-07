@@ -14,6 +14,47 @@ This tutorial recreates the Unity "magisterka_1" bullet-hell shooter in Unreal E
 
 ---
 
+## 🆕 Two Approaches Available
+
+This tutorial offers **two ways** to implement the game:
+
+### 1. **Code-First Approach (RECOMMENDED)** ⚡
+
+**→ [Start the Code-First C++ Tutorial](code-first-approach.md)**
+
+- ✅ **90% faster** - copy-paste variable blocks instead of clicking UI
+- ✅ **Version control friendly** - readable Git diffs, not binary files
+- ✅ **Easier to replicate** - copy entire class files between projects
+- ✅ **Better for teams** - code review, refactoring tools, find/replace
+- ✅ **Type-safe** - compiler catches errors at compile time
+
+**Best for:** Anyone comfortable with C++ or wanting to learn modern game development workflows.
+
+### 2. **Blueprint-Heavy Approach** 🎨
+
+**→ [Start the Blueprint Tutorial](#table-of-contents)** (see below)
+
+- ✅ **Visual node editing** - see logic flow graphically
+- ✅ **Instant iteration** - no compile time for Blueprint changes
+- ✅ **Designer-friendly** - non-programmers can modify behavior
+
+**Best for:** Complete Unreal beginners, visual learners, or rapid prototyping.
+
+### Comparison
+
+| Task | Code-First (C++) | Blueprint |
+|------|-----------------|-----------|
+| Define 12+ variables | 2 minutes (copy-paste) | 15 minutes (clicking) |
+| Version control | ✅ Readable diffs | ❌ Binary files |
+| Refactoring | ✅ IDE tools | ❌ Manual |
+| Full game time | ~2-3 hours | ~6-8 hours |
+
+**📖 [Read Detailed Comparison: Blueprint vs Code](blueprint-vs-code-comparison.md)** - See specific examples of time savings
+
+**💡 Pro Tip:** You can combine both! Use C++ for logic/variables, Blueprints for visual assets.
+
+---
+
 ## Table of Contents
 
 ### Part 1: Project Setup
@@ -89,10 +130,20 @@ This tutorial recreates the Unity "magisterka_1" bullet-hell shooter in Unreal E
 - [Appendix A: Complete Variable Reference](appendix-a-variables.md)
 - [Appendix B: Troubleshooting](appendix-b-troubleshooting.md)
 - [Appendix C: Unity to Unreal Conversion Notes](appendix-c-unity-conversion.md)
+- [Appendix D: Complete C++ Reference](appendix-d-cpp-reference.md) **← NEW! Copy-paste ready code**
 
 ---
 
 ## Quick Start
+
+### For Code-First Approach (Recommended)
+
+1. Start with [Code-First C++ Tutorial](code-first-approach.md)
+2. Copy-paste complete C++ classes from [Appendix D](appendix-d-cpp-reference.md)
+3. Create minimal Blueprint children for visual assets only
+4. **Complete the game in 2-3 hours** instead of 6-8 hours!
+
+### For Blueprint Approach
 
 1. Start with [Part 1: Project Setup](part-1-project-setup.md)
 2. Follow each part in order

@@ -35,11 +35,14 @@ jobs:
 
       - name: Generate test cases
         run: scons generate_tests
+        working-directory: latex
 
       - name: Generate PDF file
         run: cp test/${{matrix.lang}}/${{matrix.faculty}}/${{matrix.thesis}}.textest main.tex && scons all
+        working-directory: latex
 
       - name: Verify build with referential text
         run: |
           scons test pdf=build/pdfs/${{matrix.compiler}}.pdf \
                 ref=test/${{matrix.lang}}/${{matrix.faculty}}/${{matrix.thesis}}_${{matrix.compiler}}.txt
+        working-directory: latex

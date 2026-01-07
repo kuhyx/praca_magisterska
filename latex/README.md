@@ -110,5 +110,15 @@ Preferowanym kanałem zgłaszania problemów z szablonem są [issues-y][ref:issu
 ## Dla deweloperów
 Informacje dla osób zainteresowanych rozwijaniem szablonu znajdują się w [encyklopedii projektu][ref:wiki].
 
+### CI/CD i Branch Protection
+Repozytorium posiada automatyczne testy CI sprawdzające poprawność kompilacji dla wszystkich kombinacji wydziałów, języków i typów prac. Aby zapewnić jakość kodu:
+
+- **Branch Protection**: Zobacz [../.github/BRANCH_PROTECTION.md](../.github/BRANCH_PROTECTION.md) dla instrukcji konfiguracji wymaganych testów przed mergowaniem do `main`/`master`
+- **Pre-commit hooks**: Zainstaluj lokalne pre-commit hooks, aby wykrywać problemy przed pushowaniem:
+  ```bash
+  pip install pre-commit
+  pre-commit install
+  ```
+
 ## Uwagi
 Copyleft © [Artur M. Brodzki](https://github.com/ArturB) 2019-2023. Loosely based on [EiTI-Szablon](https://github.com/pwozniak/EiTI-Szablon) by [Piotr Woźniak](https://github.com/pwozniak). All wrongs reserved.

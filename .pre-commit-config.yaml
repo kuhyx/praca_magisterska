@@ -1,0 +1,53 @@
+# Pre-commit configuration for WUT-Thesis
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
+repos:
+  # General file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: '\.(tex|bib)$'  # LaTeX may need trailing whitespace
+      - id: end-of-file-fixer
+        exclude: '\.(pdf|png|jpg|jpeg)$'
+      - id: check-yaml
+        args: ['--unsafe']  # Allow custom YAML tags in GitHub workflows
+      - id: check-added-large-files
+        args: ['--maxkb=5000']  # Warn about files larger than 5MB
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+
+  # YAML linting for GitHub Actions workflows
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.33.0
+    hooks:
+      - id: yamllint
+        args: ['-d', '{extends: default, rules: {line-length: {max: 120}, document-start: disable}}']
+        files: ^\.github/workflows/.*\.ya?ml$
+
+# Optional: Uncomment to enable LaTeX-specific checks
+# Note: These require additional dependencies (chktex, lacheck)
+#  - repo: https://github.com/jonasbb/pre-commit-latex-hooks
+#    rev: v1.4.0
+#    hooks:
+#      - id: american-eg-ie
+#      - id: cleveref-capitalization
+#      - id: consistent-spelling
+#        args:
+#          - '--emph=et al.,emph=etc.'
+#      - id: csquotes
+#      - id: ensure-labels-for-sections
+#      - id: no-space-in-cite
+#      - id: tilde-cite
+#      - id: unique-labels
+
+# To install pre-commit hooks, run:
+#   pip install pre-commit
+#   pre-commit install
+#
+# To run manually on all files:
+#   pre-commit run --all-files
+#
+# To update hooks to latest versions:
+#   pre-commit autoupdate

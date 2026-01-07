@@ -20,7 +20,9 @@ This tutorial offers **two ways** to implement the game:
 
 ### 1. **Code-First Approach (RECOMMENDED)** ⚡
 
-**→ [Start the Code-First C++ Tutorial](code-first-approach.md)**
+**→ [🚀 QUICK START: 3-Minute Code-First Guide](QUICKSTART-CODE-FIRST.md)** ⭐
+
+**→ [Complete Code-First C++ Tutorial](code-first-approach.md)**
 
 - ✅ **90% faster** - copy-paste variable blocks instead of clicking UI
 - ✅ **Version control friendly** - readable Git diffs, not binary files

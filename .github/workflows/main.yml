@@ -32,6 +32,7 @@ jobs:
 
       - name: Install Python dependencies
         run: sudo pip install -r requirements.txt
+        working-directory: latex
 
       - name: Generate test cases
         run: scons generate_tests

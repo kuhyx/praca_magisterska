@@ -55,7 +55,13 @@ This creates 16 test matrix jobs (2×2×2×2) that must all pass before a pull r
 
 ### Via GitHub CLI (requires admin permissions)
 
+Replace `{owner}` with your GitHub username/organization and `{repo}` with your repository name:
+
 ```bash
+# Example: For repository https://github.com/kuhyx/praca_magisterska
+# Replace {owner} with: kuhyx
+# Replace {repo} with: praca_magisterska
+
 gh api repos/{owner}/{repo}/branches/main/protection \
   --method PUT \
   --field required_status_checks[strict]=true \

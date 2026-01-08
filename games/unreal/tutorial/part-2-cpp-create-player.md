@@ -435,18 +435,42 @@ Now we create a **minimal Blueprint** that inherits from our C++ class. This Blu
 
 ## Step 2.7: Test the Player
 
-1. Drag `BP_Player` from Content Browser into the level
-2. Press **Play** (`Alt+P`)
-3. Press WASD keys - player should move!
-4. Press Z or Space - you should see "FIRE!" in Output Log
-5. Press X - you should see "SPECIAL ABILITY ACTIVATED!" once
+1. Drag `BP_Player` from Content Browser into the level viewport
+2. Position it near the center (coordinates around X=0, Y=0, Z=0)
+3. Press **Play** (`Alt+P`)
 
-### Expected Result:
+### Expected Result
 
-- ✅ Player moves with WASD
-- ✅ Movement is clamped to bounds
-- ✅ Fire input detected (logs message)
-- ✅ Special ability works once
+**In Play Mode Window:**
+- You see the cone/cube player ship from above (top-down view)
+- Ship is positioned at center of screen
+- Background is the default gray/blue Unreal grid
+- Camera follows the player from above
+
+**When pressing WASD keys:**
+- **W** - Ship moves upward on screen (toward top)
+- **S** - Ship moves downward on screen (toward bottom)
+- **A** - Ship moves left
+- **D** - Ship moves right
+- Movement stops immediately when you release keys (no sliding)
+- Ship stops at screen edges (cannot move outside bounds)
+
+**When pressing Z or Space:**
+- You see "FIRE!" message appear in top-left corner of screen (yellow text)
+- Message appears repeatedly while holding the button
+- No bullets yet (we'll add those after creating bullet class)
+
+**When pressing X:**
+- "SPECIAL ABILITY ACTIVATED!" appears once in top-left corner
+- Pressing X again does nothing (ability used up)
+
+**Visual Check:**
+- Ship model is visible (cone or cube shape)
+- Ship rotates/faces the direction of movement
+- No errors in Output Log
+- Frame rate counter shows stable FPS (if enabled)
+
+**To exit Play mode:** Press `Esc` or click the "Stop" button in the toolbar
 
 ---
 

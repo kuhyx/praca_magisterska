@@ -10,7 +10,7 @@
 
 - **New Project?** → Start with [Part 1 (C++): Project Setup](part-1-cpp-project-setup.md)
 - **Already have Blueprint project?** → See [Migration Guide](#migrating-from-blueprint-to-c) below
-- **Just need code?** → See existing implementations in `Source/MCPGameProject/`
+- **Just need reference code?** → See existing implementations in `Source/MCPGameProject/`
 
 ### 2. Create C++ Project (New Projects Only)
 

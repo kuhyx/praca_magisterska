@@ -144,10 +144,18 @@ This tutorial offers **two ways** to implement the game:
 ### For Code-First Approach (Recommended)
 
 1. Read [3-Minute Quickstart](QUICKSTART-CODE-FIRST.md)
-2. Start with [Part 1 (C++): Project Setup](part-1-cpp-project-setup.md)
-3. Follow parts 2-3, then [Parts 4-9 Summary](part-4-9-cpp-summary.md)
-4. **Complete the game in 2-3 hours** instead of 6-8 hours!
-5. **Already have Blueprint project?** See [Migration Guide](QUICKSTART-CODE-FIRST.md#migrating-from-blueprint-to-c)
+2. Follow the C++ tutorial parts:
+   - [Part 1 (C++): Project Setup](part-1-cpp-project-setup.md)
+   - [Part 2 (C++): Create Player](part-2-cpp-create-player.md)
+   - [Part 3 (C++): Create Bullet](part-3-cpp-create-bullet.md)
+   - [Part 4 (C++): Create Enemy](part-4-cpp-create-enemy.md)
+   - [Part 5 (C++): Create Spawner](part-5-cpp-create-spawner.md)
+   - [Part 6 (C++): Create Game Director](part-6-cpp-create-game-director.md)
+   - [Part 7 (C++): Create UI](part-7-cpp-create-ui.md)
+   - [Part 8 (C++): Create Game Mode](part-8-cpp-create-game-mode.md)
+   - [Part 9 (C++): Final Setup](part-9-cpp-final-setup.md)
+3. **Complete the game in 2-3 hours** instead of 6-8 hours!
+4. **Already have Blueprint project?** See [Migration Guide](QUICKSTART-CODE-FIRST.md#migrating-from-blueprint-to-c)
 
 ### For Blueprint Approach
 

@@ -28,8 +28,8 @@ This is the **C++ version** of Part 1. Unlike the Blueprint tutorial which creat
 6. On the right side panel, configure:
    - **Project Defaults:** **C++** ⚠️ (NOT Blueprint!)
    - **Target Platform:** Desktop
-   - **Quality Preset:** Maximum (or Scalable for faster iteration)
-   - **Starter Content:** UNCHECKED (we don't need it)
+   - **Quality Preset:** Scalable (faster compile times, easier iteration)
+   - **Starter Content:** UNCHECKED (reduces project size and avoids unnecessary assets for this bullet-hell game)
    - **Raytracing:** UNCHECKED
 
 7. At the bottom:
@@ -42,41 +42,62 @@ This is the **C++ version** of Part 1. Unlike the Blueprint tutorial which creat
 
 Unreal will:
 1. Generate C++ project files (~30 seconds)
-2. **Open your IDE** (Visual Studio, Rider, or VS Code)
-3. **Compile the initial project** (2-5 minutes, first time only)
-4. Open Unreal Editor
+2. **Open your IDE** (Visual Studio Code will launch if configured)
+3. **Automatically start compiling** the initial project (2-5 minutes, first time only)
+   - You'll see a terminal/console window showing compilation progress
+   - On Linux: Uses clang++ or g++ to compile C++ files
+   - Progress shown as: "Compiling C++ source files...", "Linking...", etc.
+4. Open Unreal Editor once compilation completes
 
-> **⚠️ IMPORTANT:** Do NOT close the IDE or compilation window! Wait for compilation to finish.
+> **⚠️ IMPORTANT:** Do NOT close the IDE or compilation window! Wait for compilation to finish. You'll see "Build succeeded" or similar message when done.
 
 ### Expected Result
 
 After compilation completes:
 
-- **Unreal Editor opens** with an empty level
-- **Your IDE is open** with the project (Visual Studio/Rider/VS Code)
-- Main 3D viewport in the center
-- Outliner panel on the right (showing "Untitled" level)
+**Unreal Editor viewport shows:**
+- Empty 3D viewport in the center with grid floor
+- Main toolbar at the top (File, Edit, Window, etc.)
+- Outliner panel on the right showing "Untitled" level actors
+- Details panel on the right side (currently empty)
+- Content Drawer button at bottom (click it or press `Ctrl+Space` to open)
+
+**VS Code (your IDE) shows:**
+- BulletHellGame project folder open
+- Left sidebar with file explorer showing `Source/` folder
+- `STGPawn.h` and `STGPawn.cpp` or similar auto-generated files
+
+**What you should see in Unreal Editor:**
+- A flat grid representing the game world (top-down view by default in new projects)
+- No errors in the Output Log
+- The word "Ready" or compilation success message in bottom-right corner
+
+> **NOTE:** If you see a 3D perspective view instead of top-down, don't worry - we'll fix that in Step 1.3.
 
 ### Troubleshooting
 
 <details>
-<summary><b>IDE didn't open?</b></summary>
+<summary><b>IDE didn't open?</b> (Visual Studio Code on Linux/Arch)</summary>
 
-- Check if Visual Studio or Rider is installed
-- Go to `Edit → Editor Preferences → Source Code`
-- Set "Source Code Editor" to your preferred IDE
-- Right-click the `.uproject` file → "Generate Visual Studio project files"
-- Open the `.sln` file in your IDE
+On Arch Linux with VS Code:
+- Install VS Code if not present: `sudo pacman -S code`
+- Install Unreal Engine extension for VS Code
+- In Unreal Editor: `Edit → Editor Preferences → Source Code`
+- Set "Source Code Editor" to "Visual Studio Code"
+- Right-click the `.uproject` file in file manager → "Generate VSCode project files"
+- Open the project folder in VS Code
 
 </details>
 
 <details>
-<summary><b>Compilation failed?</b></summary>
+<summary><b>Compilation failed?</b> (Linux/Arch)</summary>
 
-- Check the Output Log (Window → Developer Tools → Output Log)
-- Common issue: Missing Visual Studio C++ tools
-  - Install "Desktop Development with C++" workload in Visual Studio Installer
-- Try: `File → Refresh Visual Studio Project`
+On Arch Linux:
+- Ensure you have the required build tools:
+  - `sudo pacman -S base-devel clang lld`
+- Check the Output Log (Window → Developer Tools → Output Log) for specific errors
+- If missing libraries, install them via pacman
+- Try regenerating project files: Right-click `.uproject` → "Generate VSCode project files"
 
 </details>
 
@@ -107,6 +128,25 @@ BulletHellGame/
 
 The `Source/` folder is what makes this a C++ project! This is where we'll add our game classes.
 
+### Expected Result
+
+**In File Explorer (your Linux file manager):**
+```
+BulletHellGame/
+├── BulletHellGame.uproject       # Double-click to open project
+├── Source/                        # ✅ C++ source code folder
+│   └── BulletHellGame/
+│       ├── BulletHellGame.h
+│       ├── BulletHellGame.cpp
+│       └── BulletHellGame.Build.cs
+├── Content/                       # Assets and Blueprints
+├── Config/                        # Project configuration
+├── Binaries/                      # Compiled game (gitignore this)
+└── Intermediate/                  # Build files (gitignore this)
+```
+
+**Verify the Source folder exists** - this confirms C++ is enabled!
+
 ---
 
 ## Step 1.3: Set Up 2D Game View
@@ -116,6 +156,18 @@ Same as Blueprint tutorial:
 1. In the main viewport, look at the top-left corner
 2. Click the dropdown that says "Perspective"
 3. Select "Top" from the dropdown menu (`Alt + J`)
+
+### Expected Result
+
+**Viewport changes:**
+- Camera now looks straight down at the grid
+- You see the game world from a bird's-eye view (perfect for bullet-hell)
+- Grid appears as horizontal lines (X and Y axes visible)
+- Objects will appear flat when placed in this view
+
+**Visual confirmation:**
+- Top-left corner now shows "Top" instead of "Perspective"
+- The viewport manipulation gizmo (3D arrows) now shows only X and Y axes prominently
 
 ---
 

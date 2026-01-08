@@ -14,6 +14,53 @@ This tutorial recreates the Unity "magisterka_1" bullet-hell shooter in Unreal E
 
 ---
 
+## 🆕 Two Approaches Available
+
+This tutorial offers **two ways** to implement the game:
+
+### 1. **Code-First Approach (RECOMMENDED)** ⚡
+
+**→ [🚀 QUICK START: 3-Minute Code-First Guide](QUICKSTART-CODE-FIRST.md)** ⭐
+
+**→ Start the C++ Tutorial:**
+- [Part 1 (C++): Project Setup](part-1-cpp-project-setup.md)
+- [Part 2 (C++): Create Player](part-2-cpp-create-player.md)
+- [Part 3 (C++): Create Bullet](part-3-cpp-create-bullet.md)
+- [Parts 4-9 (C++) Summary](part-4-9-cpp-summary.md)
+
+- ✅ **90% faster** - copy-paste variable blocks instead of clicking UI
+- ✅ **Version control friendly** - readable Git diffs, not binary files
+- ✅ **Easier to replicate** - copy entire class files between projects
+- ✅ **Better for teams** - code review, refactoring tools, find/replace
+- ✅ **Type-safe** - compiler catches errors at compile time
+
+**Best for:** Anyone comfortable with C++ or wanting to learn modern game development workflows.
+
+### 2. **Blueprint-Heavy Approach** 🎨
+
+**→ [Start the Blueprint Tutorial](#table-of-contents)** (see below)
+
+- ✅ **Visual node editing** - see logic flow graphically
+- ✅ **Instant iteration** - no compile time for Blueprint changes
+- ✅ **Designer-friendly** - non-programmers can modify behavior
+
+**Best for:** Complete Unreal beginners, visual learners, or rapid prototyping.
+
+### Comparison
+
+| Task | Code-First (C++) | Blueprint |
+|------|-----------------|-----------|
+| Define 12+ variables | 2 minutes (copy-paste) | 15 minutes (clicking) |
+| Version control | ✅ Readable diffs | ❌ Binary files |
+| Refactoring | ✅ IDE tools | ❌ Manual |
+| Full game time | ~2-3 hours | ~6-8 hours |
+
+**💡 Pro Tip:** You can combine both! Use C++ for logic/variables, Blueprints for visual assets.
+
+**📖 Migrating from Blueprint?** See [Migration Guide in Quickstart](QUICKSTART-CODE-FIRST.md#migrating-from-blueprint-to-c)
+
+---
+
 ## Table of Contents
 
 ### Part 1: Project Setup
@@ -86,13 +133,31 @@ This tutorial recreates the Unity "magisterka_1" bullet-hell shooter in Unreal E
 
 ### Appendices
 
-- [Appendix A: Complete Variable Reference](appendix-a-variables.md)
+- [Appendix A: Complete Variable Reference](appendix-a-variables.md) (Blueprint)
 - [Appendix B: Troubleshooting](appendix-b-troubleshooting.md)
 - [Appendix C: Unity to Unreal Conversion Notes](appendix-c-unity-conversion.md)
 
 ---
 
 ## Quick Start
+
+### For Code-First Approach (Recommended)
+
+1. Read [3-Minute Quickstart](QUICKSTART-CODE-FIRST.md)
+2. Follow the C++ tutorial parts:
+   - [Part 1 (C++): Project Setup](part-1-cpp-project-setup.md)
+   - [Part 2 (C++): Create Player](part-2-cpp-create-player.md)
+   - [Part 3 (C++): Create Bullet](part-3-cpp-create-bullet.md)
+   - [Part 4 (C++): Create Enemy](part-4-cpp-create-enemy.md)
+   - [Part 5 (C++): Create Spawner](part-5-cpp-create-spawner.md)
+   - [Part 6 (C++): Create Game Director](part-6-cpp-create-game-director.md)
+   - [Part 7 (C++): Create UI](part-7-cpp-create-ui.md)
+   - [Part 8 (C++): Create Game Mode](part-8-cpp-create-game-mode.md)
+   - [Part 9 (C++): Final Setup](part-9-cpp-final-setup.md)
+3. **Complete the game in 2-3 hours** instead of 6-8 hours!
+4. **Already have Blueprint project?** See [Migration Guide](QUICKSTART-CODE-FIRST.md#migrating-from-blueprint-to-c)
+
+### For Blueprint Approach
 
 1. Start with [Part 1: Project Setup](part-1-project-setup.md)
 2. Follow each part in order

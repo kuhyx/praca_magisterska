@@ -267,14 +267,30 @@
 ## 📋 Daily Work Guidelines
 
 ### Recommended Daily Schedule
-- **Morning (3-4 hours)**: Heavy writing/data analysis
-- **Afternoon (2-3 hours)**: Technical work (LaTeX, figures, coding if needed)
-- **Evening (1-2 hours)**: Review, planning, light editing
+**Weekdays (Mon-Thu)**: 4 hours focused work
+- Choose your most productive time block (morning OR afternoon)
+- Minimize distractions during this time
+
+**Weekends (Fri-Sun)**: 8 hours per day
+- **Morning session (4 hours)**: Heavy writing/data analysis
+- **Afternoon session (4 hours)**: Technical work (LaTeX, figures, coding if needed)
 
 ### Total Time Commitment
-- **Weeks 1-2**: ~8 hours/day (56 hours/week) - CRITICAL PERIOD
-- **Week 3**: ~6 hours/day (42 hours/week) - POLISHING
-- **Week 4**: ~4-6 hours/day (28-42 hours/week) - FINAL TOUCHES
+- **Week 1**: 40 hours - CRITICAL (Performance data collection)
+  - Mon-Thu: 4 hrs/day × 4 = 16 hours
+  - Fri-Sun: 8 hrs/day × 3 = 24 hours
+- **Week 2**: 40 hours - CRITICAL (Analysis writing)
+  - Mon-Thu: 4 hrs/day × 4 = 16 hours
+  - Fri-Sun: 8 hrs/day × 3 = 24 hours
+- **Week 3**: 36 hours - POLISHING
+  - Mon-Thu: 4 hrs/day × 4 = 16 hours
+  - Fri-Sat: 8 hrs/day × 2 = 16 hours
+  - Sun: 4 hours (lighter)
+- **Week 4**: 28 hours - FINAL TOUCHES
+  - Mon-Thu: 4 hrs/day × 4 = 16 hours
+  - Fri-Sat: 6 hrs/day × 2 = 12 hours
+
+**Total: 144 hours over 29 days (average 5.0 hrs/day)**
 
 ### Productivity Tips
 1. **Start each day by reviewing yesterday's progress**

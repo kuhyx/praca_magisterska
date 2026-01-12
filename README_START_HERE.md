@@ -78,16 +78,20 @@ Week 4 is buffer time and final submission prep.
 
 ### Best Schedule:
 ```
+Weekdays (Mon-Thu): 4 hours
 09:00-09:15   Check DAILY_CHECKLIST.md, plan your day
-09:15-13:00   DEEP WORK (hardest task of the day)
+09:15-13:15   DEEP WORK (4 hours focused work)
+              OR
+14:00-18:00   DEEP WORK (4 hours focused work - if afternoon works better)
+
+Weekends (Fri-Sun): 8 hours
+09:00-09:15   Check DAILY_CHECKLIST.md, plan your day
+09:15-13:00   DEEP WORK SESSION 1 (4 hours)
 13:00-14:00   Lunch break (actually rest!)
-14:00-17:00   Technical work (LaTeX, figures, data)
-17:00-17:30   Short break
-19:00-21:00   Light work (editing, review, planning)
-21:00+        REST (don't work too late!)
+14:00-18:00   DEEP WORK SESSION 2 (4 hours)
 ```
 
-**Total**: 6-8 hours of focused work per day
+**Total**: 4 hours/day weekdays, 8 hours/day weekends
 
 ### Pomodoro Technique (Highly Recommended):
 - Work: 25 minutes of pure focus
@@ -327,7 +331,7 @@ Each week has a clear goal. Each day has specific tasks. You just need to:
 3. Do the work
 
 **Consistency beats intensity.**
-6 hours every day for 29 days = 174 hours of work
+5 hours average per day for 29 days = 144 hours of work
 That's MORE than enough to finish a master's thesis.
 
 ---

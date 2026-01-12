@@ -13,7 +13,7 @@
 - [ ] Start expanding Chapter 4 methodology section
 
 **Goal**: Nsight working, first captures done, methodology started
-**Target hours**: 6-8 hours
+**Target hours**: 4 hours
 
 ---
 
@@ -25,7 +25,7 @@
 - [ ] Continue Chapter 4 (methodology section)
 
 **Goal**: All Unity data collected, methodology 60% done
-**Target hours**: 6-8 hours
+**Target hours**: 4 hours
 
 ---
 
@@ -37,7 +37,7 @@
 - [ ] Compare data format from both engines
 
 **Goal**: Unreal testing started, initial comparison notes
-**Target hours**: 6-8 hours
+**Target hours**: 4 hours
 
 ---
 
@@ -49,7 +49,7 @@
 - [ ] Finish Chapter 4 methodology (target: 150+ lines)
 
 **Goal**: All testing complete, data organized, methodology done
-**Target hours**: 6-8 hours
+**Target hours**: 4 hours
 
 ---
 
@@ -61,7 +61,7 @@
 - [ ] Start creating LaTeX tables for results
 
 **Goal**: 4+ publication-quality graphs created
-**Target hours**: 6-8 hours
+**Target hours**: 8 hours
 
 ---
 
@@ -73,7 +73,7 @@
 - [ ] Test that figures compile in LaTeX
 
 **Goal**: All visualizations ready, saved in correct format
-**Target hours**: 6-8 hours
+**Target hours**: 8 hours
 
 ---
 
@@ -86,7 +86,7 @@
 - [ ] Insert all figures and tables with proper references
 
 **✅ WEEK 1 MILESTONE**: Chapter 5 complete (200+ lines), all data collected
-**Target hours**: 8-10 hours
+**Target hours**: 8 hours
 
 ---
 
@@ -100,7 +100,7 @@
 - [ ] Target: 60-80 new lines in Chapter 6
 
 **Goal**: Half of Chapter 6 capabilities analysis done
-**Target hours**: 6-8 hours
+**Target hours**: 4 hours
 
 ---
 
@@ -112,7 +112,7 @@
 - [ ] Target: Chapter 6 complete (180+ lines total)
 
 **Goal**: Chapter 6 finished
-**Target hours**: 6-8 hours
+**Target hours**: 4 hours
 
 ---
 
@@ -124,7 +124,7 @@
 - [ ] Target: 50% of Chapter 7 done
 
 **Goal**: Results synthesis and main comparison table
-**Target hours**: 6-8 hours
+**Target hours**: 4 hours
 
 ---
 
@@ -136,7 +136,7 @@
 - [ ] Target: Chapter 7 complete (150+ lines)
 
 **Goal**: Chapter 7 finished with clear recommendations
-**Target hours**: 6-8 hours
+**Target hours**: 4 hours
 
 ---
 
@@ -148,7 +148,7 @@
 - [ ] Target: 50% of Chapter 8 done
 
 **Goal**: Core conclusions written
-**Target hours**: 6-8 hours
+**Target hours**: 8 hours
 
 ---
 
@@ -160,7 +160,7 @@
 - [ ] Target: Chapter 8 complete (120+ lines)
 
 **Goal**: Conclusions chapter finished
-**Target hours**: 6-8 hours
+**Target hours**: 8 hours
 
 ---
 
@@ -172,7 +172,7 @@
 - [ ] Fix any obvious issues
 
 **✅ WEEK 2 MILESTONE**: All core chapters complete (first draft)
-**Target hours**: 6-8 hours
+**Target hours**: 8 hours
 
 ---
 
@@ -186,7 +186,7 @@
 - [ ] Add DOIs where available
 
 **Goal**: Bibliography complete and verified
-**Target hours**: 4-6 hours
+**Target hours**: 4 hours
 
 ---
 
@@ -198,7 +198,7 @@
 - [ ] Polish graph aesthetics (fonts, colors, labels)
 
 **Goal**: All figures and tables publication-ready
-**Target hours**: 4-6 hours
+**Target hours**: 4 hours
 
 ---
 
@@ -210,7 +210,7 @@
 - [ ] Update appendices list in main.tex
 
 **Goal**: Meaningful appendices created
-**Target hours**: 4-6 hours
+**Target hours**: 4 hours
 
 ---
 
@@ -222,7 +222,7 @@
 - [ ] Verify all cross-references work
 
 **Goal**: All lists and cross-references correct
-**Target hours**: 4-6 hours
+**Target hours**: 4 hours
 
 ---
 
@@ -234,7 +234,7 @@
 - [ ] Create prioritized list of issues to fix
 
 **Goal**: Complete PDF generated, issue list created
-**Target hours**: 6-8 hours
+**Target hours**: 8 hours
 
 ---
 
@@ -246,7 +246,7 @@
 - [ ] Polish abstract
 
 **Goal**: Major issues addressed
-**Target hours**: 6-8 hours
+**Target hours**: 8 hours
 
 ---
 
@@ -258,7 +258,7 @@
 - [ ] Prepare to send to advisor
 
 **✅ WEEK 3 MILESTONE**: Complete, readable thesis ready for feedback
-**Target hours**: 6-8 hours
+**Target hours**: 8 hours
 
 ---
 
@@ -272,7 +272,7 @@
 - [ ] Verify formatting against WUT requirements
 
 **Goal**: Thesis sent for review, self-review done
-**Target hours**: 4-6 hours
+**Target hours**: 4 hours
 
 ---
 
@@ -284,7 +284,7 @@
 - [ ] Wait for advisor feedback
 
 **Goal**: Thorough proofreading of early chapters
-**Target hours**: 4-6 hours
+**Target hours**: 4 hours
 
 ---
 
@@ -296,7 +296,7 @@
 - [ ] Check footnotes
 
 **Goal**: Advisor feedback addressed, more proofreading
-**Target hours**: 4-6 hours
+**Target hours**: 4 hours
 
 ---
 
@@ -311,7 +311,7 @@
 - [ ] Verify title page information
 
 **Goal**: Complete proofreading, formatting verified
-**Target hours**: 4-6 hours
+**Target hours**: 4 hours
 
 ---
 
@@ -324,7 +324,7 @@
 - [ ] Run spell-check on English sections
 
 **Goal**: Final, clean PDF generated
-**Target hours**: 4-5 hours
+**Target hours**: 8 hours
 
 ---
 
@@ -336,7 +336,7 @@
 - [ ] Create backup of everything (thesis, source, data)
 
 **Goal**: Physical copies ready (if required)
-**Target hours**: 3-4 hours
+**Target hours**: 8 hours
 
 ---
 
@@ -348,7 +348,7 @@
 - [ ] Have submission checklist ready for tomorrow
 
 **Goal**: Ready for submission, peace of mind
-**Target hours**: 2-3 hours
+**Target hours**: 8 hours
 
 ---
 

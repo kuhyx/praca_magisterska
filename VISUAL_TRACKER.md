@@ -145,32 +145,32 @@ Week 1 (Jan 13-19) - CRITICAL PERIOD
 ┌───┬───┬───┬───┬───┬───┬───┐
 │ M │ T │ W │ T │ F │ S │ S │
 ├───┼───┼───┼───┼───┼───┼───┤
-│ 8h│ 8h│ 8h│ 8h│ 8h│ 8h│10h│  Target: 58 hours
+│ 4h│ 4h│ 4h│ 4h│ 8h│ 8h│ 8h│  Target: 40 hours
 └───┴───┴───┴───┴───┴───┴───┘
 
 Week 2 (Jan 20-26) - WRITING INTENSIVE
 ┌───┬───┬───┬───┬───┬───┬───┐
 │ M │ T │ W │ T │ F │ S │ S │
 ├───┼───┼───┼───┼───┼───┼───┤
-│ 6h│ 7h│ 7h│ 7h│ 7h│ 7h│ 8h│  Target: 49 hours
+│ 4h│ 4h│ 4h│ 4h│ 8h│ 8h│ 8h│  Target: 40 hours
 └───┴───┴───┴───┴───┴───┴───┘
 
 Week 3 (Jan 27-Feb 2) - POLISH
 ┌───┬───┬───┬───┬───┬───┬───┐
 │ M │ T │ W │ T │ F │ S │ S │
 ├───┼───┼───┼───┼───┼───┼───┤
-│ 5h│ 5h│ 5h│ 5h│ 6h│ 7h│ 7h│  Target: 40 hours
+│ 4h│ 4h│ 4h│ 4h│ 8h│ 8h│ 4h│  Target: 36 hours
 └───┴───┴───┴───┴───┴───┴───┘
 
 Week 4 (Feb 3-9) - FINAL
 ┌───┬───┬───┬───┬───┬───┬───┐
 │ M │ T │ W │ T │ F │ S │ S │
 ├───┼───┼───┼───┼───┼───┼───┤
-│ 5h│ 5h│ 5h│ 5h│ 5h│ 4h│ 3h│  Target: 32 hours
+│ 4h│ 4h│ 4h│ 4h│ 6h│ 6h│ 0h│  Target: 28 hours
 └───┴───┴───┴───┴───┴───┴───┘
 
-Total target: 179 hours over 29 days
-Average: 6.2 hours/day
+Total target: 144 hours over 29 days
+Average: 5.0 hours/day
 ```
 
 ---

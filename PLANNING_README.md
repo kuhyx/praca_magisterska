@@ -69,7 +69,7 @@ This repository contains **6 comprehensive planning documents** to guide thesis 
 **When to use**: Reference for big picture  
 **Key content**:
 - Week-by-week breakdown with goals
-- Total time commitment (179 hours over 29 days)
+- Total time commitment (144 hours over 29 days)
 - Risk mitigation strategies
 - Success criteria and checkpoints
 - Motivational content and tips
@@ -125,7 +125,7 @@ This repository contains **6 comprehensive planning documents** to guide thesis 
 │ • Create graphs and comparison tables                        │
 │ • Write Chapter 5 (200+ lines)                               │
 │ • Expand Chapter 4 (150+ lines)                              │
-│ Target: 58 hours (8 hrs/day average)                         │
+│ Target: 40 hours (4hrs Mon-Thu, 8hrs Fri-Sun)                │
 └───────────────────────────────────────────────────────────────┘
 
 ┌───────────────────────────────────────────────────────────────┐
@@ -135,7 +135,7 @@ This repository contains **6 comprehensive planning documents** to guide thesis 
 │ • Write Chapter 7: Comparison (150+ lines)                   │
 │ • Write Chapter 8: Conclusions (120+ lines)                  │
 │ • Finalize Chapter 4                                         │
-│ Target: 49 hours (7 hrs/day average)                         │
+│ Target: 40 hours (4hrs Mon-Thu, 8hrs Fri-Sun)                │
 └───────────────────────────────────────────────────────────────┘
 
 ┌───────────────────────────────────────────────────────────────┐
@@ -146,7 +146,7 @@ This repository contains **6 comprehensive planning documents** to guide thesis 
 │ • Create appendices (4 appendices)                           │
 │ • First full compilation and review                          │
 │ • Fix all identified issues                                  │
-│ Target: 40 hours (6 hrs/day average)                         │
+│ Target: 36 hours (4hrs Mon-Thu, 8hrs Fri-Sat, 4hrs Sun)     │
 └───────────────────────────────────────────────────────────────┘
 
 ┌───────────────────────────────────────────────────────────────┐
@@ -157,7 +157,7 @@ This repository contains **6 comprehensive planning documents** to guide thesis 
 │ • Final proofreading                                         │
 │ • Verify formatting                                          │
 │ • Print and bind (if required)                               │
-│ Target: 32 hours (5 hrs/day average)                         │
+│ Target: 28 hours (4hrs Mon-Thu, 6hrs Fri-Sat)                │
 └───────────────────────────────────────────────────────────────┘
 
 🎯 Feb 10: SUBMIT THESIS!
@@ -171,9 +171,9 @@ This repository contains **6 comprehensive planning documents** to guide thesis 
 Without performance data from NVIDIA Nsight, there is no empirical thesis. Week 1 cannot be delayed or compromised. Focus all energy on data collection.
 
 ### 📊 Daily Consistency Beats Occasional Intensity
-- 6-8 hours/day in Weeks 1-2 (critical writing period)
-- 4-6 hours/day in Weeks 3-4 (polish and finalize)
-- Total: ~179 hours over 29 days (average 6.2 hrs/day)
+- 4 hours/day on weekdays (Mon-Thu)
+- 8 hours/day on weekends (Fri-Sun)
+- Total: ~144 hours over 29 days (average 5.0 hrs/day)
 
 ### 📝 Use the Planning System
 - **Morning**: Check `DAILY_CHECKLIST.md` (3 min)
@@ -274,7 +274,7 @@ By February 10, you will have created:
 
 1. **60% already complete** - Games built, interviews done, most chapters drafted
 2. **Clear plan** - Every day has specific, achievable tasks
-3. **Sufficient time** - 179 hours over 29 days is more than enough
+3. **Sufficient time** - 144 hours over 29 days is more than enough
 4. **Strong foundation** - Your research is solid, just needs final execution
 5. **Support system** - Advisor, planning docs, and your own determination
 
@@ -360,7 +360,7 @@ You have:
 
 What you need:
 - 🎯 Focus and consistency
-- ⏰ 6-8 hours/day for 4 weeks
+- ⏰ 4 hours/day (weekdays), 8 hours/day (weekends)
 - 📝 Follow the plan
 - 💪 Believe in yourself
 

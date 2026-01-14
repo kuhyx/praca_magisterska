@@ -1,5 +1,5 @@
 # Master's Thesis Completion Game Plan
-## Deadline: February 10, 2026 (29 days remaining as of January 12, 2026)
+## Deadline: February 15, 2026 (31 days remaining as of January 12, 2026)
 
 ---
 
@@ -31,10 +31,10 @@
 
 ## 🎯 Week-by-Week Game Plan
 
-### **Week 1: January 13-19 (Days 1-7)** - PERFORMANCE DATA COLLECTION
+### **Week 1: January 16-19 (Days 1-7)** - PERFORMANCE DATA COLLECTION
 **Goal**: Collect all performance metrics using NVIDIA Nsight
 
-#### **Monday-Tuesday, Jan 13-14** (Days 1-2): Nsight Setup & First Tests
+#### **Monday-Tuesday, Jan 16-14** (Days 1-2): Nsight Setup & First Tests
 - [ ] Install/verify NVIDIA Nsight Graphics on testing machine
 - [ ] Create standardized test scenarios for both Unity and Unreal games
 - [ ] Document hardware specifications and test environment
@@ -82,7 +82,7 @@
 
 ---
 
-### **Week 2: January 20-26 (Days 8-14)** - ANALYSIS & COMPARISON
+### **Week 2: January 23-29 (Days 8-14)** - ANALYSIS & COMPARISON
 **Goal**: Complete Chapters 6 and 7 with in-depth analysis
 
 #### **Monday-Tuesday, Jan 20-21** (Days 8-9): Capabilities Analysis (Chapter 6)
@@ -143,10 +143,10 @@
 
 ---
 
-### **Week 3: January 27 - February 2 (Days 15-21)** - POLISH & INTEGRATION
+### **Week 3: January 30 - February 5 (Days 15-21)** - POLISH & INTEGRATION
 **Goal**: Polish all chapters, add supporting materials, first full thesis review
 
-#### **Monday-Tuesday, Jan 27-28** (Days 15-16): Bibliography & Citations
+#### **Monday-Tuesday, Jan 30-28** (Days 15-16): Bibliography & Citations
 - [ ] Verify all citations in bibliografia.bib
 - [ ] Add missing references (especially for tools, Unity/Unreal documentation)
 - [ ] Ensure all figures and tables are cited in text
@@ -198,10 +198,10 @@
 
 ---
 
-### **Week 4: February 3-9 (Days 22-28)** - FINAL POLISH & SUBMISSION PREP
+### **Week 4: February 6-9 (Days 22-28)** - FINAL POLISH & SUBMISSION PREP
 **Goal**: Final refinements, proofreading, submission preparation
 
-#### **Monday-Tuesday, Feb 3-4** (Days 22-23): Advisor Review
+#### **Monday-Tuesday, Feb 6-4** (Days 22-23): Advisor Review
 - [ ] Send thesis to advisor (dr inż. Michał Chwesiuk)
 - [ ] While waiting, proofread abstract again
 - [ ] Check Polish language correctness (grammar, style)
@@ -254,7 +254,7 @@
 **Expected Output**:
 - Complete peace of mind
 
-#### **Monday, Feb 10** (Day 29): SUBMISSION DEADLINE
+#### **Monday, Feb 15** (Day 29): SUBMISSION DEADLINE
 - [ ] Submit thesis via required channels
 - [ ] Confirm receipt
 - [ ] Celebrate! 🎉
@@ -290,7 +290,7 @@
   - Mon-Thu: 4 hrs/day × 4 = 16 hours
   - Fri-Sat: 6 hrs/day × 2 = 12 hours
 
-**Total: 144 hours over 29 days (average 5.0 hrs/day)**
+**Total: 144 hours over 31 days (average 5.0 hrs/day)**
 
 ### Productivity Tips
 1. **Start each day by reviewing yesterday's progress**
@@ -310,7 +310,7 @@
 ### **Checkpoint 2: January 26** (End of Week 2)
 **Must have**: All core chapters (4-8) complete in first draft form
 
-### **Checkpoint 3: February 2** (End of Week 3)
+### **Checkpoint 3: February 5** (End of Week 3)
 **Must have**: Complete, reviewable thesis document
 
 ### **Checkpoint 4: February 9** (Day before deadline)
@@ -369,7 +369,7 @@ Tomorrow's priorities:
 
 ## 🎯 Success Criteria
 
-By February 10, you will have:
+By February 15, you will have:
 - ✅ A complete master's thesis (80-120 pages)
 - ✅ Original performance testing data comparing Unity and Unreal
 - ✅ 8 qualitative interviews analyzed
@@ -399,7 +399,7 @@ By February 10, you will have:
 - Interviews are done ✅
 - Most writing is drafted ✅
 
-The remaining 40% is systematic work that you can absolutely complete in 29 days if you:
+The remaining 40% is systematic work that you can absolutely complete in 31 days if you:
 - Follow this plan
 - Work consistently (not frantically)
 - Take care of yourself (sleep, food, breaks)
@@ -412,11 +412,11 @@ The remaining 40% is systematic work that you can absolutely complete in 29 days
 ## 📈 Visual Timeline
 
 ```
-Week 1 (Jan 13-19):  [████████░░░░░░░░] Performance Data Collection
-Week 2 (Jan 20-26):  [░░░░░░░░████████] Analysis & Comparison Writing  
-Week 3 (Jan 27-Feb2):[░░░░░░░░░░░░████] Polish & Integration
-Week 4 (Feb 3-9):    [░░░░░░░░░░░░░░██] Final Polish & Submission
-Feb 10:              [✓] SUBMIT!
+Week 1 (Jan 16-19):  [████████░░░░░░░░] Performance Data Collection
+Week 2 (Jan 23-29):  [░░░░░░░░████████] Analysis & Comparison Writing  
+Week 3 (Jan 30-Feb2):[░░░░░░░░░░░░████] Polish & Integration
+Week 4 (Feb 6-9):    [░░░░░░░░░░░░░░██] Final Polish & Submission
+Feb 15:              [✓] SUBMIT!
 ```
 
 ---

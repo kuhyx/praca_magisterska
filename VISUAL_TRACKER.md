@@ -7,8 +7,8 @@
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
 📅 Start Date:    January 12, 2026
-🎯 Deadline:      February 10, 2026
-⏰ Days Remaining: 29 days
+🎯 Deadline:      February 15, 2026
+⏰ Days Remaining: 31 days
 📈 Current Status: 60% Complete → Target: 100%
 ```
 
@@ -56,7 +56,7 @@ REMAINING WORK (40%):
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                                                                             │
-│  WEEK 1: Jan 13-19        WEEK 2: Jan 20-26      WEEK 3: Jan 27-Feb 2      │
+│  WEEK 1: Jan 16-19        WEEK 2: Jan 23-29      WEEK 3: Jan 30-Feb 5      │
 │  ┌──────────────┐         ┌──────────────┐        ┌──────────────┐         │
 │  │ PERFORMANCE  │────────>│  ANALYSIS &  │───────>│   POLISH &   │────┐    │
 │  │     DATA     │         │  COMPARISON  │        │ INTEGRATION  │    │    │
@@ -64,7 +64,7 @@ REMAINING WORK (40%):
 │  └──────────────┘         └──────────────┘        └──────────────┘    │    │
 │       ⚡ CRITICAL!              ✍️ WRITE               🎨 POLISH       │    │
 │                                                                        │    │
-│  WEEK 4: Feb 3-9                                                       │    │
+│  WEEK 4: Feb 6-9                                                       │    │
 │  ┌──────────────┐                                                     │    │
 │  │    FINAL     │<────────────────────────────────────────────────────┘    │
 │  │   REVIEW &   │                                                          │
@@ -108,7 +108,7 @@ REMAINING WORK (40%):
 └──────────────────────────────────────────────────────────────┘
 
 ┌──────────────────────────────────────────────────────────────┐
-│ WEEK 3 CHECKPOINT - Sunday, Feb 2                            │
+│ WEEK 3 CHECKPOINT - Sunday, Feb 5                            │
 ├──────────────────────────────────────────────────────────────┤
 │ ☐ Bibliography complete and verified                        │
 │ ☐ All figures polished and in tex/img/                      │
@@ -123,9 +123,9 @@ REMAINING WORK (40%):
 └──────────────────────────────────────────────────────────────┘
 
 ┌──────────────────────────────────────────────────────────────┐
-│ WEEK 4 FINAL - Monday, Feb 10                                │
+│ WEEK 4 FINAL - Monday, Feb 15                                │
 ├──────────────────────────────────────────────────────────────┤
-│ ☐ Thesis sent to advisor by Feb 3                           │
+│ ☐ Thesis sent to advisor by Feb 6                           │
 │ ☐ Advisor feedback incorporated                             │
 │ ☐ Complete proofreading done (Polish + English)             │
 │ ☐ All formatting requirements verified                      │
@@ -141,35 +141,35 @@ REMAINING WORK (40%):
 ## 🎯 Daily Work Hour Targets
 
 ```
-Week 1 (Jan 13-19) - CRITICAL PERIOD
+Week 1 (Jan 16-19) - CRITICAL PERIOD
 ┌───┬───┬───┬───┬───┬───┬───┐
 │ M │ T │ W │ T │ F │ S │ S │
 ├───┼───┼───┼───┼───┼───┼───┤
 │ 4h│ 4h│ 4h│ 4h│ 8h│ 8h│ 8h│  Target: 40 hours
 └───┴───┴───┴───┴───┴───┴───┘
 
-Week 2 (Jan 20-26) - WRITING INTENSIVE
+Week 2 (Jan 23-29) - WRITING INTENSIVE
 ┌───┬───┬───┬───┬───┬───┬───┐
 │ M │ T │ W │ T │ F │ S │ S │
 ├───┼───┼───┼───┼───┼───┼───┤
 │ 4h│ 4h│ 4h│ 4h│ 8h│ 8h│ 8h│  Target: 40 hours
 └───┴───┴───┴───┴───┴───┴───┘
 
-Week 3 (Jan 27-Feb 2) - POLISH
+Week 3 (Jan 30-Feb 5) - POLISH
 ┌───┬───┬───┬───┬───┬───┬───┐
 │ M │ T │ W │ T │ F │ S │ S │
 ├───┼───┼───┼───┼───┼───┼───┤
 │ 4h│ 4h│ 4h│ 4h│ 8h│ 8h│ 4h│  Target: 36 hours
 └───┴───┴───┴───┴───┴───┴───┘
 
-Week 4 (Feb 3-9) - FINAL
+Week 4 (Feb 6-9) - FINAL
 ┌───┬───┬───┬───┬───┬───┬───┐
 │ M │ T │ W │ T │ F │ S │ S │
 ├───┼───┼───┼───┼───┼───┼───┤
 │ 4h│ 4h│ 4h│ 4h│ 6h│ 6h│ 0h│  Target: 28 hours
 └───┴───┴───┴───┴───┴───┴───┘
 
-Total target: 144 hours over 29 days
+Total target: 144 hours over 31 days
 Average: 5.0 hours/day
 ```
 
@@ -314,7 +314,7 @@ Average: 5.0 hours/day
 ## 🎯 Success Metrics
 
 ```
-By Feb 10, you will have:
+By Feb 15, you will have:
 ✅ Complete master's thesis (80-120 pages)
 ✅ Original performance data (Unity vs Unreal comparison)
 ✅ 8 qualitative interviews analyzed

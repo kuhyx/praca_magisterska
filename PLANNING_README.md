@@ -5,8 +5,8 @@
 **Faculty**: Electronics and Information Technology (EiTI)  
 **Thesis**: Comparison of performance and capabilities of modern computer game engines  
 **Advisor**: dr inż. Michał Chwesiuk  
-**Deadline**: February 10, 2026  
-**Days Remaining**: 29 days  
+**Deadline**: February 15, 2026  
+**Days Remaining**: 31 days  
 
 ---
 
@@ -38,7 +38,7 @@ This repository contains **6 comprehensive planning documents** to guide thesis 
 **Purpose**: Day-by-day task breakdown  
 **When to use**: Check every morning  
 **Key content**:
-- Specific tasks for each of 29 days
+- Specific tasks for each of 31 days
 - Checkboxes for tracking completion
 - Daily hour targets
 - Next day priorities
@@ -58,7 +58,7 @@ This repository contains **6 comprehensive planning documents** to guide thesis 
 **Purpose**: Daily progress tracking template  
 **When to use**: Fill out every evening  
 **Key content**:
-- Pre-filled log for all 29 days
+- Pre-filled log for all 31 days
 - Track hours, energy level, completions
 - Note blockers immediately
 - Plan tomorrow's top 3 priorities
@@ -69,7 +69,7 @@ This repository contains **6 comprehensive planning documents** to guide thesis 
 **When to use**: Reference for big picture  
 **Key content**:
 - Week-by-week breakdown with goals
-- Total time commitment (144 hours over 29 days)
+- Total time commitment (144 hours over 31 days)
 - Risk mitigation strategies
 - Success criteria and checkpoints
 - Motivational content and tips
@@ -117,7 +117,7 @@ This repository contains **6 comprehensive planning documents** to guide thesis 
 
 ```
 ┌───────────────────────────────────────────────────────────────┐
-│ Week 1 (Jan 13-19): PERFORMANCE DATA COLLECTION ⚡ CRITICAL   │
+│ Week 1 (Jan 16-19): PERFORMANCE DATA COLLECTION ⚡ CRITICAL   │
 ├───────────────────────────────────────────────────────────────┤
 │ • Install and use NVIDIA Nsight Graphics                     │
 │ • Run performance tests on Unity game (5-10 captures)        │
@@ -129,7 +129,7 @@ This repository contains **6 comprehensive planning documents** to guide thesis 
 └───────────────────────────────────────────────────────────────┘
 
 ┌───────────────────────────────────────────────────────────────┐
-│ Week 2 (Jan 20-26): ANALYSIS & COMPARISON WRITING            │
+│ Week 2 (Jan 23-29): ANALYSIS & COMPARISON WRITING            │
 ├───────────────────────────────────────────────────────────────┤
 │ • Write Chapter 6: Capabilities (180+ lines)                 │
 │ • Write Chapter 7: Comparison (150+ lines)                   │
@@ -139,7 +139,7 @@ This repository contains **6 comprehensive planning documents** to guide thesis 
 └───────────────────────────────────────────────────────────────┘
 
 ┌───────────────────────────────────────────────────────────────┐
-│ Week 3 (Jan 27-Feb 2): POLISH & INTEGRATION                  │
+│ Week 3 (Jan 30-Feb 5): POLISH & INTEGRATION                  │
 ├───────────────────────────────────────────────────────────────┤
 │ • Complete and verify bibliography                           │
 │ • Polish all figures and tables                              │
@@ -150,9 +150,9 @@ This repository contains **6 comprehensive planning documents** to guide thesis 
 └───────────────────────────────────────────────────────────────┘
 
 ┌───────────────────────────────────────────────────────────────┐
-│ Week 4 (Feb 3-9): FINAL REVIEW & SUBMISSION                  │
+│ Week 4 (Feb 6-9): FINAL REVIEW & SUBMISSION                  │
 ├───────────────────────────────────────────────────────────────┤
-│ • Send to advisor (Feb 3)                                    │
+│ • Send to advisor (Feb 6)                                    │
 │ • Incorporate feedback                                       │
 │ • Final proofreading                                         │
 │ • Verify formatting                                          │
@@ -160,7 +160,7 @@ This repository contains **6 comprehensive planning documents** to guide thesis 
 │ Target: 28 hours (4hrs Mon-Thu, 6hrs Fri-Sat)                │
 └───────────────────────────────────────────────────────────────┘
 
-🎯 Feb 10: SUBMIT THESIS!
+🎯 Feb 15: SUBMIT THESIS!
 ```
 
 ---
@@ -173,7 +173,7 @@ Without performance data from NVIDIA Nsight, there is no empirical thesis. Week 
 ### 📊 Daily Consistency Beats Occasional Intensity
 - 4 hours/day on weekdays (Mon-Thu)
 - 8 hours/day on weekends (Fri-Sun)
-- Total: ~144 hours over 29 days (average 5.0 hrs/day)
+- Total: ~144 hours over 31 days (average 5.0 hrs/day)
 
 ### 📝 Use the Planning System
 - **Morning**: Check `DAILY_CHECKLIST.md` (3 min)
@@ -201,13 +201,13 @@ Without performance data from NVIDIA Nsight, there is no empirical thesis. Week 
 - All core analysis and comparison written
 - Clear recommendations established
 
-**✅ Week 3 Success Criteria** (by Feb 2):
+**✅ Week 3 Success Criteria** (by Feb 5):
 - Complete thesis PDF compiled
 - Bibliography verified
 - Appendices created
 - Major issues identified and fixed
 
-**✅ Week 4 Success Criteria** (by Feb 10):
+**✅ Week 4 Success Criteria** (by Feb 15):
 - Advisor review completed
 - Final proofreading done
 - All formatting verified
@@ -233,7 +233,7 @@ Without performance data from NVIDIA Nsight, there is no empirical thesis. Week 
 
 ## 📊 What You'll Produce
 
-By February 10, you will have created:
+By February 15, you will have created:
 
 ### Written Content:
 - 80-120 page master's thesis
@@ -274,7 +274,7 @@ By February 10, you will have created:
 
 1. **60% already complete** - Games built, interviews done, most chapters drafted
 2. **Clear plan** - Every day has specific, achievable tasks
-3. **Sufficient time** - 144 hours over 29 days is more than enough
+3. **Sufficient time** - 144 hours over 31 days is more than enough
 4. **Strong foundation** - Your research is solid, just needs final execution
 5. **Support system** - Advisor, planning docs, and your own determination
 
@@ -315,7 +315,7 @@ By February 10, you will have created:
 - Verify both games run correctly
 - Start Chapter 4 methodology section
 
-**TOMORROW** (Monday, Jan 13):
+**TOMORROW** (Monday, Jan 16):
 - Begin Week 1, Day 1 tasks from checklist
 - Run first Nsight captures
 - Continue Chapter 4 expansion
@@ -356,7 +356,7 @@ You have:
 - ✅ Completed interviews
 - ✅ Most chapters drafted
 - ✅ A clear, detailed plan
-- ✅ 29 days to execute
+- ✅ 31 days to execute
 
 What you need:
 - 🎯 Focus and consistency
@@ -364,7 +364,7 @@ What you need:
 - 📝 Follow the plan
 - 💪 Believe in yourself
 
-**On February 10, 2026, you will submit your master's thesis on time.**
+**On February 15, 2026, you will submit your master's thesis on time.**
 
 **Let's make it happen! 🚀**
 

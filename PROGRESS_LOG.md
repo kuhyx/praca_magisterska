@@ -1,7 +1,7 @@
 # Daily Progress Log - Master's Thesis
 
 **Start Date**: January 12, 2026
-**Deadline**: February 10, 2026
+**Deadline**: February 15, 2026
 **Days Remaining**: 29
 
 ---
@@ -15,7 +15,7 @@
 
 ---
 
-## Week 1: January 13-19 (Performance Data Collection)
+## Week 1: January 16-19 (Performance Data Collection)
 
 ### Sunday, January 12, 2026 (Pre-Week 1)
 **Hours worked**: _______
@@ -42,7 +42,7 @@
 
 ---
 
-### Monday, January 13, 2026 (Day 1)
+### Monday, January 16, 2026 (Day 1)
 **Hours worked**: _______
 **Energy level**: 😊 / 😐 / 😟
 
@@ -222,7 +222,7 @@ Major achievements:
 
 ---
 
-## Week 2: January 20-26 (Analysis & Comparison)
+## Week 2: January 23-29 (Analysis & Comparison)
 
 ### Monday, January 20, 2026 (Day 8)
 **Hours worked**: _______
@@ -402,9 +402,9 @@ Major achievements:
 
 ---
 
-## Week 3: January 27 - February 2 (Polish & Integration)
+## Week 3: January 30 - February 5 (Polish & Integration)
 
-### Monday, January 27, 2026 (Day 15)
+### Monday, January 30, 2026 (Day 15)
 **Hours worked**: _______
 **Energy level**: 😊 / 😐 / 😟
 
@@ -548,7 +548,7 @@ Major achievements:
 
 ---
 
-### Sunday, February 2, 2026 (Day 21) ✅ WEEK 3 CHECKPOINT
+### Sunday, February 5, 2026 (Day 21) ✅ WEEK 3 CHECKPOINT
 **Hours worked**: _______
 **Energy level**: 😊 / 😐 / 😟
 
@@ -582,9 +582,9 @@ Major achievements:
 
 ---
 
-## Week 4: February 3-9 (Final Polish & Submission)
+## Week 4: February 6-9 (Final Polish & Submission)
 
-### Monday, February 3, 2026 (Day 22)
+### Monday, February 6, 2026 (Day 22)
 **Hours worked**: _______
 **Energy level**: 😊 / 😐 / 😟
 
@@ -752,7 +752,7 @@ Major achievements:
 
 ---
 
-### Monday, February 10, 2026 (Day 29) 🎓 SUBMISSION DAY
+### Monday, February 15, 2026 (Day 29) 🎓 SUBMISSION DAY
 **Hours worked**: _______
 **Energy level**: 😊 / 😐 / 😟
 

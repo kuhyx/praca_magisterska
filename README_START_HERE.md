@@ -1,6 +1,6 @@
 # 🚀 QUICK START - Read This First!
 
-**Deadline**: February 10, 2026 (29 days from today, January 12)
+**Deadline**: February 15, 2026 (31 days from today, January 12)
 
 ---
 
@@ -29,7 +29,7 @@ You now have **3 comprehensive planning documents**. Here's how to use them:
 
 ## ⚡ START TODAY (Sunday, January 12)
 
-Even though the official "Day 1" is tomorrow (Monday, January 13), you can get a head start TODAY:
+Even though the official "Day 1" is tomorrow (Monday, January 16), you can get a head start TODAY:
 
 ### Today's Quick Wins (2-3 hours):
 - [ ] Read this entire quick start guide (5 min)
@@ -144,7 +144,7 @@ You should have:
 3. **Don't skip daily review** - Check DAILY_CHECKLIST.md every morning
 4. **Don't work 12+ hour days** - You'll burn out
 5. **Don't skip sleep/food** - Your brain needs fuel
-6. **Don't ignore advisor** - Send draft by Feb 3 at latest
+6. **Don't ignore advisor** - Send draft by Feb 6 at latest
 7. **Don't procrastinate Week 1** - It's the most critical
 
 ### ✅ DO:
@@ -264,7 +264,7 @@ dostępność materiałów edukacyjnych w języku polskim.
 - [ ] Verify Unity and Unreal games run
 - [ ] Start drafting Chapter 4 methodology section
 
-### Tomorrow (Monday, Jan 13) - Week 1, Day 1:
+### Tomorrow (Monday, Jan 16) - Week 1, Day 1:
 - [ ] Check DAILY_CHECKLIST.md morning
 - [ ] Open NVIDIA Nsight, familiarize with interface
 - [ ] Create test scenario document
@@ -311,7 +311,7 @@ Seriously, celebrate your progress! It helps motivation.
 
 ## 🔮 Final Thoughts
 
-**You can absolutely do this in 29 days.**
+**You can absolutely do this in 31 days.**
 
 You've already done 60% of the work:
 - ✅ Games are built
@@ -331,7 +331,7 @@ Each week has a clear goal. Each day has specific tasks. You just need to:
 3. Do the work
 
 **Consistency beats intensity.**
-5 hours average per day for 29 days = 144 hours of work
+5 hours average per day for 31 days = 144 hours of work
 That's MORE than enough to finish a master's thesis.
 
 ---
@@ -354,5 +354,5 @@ Before you close this document:
 ---
 
 *Last updated: January 12, 2026*
-*Days remaining: 29*
+*Days remaining: 31*
 *Let's make this happen!*

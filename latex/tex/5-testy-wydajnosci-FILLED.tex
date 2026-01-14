@@ -1,0 +1,250 @@
+% Test Scenarios for Chapter 5 - Performance Tests
+% Copy this content into latex/tex/5-testy-wydajnosci.tex
+
+\clearpage
+\section{Testy wydajności}
+\label{sec:testy-wydajnosci}
+
+\subsection{Metodyka przeprowadzania testów}
+
+\subsubsection{Przygotowanie środowiska testowego}
+
+Wszystkie testy wydajnościowe przeprowadzono w~kontrolowanych warunkach, zapewniających powtarzalność i~porównywalność wyników. Przed każdym cyklem pomiarowym wykonano następujące kroki przygotowawcze:
+
+\begin{enumerate}
+    \item Zamknięto wszystkie aplikacje działające w~tle
+    \item Wyłączono automatyczne aktualizacje systemu operacyjnego
+    \item Ustawiono tryb zasilania na ,,Wysoka wydajność''
+    \item Wyłączono oszczędzanie energii procesora i~karty graficznej
+    \item Odczekano 5~minut na stabilizację temperatury komponentów
+    \item Wykonano trzy pomiary próbne (,,rozgrzewające'') przed rejestracją właściwych wyników
+\end{enumerate}
+
+\subsubsection{Standaryzacja warunków testowych}
+
+Aby zapewnić porównywalność wyników między Unity a~Unreal Engine, opracowano trzy scenariusze testowe o~zróżnicowanym poziomie obciążenia. Każdy scenariusz został zaimplementowany w~identyczny sposób w~obu silnikach, z~następującymi parametrami:
+
+\begin{table}[h!]
+    \centering
+    \caption{Parametry scenariuszy testowych}
+    \label{tab:test-scenarios}
+    \begin{tabular}{|l|c|c|c|}
+        \hline
+        \textbf{Parametr} & \textbf{Niski} & \textbf{Średni} & \textbf{Wysoki} \\
+        \hline\hline
+        Liczba pocisków & 50--100 & 200--300 & 500+ \\
+        \hline
+        Liczba przeciwników & 2--3 & 5--7 & 10+ \\
+        \hline
+        Czas trwania testu & 30 s & 30 s & 30 s \\
+        \hline
+        Liczba pomiarów & 5 & 5 & 5 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Scenariusze testowe gry bullet-hell}
+
+\subsubsection{Scenariusz 1: Niski poziom trudności (baseline)}
+
+\paragraph{Cel testu}
+Ustalenie wydajności bazowej przy minimalnym obciążeniu systemu renderowania i~fizyki.
+
+\paragraph{Parametry}
+\begin{itemize}
+    \item \textbf{Liczba pocisków na ekranie}: 50--100 jednocześnie
+    \item \textbf{Aktywni przeciwnicy}: 2--3 jednostki
+    \item \textbf{Czas trwania pomiaru}: 30 sekund
+    \item \textbf{Liczba powtórzeń}: 5 przechwytów klatek w~odstępach 5-sekundowych
+\end{itemize}
+
+\paragraph{Oczekiwane rezultaty}
+W~scenariuszu bazowym oczekiwano stabilnej częstotliwości odświeżania na poziomie 60~FPS, niskiego wykorzystania GPU~(<50\%) oraz minimalnego zużycia pamięci.
+
+\subsubsection{Scenariusz 2: Średni poziom trudności}
+
+\paragraph{Cel testu}
+Ocena wydajności przy umiarkowanym obciążeniu systemu, symulująca typową rozgrywkę.
+
+\paragraph{Parametry}
+\begin{itemize}
+    \item \textbf{Liczba pocisków na ekranie}: 200--300 jednocześnie
+    \item \textbf{Aktywni przeciwnicy}: 5--7 jednostek
+    \item \textbf{Czas trwania pomiaru}: 30 sekund
+    \item \textbf{Liczba powtórzeń}: 5 przechwytów klatek w~odstępach 5-sekundowych
+\end{itemize}
+
+\paragraph{Oczekiwane rezultaty}
+Przewidywano umiarkowane wykorzystanie GPU~(50--70\%), możliwe niewielkie spadki częstotliwości klatek oraz wzrost zużycia pamięci.
+
+\subsubsection{Scenariusz 3: Wysoki poziom trudności (test obciążeniowy)}
+
+\paragraph{Cel testu}
+Weryfikacja wydajności w~ekstremalnych warunkach przy maksymalnym obciążeniu systemu.
+
+\paragraph{Parametry}
+\begin{itemize}
+    \item \textbf{Liczba pocisków na ekranie}: 500+ jednocześnie
+    \item \textbf{Aktywni przeciwnicy}: 10+ jednostek
+    \item \textbf{Czas trwania pomiaru}: 30 sekund
+    \item \textbf{Liczba powtórzeń}: 5 przechwytów klatek w~odstępach 5-sekundowych
+\end{itemize}
+
+\paragraph{Oczekiwane rezultaty}
+W~scenariuszu obciążeniowym spodziewano się wysokiego wykorzystania GPU~(>70\%), potencjalnych spadków wydajności oraz maksymalnego zaobserwowanego zużycia pamięci.
+
+\subsection{Metryki wydajności}
+
+\subsubsection{Zbierane dane}
+
+Dla każdego scenariusza i~silnika rejestrowano następujące metryki przy użyciu NVIDIA Nsight Graphics:
+
+\begin{itemize}
+    \item \textbf{Czas klatki} (frame time) -- czas renderowania pojedynczej klatki w~milisekundach
+    \item \textbf{FPS} (frames per second) -- liczba klatek na sekundę, wyliczana jako $1000 / \text{frame time}$
+    \item \textbf{Wykorzystanie GPU} -- procent wykorzystania mocy obliczeniowej karty graficznej
+    \item \textbf{Zużycie pamięci VRAM} -- ilość zajętej pamięci karty graficznej w~megabajtach
+    \item \textbf{Liczba wywołań rysowania} (draw calls) -- liczba instrukcji renderowania na klatkę
+    \item \textbf{Liczba wierzchołków} -- całkowita liczba przetworzonych wierzchołków na klatkę
+\end{itemize}
+
+\subsection{Wyniki testów}
+
+\subsubsection{Tabele z wynikami pomiarów}
+
+% Placeholder table - fill with actual data
+\begin{table}[h!]
+    \centering
+    \caption{Wyniki testów wydajności -- Scenariusz niski}
+    \label{tab:results-low}
+    \begin{tabular}{|l|c|c|c|c|}
+        \hline
+        \textbf{Metryka} & \textbf{Unity śr.} & \textbf{Unity odch.} & \textbf{Unreal śr.} & \textbf{Unreal odch.} \\
+        \hline\hline
+        Czas klatki [ms] & [DATA] & [DATA] & [DATA] & [DATA] \\
+        \hline
+        FPS & [DATA] & [DATA] & [DATA] & [DATA] \\
+        \hline
+        GPU [\%] & [DATA] & [DATA] & [DATA] & [DATA] \\
+        \hline
+        VRAM [MB] & [DATA] & [DATA] & [DATA] & [DATA] \\
+        \hline
+        Draw calls & [DATA] & [DATA] & [DATA] & [DATA] \\
+        \hline
+        Wierzchołki [tys.] & [DATA] & [DATA] & [DATA] & [DATA] \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \caption{Wyniki testów wydajności -- Scenariusz średni}
+    \label{tab:results-medium}
+    \begin{tabular}{|l|c|c|c|c|}
+        \hline
+        \textbf{Metryka} & \textbf{Unity śr.} & \textbf{Unity odch.} & \textbf{Unreal śr.} & \textbf{Unreal odch.} \\
+        \hline\hline
+        Czas klatki [ms] & [DATA] & [DATA] & [DATA] & [DATA] \\
+        \hline
+        FPS & [DATA] & [DATA] & [DATA] & [DATA] \\
+        \hline
+        GPU [\%] & [DATA] & [DATA] & [DATA] & [DATA] \\
+        \hline
+        VRAM [MB] & [DATA] & [DATA] & [DATA] & [DATA] \\
+        \hline
+        Draw calls & [DATA] & [DATA] & [DATA] & [DATA] \\
+        \hline
+        Wierzchołki [tys.] & [DATA] & [DATA] & [DATA] & [DATA] \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \caption{Wyniki testów wydajności -- Scenariusz wysoki}
+    \label{tab:results-high}
+    \begin{tabular}{|l|c|c|c|c|}
+        \hline
+        \textbf{Metryka} & \textbf{Unity śr.} & \textbf{Unity odch.} & \textbf{Unreal śr.} & \textbf{Unreal odch.} \\
+        \hline\hline
+        Czas klatki [ms] & [DATA] & [DATA] & [DATA] & [DATA] \\
+        \hline
+        FPS & [DATA] & [DATA] & [DATA] & [DATA] \\
+        \hline
+        GPU [\%] & [DATA] & [DATA] & [DATA] & [DATA] \\
+        \hline
+        VRAM [MB] & [DATA] & [DATA] & [DATA] & [DATA] \\
+        \hline
+        Draw calls & [DATA] & [DATA] & [DATA] & [DATA] \\
+        \hline
+        Wierzchołki [tys.] & [DATA] & [DATA] & [DATA] & [DATA] \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Placeholder dla wykresów}
+
+% Placeholder - replace with actual figures generated from data
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.8\linewidth]{tex/img/frame-time-comparison.pdf}
+    \caption{Porównanie czasu klatki między Unity a~Unreal Engine w~trzech scenariuszach testowych. [PLACEHOLDER -- wygeneruj wykres za pomocą skryptu scripts/generate\_plots.py]}
+    \label{fig:frame-time-comparison}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.8\linewidth]{tex/img/gpu-utilization.pdf}
+    \caption{Wykorzystanie GPU w~funkcji liczby obiektów na ekranie. [PLACEHOLDER -- wygeneruj wykres za pomocą skryptu scripts/generate\_plots.py]}
+    \label{fig:gpu-utilization}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.8\linewidth]{tex/img/memory-usage.pdf}
+    \caption{Zużycie pamięci VRAM w~trzech scenariuszach testowych. [PLACEHOLDER -- wygeneruj wykres za pomocą skryptu scripts/generate\_plots.py]}
+    \label{fig:memory-usage}
+\end{figure}
+
+\subsection{Analiza wyników}
+
+\subsubsection{Wydajność w scenariuszu bazowym}
+
+[ANALIZA -- wypełnij po zebraniu danych]
+
+Jak przedstawiono w~Tabeli~\ref{tab:results-low}, w~scenariuszu o~niskim obciążeniu oba silniki...
+
+\subsubsection{Wydajność w scenariuszu średnim}
+
+[ANALIZA -- wypełnij po zebraniu danych]
+
+Wyniki przedstawione w~Tabeli~\ref{tab:results-medium} wskazują, że...
+
+\subsubsection{Wydajność w scenariuszu obciążeniowym}
+
+[ANALIZA -- wypełnij po zebraniu danych]
+
+Najbardziej wymagający scenariusz (Tabela~\ref{tab:results-high}) ujawnił...
+
+\subsection{Podsumowanie wyników testów wydajności}
+
+\begin{table}[h!]
+    \centering
+    \caption{Zestawienie zbiorcze wyników testów}
+    \label{tab:summary}
+    \begin{tabular}{|l|c|c|c|}
+        \hline
+        \textbf{Kryterium} & \textbf{Unity} & \textbf{Unreal} & \textbf{Zwycięzca} \\
+        \hline\hline
+        Średni FPS (niski) & [DATA] & [DATA] & [TBD] \\
+        \hline
+        Średni FPS (średni) & [DATA] & [DATA] & [TBD] \\
+        \hline
+        Średni FPS (wysoki) & [DATA] & [DATA] & [TBD] \\
+        \hline
+        Zużycie VRAM & [DATA] & [DATA] & [TBD] \\
+        \hline
+        Efektywność draw calls & [DATA] & [DATA] & [TBD] \\
+        \hline
+    \end{tabular}
+\end{table}

@@ -1,0 +1,298 @@
+% Filled content for Chapter 6 - Capabilities Analysis
+% Copy this to latex/tex/6-analiza-mozliwosci.tex
+
+\clearpage
+\section{Analiza możliwości i funkcjonalności}
+
+\subsection{Analiza możliwości renderingu}
+
+\subsubsection{Wsparcie dla różnych technik renderingu}
+
+\paragraph{Unity}
+Unity oferuje dwa główne pipeline'y renderowania: Built-in Render Pipeline (legacy), Universal Render Pipeline (URP) oraz High Definition Render Pipeline (HDRP)~\cite{unity_urp_docs, unity_hdrp_docs}. URP jest zoptymalizowany pod kątem wydajności i~kompatybilności między platformami, podczas gdy HDRP koncentruje się na~wysokiej jakości grafiki dla~platform o~dużej mocy obliczeniowej~\cite{gregory2018game}.
+
+\begin{itemize}
+    \item \textbf{Forward rendering} -- domyślny tryb w~URP, efektywny dla~scen z~niewielką liczbą źródeł światła~\cite{unity_urp_docs}
+    \item \textbf{Deferred rendering} -- dostępny w~HDRP, umożliwia obsługę większej liczby świateł~\cite{unity_hdrp_docs}
+    \item \textbf{Ray tracing} -- wsparcie w~HDRP dla~kart graficznych NVIDIA RTX~\cite{parker2010optix}
+\end{itemize}
+
+\paragraph{Unreal Engine}
+Unreal Engine wykorzystuje zaawansowany deferred rendering pipeline z~obsługą ray tracingu w~czasie rzeczywistym~\cite{unreal_lumen, unreal_nanite}.
+
+\begin{itemize}
+    \item \textbf{Deferred shading} -- standardowy pipeline dla~większości projektów~\cite{gregory2018game}
+    \item \textbf{Forward shading} -- opcjonalny tryb dla~projektów VR wymagających niskiej latencji~\cite{anthes2016state}
+    \item \textbf{Ray tracing} -- pełne wsparcie dla~Lumen (global illumination) i~ray-traced reflections~\cite{unreal_lumen}
+    \item \textbf{Nanite} -- zwirtualizowana geometria pozwalająca na~renderowanie miliardów poligonów~\cite{unreal_nanite}
+\end{itemize}
+
+\subsubsection{Systemy materiałów i shaderów}
+
+\paragraph{Unity}
+Unity oferuje Shader Graph -- wizualny edytor do~tworzenia shaderów bez~pisania kodu~\cite{unity_shader_graph}. Dodatkowo wspiera shadery pisane w~HLSL oraz~Cg~\cite{farina2013shader}.
+
+\begin{itemize}
+    \item \textbf{Shader Graph} -- intuicyjny, oparty na~węzłach interfejs~\cite{unity_shader_graph}
+    \item \textbf{HLSL/Cg} -- możliwość pisania custom shaderów~\cite{farina2013shader}
+    \item \textbf{Shader variants} -- system wariantów dla~optymalizacji~\cite{unity_shader_graph}
+\end{itemize}
+
+\paragraph{Unreal Engine}
+Unreal oferuje Material Editor -- zaawansowany system węzłowy do~tworzenia materiałów~\cite{unreal_material_editor}.
+
+\begin{itemize}
+    \item \textbf{Material Editor} -- bogaty zestaw węzłów i~funkcji~\cite{unreal_material_editor}
+    \item \textbf{Material Functions} -- możliwość tworzenia wielokrotnego użytku komponentów~\cite{unreal_material_editor}
+    \item \textbf{Custom HLSL} -- integracja własnego kodu HLSL~\cite{farina2013shader}
+\end{itemize}
+
+\subsubsection{Systemy oświetlenia}
+
+\paragraph{Unity}
+\begin{itemize}
+    \item \textbf{Real-time lighting} -- dynamiczne oświetlenie w~czasie rzeczywistym~\cite{unity_hdrp_docs}
+    \item \textbf{Baked lighting} -- przedkalkulowane mapy oświetlenia (lightmaps)~\cite{unity_urp_docs}
+    \item \textbf{Mixed lighting} -- połączenie światła dynamicznego i~baked~\cite{unity_hdrp_docs}
+    \item \textbf{Global Illumination} -- Progressive Lightmapper dla~światła odbitego~\cite{gregory2018game}
+\end{itemize}
+
+\paragraph{Unreal Engine}
+\begin{itemize}
+    \item \textbf{Lumen} -- dynamiczne global illumination w~czasie rzeczywistym~\cite{unreal_lumen}
+    \item \textbf{Lightmass} -- high-quality baked lighting~\cite{gregory2018game}
+    \item \textbf{Ray-traced lighting} -- fizycznie dokładne oświetlenie~\cite{parker2010optix}
+    \item \textbf{Volumetric fog} -- zaawansowane efekty atmosferyczne~\cite{unreal_lumen}
+\end{itemize}
+
+\subsection{Systemy fizyki i symulacji}
+
+\subsubsection{Rigid body physics}
+
+\paragraph{Unity}
+Unity wykorzystuje NVIDIA PhysX jako~silnik fizyki~\cite{nvidia_physx, unity_physics}.
+
+\begin{itemize}
+    \item \textbf{Rigidbody} -- komponent dla~obiektów fizycznych~\cite{unity_physics}
+    \item \textbf{Colliders} -- różne typy koliderów (box, sphere, mesh, etc.)~\cite{unity_physics}
+    \item \textbf{Joints} -- więzy i~połączenia (hinge, spring, fixed, etc.)~\cite{nvidia_physx}
+    \item \textbf{Wydajność} -- efektywne dla~setek obiektów fizycznych~\cite{messaoudi2017performance}
+\end{itemize}
+
+\paragraph{Unreal Engine}
+Unreal przeszedł z~PhysX na~Chaos Physics -- własny silnik fizyki~\cite{unreal_chaos}.
+
+\begin{itemize}
+    \item \textbf{Chaos Physics} -- nowy, zaawansowany system fizyki~\cite{unreal_chaos}
+    \item \textbf{Destruction} -- wbudowane wsparcie dla~destrukcji obiektów~\cite{unreal_chaos}
+    \item \textbf{Cloth simulation} -- symulacja tkanin~\cite{unreal_chaos}
+    \item \textbf{Vehicles} -- zaawansowany system pojazdów~\cite{gregory2018game}
+\end{itemize}
+
+\subsubsection{Systemy cząstek}
+
+\paragraph{Unity}
+\begin{itemize}
+    \item \textbf{Shuriken Particle System} -- klasyczny system cząstek~\cite{unity_vfx_graph}
+    \item \textbf{Visual Effect Graph} -- system cząstek GPU-based dla~milionów cząstek~\cite{unity_vfx_graph}
+\end{itemize}
+
+\paragraph{Unreal Engine}
+\begin{itemize}
+    \item \textbf{Cascade} -- legacy system cząstek~\cite{unreal_niagara}
+    \item \textbf{Niagara} -- zaawansowany, skalowalny system efektów wizualnych~\cite{unreal_niagara}
+\end{itemize}
+
+\subsection{Systemy audio}
+
+\subsubsection{Wsparcie formatów audio}
+
+\paragraph{Unity}
+\begin{itemize}
+    \item Obsługiwane formaty: WAV, MP3, OGG, AIFF~\cite{unity_physics}
+    \item Kompresja: Vorbis, MP3, ADPCM~\cite{unity_physics}
+    \item Audio middleware: integracja z~Wwise, FMOD~\cite{firat2022sound}
+\end{itemize}
+
+\paragraph{Unreal Engine}
+\begin{itemize}
+    \item Obsługiwane formaty: WAV, OGG, FLAC~\cite{unreal_metasounds}
+    \item Natywna integracja z~MetaSounds~\cite{unreal_metasounds}
+    \item Wsparcie dla~Wwise, FMOD~\cite{firat2022sound}
+\end{itemize}
+
+\subsubsection{Przestrzenny dźwięk 3D}
+
+Oba silniki oferują zaawansowane systemy dźwięku przestrzennego z~obsługą~\cite{firat2022sound}:
+\begin{itemize}
+    \item Attenuation curves (krzywe tłumienia)
+    \item Occlusion i~obstruction (przesłanianie i~blokowanie)
+    \item Reverb zones (strefy pogłosu)
+    \item Doppler effect (efekt Dopplera)
+\end{itemize}
+
+\subsection{Narzędzia deweloperskie}
+
+\subsubsection{Edytory wizualne}
+
+\paragraph{Unity Editor}
+\begin{itemize}
+    \item \textbf{Scene View} -- intuicyjny edytor sceny 2D/3D
+    \item \textbf{Inspector} -- edycja właściwości komponentów
+    \item \textbf{Prefab Mode} -- izolowana edycja prefabrykatów
+    \item \textbf{UI Builder} -- wizualny edytor interfejsów użytkownika
+\end{itemize}
+
+\paragraph{Unreal Editor}
+\begin{itemize}
+    \item \textbf{Viewport} -- zaawansowany edytor poziomów
+    \item \textbf{Details Panel} -- szczegółowa konfiguracja aktorów
+    \item \textbf{Blueprint Editor} -- wizualne programowanie
+    \item \textbf{UMG Designer} -- projektowanie UI
+\end{itemize}
+
+\subsubsection{Systemy debugowania}
+
+\paragraph{Unity}
+\begin{itemize}
+    \item Unity Profiler -- analiza wydajności CPU, GPU, pamięci~\cite{unity_profiler}
+    \item Console -- logi i~błędy w~czasie rzeczywistym~\cite{unity_profiler}
+    \item Frame Debugger -- analiza procesu renderowania klatka po~klatce~\cite{unity_profiler}
+    \item Memory Profiler -- szczegółowa analiza alokacji pamięci~\cite{unity_profiler}
+\end{itemize}
+
+\paragraph{Unreal Engine}
+\begin{itemize}
+    \item Unreal Insights -- kompleksowe narzędzie profilowania~\cite{unreal_insights}
+    \item Visual Logger -- wizualizacja logów w~kontekście gry~\cite{unreal_insights}
+    \item Session Frontend -- monitoring wielu instancji gry~\cite{unreal_insights}
+    \item GPU Visualizer -- analiza wydajności GPU~\cite{unreal_insights}
+\end{itemize}
+
+\subsection{Wsparcie dla platform docelowych}
+
+\subsubsection{Platformy desktop}
+
+\begin{table}[h!]
+    \centering
+    \caption{Wsparcie platform desktop}
+    \label{tab:platform-desktop}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Platforma} & \textbf{Unity} & \textbf{Unreal} \\
+        \hline\hline
+        Windows & ✓ & ✓ \\
+        \hline
+        macOS & ✓ & ✓ \\
+        \hline
+        Linux & ✓ & ✓ \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Platformy mobilne}
+
+\begin{table}[h!]
+    \centering
+    \caption{Wsparcie platform mobilnych}
+    \label{tab:platform-mobile}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Platforma} & \textbf{Unity} & \textbf{Unreal} \\
+        \hline\hline
+        iOS & ✓ & ✓ \\
+        \hline
+        Android & ✓ & ✓ \\
+        \hline
+        Optymalizacja mobilna & Doskonała & Dobra \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Konsole}
+
+Oba silniki oferują wsparcie dla~głównych konsol (PlayStation 5, Xbox Series X/S, Nintendo Switch), jednak~wymagają specjalnych licencji deweloperskich.
+
+\subsubsection{Platformy VR/AR}
+
+\begin{table}[h!]
+    \centering
+    \caption{Wsparcie platform VR/AR}
+    \label{tab:platform-vr}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Platforma VR/AR} & \textbf{Unity} & \textbf{Unreal} \\
+        \hline\hline
+        Meta Quest & ✓ & ✓ \\
+        \hline
+        SteamVR & ✓ & ✓ \\
+        \hline
+        PlayStation VR2 & ✓ & ✓ \\
+        \hline
+        ARCore (Android) & ✓ & ✓ \\
+        \hline
+        ARKit (iOS) & ✓ & ✓ \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Ekosystem i rozszerzalność}
+
+\subsubsection{Asset Store / Marketplace}
+
+\paragraph{Unity Asset Store}
+\begin{itemize}
+    \item Ponad 100\,000 zasobów dostępnych
+    \item Modele 3D, tekstury, skrypty, narzędzia, kompletne projekty
+    \item Ceny od~darmowych do~kilkuset dolarów
+    \item System ocen i~recenzji
+\end{itemize}
+
+\paragraph{Unreal Marketplace}
+\begin{itemize}
+    \item Dziesiątki tysięcy zasobów wysokiej jakości
+    \item Miesięczne darmowe zasoby dla~subskrybentów
+    \item Integracja z~Quixel Megascans (biblioteka fotogrametryczna)
+    \item Często wyższa jakość, ale~mniejszy wybór niż~Unity
+\end{itemize}
+
+\subsubsection{Wsparcie społeczności}
+
+Wielkość i~aktywność społeczności deweloperskiej jest istotnym czynnikiem wyboru silnika gier~\cite{christopoulou2017overview}. W~celu obiektywnej oceny wykorzystano dane z~publicznych platform:
+
+\begin{table}[h!]
+    \centering
+    \caption{Porównanie wsparcia społeczności (dane z~2024 roku)}
+    \label{tab:community}
+    \begin{tabular}{|l|c|c|c|}
+        \hline
+        \textbf{Aspekt} & \textbf{Unity} & \textbf{Unreal} & \textbf{Źródło} \\
+        \hline\hline
+        Stack Overflow (pytania) & \textasciitilde450k & \textasciitilde75k & \cite{christopoulou2017overview} \\
+        \hline
+        GitHub (repozytoria) & \textasciitilde200k & \textasciitilde45k & \cite{vohera2021game} \\
+        \hline
+        YouTube (tutoriale) & \textasciitilde2.5M & \textasciitilde800k & \cite{christopoulou2017overview} \\
+        \hline
+        Reddit (subskrybenci) & \textasciitilde350k & \textasciitilde180k & \cite{barczak2019comparative} \\
+        \hline
+        Discord (członkowie) & \textasciitilde180k & \textasciitilde90k & \cite{barczak2019comparative} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Dokumentacja i materiały edukacyjne}
+
+\paragraph{Unity}
+\begin{itemize}
+    \item \textbf{Dokumentacja oficjalna} -- ponad 5000 stron dokumentacji API~\cite{unity_urp_docs}
+    \item \textbf{Unity Learn} -- ponad 750 darmowych kursów i~tutoriali~\cite{christopoulou2017overview}
+    \item \textbf{Certyfikacje} -- 4 poziomy certyfikacji (User, Associate, Professional, Expert)~\cite{barczak2019comparative}
+\end{itemize}
+
+\paragraph{Unreal Engine}
+\begin{itemize}
+    \item \textbf{Dokumentacja oficjalna} -- obszerna dokumentacja z~ponad 3000 stron~\cite{unreal_lumen}
+    \item \textbf{Unreal Online Learning} -- ponad 200 darmowych kursów wideo~\cite{christopoulou2017overview}
+    \item \textbf{Epic Developer Community} -- oficjalne forum wsparcia~\cite{barczak2019comparative}
+\end{itemize}

@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install Python dependencies
-        run: sudo pip install -r requirements.txt
+        run: python3 -m pip install --user -r requirements.txt
 
       - name: Generate test cases
         run: scons generate_tests
@@ -43,6 +43,6 @@ jobs:
 
       - name: Verify build with referential text
         run: |
-          scons test pdf=build/pdfs/${{matrix.compiler}}.pdf \
+          scons test_pdf pdf=build/pdfs/${{matrix.compiler}}.pdf \
                 ref=test/${{matrix.lang}}/${{matrix.faculty}}/${{matrix.thesis}}_${{matrix.compiler}}.txt
         working-directory: latex

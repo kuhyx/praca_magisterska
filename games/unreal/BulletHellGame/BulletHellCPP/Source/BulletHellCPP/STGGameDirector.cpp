@@ -1,0 +1,86 @@
+#include "STGGameDirector.h"
+#include "Kismet/GameplayStatics.h"
+
+ASTGGameDirector::ASTGGameDirector()
+{
+    PrimaryActorTick.bCanEverTick = true;
+}
+
+void ASTGGameDirector::BeginPlay()
+{
+    Super::BeginPlay();
+    ElapsedTime = 0.0f;
+    bGameActive = true;
+    
+    // Debug: Override game duration for quick testing
+    if (bDebugQuickGame)
+    {
+        GameDuration = 10.0f;
+        if (GEngine)
+        {
+            GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("[DEBUG] Quick game mode: 10 seconds!"));
+        }
+    }
+}
+
+void ASTGGameDirector::Tick(float DeltaTime)
+{
+    Super::Tick(DeltaTime);
+
+    if (!bGameActive)
+        return;
+
+    ElapsedTime += DeltaTime;
+
+    // Display timer on screen (key 0 = persistent slot for timer)
+    if (GEngine)
+    {
+        int32 Minutes = FMath::FloorToInt(ElapsedTime / 60.0f);
+        int32 Seconds = FMath::FloorToInt(FMath::Fmod(ElapsedTime, 60.0f));
+        FString TimeStr = FString::Printf(TEXT("Time: %02d:%02d"), Minutes, Seconds);
+        GEngine->AddOnScreenDebugMessage(0, 0.0f, FColor::White, TimeStr);
+    }
+
+    // Check for victory (survived full duration)
+    if (ElapsedTime >= GameDuration)
+    {
+        OnVictory();
+    }
+}
+
+void ASTGGameDirector::OnPlayerDied()
+{
+    OnGameOver();
+}
+
+void ASTGGameDirector::OnVictory()
+{
+    bGameActive = false;
+    
+    if (GEngine)
+    {
+        int32 Minutes = FMath::FloorToInt(ElapsedTime / 60.0f);
+        int32 Seconds = FMath::FloorToInt(FMath::Fmod(ElapsedTime, 60.0f));
+        FString Msg = FString::Printf(TEXT("VICTORY! You survived %02d:%02d!"), Minutes, Seconds);
+        GEngine->AddOnScreenDebugMessage(-1, 999.0f, FColor::Green, Msg);
+    }
+    
+    // Pause game
+    UGameplayStatics::SetGamePaused(GetWorld(), true);
+}
+
+void ASTGGameDirector::OnGameOver()
+{
+    bGameActive = false;
+    
+    if (GEngine)
+    {
+        int32 Minutes = FMath::FloorToInt(ElapsedTime / 60.0f);
+        int32 Seconds = FMath::FloorToInt(FMath::Fmod(ElapsedTime, 60.0f));
+        FString Msg = FString::Printf(TEXT("GAME OVER! Survived %02d:%02d"), Minutes, Seconds);
+        GEngine->AddOnScreenDebugMessage(-1, 999.0f, FColor::Red, Msg);
+    }
+    
+    // Pause game
+    UGameplayStatics::SetGamePaused(GetWorld(), true);
+}

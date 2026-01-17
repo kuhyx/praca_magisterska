@@ -92,6 +92,15 @@ void ASTGGameDirector::Tick(float DeltaTime)
 
     ElapsedTime += DeltaTime;
 
+    // Display timer on screen (key 0 = persistent slot for timer)
+    if (GEngine)
+    {
+        int32 Minutes = FMath::FloorToInt(ElapsedTime / 60.0f);
+        int32 Seconds = FMath::FloorToInt(FMath::Fmod(ElapsedTime, 60.0f));
+        FString TimeStr = FString::Printf(TEXT("Time: %02d:%02d"), Minutes, Seconds);
+        GEngine->AddOnScreenDebugMessage(0, 0.0f, FColor::White, TimeStr);
+    }
+
     // Check for victory (survived full duration)
     if (ElapsedTime >= GameDuration)
     {
@@ -107,7 +116,14 @@ void ASTGGameDirector::OnPlayerDied()
 void ASTGGameDirector::OnVictory()
 {
     bGameActive = false;
-    UE_LOG(LogTemp, Warning, TEXT("VICTORY! You survived %f seconds!"), ElapsedTime);
+    
+    if (GEngine)
+    {
+        int32 Minutes = FMath::FloorToInt(ElapsedTime / 60.0f);
+        int32 Seconds = FMath::FloorToInt(FMath::Fmod(ElapsedTime, 60.0f));
+        FString Msg = FString::Printf(TEXT("VICTORY! You survived %02d:%02d!"), Minutes, Seconds);
+        GEngine->AddOnScreenDebugMessage(-1, 999.0f, FColor::Green, Msg);
+    }
     
     // Pause game
     UGameplayStatics::SetGamePaused(GetWorld(), true);
@@ -116,7 +132,14 @@ void ASTGGameDirector::OnVictory()
 void ASTGGameDirector::OnGameOver()
 {
     bGameActive = false;
-    UE_LOG(LogTemp, Warning, TEXT("GAME OVER! Survived %f seconds"), ElapsedTime);
+    
+    if (GEngine)
+    {
+        int32 Minutes = FMath::FloorToInt(ElapsedTime / 60.0f);
+        int32 Seconds = FMath::FloorToInt(FMath::Fmod(ElapsedTime, 60.0f));
+        FString Msg = FString::Printf(TEXT("GAME OVER! Survived %02d:%02d"), Minutes, Seconds);
+        GEngine->AddOnScreenDebugMessage(-1, 999.0f, FColor::Red, Msg);
+    }
     
     // Pause game
     UGameplayStatics::SetGamePaused(GetWorld(), true);

@@ -9,6 +9,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "STGProjectile.h"
 #include "STGEnemy.h" 
+#include "STGGameDirector.h"
 
 ASTGPawn::ASTGPawn()
 {
@@ -256,28 +257,19 @@ void ASTGPawn::TakeHit(int32 Damage)
 
 void ASTGPawn::HandleDeath()
 {
-    bIsDead = true;
-    
     SetActorHiddenInGame(true);
-    SetActorEnableCollision(false);
     
-    // Disable input
-    APlayerController* PC = Cast<APlayerController>(GetController());
-    if (PC)
+    // Find and notify Game Director
+    TArray<AActor*> FoundDirectors;
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASTGGameDirector::StaticClass(), FoundDirectors);
+    if (FoundDirectors.Num() > 0)
     {
-        DisableInput(PC);
+        ASTGGameDirector* Director = Cast<ASTGGameDirector>(FoundDirectors[0]);
+        if (Director)
+        {
+            Director->OnPlayerDied();
+        }
     }
-    
-    // Stop firing and reset movement
-    bIsFiring = false;
-    MovementInput = FVector2D::ZeroVector;
-    
-    if (GEngine)
-    {
-        GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("GAME OVER - Player destroyed!"));
-    }
-    
-    // Will notify GameMode in Part 6
 }
 
 void ASTGPawn::AddScore(int32 Points)

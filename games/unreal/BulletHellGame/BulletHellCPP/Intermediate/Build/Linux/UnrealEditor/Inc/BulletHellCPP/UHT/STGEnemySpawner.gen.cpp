@@ -35,11 +35,11 @@ struct Z_Construct_UClass_ASTGEnemySpawner_Statics
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_SpawnAreaHalfWidth_MetaData[] = {
 		{ "Category", "Spawning" },
 #if !UE_BUILD_SHIPPING
-		{ "Comment", "// ===== SPAWNING VARIABLES =====\n" },
+		{ "Comment", "// ===== SPAWNING VARIABLES =====\n// Half-width for Y spawn range (should be less than play area to allow wave movement)\n" },
 #endif
 		{ "ModuleRelativePath", "STGEnemySpawner.h" },
 #if !UE_BUILD_SHIPPING
-		{ "ToolTip", "===== SPAWNING VARIABLES =====" },
+		{ "ToolTip", "===== SPAWNING VARIABLES =====\nHalf-width for Y spawn range (should be less than play area to allow wave movement)" },
 #endif
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_GameDuration_MetaData[] = {
@@ -142,10 +142,10 @@ ASTGEnemySpawner::~ASTGEnemySpawner() {}
 struct Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemySpawner_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_ASTGEnemySpawner, ASTGEnemySpawner::StaticClass, TEXT("ASTGEnemySpawner"), &Z_Registration_Info_UClass_ASTGEnemySpawner, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASTGEnemySpawner), 2589203495U) },
+		{ Z_Construct_UClass_ASTGEnemySpawner, ASTGEnemySpawner::StaticClass, TEXT("ASTGEnemySpawner"), &Z_Registration_Info_UClass_ASTGEnemySpawner, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASTGEnemySpawner), 1062965579U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemySpawner_h_3365008077(TEXT("/Script/BulletHellCPP"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemySpawner_h_514711947(TEXT("/Script/BulletHellCPP"),
 	Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemySpawner_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemySpawner_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

@@ -180,6 +180,20 @@ struct Z_Construct_UClass_ASTGEnemy_Statics
 		{ "Category", "Stats" },
 		{ "ModuleRelativePath", "STGEnemy.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_BoundsMinY_MetaData[] = {
+		{ "Category", "Stats" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "// ===== BOUNDARIES =====\n" },
+#endif
+		{ "ModuleRelativePath", "STGEnemy.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "===== BOUNDARIES =====" },
+#endif
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_BoundsMaxY_MetaData[] = {
+		{ "Category", "Stats" },
+		{ "ModuleRelativePath", "STGEnemy.h" },
+	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_FireInterval_MetaData[] = {
 		{ "Category", "Stats" },
 #if !UE_BUILD_SHIPPING
@@ -216,6 +230,8 @@ struct Z_Construct_UClass_ASTGEnemy_Statics
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_HorizontalAmplitude;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_HorizontalFrequency;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_DespawnY;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_BoundsMinY;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_BoundsMaxY;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_FireInterval;
 	static const UECodeGen_Private::FIntPropertyParams NewProp_BulletsPerBurst;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_BurstSpread;
@@ -241,6 +257,8 @@ const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGEnemy_Stati
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_HorizontalAmplitude = { "HorizontalAmplitude", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, HorizontalAmplitude), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_HorizontalAmplitude_MetaData), NewProp_HorizontalAmplitude_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_HorizontalFrequency = { "HorizontalFrequency", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, HorizontalFrequency), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_HorizontalFrequency_MetaData), NewProp_HorizontalFrequency_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_DespawnY = { "DespawnY", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, DespawnY), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DespawnY_MetaData), NewProp_DespawnY_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_BoundsMinY = { "BoundsMinY", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, BoundsMinY), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_BoundsMinY_MetaData), NewProp_BoundsMinY_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_BoundsMaxY = { "BoundsMaxY", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, BoundsMaxY), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_BoundsMaxY_MetaData), NewProp_BoundsMaxY_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_FireInterval = { "FireInterval", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, FireInterval), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_FireInterval_MetaData), NewProp_FireInterval_MetaData) };
 const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_BulletsPerBurst = { "BulletsPerBurst", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, BulletsPerBurst), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_BulletsPerBurst_MetaData), NewProp_BulletsPerBurst_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_BurstSpread = { "BurstSpread", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, BurstSpread), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_BurstSpread_MetaData), NewProp_BurstSpread_MetaData) };
@@ -256,6 +274,8 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ASTGEnemy
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_HorizontalAmplitude,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_HorizontalFrequency,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_DespawnY,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_BoundsMinY,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_BoundsMaxY,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_FireInterval,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_BulletsPerBurst,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_BurstSpread,
@@ -303,10 +323,10 @@ ASTGEnemy::~ASTGEnemy() {}
 struct Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_ASTGEnemy, ASTGEnemy::StaticClass, TEXT("ASTGEnemy"), &Z_Registration_Info_UClass_ASTGEnemy, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASTGEnemy), 495625582U) },
+		{ Z_Construct_UClass_ASTGEnemy, ASTGEnemy::StaticClass, TEXT("ASTGEnemy"), &Z_Registration_Info_UClass_ASTGEnemy, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASTGEnemy), 2746785960U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_1358030057(TEXT("/Script/BulletHellCPP"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_3134464834(TEXT("/Script/BulletHellCPP"),
 	Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

@@ -51,6 +51,13 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
     float DespawnY = -750.0f;
 
+    // ===== BOUNDARIES =====
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+    float BoundsMinY = -450.0f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+    float BoundsMaxY = 450.0f;
+
     // ===== FIRING =====
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
     float FireInterval = 0.35f;

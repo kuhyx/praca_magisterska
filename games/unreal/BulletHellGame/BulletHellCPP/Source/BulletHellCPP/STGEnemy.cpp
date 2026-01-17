@@ -71,6 +71,9 @@ void ASTGEnemy::Tick(float DeltaTime)
     );
     NewLocation.Y = StartY + HorizontalOffset;
     
+    // Clamp to horizontal boundaries
+    NewLocation.Y = FMath::Clamp(NewLocation.Y, BoundsMinY, BoundsMaxY);
+    
     SetActorLocation(NewLocation);
 
     // Check if enemy should despawn (moved off screen)

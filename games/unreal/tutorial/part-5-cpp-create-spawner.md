@@ -51,8 +51,9 @@ public:
     virtual void Tick(float DeltaTime) override;
 
     // ===== SPAWNING VARIABLES =====
+    // Half-width for Y spawn range (should be less than play area to allow wave movement)
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
-    float SpawnAreaHalfWidth = 900.0f;
+    float SpawnAreaHalfWidth = 200.0f;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
     float GameDuration = 300.0f; // 5 minutes

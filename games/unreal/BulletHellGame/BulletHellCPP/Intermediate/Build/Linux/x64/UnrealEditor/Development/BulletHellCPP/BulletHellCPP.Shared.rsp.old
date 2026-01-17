@@ -2,7 +2,6 @@
 -pipe
 -msse4.2
 -I"."
--I"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/Private"
 -I"../Intermediate/Build/Linux/UnrealEditor/Inc/Engine/UHT"
 -I"Runtime/Engine/Classes"
 -I"Runtime/Engine/Public"
@@ -290,7 +289,6 @@
 -I"Editor/AnimationEditMode/Public"
 -I"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/Linux/UnrealEditor/Inc/BulletHellCPP/UHT"
 -I"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source"
--I"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/Public"
 -I"../Plugins/EnhancedInput/Intermediate/Build/Linux/UnrealEditor/Inc/EnhancedInput/UHT"
 -I"../Plugins/EnhancedInput/Source"
 -I"../Plugins/EnhancedInput/Source/EnhancedInput/Public"

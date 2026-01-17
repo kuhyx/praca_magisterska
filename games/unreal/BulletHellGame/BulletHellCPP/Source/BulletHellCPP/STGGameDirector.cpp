@@ -1,5 +1,6 @@
 #include "STGGameDirector.h"
 #include "Kismet/GameplayStatics.h"
+#include "STGHUDManager.h"
 
 ASTGGameDirector::ASTGGameDirector()
 {
@@ -45,6 +46,17 @@ void ASTGGameDirector::Tick(float DeltaTime)
     if (ElapsedTime >= GameDuration)
     {
         OnVictory();
+    }
+
+	TArray<AActor*> FoundManagers;
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASTGHUDManager::StaticClass(), FoundManagers);
+    if (FoundManagers.Num() > 0)
+    {
+        ASTGHUDManager* HUDMgr = Cast<ASTGHUDManager>(FoundManagers[0]);
+        if (HUDMgr)
+        {
+            HUDMgr->UpdateTimer(GameDuration - ElapsedTime);
+        }
     }
 }
 

@@ -10,6 +10,7 @@
 #include "STGProjectile.h"
 #include "STGEnemy.h" 
 #include "STGGameDirector.h"
+#include "STGHUDManager.h"
 
 ASTGPawn::ASTGPawn()
 {
@@ -78,6 +79,10 @@ void ASTGPawn::BeginPlay()
             Subsystem->AddMappingContext(DefaultMappingContext, 0);
         }
     }
+    
+    // Initialize HUD with starting values (delayed to ensure HUD is ready)
+    FTimerHandle TimerHandle;
+    GetWorldTimerManager().SetTimer(TimerHandle, this, &ASTGPawn::UpdateHUD, 0.1f, false);
 }
 
 void ASTGPawn::Tick(float DeltaTime)
@@ -242,6 +247,7 @@ void ASTGPawn::TakeHit(int32 Damage)
     }
     
     CurrentLives = FMath::Clamp(CurrentLives - Damage, 0, MaxLives);
+    UpdateHUD();
 
     if (GEngine)
     {
@@ -275,4 +281,20 @@ void ASTGPawn::HandleDeath()
 void ASTGPawn::AddScore(int32 Points)
 {
     Score += Points;
+    UpdateHUD();
+}
+
+void ASTGPawn::UpdateHUD()
+{
+    TArray<AActor*> FoundManagers;
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASTGHUDManager::StaticClass(), FoundManagers);
+    if (FoundManagers.Num() > 0)
+    {
+        ASTGHUDManager* HUDMgr = Cast<ASTGHUDManager>(FoundManagers[0]);
+        if (HUDMgr)
+        {
+            HUDMgr->UpdateScore(Score);
+            HUDMgr->UpdateLives(CurrentLives);
+        }
+    }
 }

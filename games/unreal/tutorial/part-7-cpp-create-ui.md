@@ -25,22 +25,41 @@ For UI, we use **Widget Blueprints** for visual layout (drag-and-drop is better 
 
 In Widget Designer:
 
-1. **Add Text blocks** (from Palette → Common):
-   - `txt_Score` - Display score
-   - `txt_Lives` - Display lives
-   - `txt_Timer` - Display time remaining
+1. **First, make the root widget transparent:**
+   - Select the **root widget** at the very top of Hierarchy (named `WBP_HUD` or similar)
+   - In Details panel → **Appearance** → **Color and Opacity**
+   - Click the color box and set **Alpha (A) to 0** (fully transparent)
+   - This ensures the game is visible behind the HUD
 
-2. **Position them** (top-left corner):
-   - Score: Top-left (0, 0)
-   - Lives: Below score (0, 30)
-   - Timer: Below lives (0, 60)
+2. **Add a Canvas Panel** (if not already present):
+   - Drag **Canvas Panel** from Palette → Panel onto the root
+   - This is your container for all UI elements
 
-3. **Style text:**
-   - Font Size: 24
-   - Color: White
-   - Set default text: "Score: 0", "Lives: 3", "Time: 300"
+3. **Add Text blocks** (drag each from Palette → Common onto the Canvas Panel):
+   - Drag a **Text** widget → rename to `txt_Score` (click on it in Hierarchy, press F2)
+   - Drag another **Text** widget → rename to `txt_Lives`
+   - Drag another **Text** widget → rename to `txt_Timer`
 
-4. **Compile and Save**
+3. **Position them** (select each and set in Details panel → Slot):
+   - `txt_Score`: Position X=20, Y=20
+   - `txt_Lives`: Position X=20, Y=50
+   - `txt_Timer`: Position X=20, Y=80
+
+4. **Style each text** (select in Hierarchy, edit in Details panel):
+   - Font → Size: 24
+   - Color and Opacity: White
+   - Set default Text content:
+     - txt_Score: `Score: 0`
+     - txt_Lives: `Lives: 3`
+     - txt_Timer: `Time: 300`
+
+5. **Important: Set "Is Variable" for each text block**:
+   - Select `txt_Score` in Hierarchy
+   - In Details panel, check **Is Variable** ✓
+   - Repeat for `txt_Lives` and `txt_Timer`
+   - (This allows C++ to find them by name)
+
+6. **Compile and Save**
 
 ---
 
@@ -48,7 +67,12 @@ In Widget Designer:
 
 We'll create a simple C++ class to update the UI.
 
-### Create STGHUDManager.h:
+1. **Tools → New C++ Class** → **Actor** → Name: `STGHUDManager`
+2. Wait for compilation
+
+### STGHUDManager.h
+
+Replace content with:
 
 > **⚠️ IMPORTANT:** Replace `YOURPROJECTNAME_API` with your actual project's API macro (e.g., `BULLETHELLCPP_API`).
 
@@ -188,7 +212,72 @@ void ASTGGameDirector::Tick(float DeltaTime)
 }
 ```
 
-4. Update `STGPawn` to update score/lives when they change
+4. Update `STGPawn` to update score/lives when they change:
+
+First, add the include at the top of `STGPawn.cpp`:
+```cpp
+#include "STGHUDManager.h"
+```
+
+Then create a helper function to find and update the HUD. Add this private method to `STGPawn.h`:
+```cpp
+private:
+    void UpdateHUD();
+```
+
+Add the implementation in `STGPawn.cpp`:
+```cpp
+void ASTGPawn::UpdateHUD()
+{
+    TArray<AActor*> FoundManagers;
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASTGHUDManager::StaticClass(), FoundManagers);
+    if (FoundManagers.Num() > 0)
+    {
+        ASTGHUDManager* HUDMgr = Cast<ASTGHUDManager>(FoundManagers[0]);
+        if (HUDMgr)
+        {
+            HUDMgr->UpdateScore(Score);
+            HUDMgr->UpdateLives(CurrentLives);
+        }
+    }
+}
+```
+
+Call `UpdateHUD()` in these places:
+
+In `AddScore()`:
+```cpp
+void ASTGPawn::AddScore(int32 Points)
+{
+    Score += Points;
+    UpdateHUD();
+}
+```
+
+In `TakeHit()` (after updating CurrentLives):
+```cpp
+void ASTGPawn::TakeHit(int32 Damage)
+{
+    // ... existing damage code ...
+    CurrentLives = FMath::Clamp(CurrentLives - Damage, 0, MaxLives);
+    UpdateHUD();  // Add this line
+    // ... rest of function ...
+}
+```
+
+In `BeginPlay()` (to initialize HUD with starting values):
+```cpp
+void ASTGPawn::BeginPlay()
+{
+    Super::BeginPlay();
+    CurrentLives = MaxLives;
+    
+    // ... existing input setup code ...
+    
+    // Initialize HUD
+    UpdateHUD();
+}
+```
 
 ---
 

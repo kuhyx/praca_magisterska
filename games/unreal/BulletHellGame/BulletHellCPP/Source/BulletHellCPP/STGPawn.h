@@ -119,4 +119,6 @@ private:
     bool bIsDead = false;
     FVector2D MovementInput;
     float FireTimer = 0.0f;
+    
+    void UpdateHUD();
 };

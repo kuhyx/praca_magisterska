@@ -23,6 +23,8 @@ Create a Game Director to manage the game timer, victory/defeat conditions, and 
 
 ### STGGameDirector.h:
 
+> **⚠️ IMPORTANT:** Replace `YOURPROJECTNAME_API` with your actual project's API macro (e.g., `BULLETHELLCPP_API`).
+
 ```cpp
 #pragma once
 
@@ -31,7 +33,7 @@ Create a Game Director to manage the game timer, victory/defeat conditions, and 
 #include "STGGameDirector.generated.h"
 
 UCLASS()
-class BULLETHELLGAME_API ASTGGameDirector : public AActor
+class YOURPROJECTNAME_API ASTGGameDirector : public AActor
 {
     GENERATED_BODY()
     

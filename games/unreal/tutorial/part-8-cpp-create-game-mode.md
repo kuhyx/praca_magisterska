@@ -25,6 +25,8 @@ Create a custom Game Mode to set the default pawn class and manage game rules.
 
 ### STGGameMode.h:
 
+> **⚠️ IMPORTANT:** Replace `YOURPROJECTNAME_API` with your actual project's API macro (e.g., `BULLETHELLCPP_API`).
+
 ```cpp
 #pragma once
 
@@ -33,7 +35,7 @@ Create a custom Game Mode to set the default pawn class and manage game rules.
 #include "STGGameMode.generated.h"
 
 UCLASS()
-class BULLETHELLGAME_API ASTGGameMode : public AGameModeBase
+class YOURPROJECTNAME_API ASTGGameMode : public AGameModeBase
 {
     GENERATED_BODY()
     

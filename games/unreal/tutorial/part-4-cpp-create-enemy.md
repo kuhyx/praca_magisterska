@@ -45,6 +45,8 @@ Create enemy ships in C++. Again, we'll copy-paste all 15 enemy variables instea
 
 Replace the entire file content with:
 
+> **⚠️ IMPORTANT:** Replace `YOURPROJECTNAME_API` with your actual project's API macro (e.g., `BULLETHELLCPP_API`).
+
 ```cpp
 #pragma once
 
@@ -56,7 +58,7 @@ class UStaticMeshComponent;
 class UBoxComponent;
 
 UCLASS()
-class BULLETHELLGAME_API ASTGEnemy : public AActor
+class YOURPROJECTNAME_API ASTGEnemy : public AActor
 {
     GENERATED_BODY()
     

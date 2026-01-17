@@ -1,0 +1,8 @@
+{
+	"SourceFiles": [
+		"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/BulletHellCPP.Build.cs",
+		"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP.Target.cs",
+		"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPPEditor.Target.cs"
+	],
+	"EngineVersion": "5.5.3"
+}

@@ -1,0 +1,880 @@
+{
+	"folders": [
+		{
+			"name": "BulletHellCPP",
+			"path": "."
+		},
+		{
+			"name": "UE5",
+			"path": "/home/kuhy/aur/unreal-engine-bin"
+		}
+	],
+	"settings": {
+		"typescript.tsc.autoDetect": "off",
+		"npm.autoDetect": "off",
+		"terminal.integrated.env.linux": {
+			"PATH": "/home/kuhy/aur/unreal-engine-bin/Engine/Binaries/ThirdParty/DotNet/8.0.300/linux-x64:${env:PATH}",
+			"DOTNET_ROOT": "/home/kuhy/aur/unreal-engine-bin/Engine/Binaries/ThirdParty/DotNet/8.0.300/linux-x64",
+			"DOTNET_HOST_PATH": "/home/kuhy/aur/unreal-engine-bin/Engine/Binaries/ThirdParty/DotNet/8.0.300/linux-x64/dotnet",
+			"DOTNET_MULTILEVEL_LOOKUP": "0",
+			"DOTNET_ROLL_FORWARD": "LatestMajor"
+		},
+		"git.ignoreLimitWarning": true
+	},
+	"extensions": {
+		"recommendations": [
+			"ms-vscode.cpptools",
+			"ms-dotnettools.csharp"
+		]
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "BulletHellCPP Linux Debug Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"Linux",
+					"Debug",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP Linux Debug Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"Linux",
+					"Debug",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"BulletHellCPP Linux Debug Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP Linux Debug Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"Linux",
+					"Debug",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP Linux DebugGame Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"Linux",
+					"DebugGame",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP Linux DebugGame Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"Linux",
+					"DebugGame",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"BulletHellCPP Linux DebugGame Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP Linux DebugGame Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"Linux",
+					"DebugGame",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP Linux Development Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"Linux",
+					"Development",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP Linux Development Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"Linux",
+					"Development",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"BulletHellCPP Linux Development Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP Linux Development Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"Linux",
+					"Development",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP Linux Test Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"Linux",
+					"Test",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP Linux Test Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"Linux",
+					"Test",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"BulletHellCPP Linux Test Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP Linux Test Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"Linux",
+					"Test",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP Linux Shipping Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"Linux",
+					"Shipping",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP Linux Shipping Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"Linux",
+					"Shipping",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"BulletHellCPP Linux Shipping Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP Linux Shipping Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"Linux",
+					"Shipping",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP LinuxArm64 Debug Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"LinuxArm64",
+					"Debug",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP LinuxArm64 Debug Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"LinuxArm64",
+					"Debug",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"BulletHellCPP LinuxArm64 Debug Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP LinuxArm64 Debug Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"LinuxArm64",
+					"Debug",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP LinuxArm64 DebugGame Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"LinuxArm64",
+					"DebugGame",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP LinuxArm64 DebugGame Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"LinuxArm64",
+					"DebugGame",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"BulletHellCPP LinuxArm64 DebugGame Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP LinuxArm64 DebugGame Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"LinuxArm64",
+					"DebugGame",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP LinuxArm64 Development Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"LinuxArm64",
+					"Development",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP LinuxArm64 Development Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"LinuxArm64",
+					"Development",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"BulletHellCPP LinuxArm64 Development Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP LinuxArm64 Development Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"LinuxArm64",
+					"Development",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP LinuxArm64 Test Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"LinuxArm64",
+					"Test",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP LinuxArm64 Test Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"LinuxArm64",
+					"Test",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"BulletHellCPP LinuxArm64 Test Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP LinuxArm64 Test Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"LinuxArm64",
+					"Test",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP LinuxArm64 Shipping Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"LinuxArm64",
+					"Shipping",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP LinuxArm64 Shipping Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"LinuxArm64",
+					"Shipping",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"BulletHellCPP LinuxArm64 Shipping Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPP LinuxArm64 Shipping Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPP",
+					"LinuxArm64",
+					"Shipping",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPPEditor Linux Debug Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPPEditor",
+					"Linux",
+					"Debug",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPPEditor Linux Debug Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPPEditor",
+					"Linux",
+					"Debug",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"BulletHellCPPEditor Linux Debug Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPPEditor Linux Debug Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPPEditor",
+					"Linux",
+					"Debug",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPPEditor Linux DebugGame Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPPEditor",
+					"Linux",
+					"DebugGame",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPPEditor Linux DebugGame Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPPEditor",
+					"Linux",
+					"DebugGame",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"BulletHellCPPEditor Linux DebugGame Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPPEditor Linux DebugGame Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPPEditor",
+					"Linux",
+					"DebugGame",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPPEditor Linux Development Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPPEditor",
+					"Linux",
+					"Development",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPPEditor Linux Development Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPPEditor",
+					"Linux",
+					"Development",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"BulletHellCPPEditor Linux Development Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			},
+			{
+				"label": "BulletHellCPPEditor Linux Development Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"BulletHellCPPEditor",
+					"Linux",
+					"Development",
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/kuhy/aur/unreal-engine-bin"
+				}
+			}
+		]
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Launch BulletHellCPP (Debug)",
+				"request": "launch",
+				"program": "/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Binaries/Linux/UnrealGame-Linux-Debug",
+				"preLaunchTask": "BulletHellCPP Linux Debug Build",
+				"args": [
+				],
+				"cwd": "/home/kuhy/aur/unreal-engine-bin",
+				"type": "cppdbg",
+				"visualizerFile": "/home/kuhy/aur/unreal-engine-bin/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch BulletHellCPP (DebugGame)",
+				"request": "launch",
+				"program": "/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Binaries/Linux/UnrealGame-Linux-DebugGame",
+				"preLaunchTask": "BulletHellCPP Linux DebugGame Build",
+				"args": [
+				],
+				"cwd": "/home/kuhy/aur/unreal-engine-bin",
+				"type": "cppdbg",
+				"visualizerFile": "/home/kuhy/aur/unreal-engine-bin/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch BulletHellCPP (Development)",
+				"request": "launch",
+				"program": "/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Binaries/Linux/UnrealGame",
+				"preLaunchTask": "BulletHellCPP Linux Development Build",
+				"args": [
+				],
+				"cwd": "/home/kuhy/aur/unreal-engine-bin",
+				"type": "cppdbg",
+				"visualizerFile": "/home/kuhy/aur/unreal-engine-bin/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch BulletHellCPP (Test)",
+				"request": "launch",
+				"program": "/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Binaries/Linux/UnrealGame-Linux-Test",
+				"preLaunchTask": "BulletHellCPP Linux Test Build",
+				"args": [
+				],
+				"cwd": "/home/kuhy/aur/unreal-engine-bin",
+				"type": "cppdbg",
+				"visualizerFile": "/home/kuhy/aur/unreal-engine-bin/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch BulletHellCPP (Shipping)",
+				"request": "launch",
+				"program": "/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Binaries/Linux/UnrealGame-Linux-Shipping",
+				"preLaunchTask": "BulletHellCPP Linux Shipping Build",
+				"args": [
+				],
+				"cwd": "/home/kuhy/aur/unreal-engine-bin",
+				"type": "cppdbg",
+				"visualizerFile": "/home/kuhy/aur/unreal-engine-bin/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch BulletHellCPPEditor (Debug)",
+				"request": "launch",
+				"program": "/home/kuhy/aur/unreal-engine-bin/Engine/Binaries/Linux/UnrealEditor-Linux-Debug",
+				"preLaunchTask": "BulletHellCPPEditor Linux Debug Build",
+				"args": [
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject"
+				],
+				"cwd": "/home/kuhy/aur/unreal-engine-bin",
+				"type": "cppdbg",
+				"visualizerFile": "/home/kuhy/aur/unreal-engine-bin/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch BulletHellCPPEditor (DebugGame)",
+				"request": "launch",
+				"program": "/home/kuhy/aur/unreal-engine-bin/Engine/Binaries/Linux/UnrealEditor-Linux-DebugGame",
+				"preLaunchTask": "BulletHellCPPEditor Linux DebugGame Build",
+				"args": [
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject"
+				],
+				"cwd": "/home/kuhy/aur/unreal-engine-bin",
+				"type": "cppdbg",
+				"visualizerFile": "/home/kuhy/aur/unreal-engine-bin/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch BulletHellCPPEditor (Development)",
+				"request": "launch",
+				"program": "/home/kuhy/aur/unreal-engine-bin/Engine/Binaries/Linux/UnrealEditor",
+				"preLaunchTask": "BulletHellCPPEditor Linux Development Build",
+				"args": [
+					"/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject"
+				],
+				"cwd": "/home/kuhy/aur/unreal-engine-bin",
+				"type": "cppdbg",
+				"visualizerFile": "/home/kuhy/aur/unreal-engine-bin/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Generate Project Files",
+				"type": "coreclr",
+				"request": "launch",
+				"preLaunchTask": "UnrealBuildTool Linux Development Build",
+				"program": "/home/kuhy/aur/unreal-engine-bin/Engine/Build/BatchFiles/RunUBT.bat",
+				"args": [
+					"-projectfiles",
+					"-vscode",
+					"-project=/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/BulletHellCPP.uproject",
+					"-game",
+					"-engine",
+					"-dotnet"
+				],
+				"env": {
+					"PATH": "/home/kuhy/aur/unreal-engine-bin/Engine/Binaries/ThirdParty/DotNet/8.0.300/linux-x64:${env:PATH}",
+					"DOTNET_ROOT": "/home/kuhy/aur/unreal-engine-bin/Engine/Binaries/ThirdParty/DotNet/8.0.300/linux-x64",
+					"DOTNET_HOST_PATH": "/home/kuhy/aur/unreal-engine-bin/Engine/Binaries/ThirdParty/DotNet/8.0.300/linux-x64/dotnet",
+					"DOTNET_MULTILEVEL_LOOKUP": "0",
+					"DOTNET_ROLL_FORWARD": "LatestMajor"
+				},
+				"console": "internalConsole",
+				"internalConsoleOptions": "openOnSessionStart",
+				"stopAtEntry": false,
+				"cwd": "/home/kuhy/aur/unreal-engine-bin"
+			}
+		]
+	}
+}

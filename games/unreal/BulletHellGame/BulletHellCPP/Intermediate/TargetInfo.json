@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "BulletHellCPP",
+			"Path": "../Source/BulletHellCPP.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "BulletHellCPPEditor",
+			"Path": "../Source/BulletHellCPPEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

@@ -50,6 +50,8 @@ We'll create a simple C++ class to update the UI.
 
 ### Create STGHUDManager.h:
 
+> **⚠️ IMPORTANT:** Replace `YOURPROJECTNAME_API` with your actual project's API macro (e.g., `BULLETHELLCPP_API`).
+
 ```cpp
 #pragma once
 
@@ -58,7 +60,7 @@ We'll create a simple C++ class to update the UI.
 #include "STGHUDManager.generated.h"
 
 UCLASS()
-class BULLETHELLGAME_API ASTGHUDManager : public AActor
+class YOURPROJECTNAME_API ASTGHUDManager : public AActor
 {
     GENERATED_BODY()
     

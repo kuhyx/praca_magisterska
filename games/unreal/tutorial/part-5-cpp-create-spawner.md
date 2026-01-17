@@ -27,6 +27,8 @@ Create an enemy spawner that gradually increases difficulty over time. Copy-past
 
 Replace content with:
 
+> **⚠️ IMPORTANT:** Replace `YOURPROJECTNAME_API` with your actual project's API macro (e.g., `BULLETHELLCPP_API`).
+
 ```cpp
 #pragma once
 
@@ -35,7 +37,7 @@ Replace content with:
 #include "STGEnemySpawner.generated.h"
 
 UCLASS()
-class BULLETHELLGAME_API ASTGEnemySpawner : public AActor
+class YOURPROJECTNAME_API ASTGEnemySpawner : public AActor
 {
     GENERATED_BODY()
     

@@ -27,6 +27,8 @@ Create the bullet/projectile class in C++. Again, we'll copy-paste all variables
 
 Replace the entire header file with:
 
+> **⚠️ IMPORTANT:** Replace `YOURPROJECTNAME_API` with your actual project's API macro (e.g., `BULLETHELLCPP_API`).
+
 ```cpp
 #pragma once
 
@@ -39,7 +41,7 @@ class UProjectileMovementComponent;
 class UStaticMeshComponent;
 
 UCLASS()
-class BULLETHELLGAME_API ASTGProjectile : public AActor
+class YOURPROJECTNAME_API ASTGProjectile : public AActor
 {
     GENERATED_BODY()
     

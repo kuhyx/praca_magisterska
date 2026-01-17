@@ -113,6 +113,7 @@ public:
 private:
     FTimerHandle TimerHandle_Fire;
     bool bIsFiring = false;
+    bool bIsDead = false;
     FVector2D MovementInput;
     float FireTimer = 0.0f;
 };

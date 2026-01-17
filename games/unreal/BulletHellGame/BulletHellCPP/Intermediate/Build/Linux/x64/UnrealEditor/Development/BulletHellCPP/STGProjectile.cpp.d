@@ -2807,4 +2807,6 @@
   ../Plugins/EnhancedInput/Source/EnhancedInput/Public/InputActionValue.h \
   Runtime/InputCore/Classes/InputCoreTypes.h \
   ../Plugins/EnhancedInput/Intermediate/Build/Linux/UnrealEditor/Inc/EnhancedInput/UHT/InputActionValue.generated.h \
-  /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/Linux/UnrealEditor/Inc/BulletHellCPP/UHT/STGPawn.generated.h
+  /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/Linux/UnrealEditor/Inc/BulletHellCPP/UHT/STGPawn.generated.h \
+  /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGEnemy.h \
+  /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/Linux/UnrealEditor/Inc/BulletHellCPP/UHT/STGEnemy.generated.h

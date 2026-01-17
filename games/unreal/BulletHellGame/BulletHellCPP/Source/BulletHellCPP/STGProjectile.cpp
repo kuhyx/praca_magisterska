@@ -3,6 +3,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "STGPawn.h"
+#include "STGEnemy.h"
 
 ASTGProjectile::ASTGProjectile()
 {
@@ -69,7 +70,13 @@ void ASTGProjectile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor*
     {
         if (bIsPlayerBullet)
         {
-            // Player bullet hits enemy (will implement in Part 4 when STGEnemy exists)
+            // Player bullet hits enemy
+            ASTGEnemy* Enemy = Cast<ASTGEnemy>(OtherActor);
+            if (Enemy)
+            {
+                Enemy->HandleDamage(Damage);
+                Destroy();
+            }
         }
         else
         {

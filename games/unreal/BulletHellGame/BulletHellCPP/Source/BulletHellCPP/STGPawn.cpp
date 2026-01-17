@@ -6,7 +6,9 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "DrawDebugHelpers.h"
+#include "Kismet/GameplayStatics.h"
 #include "STGProjectile.h"
+#include "STGEnemy.h" 
 
 ASTGPawn::ASTGPawn()
 {
@@ -99,8 +101,8 @@ void ASTGPawn::Tick(float DeltaTime)
         DrawDebugLine(GetWorld(), BottomLeft, TopLeft, BoundsColor, false, -1.f, 0, Thickness);
     }
 
-    // Movement with bounds clamping
-    if (!MovementInput.IsZero())
+    // Movement with bounds clamping (skip if dead)
+    if (!bIsDead && !MovementInput.IsZero())
     {
         FVector NewLocation = GetActorLocation();
         NewLocation.X += MovementInput.Y * MoveSpeed * DeltaTime; // Forward/Back
@@ -201,17 +203,40 @@ void ASTGPawn::UseSpecial(const FInputActionValue& Value)
     if (!bSpecialUsed)
     {
         bSpecialUsed = true;
-        if (GEngine)
+        
+        // Destroy all enemies on screen
+        TArray<AActor*> FoundEnemies;
+        UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASTGEnemy::StaticClass(), FoundEnemies);
+        for (AActor* Enemy : FoundEnemies)
         {
-            GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Cyan, TEXT("SPECIAL ABILITY ACTIVATED!"));
+            Enemy->Destroy();
         }
-        // Will implement enemy/bullet destruction in Part 4
+
+        // Destroy all enemy bullets (not player bullets)
+        TArray<AActor*> FoundBullets;
+        UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASTGProjectile::StaticClass(), FoundBullets);
+        for (AActor* Bullet : FoundBullets)
+        {
+            ASTGProjectile* Projectile = Cast<ASTGProjectile>(Bullet);
+            if (Projectile && !Projectile->bIsPlayerBullet)
+            {
+                Projectile->Destroy();
+            }
+        }
+        
+        UE_LOG(LogTemp, Warning, TEXT("SPECIAL ABILITY - Screen Cleared!"));
     }
 }
 
 void ASTGPawn::TakeHit(int32 Damage)
 {
     CurrentLives = FMath::Clamp(CurrentLives - Damage, 0, MaxLives);
+
+    if (GEngine)
+    {
+        FString Msg = FString::Printf(TEXT("Player hit! Lives remaining: %d"), CurrentLives);
+        GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, Msg);
+    }
 
     if (CurrentLives <= 0)
     {
@@ -221,7 +246,27 @@ void ASTGPawn::TakeHit(int32 Damage)
 
 void ASTGPawn::HandleDeath()
 {
+    bIsDead = true;
+    
     SetActorHiddenInGame(true);
+    SetActorEnableCollision(false);
+    
+    // Disable input
+    APlayerController* PC = Cast<APlayerController>(GetController());
+    if (PC)
+    {
+        DisableInput(PC);
+    }
+    
+    // Stop firing and reset movement
+    bIsFiring = false;
+    MovementInput = FVector2D::ZeroVector;
+    
+    if (GEngine)
+    {
+        GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("GAME OVER - Player destroyed!"));
+    }
+    
     // Will notify GameMode in Part 6
 }
 

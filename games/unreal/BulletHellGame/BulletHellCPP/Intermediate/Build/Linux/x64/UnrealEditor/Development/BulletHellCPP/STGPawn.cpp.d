@@ -2836,4 +2836,7 @@
   Runtime/Engine/Public/Subsystems/LocalPlayerSubsystem.h \
   Runtime/Engine/Public/Subsystems/WorldSubsystem.h \
   ../Plugins/EnhancedInput/Intermediate/Build/Linux/UnrealEditor/Inc/EnhancedInput/UHT/EnhancedInputSubsystems.generated.h \
-  Runtime/Engine/Public/DrawDebugHelpers.h
+  Runtime/Engine/Public/DrawDebugHelpers.h \
+  /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGProjectile.h \
+  Runtime/Engine/Classes/GameFramework/Actor.h \
+  /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/Linux/UnrealEditor/Inc/BulletHellCPP/UHT/STGProjectile.generated.h

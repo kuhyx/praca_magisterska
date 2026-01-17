@@ -6,6 +6,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "DrawDebugHelpers.h"
+#include "STGProjectile.h"
 
 ASTGPawn::ASTGPawn()
 {
@@ -162,11 +163,36 @@ void ASTGPawn::StopFire(const FInputActionValue& Value)
 
 void ASTGPawn::FireShot()
 {
-    // Will implement in Part 3 when we create bullets
-    // Display on-screen debug message (visible in game viewport)
-    if (GEngine)
+    // Spawn volley of bullets shooting FORWARD (+X direction = toward top of screen)
+    for (int32 i = 0; i < VolleySize; i++)
     {
-        GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Yellow, TEXT("FIRE!"));
+        // Spawn slightly in front of player (+X)
+        FVector SpawnLocation = GetActorLocation() + FVector(50.f, 0.f, 0.f);
+        
+        // Base rotation: FRotator(0,0,0) points in +X direction (forward in top-down view)
+        FRotator SpawnRotation = FRotator::ZeroRotator;
+
+        // Spread calculation: fan out on Yaw (left/right)
+        float Angle = VolleySpread * (i - (VolleySize - 1) / 2.0f);
+        SpawnRotation.Yaw += Angle;
+
+        // Spawn bullet
+        UWorld* World = GetWorld();
+        if (World)
+        {
+            ASTGProjectile* Bullet = World->SpawnActor<ASTGProjectile>(
+                ASTGProjectile::StaticClass(), 
+                SpawnLocation, 
+                SpawnRotation
+            );
+            
+            if (Bullet)
+            {
+                Bullet->bIsPlayerBullet = true;
+                Bullet->SetSpeed(BulletSpeed);
+                Bullet->SetBulletColor(FLinearColor::Green);
+            }
+        }
     }
 }
 

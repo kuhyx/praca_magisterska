@@ -104,7 +104,6 @@ Replace the implementation file with:
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-#include "STGEnemy.h"  // Will create in Part 4
 #include "STGPawn.h"
 
 ASTGProjectile::ASTGProjectile()
@@ -137,14 +136,15 @@ ASTGProjectile::ASTGProjectile()
     ProjectileMovement->MaxSpeed = 1200.f;
     ProjectileMovement->bRotationFollowsVelocity = true;
     ProjectileMovement->bShouldBounce = false;
-
-    // Auto-destroy after lifetime
-    InitialLifeSpan = Lifetime;
+    ProjectileMovement->ProjectileGravityScale = 0.0f;  // No gravity for top-down shooter!
 }
 
 void ASTGProjectile::BeginPlay()
 {
     Super::BeginPlay();
+
+    // Set lifetime here so Blueprint overrides of Lifetime variable work
+    SetLifeSpan(Lifetime);
 
     // Create dynamic material for bullet color
     if (MeshComp)
@@ -229,13 +229,16 @@ Find the `FireShot()` function and replace it with:
 ```cpp
 void ASTGPawn::FireShot()
 {
-    // Spawn volley of bullets
+    // Spawn volley of bullets shooting FORWARD (+X direction = toward top of screen)
     for (int32 i = 0; i < VolleySize; i++)
     {
-        FVector SpawnLocation = GetActorLocation() + FVector(0.f, 0.f, 50.f);
-        FRotator SpawnRotation = FRotator(90.f, 0.f, 0.f);
+        // Spawn slightly in front of player (+X)
+        FVector SpawnLocation = GetActorLocation() + FVector(50.f, 0.f, 0.f);
+        
+        // Base rotation: FRotator(0,0,0) points in +X direction (forward in top-down view)
+        FRotator SpawnRotation = FRotator::ZeroRotator;
 
-        // Spread calculation
+        // Spread calculation: fan out on Yaw (left/right)
         float Angle = VolleySpread * (i - (VolleySize - 1) / 2.0f);
         SpawnRotation.Yaw += Angle;
 
@@ -274,15 +277,17 @@ void ASTGPawn::FireShot()
 
 1. Press **Play** (`Alt+P`)
 2. Move with WASD
-3. Press Z or Space to fire
-4. You should see green spheres shooting upward!
+3. Press Space to fire
+4. You should see spheres shooting toward the top of the screen!
 
-### Expected Result:
+### Expected Result
 
 - ✅ Player fires 3 bullets in a spread pattern
-- ✅ Bullets are green
+- ✅ Bullets travel toward the top of the screen (forward direction)
 - ✅ Bullets auto-destroy after 4 seconds
-- ✅ Can hold Z to auto-fire
+- ✅ Can hold Space to auto-fire
+
+> **Note:** Bullets use the default engine material (gray/white). We'll add colored materials in Part 9 (Polish phase).
 
 ---
 

@@ -230,6 +230,16 @@ void ASTGPawn::UseSpecial(const FInputActionValue& Value)
 
 void ASTGPawn::TakeHit(int32 Damage)
 {
+    // Debug invincibility check
+    if (bDebugInvincible)
+    {
+        if (GEngine)
+        {
+            GEngine->AddOnScreenDebugMessage(-1, 0.3f, FColor::Cyan, TEXT("[INVINCIBLE] Hit ignored!"));
+        }
+        return;
+    }
+    
     CurrentLives = FMath::Clamp(CurrentLives - Damage, 0, MaxLives);
 
     if (GEngine)

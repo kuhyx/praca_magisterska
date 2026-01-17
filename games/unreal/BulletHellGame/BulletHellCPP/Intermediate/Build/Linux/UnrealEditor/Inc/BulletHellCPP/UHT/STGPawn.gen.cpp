@@ -121,6 +121,10 @@ struct Z_Construct_UClass_ASTGPawn_Statics
 		{ "ToolTip", "===== DEBUG =====" },
 #endif
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_bDebugInvincible_MetaData[] = {
+		{ "Category", "Debug" },
+		{ "ModuleRelativePath", "STGPawn.h" },
+	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_FireInterval_MetaData[] = {
 		{ "Category", "Stats" },
 #if !UE_BUILD_SHIPPING
@@ -186,6 +190,8 @@ struct Z_Construct_UClass_ASTGPawn_Statics
 	static const UECodeGen_Private::FStructPropertyParams NewProp_BoundsMax;
 	static void NewProp_bShowDebugBounds_SetBit(void* Obj);
 	static const UECodeGen_Private::FBoolPropertyParams NewProp_bShowDebugBounds;
+	static void NewProp_bDebugInvincible_SetBit(void* Obj);
+	static const UECodeGen_Private::FBoolPropertyParams NewProp_bDebugInvincible;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_FireInterval;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_BulletSpeed;
 	static const UECodeGen_Private::FIntPropertyParams NewProp_VolleySize;
@@ -219,6 +225,11 @@ void Z_Construct_UClass_ASTGPawn_Statics::NewProp_bShowDebugBounds_SetBit(void* 
 	((ASTGPawn*)Obj)->bShowDebugBounds = 1;
 }
 const UECodeGen_Private::FBoolPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_bShowDebugBounds = { "bShowDebugBounds", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Bool | UECodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, sizeof(bool), sizeof(ASTGPawn), &Z_Construct_UClass_ASTGPawn_Statics::NewProp_bShowDebugBounds_SetBit, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_bShowDebugBounds_MetaData), NewProp_bShowDebugBounds_MetaData) };
+void Z_Construct_UClass_ASTGPawn_Statics::NewProp_bDebugInvincible_SetBit(void* Obj)
+{
+	((ASTGPawn*)Obj)->bDebugInvincible = 1;
+}
+const UECodeGen_Private::FBoolPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_bDebugInvincible = { "bDebugInvincible", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Bool | UECodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, sizeof(bool), sizeof(ASTGPawn), &Z_Construct_UClass_ASTGPawn_Statics::NewProp_bDebugInvincible_SetBit, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_bDebugInvincible_MetaData), NewProp_bDebugInvincible_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_FireInterval = { "FireInterval", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, FireInterval), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_FireInterval_MetaData), NewProp_FireInterval_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_BulletSpeed = { "BulletSpeed", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, BulletSpeed), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_BulletSpeed_MetaData), NewProp_BulletSpeed_MetaData) };
 const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_VolleySize = { "VolleySize", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, VolleySize), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_VolleySize_MetaData), NewProp_VolleySize_MetaData) };
@@ -245,6 +256,7 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ASTGPawn_
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_BoundsMin,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_BoundsMax,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_bShowDebugBounds,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_bDebugInvincible,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_FireInterval,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_BulletSpeed,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_VolleySize,
@@ -295,10 +307,10 @@ ASTGPawn::~ASTGPawn() {}
 struct Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_ASTGPawn, ASTGPawn::StaticClass, TEXT("ASTGPawn"), &Z_Registration_Info_UClass_ASTGPawn, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASTGPawn), 2910438204U) },
+		{ Z_Construct_UClass_ASTGPawn, ASTGPawn::StaticClass, TEXT("ASTGPawn"), &Z_Registration_Info_UClass_ASTGPawn, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASTGPawn), 567952888U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_3823758095(TEXT("/Script/BulletHellCPP"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_3017445064(TEXT("/Script/BulletHellCPP"),
 	Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

@@ -71,6 +71,9 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Debug")
     bool bShowDebugBounds = true;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Debug")
+    bool bDebugInvincible = false;
+
     // ===== FIRING =====
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
     float FireInterval = 0.08f;

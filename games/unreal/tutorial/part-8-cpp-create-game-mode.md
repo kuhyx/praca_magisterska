@@ -49,16 +49,27 @@ public:
 ```cpp
 #include "STGGameMode.h"
 #include "STGPawn.h"
+#include "UObject/ConstructorHelpers.h"
 
 ASTGGameMode::ASTGGameMode()
 {
-    // Set default pawn class to our player
-    DefaultPawnClass = ASTGPawn::StaticClass();
+    // Find and use the BP_Player Blueprint class
+    static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/BP_Player"));
+    if (PlayerPawnBPClass.Succeeded())
+    {
+        DefaultPawnClass = PlayerPawnBPClass.Class;
+    }
+    else
+    {
+        // Fallback to C++ class if Blueprint not found
+        DefaultPawnClass = ASTGPawn::StaticClass();
+    }
     
-    // Disable auto-possess (we'll handle spawning ourselves)
     bStartPlayersAsSpectators = false;
 }
 ```
+
+> **Note:** The path `/Game/BP_Player` assumes BP_Player is in your Content root folder. If you placed it elsewhere (e.g., Content/Blueprints/), adjust the path accordingly (e.g., `/Game/Blueprints/BP_Player`).
 
 ---
 

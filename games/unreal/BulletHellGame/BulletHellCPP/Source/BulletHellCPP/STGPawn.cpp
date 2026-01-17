@@ -71,18 +71,35 @@ void ASTGPawn::BeginPlay()
     Super::BeginPlay();
     CurrentLives = MaxLives;
 
-    // Add Input Mapping Context
-    if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
-    {
-        if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
-        {
-            Subsystem->AddMappingContext(DefaultMappingContext, 0);
-        }
-    }
+    // Try to add Input Mapping Context (works when placed in level with Auto Possess)
+    SetupInputMappingContext();
     
     // Initialize HUD with starting values (delayed to ensure HUD is ready)
     FTimerHandle TimerHandle;
     GetWorldTimerManager().SetTimer(TimerHandle, this, &ASTGPawn::UpdateHUD, 0.1f, false);
+}
+
+void ASTGPawn::PossessedBy(AController* NewController)
+{
+    Super::PossessedBy(NewController);
+    
+    // Add Input Mapping Context when possessed (works when spawned by GameMode)
+    SetupInputMappingContext();
+}
+
+void ASTGPawn::SetupInputMappingContext()
+{
+    if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
+    {
+        if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+        {
+            // Only add if not already added
+            if (!Subsystem->HasMappingContext(DefaultMappingContext))
+            {
+                Subsystem->AddMappingContext(DefaultMappingContext, 0);
+            }
+        }
+    }
 }
 
 void ASTGPawn::Tick(float DeltaTime)

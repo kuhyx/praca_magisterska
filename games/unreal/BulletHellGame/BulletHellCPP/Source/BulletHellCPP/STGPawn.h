@@ -113,6 +113,9 @@ public:
     void HandleDeath();
     void AddScore(int32 Points);
 
+protected:
+    virtual void PossessedBy(AController* NewController) override;
+
 private:
     FTimerHandle TimerHandle_Fire;
     bool bIsFiring = false;
@@ -121,4 +124,5 @@ private:
     float FireTimer = 0.0f;
     
     void UpdateHUD();
+    void SetupInputMappingContext();
 };

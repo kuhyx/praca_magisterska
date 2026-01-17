@@ -25,17 +25,11 @@ For UI, we use **Widget Blueprints** for visual layout (drag-and-drop is better 
 
 In Widget Designer:
 
-1. **First, make the root widget transparent:**
-   - Select the **root widget** at the very top of Hierarchy (named `WBP_HUD` or similar)
-   - In Details panel → **Appearance** → **Color and Opacity**
-   - Click the color box and set **Alpha (A) to 0** (fully transparent)
-   - This ensures the game is visible behind the HUD
-
-2. **Add a Canvas Panel** (if not already present):
+1. **Add a Canvas Panel** (if not already present):
    - Drag **Canvas Panel** from Palette → Panel onto the root
    - This is your container for all UI elements
 
-3. **Add Text blocks** (drag each from Palette → Common onto the Canvas Panel):
+2. **Add Text blocks** (drag each from Palette → Common onto the Canvas Panel):
    - Drag a **Text** widget → rename to `txt_Score` (click on it in Hierarchy, press F2)
    - Drag another **Text** widget → rename to `txt_Lives`
    - Drag another **Text** widget → rename to `txt_Timer`

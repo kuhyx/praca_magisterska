@@ -14,7 +14,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #endif
 #define BULLETHELLCPP_STGPawn_generated_h
 
-#define FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_19_INCLASS_NO_PURE_DECLS \
+#define FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_18_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesASTGPawn(); \
 	friend struct Z_Construct_UClass_ASTGPawn_Statics; \
@@ -23,7 +23,7 @@ public: \
 	DECLARE_SERIALIZER(ASTGPawn)
 
 
-#define FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_19_ENHANCED_CONSTRUCTORS \
+#define FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_18_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	ASTGPawn(ASTGPawn&&); \
@@ -35,12 +35,12 @@ public: \
 	NO_API virtual ~ASTGPawn();
 
 
-#define FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_16_PROLOG
-#define FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_19_GENERATED_BODY \
+#define FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_15_PROLOG
+#define FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_18_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_19_INCLASS_NO_PURE_DECLS \
-	FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_19_ENHANCED_CONSTRUCTORS \
+	FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_18_INCLASS_NO_PURE_DECLS \
+	FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_18_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

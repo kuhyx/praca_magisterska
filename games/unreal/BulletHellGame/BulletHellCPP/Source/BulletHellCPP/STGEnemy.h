@@ -2,10 +2,21 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "STGGameSettings.h"
 #include "STGEnemy.generated.h"
 
 class UStaticMeshComponent;
 class UBoxComponent;
+
+// Enemy types - ordered by difficulty (easiest to hardest)
+UENUM(BlueprintType)
+enum class EEnemyType : uint8
+{
+    Fodder,     // Easiest: Very slow, no bullets, 1 HP
+    Runner,     // Fast but harmless: Quick, no bullets, low HP
+    Turret,     // Slow shooter: Slow, shoots lots, medium tanky
+    Tank        // Hardest: Slow, bullet hell, very tanky
+};
 
 UCLASS()
 class BULLETHELLCPP_API ASTGEnemy : public AActor
@@ -28,55 +39,78 @@ public:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     UBoxComponent* CollisionComp;
 
-    // ===== HEALTH & SCORE (copy-paste all 15 variables!) =====
+    // ===== ENEMY TYPE =====
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    int32 MaxHealth = 12;
+    EEnemyType EnemyType = EEnemyType::Fodder;
+
+    // Initialize stats based on enemy type (call after spawning)
+    void InitializeFromType(EEnemyType Type);
+
+    // ===== HEALTH & SCORE =====
+    // Defaults from STGGameSettings.h (Fodder enemy type - easiest)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+    int32 MaxHealth = STG::Enemy::Fodder::Health;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats")
-    int32 CurrentHealth = 12;
+    int32 CurrentHealth = STG::Enemy::Fodder::Health;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    int32 ScoreValue = 50;
+    int32 ScoreValue = STG::Enemy::Fodder::ScoreValue;
 
     // ===== MOVEMENT =====
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    float VerticalSpeed = 220.0f;
+    float VerticalSpeed = STG::Enemy::Fodder::VerticalSpeed;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    float HorizontalAmplitude = 250.0f;
+    float HorizontalAmplitude = STG::Enemy::Fodder::HorizontalAmplitude;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    float HorizontalFrequency = 1.8f;
+    float HorizontalFrequency = STG::Enemy::Fodder::HorizontalFrequency;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    float DespawnY = -750.0f;
+    float DespawnY = STG::Enemy::DespawnY;
 
     // ===== BOUNDARIES =====
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    float BoundsMinY = -450.0f;
+    float BoundsMinY = STG::PlayArea::MinY;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    float BoundsMaxY = 450.0f;
+    float BoundsMaxY = STG::PlayArea::MaxY;
 
     // ===== FIRING =====
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    float FireInterval = 0.35f;
+    float FireInterval = STG::Enemy::Fodder::FireInterval;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    int32 BulletsPerBurst = 20;
+    int32 BulletsPerBurst = STG::Enemy::Fodder::BulletsPerBurst;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    float BurstSpread = 360.0f;
+    float BurstSpread = STG::Enemy::Fodder::BurstSpread;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    float EnemyBulletSpeed = 1000.0f;
+    float EnemyBulletSpeed = STG::Enemy::Fodder::BulletSpeed;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    float EnemyBulletLifetime = 6.0f;
+    float EnemyBulletLifetime = STG::Enemy::BulletLifetime;
+
+    // ===== VFX =====
+    // Niagara effect for when enemy takes damage
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VFX")
+    class UNiagaraSystem* HitEffect;
+
+    // Niagara effect for when enemy dies (GPU-heavy explosion)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VFX")
+    class UNiagaraSystem* DeathEffect;
+
+    // Number of particles for death explosion (higher = more GPU load)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VFX")
+    int32 DeathParticleCount = STG::VFX::DeathParticleCount;
 
     // ===== FUNCTIONS =====
     void Fire();
     void HandleDamage(float DamageAmount);
+    void SpawnHitEffect();
+    void SpawnDeathEffect();
 
     UFUNCTION()
     void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 

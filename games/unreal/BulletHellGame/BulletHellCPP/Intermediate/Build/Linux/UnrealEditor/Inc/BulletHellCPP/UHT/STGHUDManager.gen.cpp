@@ -18,6 +18,66 @@ UMG_API UClass* Z_Construct_UClass_UUserWidget_NoRegister();
 UPackage* Z_Construct_UPackage__Script_BulletHellCPP();
 // End Cross Module References
 
+// Begin Class ASTGHUDManager Function ShowGameOver
+struct Z_Construct_UFunction_ASTGHUDManager_ShowGameOver_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "Category", "UI" },
+		{ "ModuleRelativePath", "STGHUDManager.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_ASTGHUDManager_ShowGameOver_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASTGHUDManager, nullptr, "ShowGameOver", nullptr, nullptr, nullptr, 0, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_ASTGHUDManager_ShowGameOver_Statics::Function_MetaDataParams), Z_Construct_UFunction_ASTGHUDManager_ShowGameOver_Statics::Function_MetaDataParams) };
+UFunction* Z_Construct_UFunction_ASTGHUDManager_ShowGameOver()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_ASTGHUDManager_ShowGameOver_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(ASTGHUDManager::execShowGameOver)
+{
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->ShowGameOver();
+	P_NATIVE_END;
+}
+// End Class ASTGHUDManager Function ShowGameOver
+
+// Begin Class ASTGHUDManager Function ShowVictory
+struct Z_Construct_UFunction_ASTGHUDManager_ShowVictory_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "Category", "UI" },
+		{ "ModuleRelativePath", "STGHUDManager.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_ASTGHUDManager_ShowVictory_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASTGHUDManager, nullptr, "ShowVictory", nullptr, nullptr, nullptr, 0, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_ASTGHUDManager_ShowVictory_Statics::Function_MetaDataParams), Z_Construct_UFunction_ASTGHUDManager_ShowVictory_Statics::Function_MetaDataParams) };
+UFunction* Z_Construct_UFunction_ASTGHUDManager_ShowVictory()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_ASTGHUDManager_ShowVictory_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(ASTGHUDManager::execShowVictory)
+{
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->ShowVictory();
+	P_NATIVE_END;
+}
+// End Class ASTGHUDManager Function ShowVictory
+
 // Begin Class ASTGHUDManager Function UpdateLives
 struct Z_Construct_UFunction_ASTGHUDManager_UpdateLives_Statics
 {
@@ -152,6 +212,8 @@ void ASTGHUDManager::StaticRegisterNativesASTGHUDManager()
 {
 	UClass* Class = ASTGHUDManager::StaticClass();
 	static const FNameNativePtrPair Funcs[] = {
+		{ "ShowGameOver", &ASTGHUDManager::execShowGameOver },
+		{ "ShowVictory", &ASTGHUDManager::execShowVictory },
 		{ "UpdateLives", &ASTGHUDManager::execUpdateLives },
 		{ "UpdateScore", &ASTGHUDManager::execUpdateScore },
 		{ "UpdateTimer", &ASTGHUDManager::execUpdateTimer },
@@ -179,6 +241,8 @@ struct Z_Construct_UClass_ASTGHUDManager_Statics
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
 	static constexpr FClassFunctionLinkInfo FuncInfo[] = {
+		{ &Z_Construct_UFunction_ASTGHUDManager_ShowGameOver, "ShowGameOver" }, // 1573077885
+		{ &Z_Construct_UFunction_ASTGHUDManager_ShowVictory, "ShowVictory" }, // 2287889583
 		{ &Z_Construct_UFunction_ASTGHUDManager_UpdateLives, "UpdateLives" }, // 4101215941
 		{ &Z_Construct_UFunction_ASTGHUDManager_UpdateScore, "UpdateScore" }, // 1330109670
 		{ &Z_Construct_UFunction_ASTGHUDManager_UpdateTimer, "UpdateTimer" }, // 3811812644
@@ -234,10 +298,10 @@ ASTGHUDManager::~ASTGHUDManager() {}
 struct Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGHUDManager_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_ASTGHUDManager, ASTGHUDManager::StaticClass, TEXT("ASTGHUDManager"), &Z_Registration_Info_UClass_ASTGHUDManager, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASTGHUDManager), 1598084018U) },
+		{ Z_Construct_UClass_ASTGHUDManager, ASTGHUDManager::StaticClass, TEXT("ASTGHUDManager"), &Z_Registration_Info_UClass_ASTGHUDManager, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASTGHUDManager), 4008010427U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGHUDManager_h_3087175026(TEXT("/Script/BulletHellCPP"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGHUDManager_h_4237765735(TEXT("/Script/BulletHellCPP"),
 	Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGHUDManager_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGHUDManager_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

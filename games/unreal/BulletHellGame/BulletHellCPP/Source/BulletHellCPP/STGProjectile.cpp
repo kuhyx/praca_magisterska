@@ -1,6 +1,7 @@
 #include "STGProjectile.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/BoxComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "STGPawn.h"
 #include "STGEnemy.h"
@@ -45,6 +46,18 @@ void ASTGProjectile::BeginPlay()
     // Set lifetime here so Blueprint overrides of Lifetime variable work
     SetLifeSpan(Lifetime);
 
+    // Apply collision radius (can be smaller than visual for "grazing")
+    if (CollisionComp)
+    {
+        CollisionComp->SetSphereRadius(CollisionRadius);
+    }
+
+    // Apply visual scale (can be larger than collision for "grazing")
+    if (MeshComp)
+    {
+        MeshComp->SetRelativeScale3D(FVector(BulletScale, BulletScale, BulletScale));
+    }
+
     // Create dynamic material for bullet color
     if (MeshComp)
     {
@@ -52,7 +65,7 @@ void ASTGProjectile::BeginPlay()
         if (DynamicMaterial)
         {
             DynamicMaterial->SetVectorParameterValue(TEXT("BaseColor"), BulletColor);
-            DynamicMaterial->SetVectorParameterValue(TEXT("EmissiveColor"), BulletColor * 3.0f);
+            DynamicMaterial->SetVectorParameterValue(TEXT("EmissiveColor"), BulletColor * EmissiveIntensity);
         }
     }
 }
@@ -97,7 +110,7 @@ void ASTGProjectile::SetBulletColor(FLinearColor InColor)
     if (DynamicMaterial)
     {
         DynamicMaterial->SetVectorParameterValue(TEXT("BaseColor"), BulletColor);
-        DynamicMaterial->SetVectorParameterValue(TEXT("EmissiveColor"), BulletColor * 3.0f);
+        DynamicMaterial->SetVectorParameterValue(TEXT("EmissiveColor"), BulletColor * EmissiveIntensity);
     }
 }
 

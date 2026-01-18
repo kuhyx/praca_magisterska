@@ -2785,6 +2785,9 @@
   /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGEnemySpawner.h \
   Runtime/Core/Public/CoreMinimal.h \
   Runtime/Engine/Classes/GameFramework/Actor.h \
-  /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/Linux/UnrealEditor/Inc/BulletHellCPP/UHT/STGEnemySpawner.generated.h \
+  /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGGameSettings.h \
+  /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGEnemy.h \
+  /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/Linux/UnrealEditor/Inc/BulletHellCPP/UHT/STGEnemy.generated.h \
   Runtime/CoreUObject/Public/UObject/ObjectMacros.h \
-  Runtime/CoreUObject/Public/UObject/ScriptMacros.h
+  Runtime/CoreUObject/Public/UObject/ScriptMacros.h \
+  /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/Linux/UnrealEditor/Inc/BulletHellCPP/UHT/STGEnemySpawner.generated.h

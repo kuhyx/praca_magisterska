@@ -156,11 +156,11 @@ struct Z_Construct_UClass_ASTGProjectile_Statics
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_bIsPlayerBullet_MetaData[] = {
 		{ "Category", "Gameplay" },
 #if !UE_BUILD_SHIPPING
-		{ "Comment", "// ===== VARIABLES (all with defaults!) =====\n" },
+		{ "Comment", "// ===== VARIABLES (defaults from STGGameSettings.h) =====\n" },
 #endif
 		{ "ModuleRelativePath", "STGProjectile.h" },
 #if !UE_BUILD_SHIPPING
-		{ "ToolTip", "===== VARIABLES (all with defaults!) =====" },
+		{ "ToolTip", "===== VARIABLES (defaults from STGGameSettings.h) =====" },
 #endif
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_Damage_MetaData[] = {
@@ -175,6 +175,36 @@ struct Z_Construct_UClass_ASTGProjectile_Statics
 		{ "Category", "Gameplay" },
 		{ "ModuleRelativePath", "STGProjectile.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_BulletScale_MetaData[] = {
+		{ "Category", "Gameplay" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "// Visual scale of the bullet mesh (player vs enemy have different defaults)\n" },
+#endif
+		{ "ModuleRelativePath", "STGProjectile.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "Visual scale of the bullet mesh (player vs enemy have different defaults)" },
+#endif
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_CollisionRadius_MetaData[] = {
+		{ "Category", "Gameplay" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "// Collision radius (smaller than visual = allows \"grazing\" bullets)\n" },
+#endif
+		{ "ModuleRelativePath", "STGProjectile.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "Collision radius (smaller than visual = allows \"grazing\" bullets)" },
+#endif
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_EmissiveIntensity_MetaData[] = {
+		{ "Category", "Gameplay" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "// Emissive intensity multiplier (higher = brighter glow)\n" },
+#endif
+		{ "ModuleRelativePath", "STGProjectile.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "Emissive intensity multiplier (higher = brighter glow)" },
+#endif
+	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_CollisionComp;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_MeshComp;
@@ -184,6 +214,9 @@ struct Z_Construct_UClass_ASTGProjectile_Statics
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_Damage;
 	static const UECodeGen_Private::FStructPropertyParams NewProp_BulletColor;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_Lifetime;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_BulletScale;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_CollisionRadius;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_EmissiveIntensity;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
 	static constexpr FClassFunctionLinkInfo FuncInfo[] = {
@@ -206,6 +239,9 @@ const UECodeGen_Private::FBoolPropertyParams Z_Construct_UClass_ASTGProjectile_S
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGProjectile_Statics::NewProp_Damage = { "Damage", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGProjectile, Damage), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_Damage_MetaData), NewProp_Damage_MetaData) };
 const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_ASTGProjectile_Statics::NewProp_BulletColor = { "BulletColor", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGProjectile, BulletColor), Z_Construct_UScriptStruct_FLinearColor, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_BulletColor_MetaData), NewProp_BulletColor_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGProjectile_Statics::NewProp_Lifetime = { "Lifetime", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGProjectile, Lifetime), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_Lifetime_MetaData), NewProp_Lifetime_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGProjectile_Statics::NewProp_BulletScale = { "BulletScale", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGProjectile, BulletScale), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_BulletScale_MetaData), NewProp_BulletScale_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGProjectile_Statics::NewProp_CollisionRadius = { "CollisionRadius", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGProjectile, CollisionRadius), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CollisionRadius_MetaData), NewProp_CollisionRadius_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGProjectile_Statics::NewProp_EmissiveIntensity = { "EmissiveIntensity", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGProjectile, EmissiveIntensity), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_EmissiveIntensity_MetaData), NewProp_EmissiveIntensity_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ASTGProjectile_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGProjectile_Statics::NewProp_CollisionComp,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGProjectile_Statics::NewProp_MeshComp,
@@ -214,6 +250,9 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ASTGProje
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGProjectile_Statics::NewProp_Damage,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGProjectile_Statics::NewProp_BulletColor,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGProjectile_Statics::NewProp_Lifetime,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGProjectile_Statics::NewProp_BulletScale,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGProjectile_Statics::NewProp_CollisionRadius,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGProjectile_Statics::NewProp_EmissiveIntensity,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_ASTGProjectile_Statics::PropPointers) < 2048);
 UObject* (*const Z_Construct_UClass_ASTGProjectile_Statics::DependentSingletons[])() = {
@@ -256,10 +295,10 @@ ASTGProjectile::~ASTGProjectile() {}
 struct Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGProjectile_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_ASTGProjectile, ASTGProjectile::StaticClass, TEXT("ASTGProjectile"), &Z_Registration_Info_UClass_ASTGProjectile, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASTGProjectile), 708211265U) },
+		{ Z_Construct_UClass_ASTGProjectile, ASTGProjectile::StaticClass, TEXT("ASTGProjectile"), &Z_Registration_Info_UClass_ASTGProjectile, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASTGProjectile), 4136553375U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGProjectile_h_2532361188(TEXT("/Script/BulletHellCPP"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGProjectile_h_3435027580(TEXT("/Script/BulletHellCPP"),
 	Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGProjectile_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGProjectile_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

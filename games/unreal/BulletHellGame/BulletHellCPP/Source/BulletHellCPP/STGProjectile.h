@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "STGGameSettings.h"
 #include "STGProjectile.generated.h"
 
 class USphereComponent;
@@ -32,7 +33,7 @@ public:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement)
     UProjectileMovementComponent* ProjectileMovement;
 
-    // ===== VARIABLES (all with defaults!) =====
+    // ===== VARIABLES (defaults from STGGameSettings.h) =====
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
     bool bIsPlayerBullet = false;
 
@@ -44,6 +45,18 @@ public:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
     float Lifetime = 4.0f;
+
+    // Visual scale of the bullet mesh (player vs enemy have different defaults)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
+    float BulletScale = STG::Player::BulletScale;
+
+    // Collision radius (smaller than visual = allows "grazing" bullets)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
+    float CollisionRadius = 5.0f;
+
+    // Emissive intensity multiplier (higher = brighter glow)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
+    float EmissiveIntensity = STG::Player::BulletEmissive;
 
     // ===== FUNCTIONS =====
     UFUNCTION()

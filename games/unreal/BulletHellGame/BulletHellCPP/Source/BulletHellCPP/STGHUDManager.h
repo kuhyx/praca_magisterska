@@ -30,6 +30,12 @@ public:
     UFUNCTION(BlueprintCallable, Category = "UI")
     void UpdateTimer(float TimeRemaining);
 
+    UFUNCTION(BlueprintCallable, Category = "UI")
+    void ShowVictory();
+
+    UFUNCTION(BlueprintCallable, Category = "UI")
+    void ShowGameOver();
+
 private:
     class UUserWidget* HUDWidget;
 };

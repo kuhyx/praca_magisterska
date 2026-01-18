@@ -1,6 +1,7 @@
 #include "STGGameDirector.h"
 #include "Kismet/GameplayStatics.h"
 #include "STGHUDManager.h"
+#include "STGEnemy.h"
 
 ASTGGameDirector::ASTGGameDirector()
 {
@@ -43,9 +44,20 @@ void ASTGGameDirector::Tick(float DeltaTime)
     }
 
     // Check for victory (survived full duration)
-    if (ElapsedTime >= GameDuration)
+    if (ElapsedTime >= GameDuration && !bInCleanupPhase)
     {
-        OnVictory();
+        // Enter cleanup phase - spawning stops, clear remaining enemies
+        bInCleanupPhase = true;
+        if (GEngine)
+        {
+            GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("CLEANUP PHASE - Destroy all remaining enemies!"));
+        }
+    }
+    
+    // In cleanup phase, check if all enemies are gone
+    if (bInCleanupPhase)
+    {
+        CheckCleanupVictory();
     }
 
 	TArray<AActor*> FoundManagers;
@@ -77,6 +89,18 @@ void ASTGGameDirector::OnVictory()
         GEngine->AddOnScreenDebugMessage(-1, 999.0f, FColor::Green, Msg);
     }
     
+    // Show victory in HUD
+    TArray<AActor*> FoundManagers;
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASTGHUDManager::StaticClass(), FoundManagers);
+    if (FoundManagers.Num() > 0)
+    {
+        ASTGHUDManager* HUDMgr = Cast<ASTGHUDManager>(FoundManagers[0]);
+        if (HUDMgr)
+        {
+            HUDMgr->ShowVictory();
+        }
+    }
+    
     // Pause game
     UGameplayStatics::SetGamePaused(GetWorld(), true);
 }
@@ -93,6 +117,40 @@ void ASTGGameDirector::OnGameOver()
         GEngine->AddOnScreenDebugMessage(-1, 999.0f, FColor::Red, Msg);
     }
     
+    // Show game over in HUD
+    TArray<AActor*> FoundManagers;
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASTGHUDManager::StaticClass(), FoundManagers);
+    if (FoundManagers.Num() > 0)
+    {
+        ASTGHUDManager* HUDMgr = Cast<ASTGHUDManager>(FoundManagers[0]);
+        if (HUDMgr)
+        {
+            HUDMgr->ShowGameOver();
+        }
+    }
+    
     // Pause game
     UGameplayStatics::SetGamePaused(GetWorld(), true);
+}
+
+void ASTGGameDirector::CheckCleanupVictory()
+{
+    // Count remaining enemies
+    TArray<AActor*> FoundEnemies;
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASTGEnemy::StaticClass(), FoundEnemies);
+    
+    int32 EnemyCount = FoundEnemies.Num();
+    
+    // Show remaining enemy count
+    if (GEngine)
+    {
+        FString Msg = FString::Printf(TEXT("Enemies remaining: %d"), EnemyCount);
+        GEngine->AddOnScreenDebugMessage(1, 0.0f, FColor::Yellow, Msg);
+    }
+    
+    // Victory when all enemies cleared!
+    if (EnemyCount == 0)
+    {
+        OnVictory();
+    }
 }

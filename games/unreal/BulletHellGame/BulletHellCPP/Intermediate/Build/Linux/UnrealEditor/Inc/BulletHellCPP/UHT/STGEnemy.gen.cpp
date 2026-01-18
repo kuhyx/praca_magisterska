@@ -13,14 +13,84 @@ void EmptyLinkFunctionForGeneratedCodeSTGEnemy() {}
 // Begin Cross Module References
 BULLETHELLCPP_API UClass* Z_Construct_UClass_ASTGEnemy();
 BULLETHELLCPP_API UClass* Z_Construct_UClass_ASTGEnemy_NoRegister();
+BULLETHELLCPP_API UEnum* Z_Construct_UEnum_BulletHellCPP_EEnemyType();
 ENGINE_API UClass* Z_Construct_UClass_AActor();
 ENGINE_API UClass* Z_Construct_UClass_AActor_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_UBoxComponent_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_UPrimitiveComponent_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_UStaticMeshComponent_NoRegister();
 ENGINE_API UScriptStruct* Z_Construct_UScriptStruct_FHitResult();
+NIAGARA_API UClass* Z_Construct_UClass_UNiagaraSystem_NoRegister();
 UPackage* Z_Construct_UPackage__Script_BulletHellCPP();
 // End Cross Module References
+
+// Begin Enum EEnemyType
+static FEnumRegistrationInfo Z_Registration_Info_UEnum_EEnemyType;
+static UEnum* EEnemyType_StaticEnum()
+{
+	if (!Z_Registration_Info_UEnum_EEnemyType.OuterSingleton)
+	{
+		Z_Registration_Info_UEnum_EEnemyType.OuterSingleton = GetStaticEnum(Z_Construct_UEnum_BulletHellCPP_EEnemyType, (UObject*)Z_Construct_UPackage__Script_BulletHellCPP(), TEXT("EEnemyType"));
+	}
+	return Z_Registration_Info_UEnum_EEnemyType.OuterSingleton;
+}
+template<> BULLETHELLCPP_API UEnum* StaticEnum<EEnemyType>()
+{
+	return EEnemyType_StaticEnum();
+}
+struct Z_Construct_UEnum_BulletHellCPP_EEnemyType_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Enum_MetaDataParams[] = {
+		{ "BlueprintType", "true" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "// Enemy types - ordered by difficulty (easiest to hardest)\n" },
+#endif
+		{ "Fodder.Name", "EEnemyType::Fodder" },
+		{ "ModuleRelativePath", "STGEnemy.h" },
+		{ "Runner.Comment", "// Easiest: Very slow, no bullets, 1 HP\n" },
+		{ "Runner.Name", "EEnemyType::Runner" },
+		{ "Runner.ToolTip", "Easiest: Very slow, no bullets, 1 HP" },
+		{ "Tank.Comment", "// Slow shooter: Slow, shoots lots, medium tanky\n" },
+		{ "Tank.Name", "EEnemyType::Tank" },
+		{ "Tank.ToolTip", "Slow shooter: Slow, shoots lots, medium tanky" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "Enemy types - ordered by difficulty (easiest to hardest)" },
+#endif
+		{ "Turret.Comment", "// Fast but harmless: Quick, no bullets, low HP\n" },
+		{ "Turret.Name", "EEnemyType::Turret" },
+		{ "Turret.ToolTip", "Fast but harmless: Quick, no bullets, low HP" },
+	};
+#endif // WITH_METADATA
+	static constexpr UECodeGen_Private::FEnumeratorParam Enumerators[] = {
+		{ "EEnemyType::Fodder", (int64)EEnemyType::Fodder },
+		{ "EEnemyType::Runner", (int64)EEnemyType::Runner },
+		{ "EEnemyType::Turret", (int64)EEnemyType::Turret },
+		{ "EEnemyType::Tank", (int64)EEnemyType::Tank },
+	};
+	static const UECodeGen_Private::FEnumParams EnumParams;
+};
+const UECodeGen_Private::FEnumParams Z_Construct_UEnum_BulletHellCPP_EEnemyType_Statics::EnumParams = {
+	(UObject*(*)())Z_Construct_UPackage__Script_BulletHellCPP,
+	nullptr,
+	"EEnemyType",
+	"EEnemyType",
+	Z_Construct_UEnum_BulletHellCPP_EEnemyType_Statics::Enumerators,
+	RF_Public|RF_Transient|RF_MarkAsNative,
+	UE_ARRAY_COUNT(Z_Construct_UEnum_BulletHellCPP_EEnemyType_Statics::Enumerators),
+	EEnumFlags::None,
+	(uint8)UEnum::ECppForm::EnumClass,
+	METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UEnum_BulletHellCPP_EEnemyType_Statics::Enum_MetaDataParams), Z_Construct_UEnum_BulletHellCPP_EEnemyType_Statics::Enum_MetaDataParams)
+};
+UEnum* Z_Construct_UEnum_BulletHellCPP_EEnemyType()
+{
+	if (!Z_Registration_Info_UEnum_EEnemyType.InnerSingleton)
+	{
+		UECodeGen_Private::ConstructUEnum(Z_Registration_Info_UEnum_EEnemyType.InnerSingleton, Z_Construct_UEnum_BulletHellCPP_EEnemyType_Statics::EnumParams);
+	}
+	return Z_Registration_Info_UEnum_EEnemyType.InnerSingleton;
+}
+// End Enum EEnemyType
 
 // Begin Class ASTGEnemy Function OnOverlapBegin
 struct Z_Construct_UFunction_ASTGEnemy_OnOverlapBegin_Statics
@@ -140,14 +210,24 @@ struct Z_Construct_UClass_ASTGEnemy_Statics
 		{ "EditInline", "true" },
 		{ "ModuleRelativePath", "STGEnemy.h" },
 	};
-	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_MaxHealth_MetaData[] = {
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_EnemyType_MetaData[] = {
 		{ "Category", "Stats" },
 #if !UE_BUILD_SHIPPING
-		{ "Comment", "// ===== HEALTH & SCORE (copy-paste all 15 variables!) =====\n" },
+		{ "Comment", "// ===== ENEMY TYPE =====\n" },
 #endif
 		{ "ModuleRelativePath", "STGEnemy.h" },
 #if !UE_BUILD_SHIPPING
-		{ "ToolTip", "===== HEALTH & SCORE (copy-paste all 15 variables!) =====" },
+		{ "ToolTip", "===== ENEMY TYPE =====" },
+#endif
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_MaxHealth_MetaData[] = {
+		{ "Category", "Stats" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "// ===== HEALTH & SCORE =====\n// Defaults from STGGameSettings.h (Fodder enemy type - easiest)\n" },
+#endif
+		{ "ModuleRelativePath", "STGEnemy.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "===== HEALTH & SCORE =====\nDefaults from STGGameSettings.h (Fodder enemy type - easiest)" },
 #endif
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_CurrentHealth_MetaData[] = {
@@ -220,9 +300,41 @@ struct Z_Construct_UClass_ASTGEnemy_Statics
 		{ "Category", "Stats" },
 		{ "ModuleRelativePath", "STGEnemy.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_HitEffect_MetaData[] = {
+		{ "Category", "VFX" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "// ===== VFX =====\n// Niagara effect for when enemy takes damage\n" },
+#endif
+		{ "ModuleRelativePath", "STGEnemy.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "===== VFX =====\nNiagara effect for when enemy takes damage" },
+#endif
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_DeathEffect_MetaData[] = {
+		{ "Category", "VFX" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "// Niagara effect for when enemy dies (GPU-heavy explosion)\n" },
+#endif
+		{ "ModuleRelativePath", "STGEnemy.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "Niagara effect for when enemy dies (GPU-heavy explosion)" },
+#endif
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_DeathParticleCount_MetaData[] = {
+		{ "Category", "VFX" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "// Number of particles for death explosion (higher = more GPU load)\n" },
+#endif
+		{ "ModuleRelativePath", "STGEnemy.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "Number of particles for death explosion (higher = more GPU load)" },
+#endif
+	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_MeshComp;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_CollisionComp;
+	static const UECodeGen_Private::FBytePropertyParams NewProp_EnemyType_Underlying;
+	static const UECodeGen_Private::FEnumPropertyParams NewProp_EnemyType;
 	static const UECodeGen_Private::FIntPropertyParams NewProp_MaxHealth;
 	static const UECodeGen_Private::FIntPropertyParams NewProp_CurrentHealth;
 	static const UECodeGen_Private::FIntPropertyParams NewProp_ScoreValue;
@@ -237,6 +349,9 @@ struct Z_Construct_UClass_ASTGEnemy_Statics
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_BurstSpread;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_EnemyBulletSpeed;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_EnemyBulletLifetime;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_HitEffect;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_DeathEffect;
+	static const UECodeGen_Private::FIntPropertyParams NewProp_DeathParticleCount;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
 	static constexpr FClassFunctionLinkInfo FuncInfo[] = {
@@ -250,6 +365,8 @@ struct Z_Construct_UClass_ASTGEnemy_Statics
 };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_MeshComp = { "MeshComp", nullptr, (EPropertyFlags)0x00100000000a001d, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, MeshComp), Z_Construct_UClass_UStaticMeshComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MeshComp_MetaData), NewProp_MeshComp_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_CollisionComp = { "CollisionComp", nullptr, (EPropertyFlags)0x00100000000a001d, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, CollisionComp), Z_Construct_UClass_UBoxComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CollisionComp_MetaData), NewProp_CollisionComp_MetaData) };
+const UECodeGen_Private::FBytePropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_EnemyType_Underlying = { "UnderlyingType", nullptr, (EPropertyFlags)0x0000000000000000, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, nullptr, METADATA_PARAMS(0, nullptr) };
+const UECodeGen_Private::FEnumPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_EnemyType = { "EnemyType", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, EnemyType), Z_Construct_UEnum_BulletHellCPP_EEnemyType, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_EnemyType_MetaData), NewProp_EnemyType_MetaData) }; // 4154367535
 const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_MaxHealth = { "MaxHealth", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, MaxHealth), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MaxHealth_MetaData), NewProp_MaxHealth_MetaData) };
 const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_CurrentHealth = { "CurrentHealth", nullptr, (EPropertyFlags)0x0010000000020015, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, CurrentHealth), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CurrentHealth_MetaData), NewProp_CurrentHealth_MetaData) };
 const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_ScoreValue = { "ScoreValue", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, ScoreValue), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ScoreValue_MetaData), NewProp_ScoreValue_MetaData) };
@@ -264,9 +381,14 @@ const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_ASTGEnemy_Statics
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_BurstSpread = { "BurstSpread", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, BurstSpread), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_BurstSpread_MetaData), NewProp_BurstSpread_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_EnemyBulletSpeed = { "EnemyBulletSpeed", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, EnemyBulletSpeed), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_EnemyBulletSpeed_MetaData), NewProp_EnemyBulletSpeed_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_EnemyBulletLifetime = { "EnemyBulletLifetime", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, EnemyBulletLifetime), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_EnemyBulletLifetime_MetaData), NewProp_EnemyBulletLifetime_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_HitEffect = { "HitEffect", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, HitEffect), Z_Construct_UClass_UNiagaraSystem_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_HitEffect_MetaData), NewProp_HitEffect_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_DeathEffect = { "DeathEffect", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, DeathEffect), Z_Construct_UClass_UNiagaraSystem_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DeathEffect_MetaData), NewProp_DeathEffect_MetaData) };
+const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_ASTGEnemy_Statics::NewProp_DeathParticleCount = { "DeathParticleCount", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemy, DeathParticleCount), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DeathParticleCount_MetaData), NewProp_DeathParticleCount_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ASTGEnemy_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_MeshComp,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_CollisionComp,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_EnemyType_Underlying,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_EnemyType,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_MaxHealth,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_CurrentHealth,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_ScoreValue,
@@ -281,6 +403,9 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ASTGEnemy
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_BurstSpread,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_EnemyBulletSpeed,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_EnemyBulletLifetime,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_HitEffect,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_DeathEffect,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemy_Statics::NewProp_DeathParticleCount,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_ASTGEnemy_Statics::PropPointers) < 2048);
 UObject* (*const Z_Construct_UClass_ASTGEnemy_Statics::DependentSingletons[])() = {
@@ -322,13 +447,16 @@ ASTGEnemy::~ASTGEnemy() {}
 // Begin Registration
 struct Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_Statics
 {
+	static constexpr FEnumRegisterCompiledInInfo EnumInfo[] = {
+		{ EEnemyType_StaticEnum, TEXT("EEnemyType"), &Z_Registration_Info_UEnum_EEnemyType, CONSTRUCT_RELOAD_VERSION_INFO(FEnumReloadVersionInfo, 4154367535U) },
+	};
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_ASTGEnemy, ASTGEnemy::StaticClass, TEXT("ASTGEnemy"), &Z_Registration_Info_UClass_ASTGEnemy, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASTGEnemy), 2746785960U) },
+		{ Z_Construct_UClass_ASTGEnemy, ASTGEnemy::StaticClass, TEXT("ASTGEnemy"), &Z_Registration_Info_UClass_ASTGEnemy, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASTGEnemy), 3752746111U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_3134464834(TEXT("/Script/BulletHellCPP"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_3732957961(TEXT("/Script/BulletHellCPP"),
 	Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_Statics::ClassInfo),
 	nullptr, 0,
-	nullptr, 0);
+	Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_Statics::EnumInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_Statics::EnumInfo));
 // End Registration
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

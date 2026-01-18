@@ -10,8 +10,10 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeSTGEnemySpawner() {}
 
 // Begin Cross Module References
+BULLETHELLCPP_API UClass* Z_Construct_UClass_ASTGEnemy_NoRegister();
 BULLETHELLCPP_API UClass* Z_Construct_UClass_ASTGEnemySpawner();
 BULLETHELLCPP_API UClass* Z_Construct_UClass_ASTGEnemySpawner_NoRegister();
+COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
 ENGINE_API UClass* Z_Construct_UClass_AActor();
 UPackage* Z_Construct_UPackage__Script_BulletHellCPP();
 // End Cross Module References
@@ -32,14 +34,24 @@ struct Z_Construct_UClass_ASTGEnemySpawner_Statics
 		{ "IncludePath", "STGEnemySpawner.h" },
 		{ "ModuleRelativePath", "STGEnemySpawner.h" },
 	};
-	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_SpawnAreaHalfWidth_MetaData[] = {
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_EnemyClass_MetaData[] = {
 		{ "Category", "Spawning" },
 #if !UE_BUILD_SHIPPING
-		{ "Comment", "// ===== SPAWNING VARIABLES =====\n// Half-width for Y spawn range (should be less than play area to allow wave movement)\n" },
+		{ "Comment", "// Enemy class to spawn (use Blueprint subclass for VFX support)\n" },
 #endif
 		{ "ModuleRelativePath", "STGEnemySpawner.h" },
 #if !UE_BUILD_SHIPPING
-		{ "ToolTip", "===== SPAWNING VARIABLES =====\nHalf-width for Y spawn range (should be less than play area to allow wave movement)" },
+		{ "ToolTip", "Enemy class to spawn (use Blueprint subclass for VFX support)" },
+#endif
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_SpawnAreaHalfWidth_MetaData[] = {
+		{ "Category", "Spawning" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "// Half-width for Y spawn range (should be less than play area to allow wave movement)\n" },
+#endif
+		{ "ModuleRelativePath", "STGEnemySpawner.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "Half-width for Y spawn range (should be less than play area to allow wave movement)" },
 #endif
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_GameDuration_MetaData[] = {
@@ -48,13 +60,7 @@ struct Z_Construct_UClass_ASTGEnemySpawner_Statics
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_MaxSimultaneousEnemies_MetaData[] = {
 		{ "Category", "Spawning" },
-#if !UE_BUILD_SHIPPING
-		{ "Comment", "// 5 minutes\n" },
-#endif
 		{ "ModuleRelativePath", "STGEnemySpawner.h" },
-#if !UE_BUILD_SHIPPING
-		{ "ToolTip", "5 minutes" },
-#endif
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_BaseSpawnInterval_MetaData[] = {
 		{ "Category", "Spawning" },
@@ -69,6 +75,7 @@ struct Z_Construct_UClass_ASTGEnemySpawner_Statics
 		{ "ModuleRelativePath", "STGEnemySpawner.h" },
 	};
 #endif // WITH_METADATA
+	static const UECodeGen_Private::FClassPropertyParams NewProp_EnemyClass;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_SpawnAreaHalfWidth;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_GameDuration;
 	static const UECodeGen_Private::FIntPropertyParams NewProp_MaxSimultaneousEnemies;
@@ -83,6 +90,7 @@ struct Z_Construct_UClass_ASTGEnemySpawner_Statics
 	};
 	static const UECodeGen_Private::FClassParams ClassParams;
 };
+const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_ASTGEnemySpawner_Statics::NewProp_EnemyClass = { "EnemyClass", nullptr, (EPropertyFlags)0x0014000000000005, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemySpawner, EnemyClass), Z_Construct_UClass_UClass, Z_Construct_UClass_ASTGEnemy_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_EnemyClass_MetaData), NewProp_EnemyClass_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGEnemySpawner_Statics::NewProp_SpawnAreaHalfWidth = { "SpawnAreaHalfWidth", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemySpawner, SpawnAreaHalfWidth), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_SpawnAreaHalfWidth_MetaData), NewProp_SpawnAreaHalfWidth_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGEnemySpawner_Statics::NewProp_GameDuration = { "GameDuration", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemySpawner, GameDuration), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_GameDuration_MetaData), NewProp_GameDuration_MetaData) };
 const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_ASTGEnemySpawner_Statics::NewProp_MaxSimultaneousEnemies = { "MaxSimultaneousEnemies", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGEnemySpawner, MaxSimultaneousEnemies), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MaxSimultaneousEnemies_MetaData), NewProp_MaxSimultaneousEnemies_MetaData) };
@@ -94,6 +102,7 @@ void Z_Construct_UClass_ASTGEnemySpawner_Statics::NewProp_bSpawningActive_SetBit
 }
 const UECodeGen_Private::FBoolPropertyParams Z_Construct_UClass_ASTGEnemySpawner_Statics::NewProp_bSpawningActive = { "bSpawningActive", nullptr, (EPropertyFlags)0x0010000000020015, UECodeGen_Private::EPropertyGenFlags::Bool | UECodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, sizeof(bool), sizeof(ASTGEnemySpawner), &Z_Construct_UClass_ASTGEnemySpawner_Statics::NewProp_bSpawningActive_SetBit, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_bSpawningActive_MetaData), NewProp_bSpawningActive_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ASTGEnemySpawner_Statics::PropPointers[] = {
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemySpawner_Statics::NewProp_EnemyClass,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemySpawner_Statics::NewProp_SpawnAreaHalfWidth,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemySpawner_Statics::NewProp_GameDuration,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGEnemySpawner_Statics::NewProp_MaxSimultaneousEnemies,
@@ -142,10 +151,10 @@ ASTGEnemySpawner::~ASTGEnemySpawner() {}
 struct Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemySpawner_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_ASTGEnemySpawner, ASTGEnemySpawner::StaticClass, TEXT("ASTGEnemySpawner"), &Z_Registration_Info_UClass_ASTGEnemySpawner, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASTGEnemySpawner), 1062965579U) },
+		{ Z_Construct_UClass_ASTGEnemySpawner, ASTGEnemySpawner::StaticClass, TEXT("ASTGEnemySpawner"), &Z_Registration_Info_UClass_ASTGEnemySpawner, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASTGEnemySpawner), 3519678448U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemySpawner_h_514711947(TEXT("/Script/BulletHellCPP"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemySpawner_h_4012186182(TEXT("/Script/BulletHellCPP"),
 	Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemySpawner_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemySpawner_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

@@ -17,11 +17,11 @@ struct FHitResult;
 #endif
 #define BULLETHELLCPP_STGEnemy_generated_h
 
-#define FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_13_RPC_WRAPPERS_NO_PURE_DECLS \
+#define FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_24_RPC_WRAPPERS_NO_PURE_DECLS \
 	DECLARE_FUNCTION(execOnOverlapBegin);
 
 
-#define FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_13_INCLASS_NO_PURE_DECLS \
+#define FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_24_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesASTGEnemy(); \
 	friend struct Z_Construct_UClass_ASTGEnemy_Statics; \
@@ -30,7 +30,7 @@ public: \
 	DECLARE_SERIALIZER(ASTGEnemy)
 
 
-#define FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_13_ENHANCED_CONSTRUCTORS \
+#define FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_24_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	ASTGEnemy(ASTGEnemy&&); \
@@ -42,13 +42,13 @@ public: \
 	NO_API virtual ~ASTGEnemy();
 
 
-#define FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_10_PROLOG
-#define FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_13_GENERATED_BODY \
+#define FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_21_PROLOG
+#define FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_24_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_13_RPC_WRAPPERS_NO_PURE_DECLS \
-	FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_13_INCLASS_NO_PURE_DECLS \
-	FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_13_ENHANCED_CONSTRUCTORS \
+	FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_24_RPC_WRAPPERS_NO_PURE_DECLS \
+	FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_24_INCLASS_NO_PURE_DECLS \
+	FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h_24_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
@@ -58,5 +58,15 @@ template<> BULLETHELLCPP_API UClass* StaticClass<class ASTGEnemy>();
 #undef CURRENT_FILE_ID
 #define CURRENT_FILE_ID FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGEnemy_h
 
+
+#define FOREACH_ENUM_EENEMYTYPE(op) \
+	op(EEnemyType::Fodder) \
+	op(EEnemyType::Runner) \
+	op(EEnemyType::Turret) \
+	op(EEnemyType::Tank) 
+
+enum class EEnemyType : uint8;
+template<> struct TIsUEnumClass<EEnemyType> { enum { Value = true }; };
+template<> BULLETHELLCPP_API UEnum* StaticEnum<EEnemyType>();
 
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

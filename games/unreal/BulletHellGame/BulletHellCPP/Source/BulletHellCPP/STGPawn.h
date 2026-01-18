@@ -3,11 +3,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "InputActionValue.h"
+#include "STGGameSettings.h"
 #include "STGPawn.generated.h"
 
 // Forward declarations
-class UCameraComponent;
-class USpringArmComponent;
 class UStaticMeshComponent;
 class UBoxComponent;
 class UInputMappingContext;
@@ -33,12 +32,6 @@ public:
     UStaticMeshComponent* ShipMesh;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-    USpringArmComponent* SpringArm;
-
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-    UCameraComponent* Camera;
-
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     UBoxComponent* Hitbox;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
@@ -57,15 +50,19 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
     UInputAction* SpecialAction;
 
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+    UInputAction* CheatInvincibleAction;
+
     // ===== MOVEMENT & BOUNDARIES =====
+    // Defaults from STGGameSettings.h - can be overridden in Blueprint
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    float MoveSpeed = 750.0f;
+    float MoveSpeed = STG::Player::MoveSpeed;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    FVector2D BoundsMin = FVector2D(-850.0f, -450.0f);
+    FVector2D BoundsMin = FVector2D(STG::PlayArea::MinX, STG::PlayArea::MinY);
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    FVector2D BoundsMax = FVector2D(850.0f, 450.0f);
+    FVector2D BoundsMax = FVector2D(STG::PlayArea::MaxX, STG::PlayArea::MaxY);
 
     // ===== DEBUG =====
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Debug")
@@ -74,25 +71,35 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Debug")
     bool bDebugInvincible = false;
 
+    // ===== VFX =====
+    // Niagara effect when player gets hit
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VFX")
+    class UNiagaraSystem* HitEffect;
+
     // ===== FIRING =====
+    // Defaults from STGGameSettings.h (starts weak, upgrades with score)
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    float FireInterval = 0.08f;
+    float FireInterval = STG::Player::StartFireInterval;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    float BulletSpeed = 2200.0f;
+    float BulletSpeed = STG::Player::BulletSpeed;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    int32 VolleySize = 3;
+    int32 VolleySize = STG::Player::StartVolleySize;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    float VolleySpread = 12.0f;
+    float VolleySpread = STG::Player::StartVolleySpread;
+
+    // Current upgrade level (0-4)
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats")
+    int32 UpgradeLevel = 0;
 
     // ===== LIVES & SCORE =====
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    int32 MaxLives = 3;
+    int32 MaxLives = STG::Player::MaxLives;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats")
-    int32 CurrentLives = 3;
+    int32 CurrentLives = STG::Player::MaxLives;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats")
     int32 Score = 0;
@@ -106,12 +113,14 @@ public:
     void StartFire(const FInputActionValue& Value);
     void StopFire(const FInputActionValue& Value);
     void UseSpecial(const FInputActionValue& Value);
+    void ToggleInvincibility(const FInputActionValue& Value);
 
     // ===== GAME LOGIC =====
     void FireShot();
     void TakeHit(int32 Damage);
     void HandleDeath();
     void AddScore(int32 Points);
+    void CheckUpgrades();  // Check if score unlocks new upgrade level
 
 protected:
     virtual void PossessedBy(AController* NewController) override;

@@ -1,6 +1,6 @@
-# Part 9 (C++): Final Setup
+# Part 10 (C++): Final Setup
 
-[← Previous: Part 8 (C++) - Create Game Mode](part-8-cpp-create-game-mode.md) | [Back to Index](README.md)
+[← Previous: Part 9 (C++) - Polish & Debug Features](part-9-cpp-polish.md) | [Back to Index](README.md)
 
 ---
 
@@ -117,7 +117,8 @@ To build a playable executable:
 | 6. Game Director | 45 min | 10 min | 35 min ⚡ |
 | 7. UI | 30 min | 15 min | 15 min ⚡ |
 | 8. Game Mode | 20 min | 5 min | 15 min ⚡ |
-| 9. Final Setup | 40 min | 15 min | 25 min ⚡ |
+| 9. Polish & Debug | 20 min | 10 min | 10 min ⚡ |
+| 10. Final Setup | 40 min | 15 min | 25 min ⚡ |
 | **TOTAL** | **6-8 hours** | **2-3 hours** | **4-5 hours saved!** ⚡⚡⚡ |
 
 ### Key Benefits Achieved

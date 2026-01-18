@@ -1,6 +1,6 @@
 # Part 8 (C++): Create Game Mode
 
-[← Previous: Part 7 (C++) - Create UI](part-7-cpp-create-ui.md) | [Back to Index](README.md) | [Next: Part 9 (C++) - Final Setup →](part-9-cpp-final-setup.md)
+[← Previous: Part 7 (C++) - Create UI](part-7-cpp-create-ui.md) | [Back to Index](README.md) | [Next: Part 9 (C++) - Polish & Debug Features →](part-9-cpp-polish.md)
 
 ---
 
@@ -49,37 +49,52 @@ public:
 ```cpp
 #include "STGGameMode.h"
 #include "STGPawn.h"
-#include "UObject/ConstructorHelpers.h"
 
 ASTGGameMode::ASTGGameMode()
 {
-    // Find and use the BP_Player Blueprint class
-    static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/BP_Player"));
-    if (PlayerPawnBPClass.Succeeded())
-    {
-        DefaultPawnClass = PlayerPawnBPClass.Class;
-    }
-    else
-    {
-        // Fallback to C++ class if Blueprint not found
-        DefaultPawnClass = ASTGPawn::StaticClass();
-    }
+    // Default to C++ pawn class
+    // We'll override this in a Blueprint child to use BP_Player
+    DefaultPawnClass = ASTGPawn::StaticClass();
     
     bStartPlayersAsSpectators = false;
 }
 ```
 
-> **Note:** The path `/Game/BP_Player` assumes BP_Player is in your Content root folder. If you placed it elsewhere (e.g., Content/Blueprints/), adjust the path accordingly (e.g., `/Game/Blueprints/BP_Player`).
+> **Note:** We use the C++ STGPawn as default. In the next step, we'll create a Blueprint child of this GameMode to set BP_Player as the default pawn. This approach is more flexible than hardcoding Blueprint paths, which can break if files are moved.
 
 ---
 
-## Step 8.3: Set Game Mode in Project Settings
+## Step 8.3: Create BP_STGGameMode Blueprint
+
+We create a Blueprint child of STGGameMode to configure BP_Player as the default pawn:
+
+1. **Content Browser** → Right-click in empty space
+2. Select **Blueprint Class**
+3. In the popup, expand **All Classes** and search for `STGGameMode`
+4. Select **STGGameMode** as parent → Click **Select**
+5. Name: `BP_STGGameMode`
+6. **Double-click** to open the Blueprint
+7. In **Class Defaults** panel (right side):
+   - Find **Default Pawn Class**
+   - Click dropdown → Select `BP_Player`
+8. **Compile** (top toolbar) → **Save**
+
+> **Why use a Blueprint GameMode?**
+> - Avoids hardcoded paths that break when files move
+> - Allows designers to change settings without recompiling
+> - Standard Unreal Engine practice for configuration
+
+---
+
+## Step 8.4: Set Game Mode in Project Settings
 
 1. **Edit → Project Settings**
 2. **Project → Maps & Modes**
 3. Under "Default Modes":
-   - **Default GameMode** → Select `STGGameMode`
+   - **Default GameMode** → Select `BP_STGGameMode` (the Blueprint, not the C++ class)
 4. Close Project Settings
+
+> **⚠️ Important:** Make sure to select `BP_STGGameMode`, not `STGGameMode`. The Blueprint version has BP_Player configured as the default pawn.
 
 ---
 
@@ -106,4 +121,4 @@ Create a new level or use existing one:
 
 ---
 
-[← Previous: Part 7 (C++) - Create UI](part-7-cpp-create-ui.md) | [Back to Index](README.md) | [Next: Part 9 (C++) - Final Setup →](part-9-cpp-final-setup.md)
+[← Previous: Part 7 (C++) - Create UI](part-7-cpp-create-ui.md) | [Back to Index](README.md) | [Next: Part 9 (C++) - Polish & Debug Features →](part-9-cpp-polish.md)

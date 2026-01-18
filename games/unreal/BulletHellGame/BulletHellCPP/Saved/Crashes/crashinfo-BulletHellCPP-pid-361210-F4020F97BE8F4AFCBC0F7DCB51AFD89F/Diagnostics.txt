@@ -1,0 +1,42 @@
+Generating report for minidump
+
+Application version 5.5.3.0
+ ... built from changelist 39772772
+
+OS version Linux 6.18.5-arch1-1 (network name: archlinux)
+Running 12 x86_64 processors (24 logical cores)
+Exception was "SIGSEGV: invalid attempt to write memory at address 0x0000000000000003"
+
+<SOURCE START>
+<SOURCE END>
+
+<CALLSTACK START>
+libUnrealEditor-CoreUObject.so!ConstructorHelpers::CheckIfIsInConstructor(char16_t const*) [/mnt/horde/++UE5/Sync/Engine/Source/./Runtime/CoreUObject/Private/UObject/UObjectGlobals.cpp:4654]
+libUnrealEditor-BulletHellCPP-6575.so!ConstructorHelpers::FObjectFinder<UStaticMesh>::FObjectFinder(char16_t const*, unsigned int) [/home/kuhy/aur/unreal-engine-bin/Engine/Source/Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h:86]
+libUnrealEditor-BulletHellCPP-6575.so!ASTGPawn::BeginPlay() [/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGPawn.cpp:62]
+libUnrealEditor-Engine.so!AActor::DispatchBeginPlay(bool) [/mnt/horde/++UE5/Sync/Engine/Source/./Runtime/Engine/Private/Actor.cpp:4282]
+libUnrealEditor-Engine.so!AWorldSettings::NotifyBeginPlay() [/mnt/horde/++UE5/Sync/Engine/Source/./Runtime/Engine/Private/WorldSettings.cpp:337]
+libUnrealEditor-Engine.so!AGameStateBase::HandleBeginPlay() [/mnt/horde/++UE5/Sync/Engine/Source/./Runtime/Engine/Private/GameStateBase.cpp:227]
+libUnrealEditor-Engine.so!AGameModeBase::StartPlay() [/mnt/horde/++UE5/Sync/Engine/Source/./Runtime/Engine/Private/GameModeBase.cpp:205]
+libUnrealEditor-Engine.so!UWorld::BeginPlay() [/mnt/horde/++UE5/Sync/Engine/Source/./Runtime/Engine/Private/World.cpp:5439]
+libUnrealEditor-Engine.so!UGameInstance::StartPlayInEditorGameInstance(ULocalPlayer*, FGameInstancePIEParameters const&) [/mnt/horde/++UE5/Sync/Engine/Source/./Runtime/Engine/Private/GameInstance.cpp:566]
+libUnrealEditor-UnrealEd.so!UEditorEngine::CreateInnerProcessPIEGameInstance(FRequestPlaySessionParams&, FGameInstancePIEParameters const&, int) [/mnt/horde/++UE5/Sync/Engine/Source/./Editor/UnrealEd/Private/PlayLevel.cpp:3153]
+libUnrealEditor-UnrealEd.so!UEditorEngine::OnLoginPIEComplete_Deferred(int, bool, FString, FPieLoginStruct) [/mnt/horde/++UE5/Sync/Engine/Source/./Editor/UnrealEd/Private/PlayLevel.cpp:1598]
+libUnrealEditor-UnrealEd.so!UEditorEngine::CreateNewPlayInEditorInstance(FRequestPlaySessionParams&, bool, EPlayNetMode) [/mnt/horde/++UE5/Sync/Engine/Source/./Editor/UnrealEd/Private/PlayLevel.cpp:1858]
+libUnrealEditor-UnrealEd.so!UEditorEngine::StartPlayInEditorSession(FRequestPlaySessionParams&) [/mnt/horde/++UE5/Sync/Engine/Source/./Editor/UnrealEd/Private/PlayLevel.cpp:2880]
+libUnrealEditor-UnrealEd.so!UEditorEngine::StartQueuedPlaySessionRequestImpl() [/mnt/horde/++UE5/Sync/Engine/Source/./Editor/UnrealEd/Private/PlayLevel.cpp:1163]
+libUnrealEditor-UnrealEd.so!UEditorEngine::StartQueuedPlaySessionRequest() [/mnt/horde/++UE5/Sync/Engine/Source/./Editor/UnrealEd/Private/PlayLevel.cpp:1073]
+libUnrealEditor-UnrealEd.so!UEditorEngine::Tick(float, bool) [/mnt/horde/++UE5/Sync/Engine/Source/./Editor/UnrealEd/Private/EditorEngine.cpp:2026]
+libUnrealEditor-UnrealEd.so!UUnrealEdEngine::Tick(float, bool) [/mnt/horde/++UE5/Sync/Engine/Source/./Editor/UnrealEd/Private/UnrealEdEngine.cpp:547]
+UnrealEditor!FEngineLoop::Tick() [/mnt/horde/++UE5/Sync/Engine/Source/./Runtime/Launch/Private/LaunchEngineLoop.cpp:5871]
+UnrealEditor!GuardedMain(char16_t const*) [/mnt/horde/++UE5/Sync/Engine/Source/./Runtime/Launch/Private/Launch.cpp:69]
+libUnrealEditor-UnixCommonStartup.so!CommonUnixMain(int, char**, int (*)(char16_t const*), void (*)()) [/mnt/horde/++UE5/Sync/Engine/Source/./Runtime/Unix/UnixCommonStartup/Private/UnixCommonStartup.cpp:323]
+libc.so.6!UnknownFunction(0x27634)
+libc.so.6!__libc_start_main(+0x88)
+UnrealEditor!_start(+0x29)
+
+<CALLSTACK END>
+
+0 loaded modules
+
+Report end!

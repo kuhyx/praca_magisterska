@@ -15,11 +15,10 @@ BULLETHELLCPP_API UClass* Z_Construct_UClass_ASTGPawn_NoRegister();
 COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FVector2D();
 ENGINE_API UClass* Z_Construct_UClass_APawn();
 ENGINE_API UClass* Z_Construct_UClass_UBoxComponent_NoRegister();
-ENGINE_API UClass* Z_Construct_UClass_UCameraComponent_NoRegister();
-ENGINE_API UClass* Z_Construct_UClass_USpringArmComponent_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_UStaticMeshComponent_NoRegister();
 ENHANCEDINPUT_API UClass* Z_Construct_UClass_UInputAction_NoRegister();
 ENHANCEDINPUT_API UClass* Z_Construct_UClass_UInputMappingContext_NoRegister();
+NIAGARA_API UClass* Z_Construct_UClass_UNiagaraSystem_NoRegister();
 UPackage* Z_Construct_UPackage__Script_BulletHellCPP();
 // End Cross Module References
 
@@ -50,16 +49,6 @@ struct Z_Construct_UClass_ASTGPawn_Statics
 #if !UE_BUILD_SHIPPING
 		{ "ToolTip", "===== COMPONENTS =====" },
 #endif
-	};
-	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_SpringArm_MetaData[] = {
-		{ "Category", "Components" },
-		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "STGPawn.h" },
-	};
-	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_Camera_MetaData[] = {
-		{ "Category", "Components" },
-		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "STGPawn.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_Hitbox_MetaData[] = {
 		{ "Category", "Components" },
@@ -93,14 +82,18 @@ struct Z_Construct_UClass_ASTGPawn_Statics
 		{ "Category", "Input" },
 		{ "ModuleRelativePath", "STGPawn.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_CheatInvincibleAction_MetaData[] = {
+		{ "Category", "Input" },
+		{ "ModuleRelativePath", "STGPawn.h" },
+	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_MoveSpeed_MetaData[] = {
 		{ "Category", "Stats" },
 #if !UE_BUILD_SHIPPING
-		{ "Comment", "// ===== MOVEMENT & BOUNDARIES =====\n" },
+		{ "Comment", "// ===== MOVEMENT & BOUNDARIES =====\n// Defaults from STGGameSettings.h - can be overridden in Blueprint\n" },
 #endif
 		{ "ModuleRelativePath", "STGPawn.h" },
 #if !UE_BUILD_SHIPPING
-		{ "ToolTip", "===== MOVEMENT & BOUNDARIES =====" },
+		{ "ToolTip", "===== MOVEMENT & BOUNDARIES =====\nDefaults from STGGameSettings.h - can be overridden in Blueprint" },
 #endif
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_BoundsMin_MetaData[] = {
@@ -125,14 +118,24 @@ struct Z_Construct_UClass_ASTGPawn_Statics
 		{ "Category", "Debug" },
 		{ "ModuleRelativePath", "STGPawn.h" },
 	};
-	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_FireInterval_MetaData[] = {
-		{ "Category", "Stats" },
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_HitEffect_MetaData[] = {
+		{ "Category", "VFX" },
 #if !UE_BUILD_SHIPPING
-		{ "Comment", "// ===== FIRING =====\n" },
+		{ "Comment", "// ===== VFX =====\n// Niagara effect when player gets hit\n" },
 #endif
 		{ "ModuleRelativePath", "STGPawn.h" },
 #if !UE_BUILD_SHIPPING
-		{ "ToolTip", "===== FIRING =====" },
+		{ "ToolTip", "===== VFX =====\nNiagara effect when player gets hit" },
+#endif
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_FireInterval_MetaData[] = {
+		{ "Category", "Stats" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "// ===== FIRING =====\n// Defaults from STGGameSettings.h (starts weak, upgrades with score)\n" },
+#endif
+		{ "ModuleRelativePath", "STGPawn.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "===== FIRING =====\nDefaults from STGGameSettings.h (starts weak, upgrades with score)" },
 #endif
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_BulletSpeed_MetaData[] = {
@@ -146,6 +149,16 @@ struct Z_Construct_UClass_ASTGPawn_Statics
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_VolleySpread_MetaData[] = {
 		{ "Category", "Stats" },
 		{ "ModuleRelativePath", "STGPawn.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_UpgradeLevel_MetaData[] = {
+		{ "Category", "Stats" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "// Current upgrade level (0-4)\n" },
+#endif
+		{ "ModuleRelativePath", "STGPawn.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "Current upgrade level (0-4)" },
+#endif
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_MaxLives_MetaData[] = {
 		{ "Category", "Stats" },
@@ -177,14 +190,13 @@ struct Z_Construct_UClass_ASTGPawn_Statics
 	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_ShipMesh;
-	static const UECodeGen_Private::FObjectPropertyParams NewProp_SpringArm;
-	static const UECodeGen_Private::FObjectPropertyParams NewProp_Camera;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_Hitbox;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_HitboxIndicator;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_DefaultMappingContext;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_MoveAction;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_FireAction;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_SpecialAction;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_CheatInvincibleAction;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_MoveSpeed;
 	static const UECodeGen_Private::FStructPropertyParams NewProp_BoundsMin;
 	static const UECodeGen_Private::FStructPropertyParams NewProp_BoundsMax;
@@ -192,10 +204,12 @@ struct Z_Construct_UClass_ASTGPawn_Statics
 	static const UECodeGen_Private::FBoolPropertyParams NewProp_bShowDebugBounds;
 	static void NewProp_bDebugInvincible_SetBit(void* Obj);
 	static const UECodeGen_Private::FBoolPropertyParams NewProp_bDebugInvincible;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_HitEffect;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_FireInterval;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_BulletSpeed;
 	static const UECodeGen_Private::FIntPropertyParams NewProp_VolleySize;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_VolleySpread;
+	static const UECodeGen_Private::FIntPropertyParams NewProp_UpgradeLevel;
 	static const UECodeGen_Private::FIntPropertyParams NewProp_MaxLives;
 	static const UECodeGen_Private::FIntPropertyParams NewProp_CurrentLives;
 	static const UECodeGen_Private::FIntPropertyParams NewProp_Score;
@@ -209,14 +223,13 @@ struct Z_Construct_UClass_ASTGPawn_Statics
 	static const UECodeGen_Private::FClassParams ClassParams;
 };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_ShipMesh = { "ShipMesh", nullptr, (EPropertyFlags)0x00100000000a001d, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, ShipMesh), Z_Construct_UClass_UStaticMeshComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ShipMesh_MetaData), NewProp_ShipMesh_MetaData) };
-const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_SpringArm = { "SpringArm", nullptr, (EPropertyFlags)0x00100000000a001d, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, SpringArm), Z_Construct_UClass_USpringArmComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_SpringArm_MetaData), NewProp_SpringArm_MetaData) };
-const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_Camera = { "Camera", nullptr, (EPropertyFlags)0x00100000000a001d, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, Camera), Z_Construct_UClass_UCameraComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_Camera_MetaData), NewProp_Camera_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_Hitbox = { "Hitbox", nullptr, (EPropertyFlags)0x00100000000a001d, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, Hitbox), Z_Construct_UClass_UBoxComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_Hitbox_MetaData), NewProp_Hitbox_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_HitboxIndicator = { "HitboxIndicator", nullptr, (EPropertyFlags)0x00100000000a001d, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, HitboxIndicator), Z_Construct_UClass_UStaticMeshComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_HitboxIndicator_MetaData), NewProp_HitboxIndicator_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_DefaultMappingContext = { "DefaultMappingContext", nullptr, (EPropertyFlags)0x0010000000000015, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, DefaultMappingContext), Z_Construct_UClass_UInputMappingContext_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DefaultMappingContext_MetaData), NewProp_DefaultMappingContext_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_MoveAction = { "MoveAction", nullptr, (EPropertyFlags)0x0010000000000015, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, MoveAction), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MoveAction_MetaData), NewProp_MoveAction_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_FireAction = { "FireAction", nullptr, (EPropertyFlags)0x0010000000000015, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, FireAction), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_FireAction_MetaData), NewProp_FireAction_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_SpecialAction = { "SpecialAction", nullptr, (EPropertyFlags)0x0010000000000015, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, SpecialAction), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_SpecialAction_MetaData), NewProp_SpecialAction_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_CheatInvincibleAction = { "CheatInvincibleAction", nullptr, (EPropertyFlags)0x0010000000000015, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, CheatInvincibleAction), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CheatInvincibleAction_MetaData), NewProp_CheatInvincibleAction_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_MoveSpeed = { "MoveSpeed", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, MoveSpeed), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MoveSpeed_MetaData), NewProp_MoveSpeed_MetaData) };
 const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_BoundsMin = { "BoundsMin", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, BoundsMin), Z_Construct_UScriptStruct_FVector2D, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_BoundsMin_MetaData), NewProp_BoundsMin_MetaData) };
 const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_BoundsMax = { "BoundsMax", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, BoundsMax), Z_Construct_UScriptStruct_FVector2D, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_BoundsMax_MetaData), NewProp_BoundsMax_MetaData) };
@@ -230,10 +243,12 @@ void Z_Construct_UClass_ASTGPawn_Statics::NewProp_bDebugInvincible_SetBit(void* 
 	((ASTGPawn*)Obj)->bDebugInvincible = 1;
 }
 const UECodeGen_Private::FBoolPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_bDebugInvincible = { "bDebugInvincible", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Bool | UECodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, sizeof(bool), sizeof(ASTGPawn), &Z_Construct_UClass_ASTGPawn_Statics::NewProp_bDebugInvincible_SetBit, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_bDebugInvincible_MetaData), NewProp_bDebugInvincible_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_HitEffect = { "HitEffect", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, HitEffect), Z_Construct_UClass_UNiagaraSystem_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_HitEffect_MetaData), NewProp_HitEffect_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_FireInterval = { "FireInterval", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, FireInterval), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_FireInterval_MetaData), NewProp_FireInterval_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_BulletSpeed = { "BulletSpeed", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, BulletSpeed), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_BulletSpeed_MetaData), NewProp_BulletSpeed_MetaData) };
 const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_VolleySize = { "VolleySize", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, VolleySize), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_VolleySize_MetaData), NewProp_VolleySize_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_VolleySpread = { "VolleySpread", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, VolleySpread), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_VolleySpread_MetaData), NewProp_VolleySpread_MetaData) };
+const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_UpgradeLevel = { "UpgradeLevel", nullptr, (EPropertyFlags)0x0010000000020015, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, UpgradeLevel), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_UpgradeLevel_MetaData), NewProp_UpgradeLevel_MetaData) };
 const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_MaxLives = { "MaxLives", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, MaxLives), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MaxLives_MetaData), NewProp_MaxLives_MetaData) };
 const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_CurrentLives = { "CurrentLives", nullptr, (EPropertyFlags)0x0010000000020015, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, CurrentLives), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CurrentLives_MetaData), NewProp_CurrentLives_MetaData) };
 const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_Score = { "Score", nullptr, (EPropertyFlags)0x0010000000020015, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASTGPawn, Score), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_Score_MetaData), NewProp_Score_MetaData) };
@@ -244,23 +259,24 @@ void Z_Construct_UClass_ASTGPawn_Statics::NewProp_bSpecialUsed_SetBit(void* Obj)
 const UECodeGen_Private::FBoolPropertyParams Z_Construct_UClass_ASTGPawn_Statics::NewProp_bSpecialUsed = { "bSpecialUsed", nullptr, (EPropertyFlags)0x0010000000020015, UECodeGen_Private::EPropertyGenFlags::Bool | UECodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, sizeof(bool), sizeof(ASTGPawn), &Z_Construct_UClass_ASTGPawn_Statics::NewProp_bSpecialUsed_SetBit, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_bSpecialUsed_MetaData), NewProp_bSpecialUsed_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ASTGPawn_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_ShipMesh,
-	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_SpringArm,
-	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_Camera,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_Hitbox,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_HitboxIndicator,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_DefaultMappingContext,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_MoveAction,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_FireAction,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_SpecialAction,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_CheatInvincibleAction,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_MoveSpeed,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_BoundsMin,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_BoundsMax,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_bShowDebugBounds,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_bDebugInvincible,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_HitEffect,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_FireInterval,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_BulletSpeed,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_VolleySize,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_VolleySpread,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_UpgradeLevel,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_MaxLives,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_CurrentLives,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASTGPawn_Statics::NewProp_Score,
@@ -307,10 +323,10 @@ ASTGPawn::~ASTGPawn() {}
 struct Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_ASTGPawn, ASTGPawn::StaticClass, TEXT("ASTGPawn"), &Z_Registration_Info_UClass_ASTGPawn, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASTGPawn), 567952888U) },
+		{ Z_Construct_UClass_ASTGPawn, ASTGPawn::StaticClass, TEXT("ASTGPawn"), &Z_Registration_Info_UClass_ASTGPawn, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASTGPawn), 1714280724U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_3017445064(TEXT("/Script/BulletHellCPP"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_195649070(TEXT("/Script/BulletHellCPP"),
 	Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGPawn_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

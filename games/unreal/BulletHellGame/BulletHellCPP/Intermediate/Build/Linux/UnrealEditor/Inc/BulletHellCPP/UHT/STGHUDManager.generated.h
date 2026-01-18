@@ -15,6 +15,8 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #define BULLETHELLCPP_STGHUDManager_generated_h
 
 #define FID_praca_magisterska_games_unreal_BulletHellGame_BulletHellCPP_Source_BulletHellCPP_STGHUDManager_h_10_RPC_WRAPPERS_NO_PURE_DECLS \
+	DECLARE_FUNCTION(execShowGameOver); \
+	DECLARE_FUNCTION(execShowVictory); \
 	DECLARE_FUNCTION(execUpdateTimer); \
 	DECLARE_FUNCTION(execUpdateLives); \
 	DECLARE_FUNCTION(execUpdateScore);

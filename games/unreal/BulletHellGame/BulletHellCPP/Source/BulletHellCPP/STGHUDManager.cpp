@@ -62,3 +62,33 @@ void ASTGHUDManager::UpdateTimer(float TimeRemaining)
         }
     }
 }
+
+void ASTGHUDManager::ShowVictory()
+{
+    if (HUDWidget)
+    {
+        // Try to find and show victory text
+        UTextBlock* ResultText = Cast<UTextBlock>(HUDWidget->GetWidgetFromName(TEXT("txt_Result")));
+        if (ResultText)
+        {
+            ResultText->SetText(FText::FromString("VICTORY!"));
+            ResultText->SetColorAndOpacity(FSlateColor(FLinearColor::Green));
+            ResultText->SetVisibility(ESlateVisibility::Visible);
+        }
+    }
+}
+
+void ASTGHUDManager::ShowGameOver()
+{
+    if (HUDWidget)
+    {
+        // Try to find and show game over text
+        UTextBlock* ResultText = Cast<UTextBlock>(HUDWidget->GetWidgetFromName(TEXT("txt_Result")));
+        if (ResultText)
+        {
+            ResultText->SetText(FText::FromString("GAME OVER"));
+            ResultText->SetColorAndOpacity(FSlateColor(FLinearColor::Red));
+            ResultText->SetVisibility(ESlateVisibility::Visible);
+        }
+    }
+}

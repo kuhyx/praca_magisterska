@@ -2784,6 +2784,7 @@
   /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGGameDirector.h \
   Runtime/Core/Public/CoreMinimal.h \
   Runtime/Engine/Classes/GameFramework/Actor.h \
+  /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGGameSettings.h \
   /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/Linux/UnrealEditor/Inc/BulletHellCPP/UHT/STGGameDirector.generated.h \
   Runtime/CoreUObject/Public/UObject/ObjectMacros.h \
   Runtime/CoreUObject/Public/UObject/ScriptMacros.h \
@@ -2819,4 +2820,6 @@
   Runtime/Engine/Classes/Particles/WorldPSCPool.h \
   ../Intermediate/Build/Linux/UnrealEditor/Inc/Engine/UHT/GameplayStatics.generated.h \
   /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGHUDManager.h \
-  /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/Linux/UnrealEditor/Inc/BulletHellCPP/UHT/STGHUDManager.generated.h
+  /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/Linux/UnrealEditor/Inc/BulletHellCPP/UHT/STGHUDManager.generated.h \
+  /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGEnemy.h \
+  /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/Linux/UnrealEditor/Inc/BulletHellCPP/UHT/STGEnemy.generated.h

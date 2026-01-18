@@ -1,4 +1,5 @@
 #include "STGEnemySpawner.h"
+#include "STGGameSettings.h"
 #include "STGEnemy.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -14,6 +15,32 @@ void ASTGEnemySpawner::BeginPlay()
     ElapsedTime = 0.0f;
     SpawnTimer = 0.0f;
     CurrentSpawnInterval = BaseSpawnInterval;
+    
+    // Default to base C++ class if no Blueprint assigned
+    if (!EnemyClass)
+    {
+        EnemyClass = ASTGEnemy::StaticClass();
+    }
+    
+    // Spawn initial wave well INSIDE the visible play area
+    for (int32 i = 0; i < 5; i++)
+    {
+        FVector SpawnLoc;
+        SpawnLoc.X = STG::PlayArea::MaxX * 0.5f;  // Upper half of play area
+        SpawnLoc.Y = FMath::FRandRange(STG::PlayArea::MinY * 0.8f, STG::PlayArea::MaxY * 0.8f);
+        SpawnLoc.Z = 0.0f;
+        
+        ASTGEnemy* NewEnemy = GetWorld()->SpawnActor<ASTGEnemy>(
+            EnemyClass,
+            SpawnLoc,
+            FRotator::ZeroRotator
+        );
+        
+        if (NewEnemy)
+        {
+            NewEnemy->InitializeFromType(EEnemyType::Fodder);
+        }
+    }
 }
 
 void ASTGEnemySpawner::Tick(float DeltaTime)
@@ -58,31 +85,86 @@ void ASTGEnemySpawner::SpawnEnemy()
     FRotator SpawnRotation = FRotator::ZeroRotator;
 
     ASTGEnemy* NewEnemy = GetWorld()->SpawnActor<ASTGEnemy>(
-        ASTGEnemy::StaticClass(),
+        EnemyClass,
         SpawnLocation,
         SpawnRotation
     );
+    
+    if (NewEnemy)
+    {
+        // Randomly select enemy type based on game progress
+        float GameProgress = ElapsedTime / GameDuration;
+        EEnemyType Type = GetRandomEnemyType(GameProgress);
+        NewEnemy->InitializeFromType(Type);
+    }
 }
 
 float ASTGEnemySpawner::CalculateSpawnInterval()
 {
-    // Difficulty curve: spawn faster as time progresses
     float GameProgress = ElapsedTime / GameDuration; // 0.0 to 1.0
+    float TimeRemaining = GameDuration - ElapsedTime;
     
-    // Start at BaseSpawnInterval, reduce to 0.5 seconds at end
-    float MinInterval = 0.5f;
-    float Interval = FMath::Lerp(BaseSpawnInterval, MinInterval, GameProgress);
+    // FINAL RUSH: Last 5 seconds = absolute chaos!
+    if (TimeRemaining <= STG::Spawner::FinalRushDuration)
+    {
+        return STG::Spawner::FinalRushInterval;
+    }
     
-    return FMath::Max(Interval, MinInterval);
+    // EXPONENTIAL CURVE: Slow start, rapid acceleration
+    // Using x^3 curve for aggressive late-game scaling
+    // At 0%: 1.0^3 = 1.0 (base interval)
+    // At 50%: 0.5^3 = 0.125 (already pretty fast)
+    // At 90%: 0.1^3 = 0.001 (nearly min interval)
+    float InverseProgress = 1.0f - GameProgress;
+    float ExponentialFactor = InverseProgress * InverseProgress * InverseProgress;  // x^3 curve
+    
+    float Interval = FMath::Lerp(STG::Spawner::MinSpawnInterval, BaseSpawnInterval, ExponentialFactor);
+    
+    return FMath::Max(Interval, STG::Spawner::MinSpawnInterval);
 }
 
 FVector ASTGEnemySpawner::GetRandomSpawnLocation()
 {
-    // Spawn at top of screen, random X position
+    // Spawn at top of screen, random Y position
     FVector SpawnLoc = GetActorLocation();
     SpawnLoc.Y = FMath::FRandRange(-SpawnAreaHalfWidth, SpawnAreaHalfWidth);
-    SpawnLoc.X = 800.0f; // Top of play area
+    SpawnLoc.X = STG::Spawner::SpawnX; // Top of play area (from settings)
     SpawnLoc.Z = 0.0f;
     
     return SpawnLoc;
+}
+
+EEnemyType ASTGEnemySpawner::GetRandomEnemyType(float GameProgress)
+{
+    // Difficulty progression: Easiest to Hardest
+    // Fodder (1HP, no bullets) → Runner (fast, no bullets) → Turret (slow, shoots) → Tank (tanky, bullet hell)
+    
+    float Roll = FMath::FRand();
+    
+    if (GameProgress < 0.25f)
+    {
+        // First 25%: ALL Fodder - spam them everywhere!
+        return EEnemyType::Fodder;
+    }
+    else if (GameProgress < 0.5f)
+    {
+        // 25-50%: Fodder (85%), Runner (15%) - still almost all fodder
+        if (Roll < 0.85f) return EEnemyType::Fodder;
+        return EEnemyType::Runner;
+    }
+    else if (GameProgress < 0.75f)
+    {
+        // 50-75%: Fodder (70%), Runner (20%), Turret (10%) - mostly fodder
+        if (Roll < 0.7f) return EEnemyType::Fodder;
+        if (Roll < 0.9f) return EEnemyType::Runner;
+        return EEnemyType::Turret;
+    }
+    else
+    {
+        // 75-100%: Fodder (55%), Runner (20%), Turret (15%), Tank (10%)
+        if (Roll < 0.55f) return EEnemyType::Fodder;
+        if (Roll < 0.75f) return EEnemyType::Runner;
+        if (Roll < 0.9f) return EEnemyType::Turret;
+        return EEnemyType::Tank;
+    }
 }

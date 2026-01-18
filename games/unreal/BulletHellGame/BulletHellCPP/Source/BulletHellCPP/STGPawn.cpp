@@ -1,12 +1,12 @@
 #include "STGPawn.h"
-#include "GameFramework/SpringArmComponent.h"
-#include "Camera/CameraComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/BoxComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "DrawDebugHelpers.h"
 #include "Kismet/GameplayStatics.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 #include "STGProjectile.h"
 #include "STGEnemy.h" 
 #include "STGGameDirector.h"
@@ -19,51 +19,35 @@ ASTGPawn::ASTGPawn()
     // Root component
     RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 
-    // Ship mesh - cone shape pointing upward
+    // Ship mesh - flat 2D circle (cylinder with no height)
     ShipMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ShipMesh"));
     ShipMesh->SetupAttachment(RootComponent);
     ShipMesh->SetCollisionProfileName("NoCollision");
 
-    // Load cone mesh from engine
-    static ConstructorHelpers::FObjectFinder<UStaticMesh> ConeMesh(TEXT("/Engine/BasicShapes/Cone"));
-    if (ConeMesh.Succeeded())
+    // Load cylinder mesh and flatten it to make a 2D circle
+    static ConstructorHelpers::FObjectFinder<UStaticMesh> CylinderMesh(TEXT("/Engine/BasicShapes/Cylinder"));
+    if (CylinderMesh.Succeeded())
     {
-        ShipMesh->SetStaticMesh(ConeMesh.Object);
-        ShipMesh->SetRelativeScale3D(FVector(0.5f, 0.5f, 0.7f));
-        ShipMesh->SetRelativeRotation(FRotator(90.f, 0.f, 0.f)); // Point forward
+        ShipMesh->SetStaticMesh(CylinderMesh.Object);
+        ShipMesh->SetRelativeScale3D(FVector(0.08f, 0.08f, 0.001f));  // Flat 2D circle, very small
     }
 
-    // Hitbox - small for bullet-hell precision
+    // Hitbox - matches the visual circle size exactly
+    // What you see is what you get!
     Hitbox = CreateDefaultSubobject<UBoxComponent>(TEXT("Hitbox"));
     Hitbox->SetupAttachment(RootComponent);
-    Hitbox->SetBoxExtent(FVector(25.f, 25.f, 10.f));
+    Hitbox->SetBoxExtent(FVector(4.0f, 4.0f, 4.0f));  // Matches 0.08 scale cylinder (50 * 0.08 = 4)
     Hitbox->SetCollisionProfileName("OverlapAllDynamic");
     Hitbox->SetGenerateOverlapEvents(true);
 
-    // Visual hitbox indicator (small sphere)
+    // No separate hitbox indicator needed - the sphere IS the hitbox
     HitboxIndicator = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("HitboxIndicator"));
     HitboxIndicator->SetupAttachment(RootComponent);
     HitboxIndicator->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
-    static ConstructorHelpers::FObjectFinder<UStaticMesh> SphereMesh(TEXT("/Engine/BasicShapes/Sphere"));
-    if (SphereMesh.Succeeded())
-    {
-        HitboxIndicator->SetStaticMesh(SphereMesh.Object);
-        HitboxIndicator->SetRelativeScale3D(FVector(0.05f, 0.05f, 0.05f));
-    }
-
-    // Camera setup for top-down view
-    SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
-    SpringArm->SetupAttachment(RootComponent);
-    SpringArm->SetRelativeRotation(FRotator(-90.f, 0.f, 0.f)); // Top-down
-    SpringArm->TargetArmLength = 1200.f;
-    SpringArm->bDoCollisionTest = false;
-    SpringArm->bInheritPitch = false;
-    SpringArm->bInheritRoll = false;
-    SpringArm->bInheritYaw = false;
-
-    Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-    Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
+    HitboxIndicator->SetVisibility(false);  // Not needed anymore
+    
+    // NOTE: Camera removed - use a fixed CameraActor in the level instead
+    // This allows the camera to show the entire play area without following the player
 }
 
 void ASTGPawn::BeginPlay()
@@ -73,6 +57,16 @@ void ASTGPawn::BeginPlay()
 
     // Try to add Input Mapping Context (works when placed in level with Auto Possess)
     SetupInputMappingContext();
+    
+    // Force flat 2D circle at runtime (in case Blueprint overrides it)
+    // Use LoadObject instead of ConstructorHelpers (which only works in constructors)
+    UStaticMesh* CylinderMesh = LoadObject<UStaticMesh>(nullptr, TEXT("/Engine/BasicShapes/Cylinder"));
+    if (CylinderMesh && ShipMesh)
+    {
+        ShipMesh->SetStaticMesh(CylinderMesh);
+        ShipMesh->SetRelativeScale3D(FVector(0.08f, 0.08f, 0.001f));  // Flat 2D circle
+        ShipMesh->SetRelativeRotation(FRotator::ZeroRotator);
+    }
     
     // Initialize HUD with starting values (delayed to ensure HUD is ready)
     FTimerHandle TimerHandle;
@@ -167,6 +161,9 @@ void ASTGPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
         // Special
         EnhancedInputComponent->BindAction(SpecialAction, ETriggerEvent::Started, this, &ASTGPawn::UseSpecial);
+
+        // Cheat: Toggle Invincibility (I key)
+        EnhancedInputComponent->BindAction(CheatInvincibleAction, ETriggerEvent::Started, this, &ASTGPawn::ToggleInvincibility);
     }
 }
 
@@ -214,8 +211,10 @@ void ASTGPawn::FireShot()
             if (Bullet)
             {
                 Bullet->bIsPlayerBullet = true;
+                Bullet->BulletScale = 0.06f;        // Small bullets
+                Bullet->EmissiveIntensity = 2.0f;   // Dim glow
                 Bullet->SetSpeed(BulletSpeed);
-                Bullet->SetBulletColor(FLinearColor::Green);
+                Bullet->SetBulletColor(FLinearColor(0.2f, 0.8f, 0.3f)); // Soft green
             }
         }
     }
@@ -251,6 +250,18 @@ void ASTGPawn::UseSpecial(const FInputActionValue& Value)
     }
 }
 
+void ASTGPawn::ToggleInvincibility(const FInputActionValue& Value)
+{
+    bDebugInvincible = !bDebugInvincible;
+    
+    if (GEngine)
+    {
+        FString Msg = bDebugInvincible ? TEXT("[CHEAT] INVINCIBILITY ON") : TEXT("[CHEAT] INVINCIBILITY OFF");
+        FColor Color = bDebugInvincible ? FColor::Cyan : FColor::Yellow;
+        GEngine->AddOnScreenDebugMessage(-1, 2.0f, Color, Msg);
+    }
+}
+
 void ASTGPawn::TakeHit(int32 Damage)
 {
     // Debug invincibility check
@@ -265,6 +276,22 @@ void ASTGPawn::TakeHit(int32 Damage)
     
     CurrentLives = FMath::Clamp(CurrentLives - Damage, 0, MaxLives);
     UpdateHUD();
+
+    // Spawn hit VFX
+    if (HitEffect)
+    {
+        UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+            GetWorld(),
+            HitEffect,
+            GetActorLocation(),
+            FRotator::ZeroRotator,
+            FVector(1.0f),
+            true,
+            true,
+            ENCPoolMethod::None,
+            true
+        );
+    }
 
     if (GEngine)
     {
@@ -298,7 +325,70 @@ void ASTGPawn::HandleDeath()
 void ASTGPawn::AddScore(int32 Points)
 {
     Score += Points;
+    CheckUpgrades();  // Check if we leveled up!
     UpdateHUD();
+}
+
+void ASTGPawn::CheckUpgrades()
+{
+    int32 NewLevel = 0;
+    
+    // Determine upgrade level based on score thresholds
+    if (Score >= STG::Player::UpgradeScore4)
+    {
+        NewLevel = 4;  // Max power!
+    }
+    else if (Score >= STG::Player::UpgradeScore3)
+    {
+        NewLevel = 3;
+    }
+    else if (Score >= STG::Player::UpgradeScore2)
+    {
+        NewLevel = 2;
+    }
+    else if (Score >= STG::Player::UpgradeScore1)
+    {
+        NewLevel = 1;
+    }
+    
+    // Apply upgrade if level changed
+    if (NewLevel > UpgradeLevel)
+    {
+        UpgradeLevel = NewLevel;
+        
+        // Set stats based on upgrade level
+        switch (UpgradeLevel)
+        {
+            case 1:  // First upgrade: 2 bullets, faster fire
+                VolleySize = 2;
+                VolleySpread = 8.0f;
+                FireInterval = 0.35f;
+                break;
+            case 2:  // Second upgrade: 3 bullets, even faster
+                VolleySize = 3;
+                VolleySpread = 12.0f;
+                FireInterval = 0.20f;
+                break;
+            case 3:  // Third upgrade: 4 bullets, rapid fire
+                VolleySize = 4;
+                VolleySpread = 16.0f;
+                FireInterval = 0.12f;
+                break;
+            case 4:  // Max upgrade: 5 bullets, maximum fire rate
+                VolleySize = STG::Player::MaxVolleySize;
+                VolleySpread = STG::Player::MaxVolleySpread;
+                FireInterval = STG::Player::MaxFireInterval;
+                break;
+        }
+        
+        // Show upgrade message
+        if (GEngine)
+        {
+            FString Msg = FString::Printf(TEXT("POWER UP! Level %d - %d bullets, %.2fs fire rate"), 
+                UpgradeLevel, VolleySize, FireInterval);
+            GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, Msg);
+        }
+    }
 }
 
 void ASTGPawn::UpdateHUD()

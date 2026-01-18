@@ -2784,6 +2784,7 @@
   /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGEnemy.h \
   Runtime/Core/Public/CoreMinimal.h \
   Runtime/Engine/Classes/GameFramework/Actor.h \
+  /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGGameSettings.h \
   /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/Linux/UnrealEditor/Inc/BulletHellCPP/UHT/STGEnemy.generated.h \
   Runtime/CoreUObject/Public/UObject/ObjectMacros.h \
   Runtime/CoreUObject/Public/UObject/ScriptMacros.h \
@@ -2825,6 +2826,117 @@
   ../Intermediate/Build/Linux/UnrealEditor/Inc/Engine/UHT/GameplayStaticsTypes.generated.h \
   Runtime/Engine/Classes/Particles/WorldPSCPool.h \
   ../Intermediate/Build/Linux/UnrealEditor/Inc/Engine/UHT/GameplayStatics.generated.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraFunctionLibrary.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraComponentPool.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraCommon.h \
+  Runtime/Engine/Classes/Engine/EngineBaseTypes.h \
+  Runtime/Engine/Classes/Particles/ParticlePerfStats.h \
+  Runtime/Core/Public/Templates/Atomic.h Runtime/Core/Public/CoreTypes.h \
+  Runtime/Core/Public/HAL/PlatformTime.h \
+  Runtime/Core/Public/Containers/Array.h \
+  Runtime/Core/Public/ProfilingDebugging/CsvProfiler.h \
+  Runtime/CoreUObject/Public/UObject/ObjectKey.h \
+  Runtime/CoreUObject/Public/UObject/WeakFieldPtr.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraComponentPoolMethodEnum.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraComponentPoolMethodEnum.generated.h \
+  Runtime/CoreUObject/Public/Templates/IsUEnumClass.h \
+  Runtime/CoreUObject/Public/UObject/ReflectedTypeAccessors.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraDefines.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraScalabilityState.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraScalabilityState.generated.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraTickBehaviorEnum.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraTickBehaviorEnum.generated.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraTypes.h \
+  Runtime/Core/Public/Misc/SecureHash.h \
+  Runtime/CoreUObject/Public/UObject/GCObject.h \
+  Runtime/Core/Public/Containers/Queue.h \
+  ../Plugins/FX/Niagara/Source/NiagaraCore/Public/NiagaraCore.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/NiagaraCore/UHT/NiagaraCore.generated.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraTypes.generated.h \
+  Runtime/Core/Public/Templates/RefCounting.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraCommon.generated.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraComponentPool.generated.h \
+  Runtime/VectorVM/Public/VectorVM.h \
+  Runtime/Core/Public/Containers/ArrayView.h \
+  Runtime/Core/Public/Math/RandomStream.h \
+  Runtime/Core/Public/Misc/AssertionMacros.h \
+  Runtime/Core/Public/Misc/ByteSwap.h \
+  Runtime/Core/Public/Templates/AlignmentTemplates.h \
+  Runtime/VectorVM/Public/VectorVMExperimental.h \
+  Runtime/VectorVM/Public/VectorVMSerialization.h \
+  Runtime/VectorVM/Public/VectorVMCommon.h \
+  ThirdParty/Unix/LibCxx/include/c++/v1/atomic \
+  ../Intermediate/Build/Linux/UnrealEditor/Inc/VectorVM/UHT/VectorVMCommon.generated.h \
+  Runtime/VectorVM/Public/VectorVMLegacy.h \
+  Runtime/Core/Public/HAL/ThreadSingleton.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Classes/NiagaraSystem.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraAssetTagDefinitions.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraAssetTagDefinitions.generated.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Classes/NiagaraDataSetCompiledData.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraDataSetCompiledData.generated.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Classes/NiagaraDataSetAccessor.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Classes/NiagaraEffectType.h \
+  Runtime/Engine/Public/InGamePerformanceTracker.h \
+  Runtime/RenderCore/Public/RenderCommandFence.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Classes/NiagaraPlatformSet.h \
+  Runtime/Core/Public/HAL/IConsoleManager.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraPlatformSet.generated.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Classes/NiagaraPerfBaseline.h \
+  Runtime/Engine/Classes/Particles/ParticlePerfStatsManager.h \
+  Runtime/CoreUObject/Public/UObject/WeakObjectPtr.h \
+  Runtime/RenderCore/Public/RenderingThread.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraPerfBaseline.generated.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Classes/NiagaraValidationRule.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraValidationRule.generated.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Classes/NiagaraValidationRuleSet.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraValidationRuleSet.generated.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraEffectType.generated.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Classes/NiagaraEmitterHandle.h \
+  Runtime/Core/Public/Misc/Guid.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraEmitterHandle.generated.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraMessageStore.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraMessageStore.generated.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Classes/NiagaraParameterCollection.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraParameterStore.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraParameterStore.generated.h \
+  ../Plugins/FX/Niagara/Source/NiagaraCore/Public/NiagaraCompileHash.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/NiagaraCore/UHT/NiagaraCompileHash.generated.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraParameterCollection.generated.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Classes/NiagaraParameterDefinitionsSubscriber.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraParameterDefinitionsDelegates.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraParameterDefinitionsSubscriber.generated.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Internal/NiagaraSystemEmitterState.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Internal/Stateless/NiagaraStatelessDistribution.h \
+  Runtime/Engine/Classes/Curves/RichCurve.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Internal/Stateless/NiagaraStatelessCommon.h \
+  ../Plugins/FX/Niagara/Shaders/Shared/NiagaraStatelessDefinitions.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraStatelessCommon.generated.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraParameterBinding.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraParameterBinding.generated.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraStatelessDistribution.generated.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraSystemEmitterState.generated.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraUserRedirectionParameterStore.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraUserRedirectionParameterStore.generated.h \
+  Runtime/Engine/Classes/Particles/ParticleSystem.h \
+  Runtime/Core/Public/Async/TaskGraphInterfaces.h \
+  Runtime/RHI/Public/RHIDefinitions.h \
+  Runtime/Engine/Public/PSOPrecache.h \
+  ../Intermediate/Build/Linux/UnrealEditor/Inc/Engine/UHT/ParticleSystem.generated.h \
+  Runtime/Engine/Classes/Particles/FXBudget.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraSystem.generated.h \
+  Runtime/Engine/Classes/Particles/ParticleSystemComponent.h \
+  Runtime/Engine/Classes/Components/SceneComponent.h \
+  Runtime/Engine/Public/Materials/MaterialInterface.h \
+  Runtime/Engine/Classes/Particles/Emitter.h \
+  ../Intermediate/Build/Linux/UnrealEditor/Inc/Engine/UHT/Emitter.generated.h \
+  Runtime/Launch/Resources/Version.h \
+  ../Intermediate/Build/Linux/UnrealEditor/Inc/Engine/UHT/ParticleSystemComponent.generated.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraFunctionLibrary.generated.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraComponent.h \
+  ../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraVariant.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraVariant.generated.h \
+  Runtime/Engine/Public/PrimitiveViewRelevance.h \
+  ../Plugins/FX/Niagara/Intermediate/Build/Linux/UnrealEditor/Inc/Niagara/UHT/NiagaraComponent.generated.h \
   /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGProjectile.h \
   /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/Linux/UnrealEditor/Inc/BulletHellCPP/UHT/STGProjectile.generated.h \
   /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGPawn.h \

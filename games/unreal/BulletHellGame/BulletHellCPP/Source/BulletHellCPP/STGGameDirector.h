@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "STGGameSettings.h"
 #include "STGGameDirector.generated.h"
 
 UCLASS()
@@ -18,8 +19,21 @@ protected:
 public:    
     virtual void Tick(float DeltaTime) override;
 
+    // ===== PLAY AREA BOUNDS =====
+    // Central definition of play area - other systems read from here
+    // Defaults come from STGGameSettings.h
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Play Area")
+    FVector2D PlayAreaMin = FVector2D(STG::PlayArea::MinX, STG::PlayArea::MinY);
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Play Area")
+    FVector2D PlayAreaMax = FVector2D(STG::PlayArea::MaxX, STG::PlayArea::MaxY);
+
+    // Get the play area dimensions
+    UFUNCTION(BlueprintCallable, Category = "Play Area")
+    FVector2D GetPlayAreaSize() const { return PlayAreaMax - PlayAreaMin; }
+
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game")
-    float GameDuration = 300.0f;
+    float GameDuration = STG::Game::DefaultDuration;
 
     // Debug: Set to true for 10-second game (quick victory testing)
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Debug")
@@ -31,7 +45,12 @@ public:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Game")
     bool bGameActive = true;
 
+    // Cleanup phase: spawning done, waiting for all enemies to clear
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Game")
+    bool bInCleanupPhase = false;
+
     void OnPlayerDied();
     void OnVictory();
     void OnGameOver();
+    void CheckCleanupVictory();  // Check if all enemies cleared
 };

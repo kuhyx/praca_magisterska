@@ -148,8 +148,8 @@ namespace STG
     // ===== SPAWNER SETTINGS =====
     namespace Spawner
     {
-        constexpr float BaseSpawnInterval = 1.2f;     // Start slow
-        constexpr float MinSpawnInterval = 0.08f;     // Very fast at end
+        constexpr float BaseSpawnInterval = 0.25f;    // Aggressive from start (was 1.2)
+        constexpr float MinSpawnInterval = 0.08f;     // Fast at end
         constexpr float FinalRushInterval = 0.03f;    // Insane for last 5 seconds
         constexpr float FinalRushDuration = 5.0f;     // Last 5 seconds = chaos
         constexpr int32 MaxSimultaneousEnemies = 200; // Allow more enemies

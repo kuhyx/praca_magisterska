@@ -110,15 +110,10 @@ float ASTGEnemySpawner::CalculateSpawnInterval()
         return STG::Spawner::FinalRushInterval;
     }
     
-    // EXPONENTIAL CURVE: Slow start, rapid acceleration
-    // Using x^3 curve for aggressive late-game scaling
-    // At 0%: 1.0^3 = 1.0 (base interval)
-    // At 50%: 0.5^3 = 0.125 (already pretty fast)
-    // At 90%: 0.1^3 = 0.001 (nearly min interval)
-    float InverseProgress = 1.0f - GameProgress;
-    float ExponentialFactor = InverseProgress * InverseProgress * InverseProgress;  // x^3 curve
-    
-    float Interval = FMath::Lerp(STG::Spawner::MinSpawnInterval, BaseSpawnInterval, ExponentialFactor);
+    // LINEAR PROGRESSION: Steady acceleration throughout the game
+    // At 0%: BaseSpawnInterval (0.25s - already fast!)
+    // At 100%: MinSpawnInterval (0.08s)
+    float Interval = FMath::Lerp(BaseSpawnInterval, STG::Spawner::MinSpawnInterval, GameProgress);
     
     return FMath::Max(Interval, STG::Spawner::MinSpawnInterval);
 }

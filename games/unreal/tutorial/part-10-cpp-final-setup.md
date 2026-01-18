@@ -96,10 +96,25 @@ Press Play and verify:
 
 To build a playable executable:
 
-1. **File → Package Project → Windows** (or Linux)
-2. Choose output folder
-3. Wait for build (5-10 minutes)
-4. Run the `.exe` file from output folder
+**First, set the default level:**
+
+1. **Edit → Project Settings**
+2. In the left panel, find **Project → Maps & Modes**
+3. Under **Default Maps**:
+   - **Editor Startup Map** → Select `BulletHellLevel`
+   - **Game Default Map** → Select `BulletHellLevel`
+4. Close Project Settings
+
+**Then package the game:**
+
+1. In the main toolbar, click **Platforms** (next to the Play button)
+2. Select **Windows** (or **Linux**)
+3. Click **Package Project**
+4. Choose output folder
+5. Wait for build (5-10 minutes)
+6. Run the `.exe` file from output folder
+
+> **Alternative:** You can also access packaging via **Edit → Project Settings → Packaging** to configure settings, then use the **Platforms** menu to build.
 
 ---
 

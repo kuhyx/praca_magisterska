@@ -5,171 +5,151 @@
 
 ## 📅 Week 1: January 16-22 - PERFORMANCE DATA COLLECTION
 
-### Friday, January 16 (Day 1)
+### Friday, January 16 (Day 1) - PASSED
 - [ ] Install/verify NVIDIA Nsight Graphics
 - [ ] Document test hardware specs (run `./scripts/get_hardware_specs.sh`)
 - [ ] Review test scenario document (`./scripts/test_scenarios.md`)
-- [ ] Run Unity game, capture 2-3 frames in Nsight (or use `./scripts/run_unity_test.sh`)
-- [ ] Start expanding Chapter 4 methodology section
-
-**Goal**: Nsight working, first captures done, methodology started
-**Target hours**: 8 hours
 
 ---
 
-### Saturday, January 17 (Day 2)
-- [ ] Complete Unity game testing (5-10 frame captures total)
-- [ ] Capture at different difficulty levels (low/medium/high bullets)
-- [ ] Export key metrics from Nsight (frame time, draw calls, memory)
-- [ ] Take screenshots of important Nsight views
-- [ ] Continue Chapter 4 (methodology section)
-
-**Goal**: All Unity data collected, methodology 60% done
-**Target hours**: 8 hours
+### Saturday, January 17 (Day 2) - PASSED
+- [x] Work on Unreal game implementation
 
 ---
 
-### Sunday, January 18 (Day 3)
-- [ ] Run Unreal game, capture 2-3 frames in Nsight
-- [ ] Test at equivalent difficulty levels to Unity
-- [ ] Document any differences in testing approach
-- [ ] Export Unreal metrics
-- [ ] Compare data format from both engines
+### Sunday, January 18 (Day 3) ✅ TODAY
+- [x] **Finish Unreal game implementation** 🎉
 
-**Goal**: Unreal testing started, initial comparison notes
-**Target hours**: 8 hours
+**Achievement unlocked**: Both Unity and Unreal games ready for testing!
 
 ---
 
 ### Monday, January 19 (Day 4)
-- [ ] Complete Unreal game testing (5-10 captures total)
-- [ ] Organize all captured data in spreadsheet/CSV
-- [ ] Create comparison tables (Unity vs Unreal)
-- [ ] Identify key findings from raw data
-- [ ] Finish Chapter 4 methodology (target: 150+ lines)
+- [ ] Install/verify NVIDIA Nsight Graphics
+- [ ] Document test hardware specs (run `./scripts/get_hardware_specs.sh`)
+- [ ] Review test scenario document (`./scripts/test_scenarios.md`)
+- [ ] Run Unity game, capture 2-3 frames in Nsight
+- [ ] Run Unreal game, capture 2-3 frames in Nsight
 
-**Goal**: All testing complete, data organized, methodology done
+**Goal**: Nsight working, first captures from BOTH engines
 **Target hours**: 4 hours
 
 ---
 
 ### Tuesday, January 20 (Day 5)
-- [ ] Create graph 1: Frame time comparison
-- [ ] Create graph 2: GPU utilization comparison
-- [ ] Create graph 3: Memory usage comparison
-- [ ] Create graph 4: Draw calls efficiency
-- [ ] Start creating LaTeX tables for results
+- [ ] Complete Unity game testing (5-10 frame captures total)
+- [ ] Capture at different difficulty levels (low/medium/high bullets)
+- [ ] Complete Unreal game testing (5-10 captures total)
+- [ ] Test at equivalent difficulty levels to Unity
+- [ ] Document any differences in testing approach
 
-**Goal**: 4+ publication-quality graphs created
+**Goal**: All raw testing data collected from both engines
 **Target hours**: 4 hours
 
 ---
 
 ### Wednesday, January 21 (Day 6)
-- [ ] Create remaining graphs/visualizations
-- [ ] Finalize all comparison tables in LaTeX format
-- [ ] Save all figures to latex/tex/img/
-- [ ] Write captions for all figures and tables
-- [ ] Test that figures compile in LaTeX
+- [ ] Export key metrics from Nsight (frame time, draw calls, memory)
+- [ ] Take screenshots of important Nsight views
+- [ ] Organize all captured data in spreadsheet/CSV
+- [ ] Create comparison tables (Unity vs Unreal)
+- [ ] Identify key findings from raw data
 
-**Goal**: All visualizations ready, saved in correct format
+**Goal**: Data organized, initial analysis done
 **Target hours**: 4 hours
 
 ---
 
 ### Thursday, January 22 (Day 7)
-- [ ] Write Chapter 5 Section 5.1 (Test methodology)
-- [ ] Write Chapter 5 Section 5.2 (Test scenarios)
-- [ ] Write Chapter 5 Section 5.3 (Results - Unity)
-- [ ] Write Chapter 5 Section 5.4 (Results - Unreal)
-- [ ] Write Chapter 5 Section 5.5 (Comparative analysis)
-- [ ] Insert all figures and tables with proper references
+- [ ] Create graph 1: Frame time comparison
+- [ ] Create graph 2: GPU utilization comparison
+- [ ] Create graph 3: Memory usage comparison
+- [ ] Create graph 4: Draw calls efficiency
+- [ ] Save all figures to latex/tex/img/
 
-**✅ WEEK 1 MILESTONE**: Chapter 5 complete (200+ lines), all data collected
+**✅ WEEK 1 MILESTONE**: All performance data collected and visualized
 **Target hours**: 4 hours
 
 ---
 
-## 📅 Week 2: January 23-29 - ANALYSIS & COMPARISON
+## 📅 Week 2: January 23-29 - WRITING & ANALYSIS
 
 ### Friday, January 23 (Day 8)
+- [ ] Write Chapter 4 methodology section (test setup, tools used)
+- [ ] Write Chapter 5 Section 5.1 (Test methodology)
+- [ ] Write Chapter 5 Section 5.2 (Test scenarios)
+- [ ] Create LaTeX tables for results
+- [ ] Target: Chapter 4 done, Chapter 5 started
+
+**Goal**: Methodology complete, results chapter started
+**Target hours**: 8 hours
+
+---
+
+### Saturday, January 24 (Day 9)
+- [ ] Write Chapter 5 Section 5.3 (Results - Unity)
+- [ ] Write Chapter 5 Section 5.4 (Results - Unreal)
+- [ ] Write Chapter 5 Section 5.5 (Comparative analysis)
+- [ ] Insert all figures and tables with proper references
+- [ ] Target: Chapter 5 complete (200+ lines)
+
+**Goal**: Chapter 5 (Performance Tests) finished
+**Target hours**: 8 hours
+
+---
+
+### Sunday, January 25 (Day 10)
 - [ ] Chapter 6 Section 6.1: Graphics capabilities (Unity URP vs Unreal)
 - [ ] Chapter 6 Section 6.2: Shader systems comparison
 - [ ] Chapter 6 Section 6.3: Lighting and post-processing
+- [ ] Chapter 6 Section 6.4: Physics engine comparison
 - [ ] Integrate interview quotes where relevant
-- [ ] Target: 60-80 new lines in Chapter 6
 
 **Goal**: Half of Chapter 6 capabilities analysis done
 **Target hours**: 8 hours
 
 ---
 
-### Saturday, January 24 (Day 9)
-- [ ] Chapter 6 Section 6.4: Physics engine comparison
+### Monday, January 26 (Day 11)
 - [ ] Chapter 6 Section 6.5: Audio systems
 - [ ] Chapter 6 Section 6.6: Animation systems
 - [ ] Chapter 6 Section 6.7: Scripting and workflow
 - [ ] Target: Chapter 6 complete (180+ lines total)
 
 **Goal**: Chapter 6 finished
-**Target hours**: 8 hours
-
----
-
-### Sunday, January 25 (Day 10)
-- [ ] Chapter 7 Section 7.1: Synthesis of performance results
-- [ ] Create master comparison table (all metrics)
-- [ ] Chapter 7 Section 7.2: Multi-criteria analysis
-- [ ] Create comparison matrix (performance vs features vs usability)
-- [ ] Target: 50% of Chapter 7 done
-
-**Goal**: Results synthesis and main comparison table
-**Target hours**: 8 hours
-
----
-
-### Monday, January 26 (Day 11)
-- [ ] Chapter 7 Section 7.3: Use case recommendations (indie games)
-- [ ] Chapter 7 Section 7.3: Use case recommendations (mobile games)
-- [ ] Chapter 7 Section 7.3: Use case recommendations (AAA games)
-- [ ] Chapter 7 Section 7.4: Research limitations
-- [ ] Target: Chapter 7 complete (150+ lines)
-
-**Goal**: Chapter 7 finished with clear recommendations
 **Target hours**: 4 hours
 
 ---
 
 ### Tuesday, January 27 (Day 12)
-- [ ] Chapter 8 Section 8.1: Main research findings
-- [ ] Answer all research questions from introduction
-- [ ] Verify hypotheses (state which confirmed/rejected)
-- [ ] Chapter 8 Section 8.2: Practical recommendations
-- [ ] Target: 50% of Chapter 8 done
+- [ ] Chapter 7 Section 7.1: Synthesis of performance results
+- [ ] Create master comparison table (all metrics)
+- [ ] Chapter 7 Section 7.2: Multi-criteria analysis
+- [ ] Create comparison matrix (performance vs features vs usability)
 
-**Goal**: Core conclusions written
+**Goal**: Results synthesis and main comparison table
 **Target hours**: 4 hours
 
 ---
 
 ### Wednesday, January 28 (Day 13)
-- [ ] Chapter 8 Section 8.3: Scientific contribution
-- [ ] Chapter 8 Section 8.4: Limitations and future work
-- [ ] Chapter 8 Section 8.5: Final reflections
-- [ ] Polish entire Chapter 8
-- [ ] Target: Chapter 8 complete (120+ lines)
+- [ ] Chapter 7 Section 7.3: Use case recommendations
+- [ ] Chapter 7 Section 7.4: Research limitations
+- [ ] Target: Chapter 7 complete (150+ lines)
+- [ ] Start Chapter 8 conclusions
 
-**Goal**: Conclusions chapter finished
+**Goal**: Chapter 7 finished, conclusions started
 **Target hours**: 4 hours
 
 ---
 
 ### Thursday, January 29 (Day 14)
-- [ ] Review and expand Chapter 4 with final details
-- [ ] Ensure all methodology is reproducible
-- [ ] Add any statistical methods used
-- [ ] Read through Chapters 4-8 for consistency
-- [ ] Fix any obvious issues
+- [ ] Chapter 8 Section 8.1: Main research findings
+- [ ] Answer all research questions from introduction
+- [ ] Verify hypotheses (state which confirmed/rejected)
+- [ ] Chapter 8 Section 8.2: Practical recommendations
+- [ ] Chapter 8 Section 8.3: Scientific contribution
+- [ ] Chapter 8 Section 8.4: Limitations and future work
 
 **✅ WEEK 2 MILESTONE**: All core chapters complete (first draft)
 **Target hours**: 4 hours

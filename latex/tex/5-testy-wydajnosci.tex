@@ -27,15 +27,297 @@ W celu zapewnienia porównywalności wyników między silnikami Unity i Unreal E
 \subsection{Wyniki testów dla silnika Unity}
 \label{subsec:wyniki-unity}
 
-\subsubsection{Faza niskiego obciążenia (0--30 sekund)}
-% TODO: Wstawić dane z testów Unity - faza 1
-% Tabela z czasem klatki, FPS, GPU%, pamięć
+Profilowanie silnika Unity przeprowadzono przy użyciu narzędzia NVIDIA Nsight Systems w wersji 2025.5.2, które umożliwia szczegółową analizę wywołań API graficznych oraz funkcji systemowych na poziomie pojedynczych mikrosekund. Test trwał 95 sekund, podczas których gra działała w trybie stacjonarnym (gracz nieruchomy) z włączoną nieśmiertelnością, co pozwoliło na stabilne pomiary bez przerwania rozgrywki.
 
-\subsubsection{Faza średniego obciążenia (30--60 sekund)}
-% TODO: Wstawić dane z testów Unity - faza 2
+\subsubsection{Ogólne wyniki wydajności}
 
-\subsubsection{Faza wysokiego obciążenia (60--90 sekund)}
-% TODO: Wstawić dane z testów Unity - faza 3
+Podczas 94,16-sekundowego okresu aktywnego renderowania zarejestrowano łącznie 13\,556 klatek, co przekłada się na średnią wydajność \textbf{143,96 klatek na sekundę} (FPS). Jest to wynik znacząco przewyższający standardowy cel wydajnościowy 60 FPS dla aplikacji interaktywnych, wskazujący na bardzo dobrą optymalizację silnika Unity dla testowanej sceny.
+
+\begin{table}[htbp]
+\centering
+\caption{Ogólne metryki wydajności silnika Unity}
+\label{tab:unity-performance-summary}
+\begin{tabular}{|l|r|}
+\hline
+\textbf{Metryka} & \textbf{Wartość} \\
+\hline
+Czas trwania testu & 94,16 s \\
+Liczba wyrenderowanych klatek & 13\,556 \\
+Średnia liczba FPS & 143,96 \\
+Średni czas klatki & 6,95 ms \\
+Minimalny czas klatki & 0,08 ms \\
+Maksymalny czas klatki & 1\,239,62 ms \\
+Odchylenie standardowe & 10,64 ms \\
+Współczynnik zmienności & 153,24\% \\
+\hline
+\end{tabular}
+\end{table}
+
+Tabela~\ref{tab:unity-performance-summary} przedstawia podstawowe metryki wydajności. Średni czas klatki wynoszący 6,95 ms oznacza, że silnik Unity jest w stanie wyrenderować pojedynczą klatkę w czasie znacznie krótszym niż wymagane 16,67 ms dla osiągnięcia 60 FPS. Minimalny czas klatki 0,08 ms odpowiada sytuacjom, gdy kolejne wywołania prezentacji następują niemal natychmiast po sobie -- może to wynikać z mechanizmu podwójnego buforowania (ang. \textit{double buffering}) lub chwilowego braku pracy do wykonania przez GPU.
+
+Wartość maksymalna 1\,239,62 ms (ponad sekunda) wymaga szczególnej uwagi. Tak długi czas klatki występuje podczas fazy inicjalizacji aplikacji, gdy silnik Unity wykonuje jednorazowe operacje: kompilację shaderów, alokację dużych bloków pamięci GPU, tworzenie obiektów swapchain oraz inicjalizację systemu renderowania. Jest to zachowanie typowe dla aplikacji Vulkan, gdzie znaczna część pracy inicjalizacyjnej wykonywana jest przy starcie, w przeciwieństwie do OpenGL, gdzie inicjalizacja jest bardziej rozłożona w czasie.
+
+Współczynnik zmienności (CV) wynoszący 153,24\% jest wysoki, jednak wynika on głównie z uwzględnienia ekstremalnych wartości inicjalizacyjnych. Po wykluczeniu pierwszych kilku klatek, stabilność renderowania jest znacznie wyższa, co potwierdza analiza percentylowa przedstawiona w dalszej części.
+
+\subsubsection{Analiza rozkładu czasów klatek}
+
+Szczegółowa analiza rozkładu czasów klatek pozwala ocenić nie tylko średnią wydajność, ale przede wszystkim stabilność i przewidywalność działania silnika -- aspekty kluczowe dla komfortu odbiorcy gry.
+
+\begin{table}[htbp]
+\centering
+\caption{Rozkład percentylowy czasów klatek silnika Unity}
+\label{tab:unity-percentiles}
+\begin{tabular}{|l|r|r|}
+\hline
+\textbf{Percentyl} & \textbf{Czas klatki (ms)} & \textbf{Odpowiadający FPS} \\
+\hline
+1. percentyl (najszybsze 1\%) & 0,71 & 1\,408 \\
+5. percentyl & 6,69 & 149 \\
+25. percentyl (Q1) & 6,90 & 145 \\
+50. percentyl (mediana) & 6,94 & 144 \\
+75. percentyl (Q3) & 6,98 & 143 \\
+95. percentyl & 7,18 & 139 \\
+99. percentyl (najwolniejsze 1\%) & 7,58 & 132 \\
+\hline
+\end{tabular}
+\end{table}
+
+Tabela~\ref{tab:unity-percentiles} prezentuje rozkład percentylowy czasów klatek. \textbf{Mediana} (50. percentyl) wynosząca 6,94 ms jest niemal identyczna ze średnią arytmetyczną (6,95 ms), co wskazuje na symetryczny rozkład czasów klatek w normalnych warunkach pracy. W praktyce oznacza to, że typowa klatka renderowana jest w czasie bardzo zbliżonym do wartości średniej.
+
+Szczególnie istotny jest \textbf{99. percentyl} wynoszący 7,58 ms. Wartość ta, określana w środowisku graczy jako ,,1\% low'', reprezentuje wydajność w najgorszych 1\% przypadków. Różnica między medianą (6,94 ms) a 99. percentylem (7,58 ms) wynosi zaledwie 0,64 ms (9,2\%), co świadczy o \textbf{wyjątkowej stabilności} renderowania. Dla porównania, w wielu grach różnica ta przekracza 50\%, co objawia się zauważalnymi ,,przycięciami'' obrazu.
+
+\textbf{Rozstęp międzykwartylowy} (IQR), czyli różnica między 75. a 25. percentylem, wynosi zaledwie 0,08 ms. Tak niski IQR potwierdza, że 50\% środkowych czasów klatek mieści się w niezwykle wąskim przedziale, co jest oznaką deterministycznego i przewidywalnego zachowania potoku renderowania.
+
+\begin{table}[htbp]
+\centering
+\caption{Histogram czasów klatek silnika Unity}
+\label{tab:unity-histogram}
+\begin{tabular}{|l|r|r|}
+\hline
+\textbf{Przedział czasu klatki} & \textbf{Liczba klatek} & \textbf{Udział (\%)} \\
+\hline
+0--5 ms (>200 FPS) & 230 & 1,70 \\
+5--10 ms (100--200 FPS) & 13\,317 & 98,24 \\
+10--16,67 ms (60--100 FPS) & 4 & 0,03 \\
+16,67--33,33 ms (30--60 FPS) & 2 & 0,01 \\
+>33,33 ms (<30 FPS) & 2 & 0,01 \\
+\hline
+\end{tabular}
+\end{table}
+
+Histogram przedstawiony w tabeli~\ref{tab:unity-histogram} dostarcza dodatkowego wglądu w rozkład wydajności. \textbf{98,24\% wszystkich klatek} zostało wyrenderowanych w czasie 5--10 ms, co odpowiada wydajności 100--200 FPS. Jedynie 8 klatek (0,06\%) przekroczyło próg 10 ms, przy czym klatki poniżej 60 FPS (>16,67 ms) stanowiły zaledwie 0,02\% -- praktycznie wszystkie z nich przypadły na fazę inicjalizacji.
+
+Kategoria 0--5 ms (230 klatek, 1,70\%) reprezentuje sytuacje szczególne: bardzo szybkie klatki podczas przejść między scenami, momenty niskiego obciążenia lub artefakty pomiarowe wynikające z mechanizmu synchronizacji swapchain.
+
+\subsubsection{Szczegółowa analiza wywołań Vulkan API}
+
+NVIDIA Nsight Systems przechwytuje wszystkie wywołania interfejsu programistycznego Vulkan, umożliwiając dokładną analizę zachowania silnika renderującego na poziomie pojedynczych funkcji API. Podczas testu zarejestrowano łącznie \textbf{218\,815 wywołań} 31 różnych funkcji Vulkan API.
+
+\begin{table}[htbp]
+\centering
+\caption{Wywołania Vulkan API silnika Unity -- funkcje synchronizacji i prezentacji}
+\label{tab:unity-vulkan-sync}
+\begin{tabular}{|l|r|r|r|r|r|}
+\hline
+\textbf{Funkcja} & \textbf{Czas (\%)} & \textbf{Wywołania} & \textbf{Śr. (ms)} & \textbf{Med. (ms)} & \textbf{Maks. (ms)} \\
+\hline
+\texttt{vkWaitForFences} & 95,2 & 12\,895 & 5,97 & 6,23 & 1\,181,17 \\
+\texttt{vkQueuePresentKHR} & 3,2 & 13\,556 & 0,19 & 0,02 & 7,20 \\
+\texttt{vkQueueSubmit} & 0,8 & 27\,112 & 0,03 & 0,01 & 2,69 \\
+\texttt{vkAcquireNextImageKHR} & 0,0 & 13\,556 & 0,001 & 0,001 & 0,11 \\
+\texttt{vkQueueWaitIdle} & 0,0 & 1 & 0,27 & 0,27 & 0,27 \\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{Funkcja vkWaitForFences -- synchronizacja CPU-GPU}
+
+Funkcja \texttt{vkWaitForFences} pochłonęła \textbf{95,2\% całkowitego czasu} profilowania wywołań Vulkan API, co stanowi 77,04 sekundy z 94-sekundowego testu. Funkcja ta, zdefiniowana w specyfikacji Vulkan w rozdziale 7.3 dotyczącym synchronizacji, realizuje blokujące oczekiwanie procesora na sygnalizację obiektów ogrodzenia (ang. \textit{fence}) przez GPU.
+
+Mechanizm ogrodzeń w Vulkan działa następująco: aplikacja tworzy obiekt fence, dołącza go do operacji przesyłanej do kolejki GPU (np. poprzez \texttt{vkQueueSubmit}), a następnie może wywołać \texttt{vkWaitForFences}, aby zablokować wątek CPU do momentu zakończenia powiązanej pracy przez GPU. Jest to fundamentalny mechanizm synchronizacji w architekturze producent-konsument między CPU a GPU.
+
+Tak wysoki udział procentowy (95,2\%) jednoznacznie wskazuje na scenariusz \textbf{ograniczenia wydajności przez GPU} (ang. \textit{GPU-bound}). W tym scenariuszu procesor główny zakończył przygotowywanie i przesyłanie poleceń renderowania, a następnie oczekuje na ukończenie ich wykonania przez kartę graficzną. Jest to pożądany wzorzec w dobrze zoptymalizowanych aplikacjach graficznych -- procesor nie stanowi wąskiego gardła i zdąża przygotować pracę dla GPU przed zakończeniem poprzedniej klatki.
+
+Średni czas pojedynczego wywołania wyniósł 5,97 ms przy medianie 6,23 ms. Różnica między średnią a medianą (0,26 ms) wynika z obecności bardzo krótkich czasów oczekiwania w niektórych sytuacjach (np. gdy GPU zakończył pracę przed wywołaniem wait). Maksymalny czas 1\,181,17 ms odpowiada fazie inicjalizacji, podczas której GPU wykonuje jednorazowe, kosztowne operacje.
+
+Stosunek liczby wywołań \texttt{vkWaitForFences} (12\,895) do liczby klatek (13\,556) wskazuje, że Unity stosuje strategię oczekiwania ,,prawie na każdą klatkę'' z pewnymi optymalizacjami pozwalającymi pominąć oczekiwanie w niektórych przypadkach.
+
+\paragraph{Funkcja vkQueuePresentKHR -- prezentacja klatek}
+
+Funkcja \texttt{vkQueuePresentKHR}, zdefiniowana w rozszerzeniu \texttt{VK\_KHR\_swapchain}, odpowiada za przesłanie żądania prezentacji wyrenderowanego obrazu do silnika prezentacji (ang. \textit{presentation engine}). Każde wywołanie tej funkcji reprezentuje jedną klatkę przekazaną do wyświetlenia, dlatego liczba wywołań (13\,556) równa jest liczbie wyrenderowanych klatek.
+
+Średni czas wywołania 0,19 ms przy medianie zaledwie 0,02 ms wskazuje na asymetryczny rozkład -- większość wywołań jest bardzo szybka, ale niektóre wymagają dłuższego oczekiwania (maksymalnie 7,20 ms). Dłuższe czasy mogą wynikać z oczekiwania na dostępność bufora w swapchain lub synchronizacji z częstotliwością odświeżania monitora (nawet przy wyłączonym V-Sync, pewien poziom synchronizacji jest wymagany).
+
+\paragraph{Funkcja vkQueueSubmit -- przesyłanie pracy do GPU}
+
+\texttt{vkQueueSubmit} przesyła bufory poleceń (ang. \textit{command buffers}) do kolejki GPU celem wykonania. Zarejestrowano 27\,112 wywołań, co oznacza średnio 2 wywołania na klatkę. Taki wzorzec sugeruje, że Unity stosuje architekturę z oddzielnymi przebiegami renderowania (np. przebieg główny + post-processing lub przebieg sceny + UI).
+
+Niski średni czas (0,03 ms) potwierdza, że \texttt{vkQueueSubmit} jedynie kolejkuje pracę bez oczekiwania na jej wykonanie -- faktyczne renderowanie odbywa się asynchronicznie na GPU.
+
+\begin{table}[htbp]
+\centering
+\caption{Wywołania Vulkan API silnika Unity -- bufory poleceń}
+\label{tab:unity-vulkan-cmd}
+\begin{tabular}{|l|r|r|r|r|}
+\hline
+\textbf{Funkcja} & \textbf{Wywołania} & \textbf{Śr. (μs)} & \textbf{Med. (μs)} & \textbf{Maks. (μs)} \\
+\hline
+\texttt{vkBeginCommandBuffer} & 40\,679 & 2,53 & 1,76 & 2\,049 \\
+\texttt{vkEndCommandBuffer} & 40\,679 & 0,73 & 0,63 & 116 \\
+\texttt{vkCmdPipelineBarrier} & 40\,800 & 0,46 & 0,39 & 97 \\
+\texttt{vkCmdBindPipeline} & 27\,027 & 1,07 & 0,99 & 36 \\
+\texttt{vkAllocateCommandBuffers} & 687 & 12,78 & 12,08 & 67 \\
+\texttt{vkCreateCommandPool} & 687 & 1,22 & 0,22 & 10 \\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{Nagrywanie buforów poleceń}
+
+Tabela~\ref{tab:unity-vulkan-cmd} przedstawia statystyki funkcji związanych z buforami poleceń. Liczba wywołań \texttt{vkBeginCommandBuffer} i \texttt{vkEndCommandBuffer} (po 40\,679) oznacza, że Unity nagrywa średnio 3 bufory poleceń na klatkę. Jest to typowa wartość dla nowoczesnych silników stosujących wielowątkowe nagrywanie poleceń.
+
+Funkcja \texttt{vkCmdPipelineBarrier} (40\,800 wywołań) służy do synchronizacji dostępu do zasobów w obrębie GPU i zapewnienia poprawnej kolejności operacji. Wysoka liczba wywołań wskazuje na staranną kontrolę zależności między operacjami renderowania.
+
+\texttt{vkCmdBindPipeline} (27\,027 wywołań, ~2 na klatkę) przełącza aktywny stan potoku graficznego. Relatywnie niska liczba wywołań sugeruje efektywne grupowanie obiektów według używanego potoku, minimalizując kosztowne zmiany stanu.
+
+\begin{table}[htbp]
+\centering
+\caption{Wywołania Vulkan API silnika Unity -- inicjalizacja i zasoby}
+\label{tab:unity-vulkan-init}
+\begin{tabular}{|l|r|r|r|}
+\hline
+\textbf{Funkcja} & \textbf{Wywołania} & \textbf{Całk. czas (ms)} & \textbf{Śr. (ms)} \\
+\hline
+\texttt{vkCreateDevice} & 1 & 162,35 & 162,35 \\
+\texttt{vkCreateSwapchainKHR} & 1 & 77,02 & 77,02 \\
+\texttt{vkCreateFence} & 341 & 135,60 & 0,40 \\
+\texttt{vkAllocateMemory} & 22 & 15,07 & 0,68 \\
+\texttt{vkFreeMemory} & 8 & 5,07 & 0,63 \\
+\texttt{vkCreateGraphicsPipelines} & 3 & 0,38 & 0,13 \\
+\texttt{vkCreateImage} & 106 & 0,24 & 0,002 \\
+\texttt{vkCreateImageView} & 111 & 0,17 & 0,002 \\
+\texttt{vkCreateShaderModule} & 6 & 0,04 & 0,006 \\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{Operacje inicjalizacyjne}
+
+Tabela~\ref{tab:unity-vulkan-init} przedstawia jednorazowe operacje inicjalizacyjne. \texttt{vkCreateDevice} (162,35 ms) tworzy logiczne urządzenie Vulkan -- jest to najdroższa pojedyncza operacja, obejmująca negocjację możliwości GPU, alokację struktur wewnętrznych sterownika i inicjalizację kolejek.
+
+\texttt{vkCreateSwapchainKHR} (77,02 ms) tworzy łańcuch wymiany (swapchain), czyli zestaw buforów służących do prezentacji obrazu. Operacja ta obejmuje alokację pamięci dla buforów, konfigurację formatów i synchronizację z systemem okienkowym.
+
+Utworzenie 341 obiektów fence (łącznie 135,60 ms) wskazuje na przygotowanie puli ogrodzeń do wielokrotnego użytku w cyklu renderowania. Unity stosuje strategię pre-alokacji zamiast tworzenia ogrodzeń na żądanie, co jest praktyką zalecaną w dokumentacji Vulkan.
+
+\subsubsection{Analiza wywołań systemowych (OS Runtime)}
+
+Oprócz wywołań Vulkan API, Nsight Systems przechwytuje również wywołania funkcji systemowych, umożliwiając analizę zachowania aplikacji na poziomie systemu operacyjnego. Zarejestrowano \textbf{29\,383 wywołania} 65 różnych funkcji systemowych.
+
+\begin{table}[htbp]
+\centering
+\caption{Wywołania systemowe silnika Unity -- synchronizacja wątków}
+\label{tab:unity-osrt-sync}
+\begin{tabular}{|l|r|r|r|r|r|}
+\hline
+\textbf{Funkcja} & \textbf{Czas (\%)} & \textbf{Wywołania} & \textbf{Śr. (ms)} & \textbf{Med. (μs)} & \textbf{Maks. (s)} \\
+\hline
+\texttt{futex} & 95,9 & 247 & 444,07 & 88,49 & 11,05 \\
+\texttt{pthread\_cond\_timedwait} & 2,7 & 85 & 35,91 & 7\,070,65 & 2,00 \\
+\texttt{pthread\_cond\_wait} & 0,6 & 26 & 28,59 & 10\,433,06 & 0,47 \\
+\texttt{pthread\_create} & 0,0 & 81 & 0,04 & 33,34 & 0,00009 \\
+\texttt{pthread\_join} & 0,0 & 3 & 0,11 & 106,59 & 0,00014 \\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{Mechanizm futex -- szybka synchronizacja w przestrzeni użytkownika}
+
+Funkcja \texttt{futex} (ang. \textit{Fast Userspace muTEX}) pochłonęła \textbf{95,9\% czasu} wywołań systemowych. Futex jest mechanizmem synchronizacji wątków w jądrze Linux, zaprojektowanym dla maksymalnej wydajności w scenariuszach bez rywalizacji (ang. \textit{uncontended case}).
+
+Mechanizm futex działa dwuetapowo:
+\begin{enumerate}
+    \item W przypadku braku rywalizacji, operacje na muteksie wykonywane są całkowicie w przestrzeni użytkownika poprzez instrukcje atomowe, bez przełączania do jądra.
+    \item Gdy występuje rywalizacja (inny wątek trzyma blokadę), wątek wykonuje wywołanie systemowe \texttt{futex} z operacją \texttt{FUTEX\_WAIT}, które usypia wątek do momentu zwolnienia blokady.
+\end{enumerate}
+
+Tak wysoki udział \texttt{futex} (109,69 sekundy łącznie) wskazuje na intensywne wykorzystanie wielowątkowości przez silnik Unity. Silnik ten stosuje architekturę wielowątkową z oddzielnymi wątkami dla: głównej pętli gry, renderowania, fizyki, audio, wczytywania zasobów oraz systemu zadań (ang. \textit{job system}).
+
+Średni czas wywołania 444,07 ms przy medianie zaledwie 88,49 μs wskazuje na silnie asymetryczny rozkład -- większość wywołań kończy się szybko (wątek od razu uzyskuje blokadę lub jest natychmiast budzony), ale niektóre wywołania skutkują długim oczekiwaniem. Maksymalny czas 11,05 sekundy odpowiada najprawdopodobniej wątkowi oczekującemu na zakończenie długotrwałej operacji inicjalizacyjnej.
+
+\paragraph{Zmienne warunkowe POSIX}
+
+Funkcje \texttt{pthread\_cond\_timedwait} (2,7\%, 85 wywołań) i \texttt{pthread\_cond\_wait} (0,6\%, 26 wywołań) implementują zmienne warunkowe POSIX, używane do bardziej złożonych scenariuszy synchronizacji niż proste muteksy.
+
+\texttt{pthread\_cond\_timedwait} różni się od \texttt{pthread\_cond\_wait} możliwością określenia limitu czasu oczekiwania (timeout). Użycie wersji z timeoutem (85 vs 26 wywołań) sugeruje, że Unity stosuje wzorzec okresowego sprawdzania warunków zamiast nieograniczonego oczekiwania, co zwiększa responsywność systemu.
+
+Utworzenie 81 wątków (\texttt{pthread\_create}) podczas testu potwierdza rozbudowaną architekturę wielowątkową. Przy założeniu, że część wątków to wątki robocze systemu zadań, sugeruje to pulę kilkudziesięciu wątków aktywnie uczestniczących w renderowaniu i logice gry.
+
+\begin{table}[htbp]
+\centering
+\caption{Wywołania systemowe silnika Unity -- operacje I/O}
+\label{tab:unity-osrt-io}
+\begin{tabular}{|l|r|r|r|}
+\hline
+\textbf{Funkcja} & \textbf{Wywołania} & \textbf{Całk. czas (ms)} & \textbf{Śr. (μs)} \\
+\hline
+\texttt{poll} & 349 & 314,33 & 900,66 \\
+\texttt{ioctl} & 1\,907 & 284,18 & 149,02 \\
+\texttt{openat64} & 22\,155 & 23,80 & 1,07 \\
+\texttt{read} & 235 & 2,89 & 12,28 \\
+\texttt{open64} & 553 & 1,43 & 2,59 \\
+\texttt{fopen} & 548 & 0,88 & 1,60 \\
+\texttt{writev} & 261 & 0,50 & 1,90 \\
+\texttt{fread} & 317 & 0,49 & 1,55 \\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{Operacje wejścia/wyjścia}
+
+Tabela~\ref{tab:unity-osrt-io} przedstawia statystyki operacji I/O. Funkcja \texttt{poll} (349 wywołań, 314,33 ms) służy do multipleksowanego oczekiwania na zdarzenia z wielu deskryptorów plików -- w kontekście gry prawdopodobnie dotyczy komunikacji z systemem okienkowym (X11/Wayland) oraz urządzeniami wejścia.
+
+Duża liczba wywołań \texttt{openat64} (22\,155) wskazuje na intensywne operacje na systemie plików, prawdopodobnie związane z wczytywaniem zasobów gry (tekstur, modeli, shaderów) z dysku. Średni czas 1,07 μs potwierdza efektywne buforowanie przez system operacyjny.
+
+\texttt{ioctl} (1\,907 wywołań) służy do kontroli urządzeń -- w kontekście grafiki Vulkan jest używane do komunikacji ze sterownikiem GPU poprzez interfejs DRM/KMS (Direct Rendering Manager / Kernel Mode Setting).
+
+\subsubsection{Interpretacja wyników i wnioski}
+
+Przeprowadzona analiza pozwala na sformułowanie następujących wniosków dotyczących wydajności i architektury silnika Unity:
+
+\paragraph{Charakterystyka ograniczenia wydajności}
+
+Dominacja \texttt{vkWaitForFences} (95,2\% czasu Vulkan) i \texttt{futex} (95,9\% czasu systemowego) jednoznacznie wskazuje na scenariusz \textbf{GPU-bound}. Procesor główny efektywnie przygotowuje i przesyła pracę renderowania, po czym oczekuje na GPU. Jest to optymalny wzorzec dla aplikacji graficznych, gdzie GPU wykonuje większość obliczeniowo intensywnej pracy.
+
+W scenariuszu CPU-bound obserwowalibyśmy niższy udział funkcji synchronizacyjnych i wyższy udział funkcji przygotowujących polecenia (\texttt{vkBeginCommandBuffer}, \texttt{vkCmdBindPipeline} itp.), co wskazywałoby na wąskie gardło po stronie procesora.
+
+\paragraph{Efektywność potoku renderowania}
+
+Stosunek liczby wywołań \texttt{vkQueueSubmit} (27\,112) do \texttt{vkQueuePresentKHR} (13\,556) wynoszący 2:1 wskazuje na dwuetapowy potok renderowania dla każdej klatki. Może to odpowiadać architekturze z oddzielnymi przebiegami dla sceny 3D i interfejsu użytkownika, lub użyciu techniki odroczonego renderowania (ang. \textit{deferred rendering}).
+
+Niska liczba wywołań \texttt{vkCmdBindPipeline} (27\,027, ~2 na klatkę) sugeruje efektywne grupowanie obiektów renderowanych tym samym shaderem, minimalizujące kosztowne zmiany stanu GPU.
+
+\paragraph{Stabilność czasów klatek}
+
+Pomimo wysokiego współczynnika zmienności (153\%) wynikającego z wartości ekstremalnych podczas inicjalizacji, właściwa stabilność renderowania jest \textbf{doskonała}. Świadczy o tym:
+\begin{itemize}
+    \item Wąski rozstęp międzykwartylowy (0,08 ms)
+    \item Zbieżność mediany (6,94 ms) ze średnią (6,95 ms)
+    \item Mała różnica między 50. a 99. percentylem (0,64 ms, 9,2\%)
+    \item 98,24\% klatek w przedziale 5--10 ms
+\end{itemize}
+
+Tak wysoka stabilność jest kluczowa dla komfortu gracza -- nawet wysoki FPS nie gwarantuje płynności, jeśli czasy klatek są zmienne. Unity osiąga tutaj wynik zbliżony do standardów wymaganych przez aplikacje VR.
+
+\paragraph{Architektura wielowątkowa}
+
+Analiza wywołań systemowych potwierdza intensywne wykorzystanie wielowątkowości:
+\begin{itemize}
+    \item 81 utworzonych wątków wskazuje na rozbudowany system zadań
+    \item Dominacja \texttt{futex} sugeruje częstą komunikację między wątkami
+    \item Użycie zmiennych warunkowych z timeoutem świadczy o responsywnej architekturze
+\end{itemize}
+
+Unity 2023 LTS stosuje architekturę DOTS (Data-Oriented Technology Stack) z systemem zadań (Job System), który automatycznie dystrybuuje pracę na dostępne rdzenie procesora. Wyniki profilowania potwierdzają aktywne wykorzystanie tej architektury.
 
 \subsection{Wyniki testów dla silnika Unreal Engine}
 \label{subsec:wyniki-unreal}

@@ -41,15 +41,115 @@ Głównym celem badań jest obiektywne porównanie wydajności i możliwości wy
 \end{itemize}
 
 \subsection{Środowisko testowe}
+
 \subsubsection{Specyfikacja sprzętowa}
-% Szczegółowy opis konfiguracji sprzętowej używanej do testów
+\label{subsubsec:specyfikacja-sprzetowa}
+
+Wszystkie testy wydajnościowe przeprowadzono na komputerze o następującej specyfikacji:
+
+\begin{itemize}
+    \item \textbf{Procesor}: AMD Ryzen 9 7900X3D 12-Core Processor (24 rdzenie, 48 wątków)
+    \item \textbf{Karta graficzna}: NVIDIA GeForce RTX 3090
+    \item \textbf{Pamięć GPU}: 24 GB GDDR6X
+    \item \textbf{Sterowniki NVIDIA}: wersja 590.48.01
+    \item \textbf{Pamięć RAM}: 32 GB
+    \item \textbf{System operacyjny}: Arch Linux (jądro Linux 6.18.5-arch1-1)
+    \item \textbf{Dysk}: SSD o pojemności 3,6 TB
+\end{itemize}
 
 \subsubsection{Specyfikacja oprogramowania}
-% Wersje systemów operacyjnych, sterowników, silników
+\label{subsubsec:specyfikacja-oprogramowania}
+
+W badaniach wykorzystano następujące wersje oprogramowania:
+
+\begin{itemize}
+    \item \textbf{Unity}: 6.0 (6000.0.58f2) LTS
+    \item \textbf{Unreal Engine}: 5.5.3
+    \item \textbf{NVIDIA Nsight Systems}: 2025.5.2
+\end{itemize}
+
+Wybór wersji LTS silnika Unity podyktowany był stabilnością oraz długoterminowym wsparciem, co jest istotne z punktu widzenia powtarzalności badań. W przypadku Unreal Engine wybrano najnowszą dostępną wersję stabilną w momencie rozpoczęcia badań.
+
+\subsubsection{Konfiguracja testowa}
+\label{subsubsec:konfiguracja-testowa}
+
+Przed wykonaniem każdego testu zastosowano następującą procedurę przygotowawczą:
+\begin{enumerate}
+    \item Zamknięto wszystkie aplikacje działające w tle
+    \item Wyłączono automatyczne aktualizacje systemu
+    \item Ustawiono tryb wydajności zasilania (performance mode)
+    \item Odczekano 5 minut na stabilizację termiczną systemu
+    \item Wykonano 3 pomiary dla każdego scenariusza testowego, z których obliczono wartość średnią
+\end{enumerate}
 
 \subsection{Projekt testów}
-\subsubsection{Scenariusze testowe}
-% Opis konkretnych scenariuszy używanych do porównania
+
+\subsubsection{Gra testowa typu \emph{bullet hell}}
+\label{subsubsec:gra-testowa}
+
+Na potrzeby badań porównawczych zaimplementowano identyczną grę w gatunku \emph{bullet hell} w obu silnikach. Gra charakteryzuje się następującymi cechami:
+
+\begin{itemize}
+    \item Sterowany przez gracza statek kosmiczny
+    \item System generowania przeciwników z progresywnie rosnącym obciążeniem
+    \item Generowanie wzorców pocisków
+    \item Wykrywanie kolizji między obiektami
+    \item Tryb przetrwania trwający 90 sekund
+\end{itemize}
+
+Wybór gatunku \emph{bullet hell} podyktowany był możliwością generowania dużej liczby obiektów na ekranie (pociski, przeciwnicy, efekty wizualne), co pozwala na skuteczne obciążenie silnika graficznego i zbadanie jego wydajności w warunkach ekstremalnych.
+
+\subsubsection{Fazy obciążenia}
+\label{subsubsec:fazy-obciazenia}
+
+Gra testowa została zaprojektowana tak, aby w ciągu 90 sekund rozgrywki przechodziła przez trzy fazy o różnym poziomie obciążenia:
+
+\paragraph{Faza 1: Niskie obciążenie (0--30 sekund)}
+\begin{itemize}
+    \item Liczba pocisków na ekranie: 50--100
+    \item Aktywni przeciwnicy: 2--3
+    \item Oczekiwana stabilna liczba klatek: 60 FPS
+    \item Oczekiwane wykorzystanie GPU: poniżej 50\%
+\end{itemize}
+
+\paragraph{Faza 2: Średnie obciążenie (30--60 sekund)}
+\begin{itemize}
+    \item Liczba pocisków na ekranie: 200--300
+    \item Aktywni przeciwnicy: 5--7
+    \item Oczekiwane wykorzystanie GPU: 50--70\%
+    \item Możliwe niewielkie spadki liczby klatek
+\end{itemize}
+
+\paragraph{Faza 3: Wysokie obciążenie (60--90 sekund)}
+\begin{itemize}
+    \item Liczba pocisków na ekranie: ponad 500
+    \item Aktywni przeciwnicy: ponad 10
+    \item Oczekiwane wykorzystanie GPU: powyżej 70\%
+    \item Potencjalne znaczące spadki liczby klatek
+\end{itemize}
 
 \subsubsection{Metryki i wskaźniki}
-% Definicja mierzonych parametrów i sposobów ich pomiaru
+\label{subsubsec:metryki}
+
+W ramach testów wydajnościowych mierzono następujące parametry:
+
+\begin{enumerate}
+    \item \textbf{Czas klatki} (ang. \emph{frame time}) -- czas potrzebny na wyrenderowanie pojedynczej klatki, wyrażony w milisekundach
+    \item \textbf{Liczba klatek na sekundę} (FPS) -- wartość pochodna od czasu klatki
+    \item \textbf{Wykorzystanie GPU} -- procentowe obciążenie karty graficznej
+    \item \textbf{Zużycie pamięci} -- pamięć VRAM oraz RAM wykorzystywana przez aplikację
+    \item \textbf{Liczba wywołań rysowania} (ang. \emph{draw calls}) -- liczba wywołań API graficznego na klatkę
+    \item \textbf{Liczba wierzchołków} -- całkowita liczba wierzchołków renderowanych na klatkę
+\end{enumerate}
+
+\subsubsection{Procedura zbierania danych}
+\label{subsubsec:procedura-zbierania}
+
+Dla każdego silnika przeprowadzono trzy pełne przebiegi gry (90 sekund każdy), co dało łącznie 6 sesji pomiarowych. Narzędzie NVIDIA Nsight Systems rejestrowało dane wydajnościowe przez cały czas trwania rozgrywki, umożliwiając późniejszą analizę poszczególnych faz obciążenia.
+
+Punkty pomiaru dla każdej fazy:
+\begin{itemize}
+    \item \textbf{Faza 1}: 10s (wczesne niskie obciążenie), 20s (stabilne niskie obciążenie), 25s (koniec fazy)
+    \item \textbf{Faza 2}: 35s (przejście do średniego obciążenia), 45s (stabilne średnie obciążenie), 55s (koniec fazy)
+    \item \textbf{Faza 3}: 65s (przejście do wysokiego obciążenia), 75s (szczytowe obciążenie), 85s (koniec fazy)
+\end{itemize}

@@ -1,0 +1,42 @@
+% Hardware Specifications for Thesis
+% Generated automatically - use in Chapter 4 Methodology
+
+\subsubsection{Specyfikacja sprzętowa}
+\label{subsubsec:specyfikacja-sprzetowa}
+
+Wszystkie testy wydajnościowe przeprowadzono na komputerze o następującej specyfikacji:
+
+\begin{itemize}
+    \item \textbf{Procesor}: AMD Ryzen 9 7900X3D 12-Core Processor (24 rdzenie, 48 wątków)
+    \item \textbf{Karta graficzna}: NVIDIA GeForce RTX 3090
+    \item \textbf{Pamięć GPU}: 24 GB GDDR6X
+    \item \textbf{Sterowniki NVIDIA}: wersja 590.48.01
+    \item \textbf{Pamięć RAM}: 32 GB
+    \item \textbf{System operacyjny}: Arch Linux (jądro Linux 6.18.5-arch1-1)
+    \item \textbf{Dysk}: SSD o pojemności 3,6 TB
+\end{itemize}
+
+\subsubsection{Specyfikacja oprogramowania}
+\label{subsubsec:specyfikacja-oprogramowania}
+
+W badaniach wykorzystano następujące wersje oprogramowania:
+
+\begin{itemize}
+    \item \textbf{Unity}: 6.0 (6000.0.58f2) LTS
+    \item \textbf{Unreal Engine}: 5.5.3
+    \item \textbf{NVIDIA Nsight Systems}: 2025.5.2
+\end{itemize}
+
+Wybór wersji LTS silnika Unity podyktowany był stabilnością oraz długoterminowym wsparciem, co jest istotne z punktu widzenia powtarzalności badań. W przypadku Unreal Engine wybrano najnowszą dostępną wersję stabilną w momencie rozpoczęcia badań.
+
+\subsubsection{Konfiguracja testowa}
+\label{subsubsec:konfiguracja-testowa}
+
+Przed wykonaniem każdego testu zastosowano następującą procedurę przygotowawczą:
+\begin{enumerate}
+    \item Zamknięto wszystkie aplikacje działające w tle
+    \item Wyłączono automatyczne aktualizacje systemu
+    \item Ustawiono tryb wydajności zasilania (performance mode)
+    \item Odczekano 5 minut na stabilizację termiczną systemu
+    \item Wykonano 3 pomiary dla każdego scenariusza testowego, z których obliczono wartość średnią
+\end{enumerate}

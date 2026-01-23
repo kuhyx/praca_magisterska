@@ -1771,3 +1771,4 @@ games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/SourceFileCache.bin
 games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/Linux/ActionHistory.bin
 games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/Linux/ActionHistory.bin
 games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/SourceFileCache.bin
+*.sqlite

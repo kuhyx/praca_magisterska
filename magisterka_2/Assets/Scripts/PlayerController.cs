@@ -34,6 +34,8 @@ namespace Magisterka.BulletHell
         [SerializeField] private KeyCode fireKey = KeyCode.Z;
         [SerializeField] private KeyCode modifierKey = KeyCode.LeftShift;
         [SerializeField] private KeyCode bombKey = KeyCode.X;
+        [SerializeField] private KeyCode invincibilityToggleKey = KeyCode.I;
+        [SerializeField] private KeyCode inactiveModeToggleKey = KeyCode.P;
 
     private const int MaxLevel = 12;
 
@@ -54,6 +56,10 @@ namespace Magisterka.BulletHell
     private int _level;
     private float _baseBulletSpeed;
     private int _baseVolleyWidth;
+    
+    // Testing modes
+    private bool _permanentInvincibility;
+    private bool _inactiveMode;
 
         public void Initialize(BulletPool bulletPool, Vector2 movementBounds)
         {
@@ -81,10 +87,40 @@ namespace Magisterka.BulletHell
             _fireCooldown = 0f;
             _victoryAchieved = false;
 
+            // Check command-line arguments for test modes
+            CheckCommandLineArgs();
+
             if (ScoreManager.Instance != null)
             {
                 ScoreManager.Instance.ScoreChanged += HandleScoreChanged;
                 HandleScoreChanged(ScoreManager.Instance.CurrentScore);
+            }
+        }
+
+        /// <summary>
+        /// Check command-line arguments for automated test modes.
+        /// Usage: ./Final.x86_64 --invincible --stationary
+        /// </summary>
+        private void CheckCommandLineArgs()
+        {
+            string[] args = System.Environment.GetCommandLineArgs();
+            foreach (string arg in args)
+            {
+                if (arg == "--invincible" || arg == "-i")
+                {
+                    _permanentInvincibility = true;
+                    _isInvulnerable = true;
+                    Debug.Log("[TEST] Command-line: Invincibility ENABLED");
+                    if (_renderer != null)
+                    {
+                        _renderer.color = Color.yellow;
+                    }
+                }
+                else if (arg == "--stationary" || arg == "-s")
+                {
+                    _inactiveMode = true;
+                    Debug.Log("[TEST] Command-line: Stationary mode ENABLED");
+                }
             }
         }
 
@@ -119,6 +155,36 @@ namespace Magisterka.BulletHell
                 return;
             }
 
+            // Toggle invincibility with I key
+            if (Input.GetKeyDown(invincibilityToggleKey))
+            {
+                _permanentInvincibility = !_permanentInvincibility;
+                Debug.Log($"[TEST] Invincibility: {(_permanentInvincibility ? "ON" : "OFF")}");
+                if (_permanentInvincibility)
+                {
+                    _isInvulnerable = true;
+                    if (_renderer != null)
+                    {
+                        _renderer.color = Color.yellow;
+                    }
+                }
+                else
+                {
+                    _isInvulnerable = false;
+                    if (_renderer != null)
+                    {
+                        _renderer.color = _baseColor;
+                    }
+                }
+            }
+
+            // Toggle inactive mode with P key
+            if (Input.GetKeyDown(inactiveModeToggleKey))
+            {
+                _inactiveMode = !_inactiveMode;
+                Debug.Log($"[TEST] Inactive Mode: {(_inactiveMode ? "ON (stationary)" : "OFF (active)")}");
+            }
+
             if (_fireCooldown > 0f)
             {
                 _fireCooldown -= Time.deltaTime;
@@ -129,8 +195,12 @@ namespace Magisterka.BulletHell
                 return;
             }
 
-            HandleMovement();
-            HandleShooting();
+            // Skip movement and shooting in inactive mode
+            if (!_inactiveMode)
+            {
+                HandleMovement();
+                HandleShooting();
+            }
             HandleBomb();
         }
 
@@ -250,8 +320,12 @@ namespace Magisterka.BulletHell
                 yield return null;
             }
 
-            _isInvulnerable = false;
-            _renderer.color = _baseColor;
+            // Only disable invulnerability if permanent mode is off
+            if (!_permanentInvincibility)
+            {
+                _isInvulnerable = false;
+                _renderer.color = _baseColor;
+            }
             _canControl = true;
         }
 
@@ -318,8 +392,16 @@ namespace Magisterka.BulletHell
                 _renderer.color = _baseColor;
             }
 
-            _isInvulnerable = false;
-            _renderer.color = _baseColor;
+            // Only disable invulnerability if permanent mode is off
+            if (!_permanentInvincibility)
+            {
+                _isInvulnerable = false;
+                _renderer.color = _baseColor;
+            }
+            else
+            {
+                _renderer.color = Color.yellow;
+            }
             _isAlive = true;
             _canControl = true;
         }

@@ -3,55 +3,91 @@
 \label{sec:testy-wydajnosci}
 
 \subsection{Metodyka przeprowadzania testów}
+
 \subsubsection{Przygotowanie środowiska testowego}
-% Opis procesu przygotowania spójnego środowiska dla wszystkich silników
+
+Przed każdą sesją pomiarową wykonano następujące czynności przygotowawcze:
+\begin{enumerate}
+    \item Zamknięto wszystkie zbędne aplikacje działające w tle
+    \item Zweryfikowano, że system jest w stanie bezczynności
+    \item Uruchomiono NVIDIA Nsight Systems w trybie profilowania
+    \item Skonfigurowano Nsight do przechwytywania danych z uruchamianej gry
+\end{enumerate}
 
 \subsubsection{Standaryzacja warunków testowych}
-% Zapewnienie porównywalności wyników między różnymi silnikami
 
-\subsection{Test renderowania 2D}
-\subsubsection{Założenia testu}
-% Opis scenariusza testowego dla grafiki 2D
+W celu zapewnienia porównywalności wyników między silnikami Unity i Unreal Engine:
+\begin{itemize}
+    \item Obie gry uruchamiano w tej samej rozdzielczości (1920×1080)
+    \item Wyłączono synchronizację pionową (V-Sync) w obu implementacjach
+    \item Zastosowano identyczną mechanikę rozgrywki i parametry generowania przeciwników
+    \item Każdy test powtórzono trzykrotnie, obliczając wartości średnie
+\end{itemize}
 
-\subsubsection{Wyniki pomiarów}
-% Tabele i wykresy przedstawiające wyniki dla każdego silnika
+\subsection{Wyniki testów dla silnika Unity}
+\label{subsec:wyniki-unity}
 
-\subsubsection{Analiza wyników}
-% Interpretacja uzyskanych danych
+\subsubsection{Faza niskiego obciążenia (0--30 sekund)}
+% TODO: Wstawić dane z testów Unity - faza 1
+% Tabela z czasem klatki, FPS, GPU%, pamięć
 
-\subsection{Test renderowania 3D}
-\subsubsection{Scenariusz podstawowy}
-% Test renderowania prostej sceny 3D
+\subsubsection{Faza średniego obciążenia (30--60 sekund)}
+% TODO: Wstawić dane z testów Unity - faza 2
 
-\subsubsection{Scenariusz zaawansowany}
-% Test złożonych scen z wieloma obiektami, oświetleniem, cieniami
+\subsubsection{Faza wysokiego obciążenia (60--90 sekund)}
+% TODO: Wstawić dane z testów Unity - faza 3
 
-\subsubsection{Porównanie wyników}
-% Analiza porównawcza wydajności renderowania 3D
+\subsection{Wyniki testów dla silnika Unreal Engine}
+\label{subsec:wyniki-unreal}
 
-\subsection{Test systemów fizyki}
-\subsubsection{Symulacja kolizji}
-% Testy wydajności przy różnej liczbie obiektów fizycznych
+\subsubsection{Faza niskiego obciążenia (0--30 sekund)}
+% TODO: Wstawić dane z testów Unreal - faza 1
 
-\subsubsection{Symulacja płynów i cząstek}
-% Testy zaawansowanych systemów fizyki
+\subsubsection{Faza średniego obciążenia (30--60 sekund)}
+% TODO: Wstawić dane z testów Unreal - faza 2
 
-\subsection{Test zużycia zasobów systemowych}
-\subsubsection{Zużycie pamięci RAM}
-% Pomiary zużycia pamięci operacyjnej
+\subsubsection{Faza wysokiego obciążenia (60--90 sekund)}
+% TODO: Wstawić dane z testów Unreal - faza 3
 
-\subsubsection{Obciążenie procesora}
-% Analiza wykorzystania CPU
+\subsection{Analiza porównawcza}
+\label{subsec:analiza-porownawcza}
 
-\subsubsection{Zużycie pamięci GPU}
-% Pomiary zużycia pamięci karty graficznej
+\subsubsection{Porównanie czasu klatki}
+% TODO: Wykres porównawczy frame time Unity vs Unreal
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=0.9\textwidth]{img/frame-time-comparison.png}
+%     \caption{Porównanie czasu klatki między Unity a Unreal Engine}
+%     \label{fig:frame-time-comparison}
+% \end{figure}
 
-\subsection{Test wydajności na różnych platformach}
-\subsubsection{Testy na PC (Windows/Linux)}
-% Porównanie wydajności na systemach desktop
+\subsubsection{Porównanie wykorzystania GPU}
+% TODO: Wykres porównawczy GPU utilization
 
-\subsubsection{Testy na urządzeniach mobilnych}
-% Analiza wydajności na platformach mobilnych (jeśli dotyczy)
+\subsubsection{Porównanie zużycia pamięci}
+% TODO: Wykres porównawczy memory usage
+
+\subsubsection{Porównanie liczby wywołań rysowania}
+% TODO: Analiza draw calls
 
 \subsection{Podsumowanie wyników testów wydajności}
-% Zestawienie wszystkich uzyskanych wyników w formie tabelarycznej i graficznej
+\label{subsec:podsumowanie-testow}
+
+% TODO: Tabela zbiorcza ze wszystkimi metrykami
+% \begin{table}[htbp]
+%     \centering
+%     \caption{Zestawienie wyników testów wydajności}
+%     \label{tab:wyniki-wydajnosci}
+%     \begin{tabular}{lcccccc}
+%         \toprule
+%         \textbf{Metryka} & \multicolumn{3}{c}{\textbf{Unity}} & \multicolumn{3}{c}{\textbf{Unreal Engine}} \\
+%         & Niska & Średnia & Wysoka & Niska & Średnia & Wysoka \\
+%         \midrule
+%         Czas klatki (ms) & -- & -- & -- & -- & -- & -- \\
+%         FPS & -- & -- & -- & -- & -- & -- \\
+%         GPU (\%) & -- & -- & -- & -- & -- & -- \\
+%         Pamięć (MB) & -- & -- & -- & -- & -- & -- \\
+%         Draw calls & -- & -- & -- & -- & -- & -- \\
+%         \bottomrule
+%     \end{tabular}
+% \end{table}

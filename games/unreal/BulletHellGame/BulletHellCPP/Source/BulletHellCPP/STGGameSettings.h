@@ -35,7 +35,7 @@ namespace STG
     // ===== GAME TIMING =====
     namespace Game
     {
-        constexpr float DefaultDuration = 60.0f;  // 1 minute game
+        constexpr float DefaultDuration = 90.0f;  // 90 seconds (same as Unity)
         constexpr float DebugQuickDuration = 10.0f;
     }
 

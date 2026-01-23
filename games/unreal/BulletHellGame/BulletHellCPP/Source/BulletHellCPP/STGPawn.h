@@ -64,12 +64,17 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
     FVector2D BoundsMax = FVector2D(STG::PlayArea::MaxX, STG::PlayArea::MaxY);
 
-    // ===== DEBUG =====
+    // ===== DEBUG / TESTING =====
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Debug")
     bool bShowDebugBounds = true;
 
+    // Invincibility mode (ignores all damage)
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Debug")
     bool bDebugInvincible = false;
+
+    // Stationary mode (disables player movement for performance testing)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Debug")
+    bool bStationary = false;
 
     // ===== VFX =====
     // Niagara effect when player gets hit

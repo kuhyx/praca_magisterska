@@ -1,8 +1,8 @@
-/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGGameMode.h
-/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGHUDManager.h
-/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGEnemySpawner.h
-/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGGameDirector.h
-/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGEnemy.h
 /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGPawn.h
-/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGFixedCamera.h
+/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGEnemy.h
 /home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGProjectile.h
+/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGFixedCamera.h
+/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGGameMode.h
+/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGGameDirector.h
+/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGEnemySpawner.h
+/home/kuhy/praca_magisterska/games/unreal/BulletHellGame/BulletHellCPP/Source/BulletHellCPP/STGHUDManager.h

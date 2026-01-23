@@ -49,6 +49,10 @@ public:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Game")
     bool bInCleanupPhase = false;
 
+    // Auto-quit after game ends (for benchmarking)
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Benchmark")
+    bool bAutoQuit = false;
+
     void OnPlayerDied();
     void OnVictory();
     void OnGameOver();

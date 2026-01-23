@@ -1,0 +1,32 @@
+metricName,samples,avg_value,min_value,max_value
+"Vertex/Tess/Geometry Warps in Flight [Throughput %]",350249,0.48,0,10
+"Vertex/Tess/Geometry Warps in Flight [Avg]",350249,11994.85,0,1250154
+"Vertex/Tess/Geometry Warps in Flight [Avg Warps per Cycle]",350249,0.45,0,7
+"Unallocated Warps in Active SMs [Throughput %]",350249,20.91,0,90
+"Unallocated Warps in Active SMs [Avg]",350249,2674568.52,-8388551,8388603
+"Unallocated Warps in Active SMs [Avg Warps per Cycle]",350249,20.07,0,86
+"Tensor Active [Throughput %]",350249,0.0,0,0
+"Sync Copy Engine Active [Throughput %]",350249,2.04,0,100
+"Sync Copy Engine Active [Cycles Active]",350249,3210.05,0,164917
+"Sync Compute in Flight [Throughput %]",350249,43.21,0,100
+"SYS Clock Frequency [MHz]",350249,1599260779.65,1124820000,1665030000
+"SMs Active [Throughput %]",350249,42.97,0,100
+"SM Issue [Throughput %]",350249,13.97,0,99
+"Pixel Warps in Flight [Throughput %]",350249,9.26,0,99
+"Pixel Warps in Flight [Avg]",350249,1626352.79,0,18545892
+"Pixel Warps in Flight [Avg Warps per Cycle]",350249,8.9,0,95
+"PCIe Write Requests to BAR1 [Requests]",350249,48.49,0,530
+"PCIe TX Throughput [Throughput %]",350249,1.39,1,17
+"PCIe Read Requests to BAR1 [Requests]",350249,0.0,0,1
+"PCIe RX Throughput [Throughput %]",350249,1.59,0,96
+"GR Active [Throughput %]",350249,85.48,0,100
+"GPU Active [Throughput %]",350249,90.8,0,100
+"GPC Clock Frequency [MHz]",350249,1887936516.09,1345411429,1965055714
+"DRAM Write Bandwidth [Throughput %]",350249,10.0,0,78
+"DRAM Read Bandwidth [Throughput %]",350249,10.19,0,67
+"Compute Warps in Flight [Throughput %]",350249,13.0,0,93
+"Compute Warps in Flight [Avg]",350249,2341816.22,0,17218710
+"Compute Warps in Flight [Avg Warps per Cycle]",350249,12.5,0,90
+"Async Copy Engine Active [Throughput %]",350249,24.19,0,100
+"Async Copy Engine Active [Cycles Active]",350249,38961.97,0,165002
+"Async Compute in Flight [Throughput %]",350249,0.17,0,35

@@ -55,6 +55,31 @@ void ASTGPawn::BeginPlay()
     Super::BeginPlay();
     CurrentLives = MaxLives;
 
+    // Parse command-line arguments for testing modes
+    FString CmdLine = FCommandLine::Get();
+    
+    // Check for --invincible flag
+    if (CmdLine.Contains(TEXT("--invincible")) || CmdLine.Contains(TEXT("-invincible")))
+    {
+        bDebugInvincible = true;
+        if (GEngine)
+        {
+            GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, TEXT("[CMD] INVINCIBILITY MODE ENABLED"));
+        }
+        UE_LOG(LogTemp, Warning, TEXT("Command-line: Invincibility enabled"));
+    }
+    
+    // Check for --stationary flag
+    if (CmdLine.Contains(TEXT("--stationary")) || CmdLine.Contains(TEXT("-stationary")))
+    {
+        bStationary = true;
+        if (GEngine)
+        {
+            GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, TEXT("[CMD] STATIONARY MODE ENABLED"));
+        }
+        UE_LOG(LogTemp, Warning, TEXT("Command-line: Stationary mode enabled"));
+    }
+
     // Try to add Input Mapping Context (works when placed in level with Auto Possess)
     SetupInputMappingContext();
     
@@ -118,8 +143,8 @@ void ASTGPawn::Tick(float DeltaTime)
         DrawDebugLine(GetWorld(), BottomLeft, TopLeft, BoundsColor, false, -1.f, 0, Thickness);
     }
 
-    // Movement with bounds clamping (skip if dead)
-    if (!bIsDead && !MovementInput.IsZero())
+    // Movement with bounds clamping (skip if dead or stationary mode)
+    if (!bIsDead && !bStationary && !MovementInput.IsZero())
     {
         FVector NewLocation = GetActorLocation();
         NewLocation.X += MovementInput.Y * MoveSpeed * DeltaTime; // Forward/Back

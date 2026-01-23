@@ -1772,3 +1772,20 @@ games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/Linux/ActionHistory
 games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/Linux/ActionHistory.bin
 games/unreal/BulletHellGame/BulletHellCPP/Intermediate/Build/SourceFileCache.bin
 *.sqlite
+
+# Large Nsight profiling files (>100MB)
+data/nsight/**/*.nsys-rep
+data/nsight/**/*.sqlite
+
+# Large Unreal Engine binary files (>100MB)
+games/unreal/**/Binaries/Linux/*-Linux-DebugGame
+games/unreal/**/Binaries/Linux/*-Linux-DebugGame.debug
+games/unreal/**/Binaries/Linux/*-Linux-DebugGame.sym
+games/unreal/**/Intermediate/Build/Linux/**/*-Linux-DebugGame.psym
+games/unreal/**/Intermediate/Build/Linux/**/*-Linux-DebugGame_nodebug
+games/unreal/**/Saved/StagedBuilds/**/*-Linux-DebugGame
+games/unreal/**/Saved/StagedBuilds/**/*-Linux-DebugGame.debug
+games/unreal/**/Saved/StagedBuilds/**/*-Linux-DebugGame.sym
+games/unreal/**/Linux/**/*-Linux-DebugGame
+games/unreal/**/Linux/**/*-Linux-DebugGame.debug
+games/unreal/**/Linux/**/*-Linux-DebugGame.sym

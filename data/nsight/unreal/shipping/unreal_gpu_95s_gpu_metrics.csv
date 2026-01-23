@@ -1,0 +1,32 @@
+metricName,samples,avg_value,min_value,max_value
+"Async Compute in Flight [Throughput %]",950083,0.0229106299133865,0,31
+"Async Copy Engine Active [Cycles Active]",950083,38455.0993471097,0,163502
+"Async Copy Engine Active [Throughput %]",950083,24.3463129010834,0,100
+"Compute Warps in Flight [Avg Warps per Cycle]",950083,12.80763259631,0,90
+"Compute Warps in Flight [Avg]",950083,2323037.42368404,0,17059537
+"Compute Warps in Flight [Throughput %]",950083,13.3210919467036,0,94
+"DRAM Read Bandwidth [Throughput %]",950083,10.7338569367097,0,86
+"DRAM Write Bandwidth [Throughput %]",950083,9.84654182845078,0,84
+"GPC Clock Frequency [MHz]",950083,1717372249.49787,569544286,1965027143
+"GPU Active [Throughput %]",950083,80.6042019486719,0,100
+"GR Active [Throughput %]",950083,76.6064217547309,0,100
+"PCIe RX Throughput [Throughput %]",950083,1.5045643380631,0,98
+"PCIe Read Requests to BAR1 [Requests]",950083,1.36830150628945e-05,0,1
+"PCIe TX Throughput [Throughput %]",950083,1.39019959308818,0,40
+"PCIe Write Requests to BAR1 [Requests]",950083,45.6542523126927,0,864
+"Pixel Warps in Flight [Avg Warps per Cycle]",950083,8.71434179961119,0,93
+"Pixel Warps in Flight [Avg]",950083,905560.791771877,-8388505,8388149
+"Pixel Warps in Flight [Throughput %]",950083,9.07152532989223,0,97
+"SM Issue [Throughput %]",950083,13.8823755398213,0,77
+"SMs Active [Throughput %]",950083,42.6547027996501,0,100
+"SYS Clock Frequency [MHz]",950083,1464888860.94162,779690000,1650150000
+"Sync Compute in Flight [Throughput %]",950083,42.9391589997927,0,100
+"Sync Copy Engine Active [Cycles Active]",950083,1828.06791722407,0,163454
+"Sync Copy Engine Active [Throughput %]",950083,1.19980570118611,0,100
+"Tensor Active [Throughput %]",950083,0.0,0,0
+"Unallocated Warps in Active SMs [Avg Warps per Cycle]",950083,19.5389318617426,0,91
+"Unallocated Warps in Active SMs [Avg]",950083,2624316.545225,-8388583,8388581
+"Unallocated Warps in Active SMs [Throughput %]",950083,20.3578518929399,0,95
+"Vertex/Tess/Geometry Warps in Flight [Avg Warps per Cycle]",950083,0.440807803107728,0,27
+"Vertex/Tess/Geometry Warps in Flight [Avg]",950083,12576.1936525546,0,2576053
+"Vertex/Tess/Geometry Warps in Flight [Throughput %]",950083,0.481443200225665,0,42

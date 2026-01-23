@@ -2,6 +2,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "STGHUDManager.h"
 #include "STGEnemy.h"
+#include "Misc/CommandLine.h"
 
 ASTGGameDirector::ASTGGameDirector()
 {
@@ -13,6 +14,56 @@ void ASTGGameDirector::BeginPlay()
     Super::BeginPlay();
     ElapsedTime = 0.0f;
     bGameActive = true;
+    
+    // Parse command-line for benchmark mode
+    FString CmdLine = FCommandLine::Get();
+    
+    // Check for --autoquit flag
+    if (CmdLine.Contains(TEXT("--autoquit")) || CmdLine.Contains(TEXT("-autoquit")))
+    {
+        bAutoQuit = true;
+        if (GEngine)
+        {
+            GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, TEXT("[CMD] AUTO-QUIT MODE ENABLED"));
+        }
+        UE_LOG(LogTemp, Warning, TEXT("Command-line: Auto-quit enabled"));
+    }
+    
+    // Check for --duration=N flag (e.g., --duration=95)
+    FString DurationValue;
+    if (FParse::Value(*CmdLine, TEXT("--duration="), DurationValue) || 
+        FParse::Value(*CmdLine, TEXT("-duration="), DurationValue))
+    {
+        float CustomDuration = FCString::Atof(*DurationValue);
+        if (CustomDuration > 0)
+        {
+            GameDuration = CustomDuration;
+            if (GEngine)
+            {
+                FString Msg = FString::Printf(TEXT("[CMD] GAME DURATION: %.0f seconds"), GameDuration);
+                GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, Msg);
+            }
+            UE_LOG(LogTemp, Warning, TEXT("Command-line: Game duration set to %.0f seconds"), GameDuration);
+        }
+    }
+    
+    // Check for --start-time=N flag (e.g., --start-time=30) for phased profiling
+    FString StartTimeValue;
+    if (FParse::Value(*CmdLine, TEXT("--start-time="), StartTimeValue) || 
+        FParse::Value(*CmdLine, TEXT("-start-time="), StartTimeValue))
+    {
+        float StartTime = FCString::Atof(*StartTimeValue);
+        if (StartTime > 0 && StartTime < GameDuration)
+        {
+            ElapsedTime = StartTime;
+            if (GEngine)
+            {
+                FString Msg = FString::Printf(TEXT("[CMD] START TIME: %.0f seconds (fast-forward)"), StartTime);
+                GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, Msg);
+            }
+            UE_LOG(LogTemp, Warning, TEXT("Command-line: Starting at %.0f seconds"), StartTime);
+        }
+    }
     
     // Debug: Override game duration for quick testing
     if (bDebugQuickGame)
@@ -101,8 +152,16 @@ void ASTGGameDirector::OnVictory()
         }
     }
     
-    // Pause game
-    UGameplayStatics::SetGamePaused(GetWorld(), true);
+    // Pause game or auto-quit for benchmarking
+    if (bAutoQuit)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Auto-quit: Victory - requesting exit"));
+        FPlatformMisc::RequestExit(false);
+    }
+    else
+    {
+        UGameplayStatics::SetGamePaused(GetWorld(), true);
+    }
 }
 
 void ASTGGameDirector::OnGameOver()
@@ -129,8 +188,16 @@ void ASTGGameDirector::OnGameOver()
         }
     }
     
-    // Pause game
-    UGameplayStatics::SetGamePaused(GetWorld(), true);
+    // Pause game or auto-quit for benchmarking
+    if (bAutoQuit)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Auto-quit: Game Over - requesting exit"));
+        FPlatformMisc::RequestExit(false);
+    }
+    else
+    {
+        UGameplayStatics::SetGamePaused(GetWorld(), true);
+    }
 }
 
 void ASTGGameDirector::CheckCleanupVictory()

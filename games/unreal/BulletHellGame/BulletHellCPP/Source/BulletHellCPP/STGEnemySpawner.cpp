@@ -2,6 +2,7 @@
 #include "STGGameSettings.h"
 #include "STGEnemy.h"
 #include "Kismet/GameplayStatics.h"
+#include "Misc/CommandLine.h"
 
 ASTGEnemySpawner::ASTGEnemySpawner()
 {
@@ -15,6 +16,22 @@ void ASTGEnemySpawner::BeginPlay()
     ElapsedTime = 0.0f;
     SpawnTimer = 0.0f;
     CurrentSpawnInterval = BaseSpawnInterval;
+    
+    // Check for --start-time=N flag for phased profiling
+    FString CmdLine = FCommandLine::Get();
+    FString StartTimeValue;
+    if (FParse::Value(*CmdLine, TEXT("--start-time="), StartTimeValue) || 
+        FParse::Value(*CmdLine, TEXT("-start-time="), StartTimeValue))
+    {
+        float StartTime = FCString::Atof(*StartTimeValue);
+        if (StartTime > 0 && StartTime < GameDuration)
+        {
+            ElapsedTime = StartTime;
+            // Update spawn interval to match the difficulty at this time
+            CurrentSpawnInterval = CalculateSpawnInterval();
+            UE_LOG(LogTemp, Warning, TEXT("EnemySpawner: Fast-forwarding to %.0f seconds"), StartTime);
+        }
+    }
     
     // Default to base C++ class if no Blueprint assigned
     if (!EnemyClass)

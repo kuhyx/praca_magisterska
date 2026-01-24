@@ -6,39 +6,27 @@
 Głównym celem badań jest porównanie wydajności i możliwości 
 wybranych silników gier.
 
-\subsubsection{Hipotezy badawcze}
-\begin{enumerate}
-    \item Silniki komercyjne oferują lepszą wydajność niż rozwiązania open source
-    \item Kompleksowość funkcjonalności wpływa negatywnie na wydajność
-    \item Łatwość użycia jest odwrotnie proporcjonalna do możliwości konfiguracji
-\end{enumerate}
+\subsubsection{Hipoteza badawcza}
+Silnik Unity, dzięki natywnemu wsparciu dla grafiki 2D, osiągnie lepszą
+wydajność w~grze typu \emph{bullet hell} niż Unreal Engine, który jest
+zoptymalizowany przede wszystkim pod kątem aplikacji 3D.
 
 \subsection{Kryteria porównania}
-\subsubsection{Wydajność}
-\begin{itemize}
-    \item Szybkość renderowania (FPS)
-    \item Zużycie pamięci RAM
-    \item Obciążenie procesora
-    \item Zużycie pamięci karty graficznej
-    \item Czas ładowania scen
-\end{itemize}
 
-\subsubsection{Funkcjonalność}
-\begin{itemize}
-    \item Wsparcie dla różnych typów renderingu
-    \item Systemy fizyki
-    \item Systemy audio
-    \item Wsparcie dla VR/AR
-    \item Możliwości skryptowania
-\end{itemize}
+W ramach testów wydajnościowych analizowano następujące metryki, zbierane
+za pomocą narzędzia NVIDIA Nsight Systems:
 
-\subsubsection{Użyteczność}
 \begin{itemize}
-    \item Intuicyjność interfejsu
-    \item Jakość dokumentacji
-    \item Dostępność tutoriali
-    \item Wsparcie społeczności
-    \item Czas potrzebny na naukę
+    \item \textbf{Czas klatki} (ang. \emph{frame time}) -- czas potrzebny
+    na wyrenderowanie pojedynczej klatki, wyrażony w~milisekundach
+    \item \textbf{Liczba klatek na sekundę} (FPS) -- wartość pochodna
+    od czasu klatki, kluczowa dla płynności rozgrywki
+    \item \textbf{Wykorzystanie GPU} -- procentowe obciążenie karty graficznej,
+    mierzone poprzez liczniki sprzętowe NVIDIA
+    \item \textbf{Wywołania Vulkan API} -- szczegółowa analiza wywołań
+    interfejsu graficznego, w~tym funkcji synchronizacji i~prezentacji
+    \item \textbf{Wywołania systemowe} -- analiza mechanizmów wielowątkowości
+    i~synchronizacji na poziomie systemu operacyjnego
 \end{itemize}
 
 \subsection{Środowisko testowe}
@@ -69,88 +57,84 @@ W badaniach wykorzystano następujące wersje oprogramowania:
     \item \textbf{NVIDIA Nsight Systems}: 2025.5.2
 \end{itemize}
 
-Wybór wersji LTS silnika Unity podyktowany był stabilnością oraz długoterminowym wsparciem, co jest istotne z punktu widzenia powtarzalności badań. W przypadku Unreal Engine wybrano najnowszą dostępną wersję stabilną w momencie rozpoczęcia badań.
-
-\subsubsection{Konfiguracja testowa}
-\label{subsubsec:konfiguracja-testowa}
-
-Przed wykonaniem każdego testu zastosowano następującą procedurę przygotowawczą:
-\begin{enumerate}
-    \item Zamknięto wszystkie aplikacje działające w tle
-    \item Wyłączono automatyczne aktualizacje systemu
-    \item Ustawiono tryb wydajności zasilania (performance mode)
-    \item Odczekano 5 minut na stabilizację termiczną systemu
-    \item Wykonano 3 pomiary dla każdego scenariusza testowego, z których obliczono wartość średnią
-\end{enumerate}
+Wybór wersji LTS silnika Unity podyktowany był stabilnością oraz długoterminowym wsparciem, 
+co jest istotne z punktu widzenia powtarzalności badań. W przypadku Unreal Engine 
+wybrano najnowszą dostępną wersję stabilną w momencie rozpoczęcia badań.
 
 \subsection{Projekt testów}
 
 \subsubsection{Gra testowa typu \emph{bullet hell}}
 \label{subsubsec:gra-testowa}
 
-Na potrzeby badań porównawczych zaimplementowano identyczną grę w gatunku \emph{bullet hell} w obu silnikach. Gra charakteryzuje się następującymi cechami:
+Na potrzeby badań porównawczych zaimplementowano identyczną grę w gatunku 
+\emph{bullet hell} w obu silnikach. Gra charakteryzuje się następującymi cechami:
 
 \begin{itemize}
-    \item Sterowany przez gracza statek kosmiczny
+    \item Sterowana przez gracza postać
     \item System generowania przeciwników z progresywnie rosnącym obciążeniem
     \item Generowanie wzorców pocisków
     \item Wykrywanie kolizji między obiektami
     \item Tryb przetrwania trwający 90 sekund
 \end{itemize}
 
-Wybór gatunku \emph{bullet hell} podyktowany był możliwością generowania dużej liczby obiektów na ekranie (pociski, przeciwnicy, efekty wizualne), co pozwala na skuteczne obciążenie silnika graficznego i zbadanie jego wydajności w warunkach ekstremalnych.
+Wybór gatunku \emph{bullet hell} podyktowany był możliwością generowania dużej 
+liczby obiektów na ekranie (pociski, przeciwnicy, efekty wizualne), co 
+pozwala na skuteczne obciążenie silnika graficznego.
 
 \subsubsection{Fazy obciążenia}
 \label{subsubsec:fazy-obciazenia}
 
-Gra testowa została zaprojektowana tak, aby w ciągu 90 sekund rozgrywki przechodziła przez trzy fazy o różnym poziomie obciążenia:
+Gra testowa została zaprojektowana tak, aby w~ciągu 90 sekund rozgrywki
+progresywnie zwiększała obciążenie poprzez:
 
-\paragraph{Faza 1: Niskie obciążenie (0--30 sekund)}
 \begin{itemize}
-    \item Liczba pocisków na ekranie: 50--100
-    \item Aktywni przeciwnicy: 2--3
-    \item Oczekiwana stabilna liczba klatek: 60 FPS
-    \item Oczekiwane wykorzystanie GPU: poniżej 50\%
+    \item \textbf{Przyspieszanie spawnu przeciwników} -- interwał między
+    spawnem zmniejsza się liniowo od 0,25~s (początek) do 0,08~s (koniec),
+    z~dodatkowym ,,finalnym szturmem'' przez ostatnie 5~sekund
+    \item \textbf{Zwiększanie różnorodności typów przeciwników} -- początkowo
+    (0--25\% czasu) pojawiają się tylko podstawowi przeciwnicy, później
+    wprowadzane są kolejno szybsze jednostki (25--50\%), strzelające wieżyczki
+    (50--75\%) oraz wytrzymałe czołgi (75--100\%)
+    \item \textbf{Maksymalna liczba przeciwników} -- limit jednoczesnych
+    przeciwników na scenie wynosi 200 jednostek
 \end{itemize}
 
-\paragraph{Faza 2: Średnie obciążenie (30--60 sekund)}
-\begin{itemize}
-    \item Liczba pocisków na ekranie: 200--300
-    \item Aktywni przeciwnicy: 5--7
-    \item Oczekiwane wykorzystanie GPU: 50--70\%
-    \item Możliwe niewielkie spadki liczby klatek
-\end{itemize}
+Na potrzeby profilowania rozgrywka została podzielona na trzy fazy czasowe:
 
-\paragraph{Faza 3: Wysokie obciążenie (60--90 sekund)}
-\begin{itemize}
-    \item Liczba pocisków na ekranie: ponad 500
-    \item Aktywni przeciwnicy: ponad 10
-    \item Oczekiwane wykorzystanie GPU: powyżej 70\%
-    \item Potencjalne znaczące spadki liczby klatek
-\end{itemize}
+\paragraph{Faza 1 (0--30 sekund)}
+Początkowa faza z~niskim obciążeniem. Spawner generuje wyłącznie podstawowych
+przeciwników (\emph{Fodder}) z~interwałem ok.~0,25~s.
 
-\subsubsection{Metryki i wskaźniki}
-\label{subsubsec:metryki}
+\paragraph{Faza 2 (30--60 sekund)}
+Średnie obciążenie. Wprowadzane są szybsze przeciwnicy (\emph{Runner}),
+interwał spawnu zmniejsza się do ok.~0,17~s.
 
-W ramach testów wydajnościowych mierzono następujące parametry:
-
-\begin{enumerate}
-    \item \textbf{Czas klatki} (ang. \emph{frame time}) -- czas potrzebny na wyrenderowanie pojedynczej klatki, wyrażony w milisekundach
-    \item \textbf{Liczba klatek na sekundę} (FPS) -- wartość pochodna od czasu klatki
-    \item \textbf{Wykorzystanie GPU} -- procentowe obciążenie karty graficznej
-    \item \textbf{Zużycie pamięci} -- pamięć VRAM oraz RAM wykorzystywana przez aplikację
-    \item \textbf{Liczba wywołań rysowania} (ang. \emph{draw calls}) -- liczba wywołań API graficznego na klatkę
-    \item \textbf{Liczba wierzchołków} -- całkowita liczba wierzchołków renderowanych na klatkę
-\end{enumerate}
+\paragraph{Faza 3 (60--90 sekund)}
+Wysokie obciążenie. Wszystkie typy przeciwników (w~tym strzelające \emph{Turret}
+i~wytrzymałe \emph{Tank}), interwał spawnu osiąga minimum 0,08~s.
+Ostatnie 5~sekund to ,,finalny szturm'' z~maksymalną intensywnością.
 
 \subsubsection{Procedura zbierania danych}
 \label{subsubsec:procedura-zbierania}
 
-Dla każdego silnika przeprowadzono trzy pełne przebiegi gry (90 sekund każdy), co dało łącznie 6 sesji pomiarowych. Narzędzie NVIDIA Nsight Systems rejestrowało dane wydajnościowe przez cały czas trwania rozgrywki, umożliwiając późniejszą analizę poszczególnych faz obciążenia.
+Przeprowadzono cztery sesje pomiarowe -- po dwie dla każdego silnika:
 
-Punkty pomiaru dla każdej fazy:
+\begin{enumerate}
+    \item \textbf{Unity -- tryb statyczny}: Gracz nieruchomy z~włączoną
+    nieśmiertelnością, pełne 90~sekund rozgrywki profilowane w~jednej sesji
+    \item \textbf{Unity -- tryb dynamiczny}: Gracz aktywnie poruszający się
+    i~strzelający, pełne 90~sekund rozgrywki
+    \item \textbf{Unreal Engine -- tryb statyczny}: Ze względu na ograniczenia
+    techniczne (awaria przy śledzeniu Vulkan API) rozgrywkę podzielono na
+    trzy 30-sekundowe fazy, uruchamiane z~flagą \texttt{-{}-start-time=N}
+    \item \textbf{Unreal Engine -- tryb dynamiczny}: Analogicznie do trybu
+    statycznego, trzy fazy po 30~sekund z~aktywnym graczem
+\end{enumerate}
+
+Narzędzie NVIDIA Nsight Systems rejestrowało:
 \begin{itemize}
-    \item \textbf{Faza 1}: 10s (wczesne niskie obciążenie), 20s (stabilne niskie obciążenie), 25s (koniec fazy)
-    \item \textbf{Faza 2}: 35s (przejście do średniego obciążenia), 45s (stabilne średnie obciążenie), 55s (koniec fazy)
-    \item \textbf{Faza 3}: 65s (przejście do wysokiego obciążenia), 75s (szczytowe obciążenie), 85s (koniec fazy)
+    \item Wywołania Vulkan API (dla Unity -- dla Unreal niemożliwe z~powodu
+    awarii)
+    \item Metryki sprzętowe GPU z~częstotliwością 10\,000~Hz
+    \item Wywołania funkcji systemowych (pthread, futex itp.)
 \end{itemize}

@@ -12,6 +12,13 @@
 
 \graphicspath{{tex/img/}} % Katalog z obrazkami.
 \addbibresource{bibliografia.bib} % Plik .bib z bibliografią
+\usepackage{placeins}
+\usepackage{float}
+% Fix ToC number width for deep sections (e.g. 5.10.1)
+\usepackage{tocloft}
+\setlength{\cftsecnumwidth}{3em}
+\setlength{\cftsubsecnumwidth}{4em}
+\setlength{\cftsubsubsecnumwidth}{5em}
 
 %-------------------------------------------------------------
 % Wybór wydziału:

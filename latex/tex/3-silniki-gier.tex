@@ -3,14 +3,33 @@
 
 \subsection{Kryteria wyboru silników do analizy}
 
-Rynek silników gier komputerowych oferuje szeroki wachlarz rozwiązań, od prostych frameworków 2D po zaawansowane środowiska do tworzenia fotorealistycznych produkcji AAA. W ramach niniejszej pracy zdecydowano się na dogłębną analizę dwóch silników: \textbf{Unity} oraz \textbf{Unreal Engine}. Wybór ten podyktowany był kilkoma kluczowymi czynnikami:
+Rynek silników gier komputerowych oferuje szeroki wachlarz rozwiązań,
+od prostych frameworków 2D po zaawansowane środowiska do tworzenia
+fotorealistycznych produkcji AAA \cite{gregory2018game}.
+W ramach niniejszej pracy zdecydowano
+się na dogłębną analizę dwóch silników: \textbf{Unity}
+oraz \textbf{Unreal Engine}. Wybór ten podyktowany był
+kilkoma kluczowymi czynnikami:
 
 \begin{itemize}
-    \item \textbf{Dominacja rynkowa} -- według danych z~2024 roku, Unity i~Unreal Engine wspólnie obsługują ponad 70\% globalnego rynku gier komputerowych i~mobilnych
-    \item \textbf{Reprezentatywność podejść architektonicznych} -- silniki reprezentują odmienne filozofie: Unity opiera się na języku C\# z~garbage collectorem, a~Unreal wykorzystuje natywny C++ z~ręcznym zarządzaniem pamięcią
-    \item \textbf{Różnorodność zastosowań} -- Unity tradycyjnie dominuje w segmencie gier mobilnych i indie, natomiast Unreal jest preferowany w produkcjach AAA i projektach wymagających fotorealistycznej grafiki
-    \item \textbf{Dostępność} -- oba silniki oferują darmowe wersje dla małych zespołów i projektów edukacyjnych, co czyni je dostępnymi dla szerokiego grona deweloperów
-    \item \textbf{Bogata dokumentacja} -- zarówno Unity jak i Unreal dysponują rozbudowaną dokumentacją oficjalną oraz aktywnymi społecznościami
+    \item \textbf{Dominacja rynkowa} -- według raportu Video Game Insights,
+    w~2024 roku 51\% gier wydanych na platformie Steam powstało w~Unity,
+    a~28\% w~Unreal Engine \cite{vgi2025engines}
+    \item \textbf{Reprezentatywność podejść architektonicznych} --
+    silniki reprezentują odmienne filozofie: Unity opiera się na
+    języku C\# z~garbage collectorem,
+    a~Unreal wykorzystuje C++ z~własnym systemem refleksji,
+    makrami oraz garbage collectorem dla obiektów UObject
+    \item \textbf{Różnorodność zastosowań} -- Unity dominuje
+    w~segmencie gier mobilnych (71\% z~top 1000 gier mobilnych)
+    oraz wśród deweloperów indie, natomiast
+    Unreal generuje większe przychody w~produkcjach AAA
+    (31\% przychodów Steam w~2024 vs 26\% dla Unity)
+    \cite{vgi2025engines, g2gameengines}
+    \item \textbf{Dostępność} -- oba silniki oferują darmowe wersje
+    dla małych zespołów i projektów edukacyjnych
+    \item \textbf{Aktywna społeczność} -- Unity posiada ponad
+    5~milionów zarejestrowanych deweloperów \cite{g2gameengines}
 \end{itemize}
 
 \subsection{Unity}
@@ -18,42 +37,70 @@ Rynek silników gier komputerowych oferuje szeroki wachlarz rozwiązań, od pros
 
 \subsubsection{Wprowadzenie i historia}
 
-Unity to wieloplatformowy silnik gier stworzony przez Unity Technologies, którego pierwsza wersja została wydana w 2005 roku jako ekskluzywne narzędzie dla systemu macOS. Od tego czasu silnik przeszedł znaczącą ewolucję, stając się jednym z najpopularniejszych rozwiązań do tworzenia gier na świecie.
+Unity to wieloplatformowy silnik gier stworzony przez Unity
+Technologies, którego pierwsza wersja została zaprezentowana
+w czerwcu 2005 roku na konferencji Apple Worldwide Developers Conference
+jako narzędzie dla systemu Mac OS X \cite{unity_wikipedia}.
+Od tego czasu silnik przeszedł znaczącą ewolucję, stając się jednym
+z najpopularniejszych rozwiązań do tworzenia gier na świecie.
 
-Kluczowym momentem w historii Unity było wprowadzenie w 2010 roku darmowej wersji silnika (Unity Free), co znacząco obniżyło barierę wejścia dla początkujących deweloperów i małych studiów. Decyzja ta przyczyniła się do eksplozji popularności silnika w segmencie gier mobilnych oraz indie.
+Kluczowym momentem w historii Unity było wprowadzenie darmowej wersji
+silnika, co znacząco obniżyło barierę wejścia dla początkujących
+deweloperów i małych studiów \cite{unity_wikipedia}. Decyzja ta
+przyczyniła się do wzrostu popularności silnika w segmencie gier
+mobilnych oraz indie.
 
-Unity wykorzystuje język programowania \textbf{C\#} działający na platformie .NET/Mono, co zapewnia:
+Unity wykorzystuje język programowania \textbf{C\#} działający na 
+platformie .NET/Mono, co zapewnia:
 \begin{itemize}
     \item Automatyczne zarządzanie pamięcią poprzez garbage collector
     \item Bezpieczeństwo typów i obsługę wyjątków
     \item Bogatą bibliotekę standardową
-    \item Stosunkowo łagodną krzywą uczenia dla programistów znających Javę lub podobne języki
 \end{itemize}
 
-Architektura Unity opiera się na wzorcu \textit{GameObject-Component}, gdzie każdy obiekt w scenie (GameObject) może posiadać dowolną liczbę komponentów definiujących jego zachowanie. Podejście to promuje kompozycję nad dziedziczeniem i ułatwia tworzenie modularnego kodu.
+Architektura Unity opiera się na wzorcu \textit{GameObject-Component},
+gdzie każdy obiekt w scenie (GameObject) może posiadać dowolną
+liczbę komponentów definiujących jego zachowanie
+\cite{unity_components_docs, unity_gameobject_docs}.
+Podejście to promuje kompozycję nad dziedziczeniem i ułatwia
+tworzenie modularnego kodu.
 
 \subsubsection{Możliwości i funkcjonalności}
 
 Unity oferuje kompleksowy zestaw narzędzi do tworzenia gier 2D i 3D:
 
 \begin{itemize}
-    \item \textbf{Rendering} -- wsparcie dla wielu pipeline'ów renderowania: Built-in, Universal Render Pipeline (URP) dla platform mobilnych oraz High Definition Render Pipeline (HDRP) dla wysokiej jakości grafiki
-    \item \textbf{Fizyka} -- integracja z silnikami PhysX (3D) i Box2D (2D)
-    \item \textbf{Animacja} -- system Mecanim z obsługą maszyn stanów i blendingu animacji
+    \item \textbf{Rendering} -- wsparcie dla wielu pipeline'ów
+    renderowania: Built-in, Universal Render Pipeline (URP) dla platform
+    mobilnych oraz High Definition Render Pipeline (HDRP) dla wysokiej
+    jakości grafiki \cite{unity_urp_docs, unity_hdrp_docs}
+    \item \textbf{Fizyka} -- integracja z silnikami PhysX (3D) i Box2D
+    (2D) \cite{unity_physics}
+    \item \textbf{Animacja} -- system Mecanim z obsługą maszyn stanów
+    i blendingu animacji \cite{unity_animation_docs}
     \item \textbf{Audio} -- wbudowany system dźwięku przestrzennego
-    \item \textbf{UI} -- dwa systemy interfejsu użytkownika: legacy uGUI oraz nowoczesny UI Toolkit
-    \item \textbf{Multiplayer} -- Netcode for GameObjects oraz integracja z usługami sieciowymi
+    \cite{unity_audio_docs}
+    \item \textbf{UI} -- dwa systemy interfejsu użytkownika: uGUI oraz
+    nowoczesny UI Toolkit \cite{unity_ugui_docs, unity_uitoolkit_docs}
+    \item \textbf{Multiplayer} -- Netcode for GameObjects oraz
+    integracja z usługami sieciowymi \cite{unity_netcode_docs}
 \end{itemize}
 
 \subsubsection{Narzędzia deweloperskie}
 
-Edytor Unity zapewnia intuicyjny interfejs graficzny z następującymi funkcjonalnościami:
+Edytor Unity zapewnia interfejs graficzny z następującymi
+funkcjonalnościami \cite{unity_wikipedia}:
 \begin{itemize}
-    \item Hierarchiczny widok sceny z możliwością edycji w czasie rzeczywistym
-    \item Inspektor właściwości z obsługą serializacji pól poprzez atrybut \texttt{[SerializeField]}
+    \item Hierarchiczny widok sceny z możliwością edycji w czasie
+    rzeczywistym
+    \item Inspektor właściwości z obsługą serializacji pól poprzez
+    atrybut \texttt{[SerializeField]}
     \item Wbudowany profiler wydajności (CPU, GPU, pamięć)
-    \item Asset Store -- marketplace z gotowymi zasobami i rozszerzeniami
-    \item Obsługa hot reload -- możliwość edycji kodu podczas działania gry
+    \cite{unity_profiler}
+    \item Asset Store -- marketplace z gotowymi zasobami i
+    rozszerzeniami
+    \item Obsługa hot reload -- możliwość edycji kodu podczas działania
+    gry
 \end{itemize}
 
 \subsection{Unreal Engine}
@@ -61,48 +108,61 @@ Edytor Unity zapewnia intuicyjny interfejs graficzny z następującymi funkcjona
 
 \subsubsection{Wprowadzenie i historia}
 
-Unreal Engine to silnik gier stworzony przez Epic Games, którego historia sięga 1998 roku, kiedy to zadebiutował wraz z grą \textit{Unreal}. Od początku silnik był projektowany z myślą o tworzeniu gier pierwszoosobowych (FPS) o wysokiej jakości graficznej, co nadal pozostaje jego mocną stroną.
+Unreal Engine to silnik gier stworzony przez Epic Games, 
+którego historia sięga 1998 roku, kiedy to zadebiutował wraz z 
+grą \textit{Unreal} \cite{unreal_wikipedia}. Od początku silnik był projektowany z myślą o 
+tworzeniu gier pierwszoosobowych (FPS) o wysokiej jakości graficznej, 
+co nadal pozostaje jego mocną stroną \cite{unreal_wikipedia,unreal_docs}.
 
-Przełomowym momentem było wydanie Unreal Engine 4 w 2014 roku na licencji royalty-free (5\% od przychodów powyżej \$1 miliona), a następnie Unreal Engine 5 w 2022 roku, wprowadzającego rewolucyjne technologie takie jak Nanite (wirtualizowana geometria) i Lumen (globalne oświetlenie w czasie rzeczywistym).
+Przełomowym momentem było wydanie Unreal Engine 4 w 2014 roku na 
+licencji royalty-free (5\% od przychodów powyżej \$1 miliona), a 
+następnie Unreal Engine 5 w 2022 roku, wprowadzającym 
+technologie takie jak Nanite (wirtualizowana geometria) i Lumen 
+(globalne oświetlenie w czasie rzeczywistym) \cite{unreal_wikipedia,unreal_nanite,unreal_lumen}.
 
-Unreal Engine wykorzystuje język programowania \textbf{C++} z rozszerzeniami specyficznymi dla silnika (makra UE), co zapewnia:
+Unreal Engine wykorzystuje język programowania \textbf{C++} z 
+rozszerzeniami specyficznymi dla silnika (makra UE), co zapewnia:
 \begin{itemize}
     \item Maksymalną wydajność dzięki kompilacji do kodu natywnego
     \item Pełną kontrolę nad zarządzaniem pamięcią
-    \item Dostęp do kodu źródłowego silnika (po uzyskaniu licencji)
     \item Strome krzywe uczenia, szczególnie dla programistów bez doświadczenia w C++
 \end{itemize}
 
-Dodatkowo Unreal oferuje system \textbf{Blueprints} -- wizualny język skryptowy pozwalający na tworzenie logiki gry bez pisania kodu. Blueprinty są szczególnie przydatne dla designerów i artystów, choć dla złożonych systemów mogą być mniej wydajne niż natywny C++.
+Dodatkowo Unreal oferuje system \textbf{Blueprints} -- 
+wizualny język skryptowy pozwalający na tworzenie logiki gry 
+bez pisania kodu \cite{unreal_blueprints}. Szczególnie przydatne dla 
+designerów i artystów, choć dla złożonych systemów mogą 
+być mniej wydajne niż natywny C++.
 
 \subsubsection{Możliwości i funkcjonalności}
 
 Unreal Engine wyróżnia się zaawansowanymi możliwościami graficznymi:
 
 \begin{itemize}
-    \item \textbf{Rendering} -- fotorealistyczna grafika z obsługą ray tracingu, Nanite i Lumen
-    \item \textbf{Fizyka} -- silnik Chaos Physics z obsługą destrukcji i symulacji ciał miękkich
-    \item \textbf{Animacja} -- Control Rig, Animation Blueprints, IK Retargeting
-    \item \textbf{Landscape} -- zaawansowane narzędzia do tworzenia dużych terenów
-    \item \textbf{Niagara} -- system efektów cząsteczkowych nowej generacji
-    \item \textbf{Sequencer} -- narzędzie do tworzenia cinematików i cutscen
+    \item \textbf{Rendering} -- fotorealistyczna grafika z obsługą ray tracingu, Nanite i Lumen \cite{unreal_nanite,unreal_lumen}
+    \item \textbf{Fizyka} -- silnik Chaos Physics z obsługą destrukcji i symulacji ciał miękkich \cite{unreal_chaos}
+    \item \textbf{Animacja} -- Control Rig, Animation Blueprints, IK Retargeting \cite{unreal_docs}
+    \item \textbf{Landscape} -- zaawansowane narzędzia do tworzenia dużych terenów \cite{unreal_docs}
+    \item \textbf{Niagara} -- system efektów cząsteczkowych nowej generacji \cite{unreal_niagara}
+    \item \textbf{Sequencer} -- narzędzie do tworzenia cinematików i cutscen \cite{unreal_sequencer}
 \end{itemize}
 
 \subsubsection{Narzędzia deweloperskie}
 
 Unreal Editor oferuje rozbudowane środowisko deweloperskie:
 \begin{itemize}
-    \item Edytor poziomów z obsługą streamingu i Level of Detail (LOD)
-    \item Blueprint Visual Scripting -- programowanie wizualne
-    \item Material Editor -- węzłowy edytor materiałów
-    \item Wbudowany profiler z analizą GPU/CPU i pamięci
-    \item Marketplace -- sklep z zasobami i pluginami
-    \item Live Coding -- eksperymentalne wsparcie dla hot reload w C++
+    \item Edytor poziomów z obsługą streamingu i Level of Detail (LOD) \cite{unreal_docs}
+    \item Blueprint Visual Scripting -- programowanie wizualne \cite{unreal_blueprints}
+    \item Material Editor -- węzłowy edytor materiałów \cite{unreal_material_editor}
+    \item Wbudowany profiler z analizą GPU/CPU i pamięci \cite{unreal_docs}
+    \item Marketplace -- sklep z zasobami i pluginami \cite{unreal_docs}
+    \item Dostęp do kodu źródłowego silnika \cite{unreal_wikipedia}
+    \item Live Coding -- eksperymentalne wsparcie dla hot reload w C++ \cite{unreal_livecoding}
 \end{itemize}
 
 \subsection{Porównanie architektoniczne}
-
-\begin{table}[ht]
+\FloatBarrier
+\begin{table}[H!]
 \centering
 \caption{Porównanie kluczowych cech Unity i Unreal Engine}
 \label{tab:unity-vs-unreal}
@@ -122,21 +182,31 @@ Kod źródłowy & Częściowo dostępny & Pełny dostęp \\
 \hline
 Rozmiar pustego projektu & $\sim$100 MB & $\sim$1-2 GB \\
 \hline
-Krzywa uczenia & Łagodna & Stroma \\
-\hline
-Główne zastosowania & Mobile, indie, 2D & AAA, FPS, fotorealizm \\
+Główne zastosowania & Mobile, indie, 2D & AAA, FPS, 3D \\
 \hline
 \end{tabular}
 \end{table}
 
 \subsection{Uzasadnienie wyboru do badań}
+Wybór Unity i Unreal Engine jako przedmiotu porównania pozwala na 
+analizę dwóch fundamentalnie różnych podejść do tworzenia gier:
 
-Wybór Unity i Unreal Engine jako przedmiotu porównania pozwala na analizę dwóch fundamentalnie różnych podejść do tworzenia gier:
+Motywacja wyboru: Unity i Unreal Engine pozostają dwoma najpopularniejszymi silnikami używanymi w większości nowoczesnych produkcji — zarówno w segmencie indie, jak i w grach AAA — co czyni ich porównanie reprezentatywnym dla współczesnego rynku gier \cite{vgi2025engines,g2gameengines}.
+
+Wybór Unity i Unreal Engine jako przedmiotu porównania pozwala na 
+analizę dwóch fundamentalnie różnych podejść do tworzenia gier:
 
 \begin{enumerate}
-    \item \textbf{Produktywność vs wydajność} -- C\# w Unity oferuje szybszy rozwój kosztem pewnego narzutu wydajnościowego, podczas gdy C++ w Unreal wymaga więcej pracy, ale zapewnia maksymalną kontrolę
-    \item \textbf{Dostępność vs specjalizacja} -- Unity celuje w szeroki rynek z niskim progiem wejścia, Unreal koncentruje się na produkcjach premium
-    \item \textbf{Elastyczność vs integracja} -- Unity pozwala na większą swobodę w doborze zewnętrznych narzędzi, Unreal oferuje bardziej zintegrowane rozwiązania
+    \item \textbf{Produktywność vs wydajność} -- C\# w Unity oferuje 
+    szybszy rozwój kosztem pewnego narzutu wydajnościowego, podczas 
+    gdy C++ w Unreal wymaga więcej pracy, ale zapewnia maksymalną 
+    kontrolę
+    \item \textbf{Dostępność vs specjalizacja} -- Unity celuje w 
+    szeroki rynek z niskim progiem wejścia, Unreal koncentruje się 
+    na produkcjach premium
+    \item \textbf{Elastyczność vs integracja} -- Unity pozwala 
+    na większą swobodę w doborze zewnętrznych narzędzi, Unreal 
+    oferuje bardziej zintegrowane rozwiązania
 \end{enumerate}
 
 Analiza tych dwóch silników dostarcza kompleksowego obrazu współczesnego stanu technologii do tworzenia gier i pozwala na sformułowanie praktycznych rekomendacji dla deweloperów.

@@ -517,6 +517,569 @@
       \field{pages}{1181\bibrangedash 1195}
       \range{pages}{15}
     \endentry
+    \entry{petridis2012benchmarking}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{hash=f1851bd2dbc041a126299dcde1f0a744}{%
+           family={Petridis},
+           familyi={P\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+        {{hash=f1cfebd83f192750ed5ced388fd917a6}{%
+           family={Dunwell},
+           familyi={D\bibinitperiod},
+           given={I.},
+           giveni={I\bibinitperiod}}}%
+        {{hash=53b4f8e563d66b5b48bde099de64a971}{%
+           family={De\bibnamedelima Freitas},
+           familyi={D\bibinitperiod\bibinitdelim F\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=702fca0e9138167f448104f52bdaa6dd}{%
+           family={Panzoli},
+           familyi={P\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{50bb79040aac027b30c1955f14bca5d6}
+      \strng{fullhash}{a15b577b15958f2e299a1c4fb8e1546f}
+      \strng{fullhashraw}{a15b577b15958f2e299a1c4fb8e1546f}
+      \strng{bibnamehash}{a15b577b15958f2e299a1c4fb8e1546f}
+      \strng{authorbibnamehash}{a15b577b15958f2e299a1c4fb8e1546f}
+      \strng{authornamehash}{50bb79040aac027b30c1955f14bca5d6}
+      \strng{authorfullhash}{a15b577b15958f2e299a1c4fb8e1546f}
+      \strng{authorfullhashraw}{a15b577b15958f2e299a1c4fb8e1546f}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2010 Second International Conference on Games and Virtual Worlds for Serious Applications}
+      \field{title}{An~engine selection methodology for~high fidelity serious games}
+      \field{year}{2010}
+      \field{pages}{27\bibrangedash 34}
+      \range{pages}{8}
+    \endentry
+    \entry{unity_urp_docs}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=3f56ad8f8e05fcad24de3fcf878fb50b}{%
+           family={{Unity Technologies}},
+           familyi={U\bibinitperiod}}}%
+      }
+      \strng{namehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{fullhash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{fullhashraw}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{bibnamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorbibnamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authornamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorfullhash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorfullhashraw}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Dostęp zdalny: \url{https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@latest}}
+      \field{title}{Universal Render Pipeline overview}
+      \field{year}{2024}
+    \endentry
+    \entry{unity_hdrp_docs}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=3f56ad8f8e05fcad24de3fcf878fb50b}{%
+           family={{Unity Technologies}},
+           familyi={U\bibinitperiod}}}%
+      }
+      \strng{namehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{fullhash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{fullhashraw}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{bibnamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorbibnamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authornamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorfullhash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorfullhashraw}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \field{extraname}{2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Dostęp zdalny: \url{https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@latest}}
+      \field{title}{High Definition Render Pipeline overview}
+      \field{year}{2024}
+    \endentry
+    \entry{parker2010optix}{inproceedings}{}{}
+      \name{author}{11}{}{%
+        {{hash=5165cf099e66ed42a550745bed80d960}{%
+           family={Parker},
+           familyi={P\bibinitperiod},
+           given={S.\bibnamedelimi G.},
+           giveni={S\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=3a0aaa65fc0e089f543339acfb4656a9}{%
+           family={Bigler},
+           familyi={B\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=0baa9053b5cf67807598c7c9baf0802d}{%
+           family={Dietrich},
+           familyi={D\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=dc54993f3b0c8156cf976de9870a2961}{%
+           family={Friedrich},
+           familyi={F\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod}}}%
+        {{hash=ce5526fff73888a0ac33f15fcd6e1e35}{%
+           family={Hoberock},
+           familyi={H\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=b45fd1a30394b5c3d019b655e705fb6a}{%
+           family={Luebke},
+           familyi={L\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+        {{hash=bf8558be7d1fe43b8b30e7fae87d651f}{%
+           family={McAllister},
+           familyi={M\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+        {{hash=4d1c0b33c29679bdd90be27de5e2197c}{%
+           family={McGuire},
+           familyi={M\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=fd69a05e7b33f39a7b09078c7f808847}{%
+           family={Morley},
+           familyi={M\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod}}}%
+        {{hash=787b2a614401ca9ea9b459cd364207dc}{%
+           family={Robison},
+           familyi={R\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=70e60db46a7dd8c255b9f70f8358e44a}{%
+           family={Stich},
+           familyi={S\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{6161d0c76465a2c3a98fbb7a8617caac}
+      \strng{fullhash}{ea143ed1fe4c79ddf65cf17872c656b1}
+      \strng{fullhashraw}{ea143ed1fe4c79ddf65cf17872c656b1}
+      \strng{bibnamehash}{6161d0c76465a2c3a98fbb7a8617caac}
+      \strng{authorbibnamehash}{6161d0c76465a2c3a98fbb7a8617caac}
+      \strng{authornamehash}{6161d0c76465a2c3a98fbb7a8617caac}
+      \strng{authorfullhash}{ea143ed1fe4c79ddf65cf17872c656b1}
+      \strng{authorfullhashraw}{ea143ed1fe4c79ddf65cf17872c656b1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{ACM SIGGRAPH 2010 papers}
+      \field{title}{OptiX: a general purpose ray tracing engine}
+      \field{year}{2010}
+      \field{pages}{1\bibrangedash 13}
+      \range{pages}{13}
+    \endentry
+    \entry{unreal_lumen}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=f74dc6a40e6ed3e07e99f3e972a5394a}{%
+           family={{Epic Games}},
+           familyi={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{fullhash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{fullhashraw}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{bibnamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorbibnamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authornamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorfullhash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorfullhashraw}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Dostęp zdalny: \url{https://docs.unrealengine.com/5.3/en-US/lumen-global-illumination-and-reflections-in-unreal-engine/}}
+      \field{title}{Lumen Global Illumination and Reflections}
+      \field{year}{2024}
+    \endentry
+    \entry{unreal_nanite}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=f74dc6a40e6ed3e07e99f3e972a5394a}{%
+           family={{Epic Games}},
+           familyi={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{fullhash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{fullhashraw}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{bibnamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorbibnamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authornamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorfullhash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorfullhashraw}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Dostęp zdalny: \url{https://docs.unrealengine.com/5.3/en-US/nanite-virtualized-geometry-in-unreal-engine/}}
+      \field{title}{Nanite Virtualized Geometry}
+      \field{year}{2024}
+    \endentry
+    \entry{anthes2016state}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=6435973202afb320acd8313c499e7e0c}{%
+           family={Anthes},
+           familyi={A\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod}}}%
+        {{hash=57d147820e98e81f002cc157074c6a94}{%
+           family={García-Hernández},
+           familyi={G\bibinithyphendelim H\bibinitperiod},
+           given={R.\bibnamedelimi J.},
+           giveni={R\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=eedfff65cd31869c7013dc82007e50c3}{%
+           family={Wiedemann},
+           familyi={W\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=d7b8166d40ab9bf3d882941069f0417b}{%
+           family={Kranzlmüller},
+           familyi={K\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{a582c128728ca51ec6cd2930b37c88d7}
+      \strng{fullhash}{b7906cd8b3b761705d2eb9ee466bd2d0}
+      \strng{fullhashraw}{b7906cd8b3b761705d2eb9ee466bd2d0}
+      \strng{bibnamehash}{b7906cd8b3b761705d2eb9ee466bd2d0}
+      \strng{authorbibnamehash}{b7906cd8b3b761705d2eb9ee466bd2d0}
+      \strng{authornamehash}{a582c128728ca51ec6cd2930b37c88d7}
+      \strng{authorfullhash}{b7906cd8b3b761705d2eb9ee466bd2d0}
+      \strng{authorfullhashraw}{b7906cd8b3b761705d2eb9ee466bd2d0}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{2016 IEEE Aerospace Conference}
+      \field{title}{State of the art of virtual reality technology}
+      \field{year}{2016}
+      \field{pages}{1\bibrangedash 19}
+      \range{pages}{19}
+    \endentry
+    \entry{unity_shader_graph}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=3f56ad8f8e05fcad24de3fcf878fb50b}{%
+           family={{Unity Technologies}},
+           familyi={U\bibinitperiod}}}%
+      }
+      \strng{namehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{fullhash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{fullhashraw}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{bibnamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorbibnamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authornamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorfullhash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorfullhashraw}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \field{extraname}{3}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Dostęp zdalny: \url{https://docs.unity3d.com/Packages/com.unity.shadergraph@latest}}
+      \field{title}{Shader Graph}
+      \field{year}{2024}
+    \endentry
+    \entry{farina2013shader}{book}{}{}
+      \name{author}{3}{}{%
+        {{hash=6ca52220dab72505e42a2ee6a5df166b}{%
+           family={Farina},
+           familyi={F\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod}}}%
+        {{hash=b16a5e52b80ec6d4477275d9158d471a}{%
+           family={Di\bibnamedelima Benedetto},
+           familyi={D\bibinitperiod\bibinitdelim B\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=f33de23ff515d5bacfb8ce29af5c9126}{%
+           family={Cignoni},
+           familyi={C\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {A~K~Peters/CRC Press}%
+      }
+      \strng{namehash}{2f1e4db8ccc9c63fd50976ed7e156cdc}
+      \strng{fullhash}{d13c08493794758fc34897f3bb1b9e23}
+      \strng{fullhashraw}{d13c08493794758fc34897f3bb1b9e23}
+      \strng{bibnamehash}{d13c08493794758fc34897f3bb1b9e23}
+      \strng{authorbibnamehash}{d13c08493794758fc34897f3bb1b9e23}
+      \strng{authornamehash}{2f1e4db8ccc9c63fd50976ed7e156cdc}
+      \strng{authorfullhash}{d13c08493794758fc34897f3bb1b9e23}
+      \strng{authorfullhashraw}{d13c08493794758fc34897f3bb1b9e23}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{ShaderX and GPU Pro series -- Advanced rendering techniques}
+      \field{year}{2013}
+    \endentry
+    \entry{unreal_material_editor}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=f74dc6a40e6ed3e07e99f3e972a5394a}{%
+           family={{Epic Games}},
+           familyi={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{fullhash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{fullhashraw}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{bibnamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorbibnamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authornamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorfullhash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorfullhashraw}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \field{extraname}{3}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Dostęp zdalny: \url{https://docs.unrealengine.com/5.3/en-US/unreal-engine-material-editor-user-guide/}}
+      \field{title}{Material Editor User Guide}
+      \field{year}{2024}
+    \endentry
+    \entry{nvidia_physx}{inproceedings}{}{}
+      \name{author}{1}{}{%
+        {{hash=9ad14fae09b617d96cb4af76c555b394}{%
+           family={{NVIDIA Corporation}},
+           familyi={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{9ad14fae09b617d96cb4af76c555b394}
+      \strng{fullhash}{9ad14fae09b617d96cb4af76c555b394}
+      \strng{fullhashraw}{9ad14fae09b617d96cb4af76c555b394}
+      \strng{bibnamehash}{9ad14fae09b617d96cb4af76c555b394}
+      \strng{authorbibnamehash}{9ad14fae09b617d96cb4af76c555b394}
+      \strng{authornamehash}{9ad14fae09b617d96cb4af76c555b394}
+      \strng{authorfullhash}{9ad14fae09b617d96cb4af76c555b394}
+      \strng{authorfullhashraw}{9ad14fae09b617d96cb4af76c555b394}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Dostęp zdalny: \url{https://developer.nvidia.com/physx-sdk}}
+      \field{title}{NVIDIA PhysX SDK Documentation}
+      \field{year}{2024}
+    \endentry
+    \entry{unity_physics}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=3f56ad8f8e05fcad24de3fcf878fb50b}{%
+           family={{Unity Technologies}},
+           familyi={U\bibinitperiod}}}%
+      }
+      \strng{namehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{fullhash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{fullhashraw}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{bibnamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorbibnamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authornamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorfullhash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorfullhashraw}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \field{extraname}{4}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Dostęp zdalny: \url{https://docs.unity3d.com/Manual/PhysicsSection.html}}
+      \field{title}{Physics in Unity}
+      \field{year}{2024}
+    \endentry
+    \entry{unreal_chaos}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=f74dc6a40e6ed3e07e99f3e972a5394a}{%
+           family={{Epic Games}},
+           familyi={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{fullhash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{fullhashraw}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{bibnamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorbibnamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authornamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorfullhash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorfullhashraw}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \field{extraname}{4}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Dostęp zdalny: \url{https://docs.unrealengine.com/5.3/en-US/chaos-physics-in-unreal-engine/}}
+      \field{title}{Chaos Physics}
+      \field{year}{2024}
+    \endentry
+    \entry{unity_vfx_graph}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=3f56ad8f8e05fcad24de3fcf878fb50b}{%
+           family={{Unity Technologies}},
+           familyi={U\bibinitperiod}}}%
+      }
+      \strng{namehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{fullhash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{fullhashraw}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{bibnamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorbibnamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authornamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorfullhash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorfullhashraw}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \field{extraname}{5}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Dostęp zdalny: \url{https://docs.unity3d.com/Packages/com.unity.visualeffectgraph@latest}}
+      \field{title}{Visual Effect Graph}
+      \field{year}{2024}
+    \endentry
+    \entry{unreal_niagara}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=f74dc6a40e6ed3e07e99f3e972a5394a}{%
+           family={{Epic Games}},
+           familyi={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{fullhash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{fullhashraw}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{bibnamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorbibnamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authornamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorfullhash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorfullhashraw}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \field{extraname}{5}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Dostęp zdalny: \url{https://docs.unrealengine.com/5.3/en-US/creating-visual-effects-in-niagara-for-unreal-engine/}}
+      \field{title}{Niagara Visual Effects}
+      \field{year}{2024}
+    \endentry
+    \entry{unreal_metasounds}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=f74dc6a40e6ed3e07e99f3e972a5394a}{%
+           family={{Epic Games}},
+           familyi={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{fullhash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{fullhashraw}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{bibnamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorbibnamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authornamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorfullhash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorfullhashraw}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \field{extraname}{6}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Dostęp zdalny: \url{https://docs.unrealengine.com/5.3/en-US/metasounds-in-unreal-engine/}}
+      \field{title}{MetaSounds}
+      \field{year}{2024}
+    \endentry
+    \entry{unity_profiler}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=3f56ad8f8e05fcad24de3fcf878fb50b}{%
+           family={{Unity Technologies}},
+           familyi={U\bibinitperiod}}}%
+      }
+      \strng{namehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{fullhash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{fullhashraw}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{bibnamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorbibnamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authornamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorfullhash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorfullhashraw}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \field{extraname}{6}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Dostęp zdalny: \url{https://docs.unity3d.com/Manual/Profiler.html}}
+      \field{title}{Unity Profiler}
+      \field{year}{2024}
+    \endentry
+    \entry{unreal_insights}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=f74dc6a40e6ed3e07e99f3e972a5394a}{%
+           family={{Epic Games}},
+           familyi={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{fullhash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{fullhashraw}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{bibnamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorbibnamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authornamehash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorfullhash}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \strng{authorfullhashraw}{f74dc6a40e6ed3e07e99f3e972a5394a}
+      \field{extraname}{7}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Dostęp zdalny: \url{https://docs.unrealengine.com/5.3/en-US/unreal-insights-in-unreal-engine/}}
+      \field{title}{Unreal Insights}
+      \field{year}{2024}
+    \endentry
+    \entry{statista_unity_market}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=62182ca58a739daa8ddd8a48b7b19abb}{%
+           family={{Statista}},
+           familyi={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{62182ca58a739daa8ddd8a48b7b19abb}
+      \strng{fullhash}{62182ca58a739daa8ddd8a48b7b19abb}
+      \strng{fullhashraw}{62182ca58a739daa8ddd8a48b7b19abb}
+      \strng{bibnamehash}{62182ca58a739daa8ddd8a48b7b19abb}
+      \strng{authorbibnamehash}{62182ca58a739daa8ddd8a48b7b19abb}
+      \strng{authornamehash}{62182ca58a739daa8ddd8a48b7b19abb}
+      \strng{authorfullhash}{62182ca58a739daa8ddd8a48b7b19abb}
+      \strng{authorfullhashraw}{62182ca58a739daa8ddd8a48b7b19abb}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Dostęp zdalny: \url{https://www.statista.com/statistics/}}
+      \field{title}{Most popular game engines among mobile game developers worldwide as of 2023}
+      \field{year}{2023}
+    \endentry
+    \entry{unity_gaming_report}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=3f56ad8f8e05fcad24de3fcf878fb50b}{%
+           family={{Unity Technologies}},
+           familyi={U\bibinitperiod}}}%
+      }
+      \strng{namehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{fullhash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{fullhashraw}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{bibnamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorbibnamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authornamehash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorfullhash}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \strng{authorfullhashraw}{3f56ad8f8e05fcad24de3fcf878fb50b}
+      \field{extraname}{7}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Dostęp zdalny: \url{https://unity.com/resources/gaming-report}}
+      \field{title}{Unity Gaming Report 2024}
+      \field{year}{2024}
+    \endentry
   \enddatalist
 \endrefsection
 \endinput

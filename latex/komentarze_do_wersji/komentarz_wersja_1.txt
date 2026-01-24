@@ -1,0 +1,10 @@
+W tekście występują ostrzeżenia
+,,Overfull hbox'' (przekroczenie marginesu). objawiają się one drobnym przekroczeniem marginesu w tekście (na przykład w streszczeniu
+two-
+rzeniem 
+(kreska przy two- przekracza margines)
+Próbowałem różnych rozwiązań: ręczne dzielenie wyrazów, \texttt{\textbackslash mbox},
+\texttt{\textbackslash linebreak}, pakiet \texttt{microtype},
+\texttt{\textbackslash hyphenation\{\}} --- niestety żadne nie rozwiązuje
+problemu
+Czy to będzie problem przy ocenie pracy?

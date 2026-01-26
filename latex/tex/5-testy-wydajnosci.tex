@@ -160,6 +160,7 @@ renderującego na poziomie pojedynczych funkcji API. Podczas testu zarejestrowan
 \centering
 \caption{Wywołania Vulkan API silnika Unity -- funkcje synchronizacji i prezentacji}
 \label{tab:unity-vulkan-sync}
+\small
 \begin{tabular}{|l|r|r|r|r|r|}
 \hline
 \textbf{Funkcja} & \textbf{Czas (\%)} & \textbf{Wywołania} & \textbf{Śr. (ms)} & \textbf{Med. (ms)} & \textbf{Maks. (ms)} \\
@@ -225,9 +226,10 @@ odbywa się asynchronicznie na GPU.
 \centering
 \caption{Wywołania Vulkan API silnika Unity -- bufory poleceń}
 \label{tab:unity-vulkan-cmd}
+\small
 \begin{tabular}{|l|r|r|r|r|}
 \hline
-\textbf{Funkcja} & \textbf{Wywołania} & \textbf{Śr. (\textmu{}s)} & \textbf{Med. (\textmu{}s)} & \textbf{Maks. (\textmu{}s)} \\
+\textbf{Funkcja} & \textbf{Wywołania} & \textbf{Śr. ($\mu$s)} & \textbf{Med. ($\mu$s)} & \textbf{Maks. ($\mu$s)} \\
 \hline
 \texttt{vkBeginCommandBuffer} & 40\,679 & 2,53 & 1,76 & 2\,049 \\
 \texttt{vkEndCommandBuffer} & 40\,679 & 0,73 & 0,63 & 116 \\
@@ -295,9 +297,10 @@ systemu operacyjnego. Zarejestrowano \textbf{29\,383 wywołania} 65 różnych fu
 \centering
 \caption{Wywołania systemowe silnika Unity -- synchronizacja wątków}
 \label{tab:unity-osrt-sync}
+\small
 \begin{tabular}{|l|r|r|r|r|r|}
 \hline
-\textbf{Funkcja} & \textbf{Czas (\%)} & \textbf{Wywołania} & \textbf{Śr. (ms)} & \textbf{Med. (\textmu{}s)} & \textbf{Maks. (s)} \\
+\textbf{Funkcja} & \textbf{Czas (\%)} & \textbf{Wywołania} & \textbf{Śr. (ms)} & \textbf{Med. ($\mu$s)} & \textbf{Maks. (s)} \\
 \hline
 \texttt{futex} & 95,9 & 247 & 444,07 & 88,49 & 11,05 \\
 \texttt{pthread\_cond\_timedwait} & 2,7 & 85 & 35,91 & 7\,070,65 & 2,00 \\
@@ -325,7 +328,7 @@ Tak wysoki udział \texttt{futex} (109,69 sekundy łącznie) wskazuje na intensy
 architekturę wielowątkową z oddzielnymi wątkami dla: głównej pętli gry, renderowania, fizyki, audio, wczytywania zasobów oraz systemu zadań 
 (ang. \textit{job system}).
 
-Średni czas wywołania 444,07 ms przy medianie zaledwie 88,49 \textmu{}s wskazuje na silnie asymetryczny rozkład -- większość wywołań kończy się szybko 
+Średni czas wywołania 444,07 ms przy medianie zaledwie 88,49 $\mu$s wskazuje na silnie asymetryczny rozkład -- większość wywołań kończy się szybko 
 (wątek od razu uzyskuje blokadę lub jest natychmiast budzony), ale niektóre wywołania skutkują długim oczekiwaniem. Maksymalny czas 11,05 sekundy 
 odpowiada najprawdopodobniej wątkowi oczekującemu na zakończenie długotrwałej operacji inicjalizacyjnej.
 
@@ -347,7 +350,7 @@ robocze systemu zadań, sugeruje to pulę kilkudziesięciu wątków aktywnie ucz
 \label{tab:unity-osrt-io}
 \begin{tabular}{|l|r|r|r|}
 \hline
-\textbf{Funkcja} & \textbf{Wywołania} & \textbf{Całk. czas (ms)} & \textbf{Śr. (\textmu{}s)} \\
+\textbf{Funkcja} & \textbf{Wywołania} & \textbf{Całk. czas (ms)} & \textbf{Śr. ($\mu$s)} \\
 \hline
 \texttt{poll} & 349 & 314,33 & 900,66 \\
 \texttt{ioctl} & 1\,907 & 284,18 & 149,02 \\
@@ -368,7 +371,7 @@ oczekiwania na zdarzenia z wielu deskryptorów plików -- w kontekście gry praw
 oraz urządzeniami wejścia.
 
 Duża liczba wywołań \texttt{openat64} (22\,155) wskazuje na intensywne operacje na systemie plików, prawdopodobnie związane z wczytywaniem zasobów 
-gry (tekstur, modeli, shaderów) z dysku. Średni czas 1,07 \textmu{}s potwierdza efektywne buforowanie przez system operacyjny.
+gry (tekstur, modeli, shaderów) z dysku. Średni czas 1,07 $\mu$s potwierdza efektywne buforowanie przez system operacyjny.
 
 \texttt{ioctl} (1\,907 wywołań) służy do kontroli urządzeń -- w kontekście grafiki Vulkan jest 
 używane do komunikacji ze sterownikiem GPU poprzez \\
@@ -627,6 +630,7 @@ Dane podzielone na trzy fazy (0--30s, 30--60s, 60--90s) umożliwiają szczegół
 \centering
 \caption{Porównanie wywołań Vulkan API silnika Unreal Engine między fazami}
 \label{tab:unreal-vulkan-phases}
+\small
 \begin{tabular}{|l|r|r|r|}
 \hline
 \textbf{Metryka} & \textbf{Faza 1 (0--30s)} & \textbf{Faza 2 (30--60s)} & \textbf{Faza 3 (60--90s)} \\
@@ -666,6 +670,7 @@ wskazuje na konsystentną architekturę potoku renderowania niezależną od obci
 \centering
 \caption{Wywołania Vulkan API silnika Unreal Engine -- tworzenie potoków (wszystkie fazy)}
 \label{tab:unreal-vulkan-pipelines}
+\small
 \begin{tabular}{|l|r|r|r|r|}
 \hline
 \textbf{Funkcja} & \textbf{Czas (\%)} & \textbf{Wywołania} & \textbf{Śr. (ms)} & \textbf{Maks. (ms)} \\
@@ -715,9 +720,10 @@ Nsight Systems tworzy nową sesję dla każdej fazy.
 \centering
 \caption{Wywołania Vulkan API silnika Unreal Engine -- synchronizacja i prezentacja (faza 2)}
 \label{tab:unreal-vulkan-sync}
+\small
 \begin{tabular}{|l|r|r|r|r|}
 \hline
-\textbf{Funkcja} & \textbf{Czas (\%)} & \textbf{Wywołania} & \textbf{Śr. (\textmu{}s)} & \textbf{Maks. (ms)} \\
+\textbf{Funkcja} & \textbf{Czas (\%)} & \textbf{Wywołania} & \textbf{Śr. ($\mu$s)} & \textbf{Maks. (ms)} \\
 \hline
 \texttt{vkQueuePresentKHR} & 9,5 & 11\,531 & 77,05 & 0,90 \\
 \texttt{vkQueueSubmit} & 7,8 & 186\,589 & 3,92 & 1,64 \\
@@ -730,7 +736,7 @@ Nsight Systems tworzy nową sesję dla każdej fazy.
 \paragraph{Synchronizacja -- minimalne oczekiwanie na GPU}
 
 W ostrzym kontraście z Unity (gdzie \texttt{vkWaitForFences} stanowił 95,2\% czasu), w Unreal Engine funkcja ta pochłonęła zaledwie 
-\textbf{0,5\% czasu} ze średnim czasem oczekiwania 3,63 \textmu{}s. Tak niski czas oczekiwania wskazuje na:
+\textbf{0,5\% czasu} ze średnim czasem oczekiwania 3,63 $\mu$s. Tak niski czas oczekiwania wskazuje na:
 \begin{itemize}
     \item Efektywne wykorzystanie wielokrotnego buforowania (triple buffering)
     \item Asynchroniczne przesyłanie pracy do GPU bez blokowania
@@ -747,9 +753,10 @@ wieloma przebiegami (deferred rendering, post-processing, UI).
 \centering
 \caption{Wywołania Vulkan API silnika Unreal Engine -- bufory poleceń (wszystkie fazy łącznie)}
 \label{tab:unreal-vulkan-cmd}
+\small
 \begin{tabular}{|l|r|r|r|}
 \hline
-\textbf{Funkcja} & \textbf{Wywołania} & \textbf{Śr. (\textmu{}s)} & \textbf{Maks. (\textmu{}s)} \\
+\textbf{Funkcja} & \textbf{Wywołania} & \textbf{Śr. ($\mu$s)} & \textbf{Maks. ($\mu$s)} \\
 \hline
 \texttt{vkCmdBindPipeline} & 5\,771\,642 & 0,24 & 2\,722 \\
 \texttt{vkCmdPipelineBarrier2KHR} & 4\,090\,071 & 0,28 & 942 \\
@@ -795,6 +802,7 @@ wielowątkowego Unreal Engine. Łącznie zarejestrowano ponad \textbf{9 milionó
 \centering
 \caption{Wywołania systemowe silnika Unreal Engine -- synchronizacja wątków (wszystkie fazy)}
 \label{tab:unreal-osrt-sync}
+\small
 \begin{tabular}{|l|r|r|r|r|}
 \hline
 \textbf{Funkcja} & \textbf{Czas (\%)} & \textbf{Wywołania} & \textbf{Śr. (ms)} & \textbf{Maks. (s)} \\
@@ -831,6 +839,7 @@ inicjalizacyjnej w fazie 2.
 \centering
 \caption{Porównanie wywołań synchronizacyjnych między fazami Unreal Engine}
 \label{tab:unreal-osrt-phases}
+\small
 \begin{tabular}{|l|r|r|r|}
 \hline
 \textbf{Metryka} & \textbf{Faza 1} & \textbf{Faza 2} & \textbf{Faza 3} \\
@@ -871,6 +880,7 @@ czasu klatki przy ~128 FPS, co może sugerować mechanizm regulacji tempa render
 \centering
 \caption{Porównanie mechanizmów synchronizacji Unity i Unreal Engine (zaktualizowane)}
 \label{tab:sync-comparison}
+\small
 \begin{tabular}{|l|r|r|}
 \hline
 \textbf{Metryka} & \textbf{Unity} & \textbf{Unreal Engine} \\
@@ -1012,6 +1022,7 @@ uzyskania danych percentylowych dla Unreal Engine.
 \centering
 \caption{Porównanie wykorzystania GPU między silnikami}
 \label{tab:gpu-comparison}
+\footnotesize
 \begin{tabular}{|l|r|r|}
 \hline
 \textbf{Metryka} & \textbf{Unity} & \textbf{Unreal Engine} \\
@@ -1045,6 +1056,7 @@ z wieloma wariantami shaderów, co wprowadza znaczący narzut zmian stanu GPU.
 \centering
 \caption{Porównanie mechanizmów synchronizacji między silnikami}
 \label{tab:threading-comparison}
+\small
 \begin{tabular}{|l|r|r|}
 \hline
 \textbf{Metryka} & \textbf{Unity} & \textbf{Unreal Engine} \\

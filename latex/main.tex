@@ -14,6 +14,13 @@
 \addbibresource{bibliografia.bib} % Plik .bib z bibliografią
 \usepackage{placeins}
 \usepackage{float}
+% Force Adagio Slab (required) for XeTeX/LuaTeX builds.
+% This ensures the font is set after other packages (e.g., babel) that may change encodings.
+\IfFileExists{fonts/PW_Adagio_Slab/Adagio_Slab-Regular.otf}{%
+    \setmainfont[Path=fonts/PW_Adagio_Slab/,UprightFont=Adagio_Slab-Regular.otf,ItalicFont=Adagio_Slab-Regular_italic.otf,BoldFont=Adagio_Slab-Bold.otf,BoldItalicFont=Adagio_Slab-Bold_italic.otf]{Adagio Slab}%
+}{%
+    \PackageError{wut-thesis}{Adagio Slab fonts not found in 'fonts/PW_Adagio_Slab'. Compilation requires these fonts.}{Please add the OTF files to the repository (latex/fonts/PW_Adagio_Slab/) and recompile with XeLaTeX or LuaLaTeX.}
+}
 % Fix ToC number width for deep sections (e.g. 5.10.1)
 \usepackage{tocloft}
 \setlength{\cftsecnumwidth}{3em}
@@ -62,30 +69,29 @@
 %-------------------------------------
 \cleardoublepage % Zaczynamy od nieparzystej strony
 \abstract 
-Przez ostatnią dekadę rynek tworzenia gier \\ 
-komputerowych zdominowały dwa silniki: Unity oraz 
-Unreal Engine. \\ Niniejsza praca podejmuje się wyzwania przeprowadzenia analizy \\
-porównawczej 
-obu tych silników pod kątem wyd ajności oraz procesu \\ 
+Przez ostatnią dekadę rynek tworzenia gier komputerowych \\ zdominowały dwa silniki: Unity oraz 
+Unreal Engine. Niniejsza praca podejmuje się wyzwania przeprowadzenia analizy
+porównawczej
+obu tych silników pod kątem wyd ajności oraz procesu
 programowania gier. W~tym celu wykorzystano 
-narzędzie do \\ 
-profilowania NVIDIA Nsight, służące do oceny wydajności aplikacji \\ graficznych, 
+narzędzie do
+profilowania NVIDIA Nsight, służące do oceny wydajności aplikacji graficznych, 
 w~szczególności do pomiaru czasu klatki, obciążenia GPU oraz
 efektywności renderowania. 
-Przeprowadzono również wywiady \\ środowiskowe z~osobami związanymi profesjonalnie z~tworzeniem 
-gier na obu platformach, jak również opisano proces twórczy, napotkane \\ trudności oraz przewagi 
+Przeprowadzono również wywiady środowiskowe z~osobami związanymi profesjonalnie z~tworzeniem 
+gier na obu platformach, jak również opisano proces twórczy, napotkane trudności oraz przewagi 
 każdego z~silników. Na potrzeby pracy stworzono dwie gry w~tym samym gatunku --- 
-\emph{bullet hell} --- słynącym z \\ mnogości elementów na ekranie i~efektów specjalnych, 
+\emph{bullet hell} --- słynącym z mnogości elementów na ekranie i~efektów specjalnych, 
 a~jednocześnie będącym relatywnie łatwym do zaimplementowania. Jedna gra została stworzona 
-w~języku C\# (Unity), druga w~C++ (Unreal Engine). \\ Następnie obie gry zostały poddane analizie 
+w~języku C\# (Unity), druga w~C++ (Unreal Engine). Następnie obie gry zostały poddane analizie 
 w~programie NVIDIA Nsight w~celu oceny możliwości optymalizacji obu silników. Na podstawie 
 wywiadów oraz analizy procesu twórczego scharakteryzowano również inne aspekty obu silników, 
-takie jak próg wejścia, współpraca z \\ systemami kontroli wersji oraz architektura silnika. 
+takie jak próg wejścia, współpraca z systemami kontroli wersji oraz architektura silnika. 
 Praca stara się wypełnić niszę w~literaturze i~badaniach związanych z~oceną obu silników do gier.
 
 \keywords Gry, Silniki do gier, C\#, C++, Unreal Engine, Unity, Gry \emph{bullet hell}, 
 NVIDIA Nsight, Wydajność, Wywiady, Analiza porównawcza, Profilowanie, Renderowanie, 
-Optymalizacja, Programowanie gier, \\ Tworzenie gier, Czas klatki, Architektura silnika, 
+Optymalizacja, Programowanie gier, Tworzenie gier, Czas klatki, Architektura silnika, 
 Kontrola wersji, GPU
 
 %----------------------------------------
@@ -94,9 +100,24 @@ Kontrola wersji, GPU
 %----------------------------------------
 \clearpage
 \secondabstract 
-Over the past decade, the video game development market has been dominated by two engines: Unity and Unreal Engine. This thesis undertakes the challenge of conducting a~comparative analysis of both engines in terms of performance and game programming workflows. To this end, the profiling tool NVIDIA Nsight was utilized to evaluate the performance of graphics applications, particularly for measuring frame time, GPU load, and rendering efficiency. Expert interviews were also conducted with professionals involved in game development on both platforms, and the creative process, encountered difficulties, and advantages of each engine were described. For the purposes of this study, two games were developed in the same genre --- \emph{bullet hell} --- known for its abundance of on-screen elements and special effects, while being relatively straightforward to implement. One game was created in C\# (Unity), the other in C++ (Unreal Engine). Both games were then analyzed using NVIDIA Nsight to assess the optimization capabilities of both engines. Drawing from the interviews and analysis of the creative process, other aspects of both engines were also characterized, such as the learning curve, integration with version control systems, and engine architecture. This thesis aims to fill a~gap in the literature and research concerning the evaluation of game engines.
+Over the past decade, the video game development market has been dominated by two engines: Unity and 
+Unreal Engine. This thesis undertakes the challenge of conducting a~comparative analysis of both 
+engines in terms of performance and game programming workflows. To this end, the profiling tool NVIDIA 
+Nsight was utilized to evaluate the performance of graphics applications, particularly for measuring 
+frame time, GPU load, and rendering efficiency. Expert interviews were also conducted with professionals 
+involved in game development on both platforms, and the creative process, encountered difficulties, 
+and advantages of each engine were described. For the purposes of this study, two games were developed 
+in the same genre --- \emph{bullet hell} --- known for its abundance of on-screen elements and special 
+effects, while being relatively straightforward to implement. One game was created in C\# (Unity), the 
+other in C++ (Unreal Engine). Both games were then analyzed using NVIDIA Nsight to assess the 
+optimization capabilities of both engines. Drawing from the interviews and analysis of the creative 
+process, other aspects of both engines were also characterized, such as the learning curve, integration 
+with version control systems, and engine architecture. This thesis aims to fill a~gap in the literature 
+and research concerning the evaluation of game engines.
 
-\secondkeywords Games, Game engines, C\#, C++, Unreal Engine, Unity, Bullet hell games, NVIDIA Nsight, Performance, Interviews, Comparative analysis, Profiling, Rendering, Optimization, Game programming, Game development, Frame time, Engine architecture, Version control, GPU
+\secondkeywords Games, Game engines, C\#, C++, Unreal Engine, Unity, Bullet hell games, NVIDIA Nsight, 
+Performance, Interviews, Comparative analysis, Profiling, Rendering, Optimization, Game programming, 
+Game development, Frame time, Engine architecture, Version control, GPU
 
 \pagestyle{plain}
 

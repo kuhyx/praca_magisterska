@@ -2,7 +2,6 @@
 \section{Narzędzia profilowania wydajności}
 \label{sec:narzedzia-profilowania}
 
-Obiektywne porównanie wydajności silników gier wymaga zastosowania odpowiednich narzędzi pomiarowych. W~niniejszym rozdziale przedstawiono analizę dostępnych rozwiązań oraz uzasadnienie wyboru NVIDIA Nsight jako głównego narzędzia profilowania.
 
 \subsection{Wbudowane narzędzia diagnostyczne silników}
 \label{subsec:wbudowane-narzedzia}
@@ -11,7 +10,7 @@ Zarówno Unity, jak i~Unreal Engine oferują własne, wbudowane narzędzia do an
 
 \subsubsection{Unity Profiler}
 
-Unity dostarcza rozbudowany profiler dostępny bezpośrednio w~edytorze (Window $\rightarrow$ Analysis $\rightarrow$ Profiler)~\cite{unity_profiler}. Narzędzie to oferuje:
+Unity dostarcza rozbudowany profiler dostępny bezpośrednio w~edytorze \\ (Window $\rightarrow$ Analysis $\rightarrow$ Profiler)~\cite{unity_profiler}. \\ Narzędzie to oferuje:
 
 \begin{itemize}
     \item \textbf{CPU Profiler} -- analiza czasu wykonania poszczególnych funkcji, z podziałem na kategorie (rendering, skrypty, fizyka, animacje)
@@ -19,10 +18,11 @@ Unity dostarcza rozbudowany profiler dostępny bezpośrednio w~edytorze (Window 
     \item \textbf{Memory Profiler} -- szczegółowa analiza alokacji pamięci, wykrywanie wycieków
     \item \textbf{Audio Profiler} -- monitorowanie obciążenia systemu dźwiękowego
     \item \textbf{Physics Profiler} -- analiza wydajności silnika fizyki
-    \item \textbf{Frame Debugger} -- krokowa analiza procesu renderowania pojedynczej klatki
+    \item \textbf{Frame Debugger} -- krokowa analiza procesu renderowania \\ pojedynczej klatki
 \end{itemize}
 
-Unity Profiler umożliwia również zdalne profilowanie aplikacji uruchomionej na urządzeniu docelowym (np.~smartfonie), co jest szczególnie przydatne przy optymalizacji gier mobilnych.
+Unity Profiler umożliwia również zdalne profilowanie aplikacji uruchomionej na urządzeniu 
+docelowym (np.~smartfonie), co jest szczególnie przydatne przy optymalizacji gier mobilnych.
 
 \begin{figure}[H]
     \centering
@@ -33,7 +33,8 @@ Unity Profiler umożliwia również zdalne profilowanie aplikacji uruchomionej n
 
 \subsubsection{Unreal Insights}
 
-Unreal Engine oferuje narzędzie Unreal Insights, które zastąpiło starszy system Session Frontend~\cite{unreal_insights}. Kluczowe funkcjonalności obejmują:
+Unreal Engine oferuje narzędzie Unreal Insights, które zastąpiło starszy system 
+Session Frontend~\cite{unreal_insights}. Kluczowe funkcjonalności obejmują:
 
 \begin{itemize}
     \item \textbf{Timing Insights} -- precyzyjny pomiar czasu wykonania poszczególnych systemów silnika
@@ -43,7 +44,9 @@ Unreal Engine oferuje narzędzie Unreal Insights, które zastąpiło starszy sys
     \item \textbf{Network Insights} -- analiza ruchu sieciowego w~grach multiplayer
 \end{itemize}
 
-Dodatkowo Unreal Engine udostępnia komendy konsolowe (np.~\texttt{stat fps}, \texttt{stat unit}, \texttt{stat gpu}) pozwalające na szybki podgląd podstawowych metryk wydajności podczas rozgrywki~\cite{unreal_docs}.
+Dodatkowo Unreal Engine udostępnia komendy konsolowe \\ 
+(np.~\texttt{stat fps}, \texttt{stat unit}, \texttt{stat gpu}) pozwalające na szybki \\ 
+podgląd podstawowych metryk wydajności podczas \\ rozgrywki~\cite{unreal_docs}.
 
 \begin{figure}[H]
     \centering
@@ -54,13 +57,15 @@ Dodatkowo Unreal Engine udostępnia komendy konsolowe (np.~\texttt{stat fps}, \t
 
 \subsubsection{Ograniczenia narzędzi wbudowanych}
 
-Pomimo rozbudowanych możliwości, wbudowane profilery silników posiadają istotne ograniczenia w~kontekście porównawczych badań wydajnościowych:
+Pomimo rozbudowanych możliwości, wbudowane profilery silników posiadają istotne ograniczenia 
+w~kontekście porównawczych badań wydajnościowych:
 
 \begin{enumerate}
-    \item \textbf{Brak standaryzacji metryk} -- każdy silnik definiuje i~mierzy parametry w~odmienny sposób, co utrudnia bezpośrednie porównania
-    \item \textbf{Różna granularność danych} -- poziom szczegółowości raportów \\ różni się między silnikami
-    \item \textbf{Narzut profilowania} -- wbudowane profilery same generują obciążenie, które może być różne dla każdego silnika
-    \item \textbf{Nieporównywalność formatów wyjściowych} -- dane eksportowane przez różne profilery mają odmienne struktury
+    \item \textbf{Brak standaryzacji metryk} -- każdy silnik definiuje i~mierzy parametry 
+    w~odmienny sposób, co utrudnia bezpośrednie porównania
+    \item \textbf{Różna granularność danych} -- poziom szczegółowości raportów różni się \\ między silnikami
+    \item \textbf{Narzut profilowania} -- wbudowane profilery same generują \\ obciążenie, które może być różne dla każdego silnika
+    \item \textbf{Nieporównywalność formatów wyjściowych} -- dane \\ eksportowane przez różne profilery mają odmienne struktury
 \end{enumerate}
 
 Z~powyższych powodów zdecydowano się na zastosowanie zewnętrznego, niezależnego od silnika narzędzia profilowania.
@@ -95,7 +100,7 @@ był następującymi czynnikami:
 \subsubsection{Możliwości narzędzia}
 
 NVIDIA Nsight Graphics oferuje szereg funkcjonalności istotnych dla badań wydajnościowych:
-
+\newpage
 \paragraph{Frame Profiler}
 Główny moduł analizy wydajności, umożliwiający:
 \begin{itemize}

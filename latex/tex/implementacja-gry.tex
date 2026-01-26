@@ -3,7 +3,7 @@
 \subsection{Implementacja w Unity}
 \label{subsec:impl-unity}
 
-Projekt Unity został utworzony w~wersji LTS z~wykorzystaniem standardowego renderera 2D. Instalacja 
+Projekt Unity został utworzony w~wersji LTS z~wykorzystaniem \\ standardowego renderera 2D. Instalacja
 silnika na systemie Linux przebiegła bezproblemowo dzięki Unity Hub 
 \cite{unity_hub} \cite{unity_hub_download_arch}, który zapewnia spójne 
 zarządzanie wersjami edytora i~projektami.
@@ -52,7 +52,7 @@ public Bullet Spawn(Vector2 position, Vector2 direction,
 Pula jest wstępnie rozgrzewana (\textit{warm capacity}) podczas inicjalizacji, co eliminuje alokacje podczas rozgrywki.
 
 \paragraph{Singleton Pattern}
-Klasy \texttt{GameDirector} i \texttt{EnemySpawner} wykorzystują wzorzec Singleton z właściwością \texttt{Instance}, zapewniając globalny punkt dostępu do kluczowych systemów gry.
+Klasy \texttt{GameDirector} i~\texttt{EnemySpawner} wykorzystują \\ wzorzec Singleton z~właściwością \texttt{Instance}, zapewniając \\ globalny punkt dostępu do kluczowych systemów gry.
 
 \subsubsection{System spawnu przeciwników}
 
@@ -86,11 +86,10 @@ Podczas implementacji napotkano następujące wyzwania:
     \item Skupienie się na kodzie -- większość logiki gry zaimplementowana została w kodzie źródłowym co przyśpieszyło proces tworzenia gry
     \item Dobre wsparcie dla LLM -- unity posiada narzędzie mcp oferującą prostą integrację edytora i narzędzi AI \cite{unity_mcp}
 \end{itemize}
-
+\newpage
 \subsection{Implementacja w Unreal Engine}
 \label{subsec:impl-unreal}
 
-\subsubsection{Środowisko i konfiguracja projektu}
 
 Instalacja Unreal Engine na systemie Linux okazała się znacznie bardziej skomplikowana niż w przypadku Unity. Dostępne są dwie ścieżki:
 
@@ -101,14 +100,14 @@ Instalacja Unreal Engine na systemie Linux okazała się znacznie bardziej skomp
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{tex/img/unreal_choose_project.png}
+    \includegraphics[width=0.9\textwidth]{tex/img/unreal_choose_project.png}
     \caption{Wybór projektu w Unreal Engine.}
     \label{fig:unreal_choose_project}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{tex/img/unreal_editor_view.png}
+    \includegraphics[width=0.9\textwidth]{tex/img/unreal_editor_view.png}
     \caption{Widok edytora Unreal Engine.}
     \label{fig:unreal_editor_view}
 \end{figure}
@@ -132,7 +131,7 @@ Unreal oferuje dwa podejścia do programowania logiki gry:
 
 \paragraph{Blueprinty} -- wizualny system skryptowy, który w teorii pozwala na szybkie prototypowanie bez pisania kodu. 
 
-W praktyce korzystanie z nich dla osoby która zna tradycyjne programowanie okazazało się frustrujące ze względu na:
+W praktyce korzystanie z nich dla osoby która zna tradycyjne programowanie okazazało się frustrujące ze względu na:
 \begin{itemize}
     \item Problemy z kontrolą wersji
     \item Trudności w debugowaniu
@@ -141,7 +140,7 @@ W praktyce korzystanie z nich dla osoby która zna tradycyjne programowanie okaz
 \end{itemize}
 
 \paragraph{C++} -- dla bardziej wydajnościowo krytycznych elementów (jak system object poolingu) zalecane jest użycie C++. 
-użycie go ostatecznie okazało się bardziej intujcywne i prostsze dla projektu z uwagi na doświadczenie w pisaniu programów w 
+użycie go ostatecznie okazało się bardziej intujcywne i prostsze dla projektu z uwagi na doświadczenie w pisaniu programów w 
 tradycyjny sposób
 
 \subsubsection{Object Pooling w Unreal}
@@ -217,6 +216,7 @@ Doświadczenia z implementacji gry bullet-hell potwierdzają, że wybór silnika
     z designerami, choć problemy \\ z kontrolą wersji stanowią wyzwanie
 \end{enumerate}
 
-Implementacja gry bullet-hell w~Unity zajęła około 60\% czasu potrzebnego na implementację 
-analogicznej  funkcjonalności 
-w Unreal Engine, głównie ze względu na natywne wsparcie 2D i prostszy system object poolingu.
+Implementacja gry bullet-hell w~Unity zajęła około 60\% czasu
+potrzebnego na implementację analogicznej funkcjonalności
+w~Unreal Engine, głównie ze względu na natywne wsparcie 2D
+i~prostszy system object poolingu.

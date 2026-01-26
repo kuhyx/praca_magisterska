@@ -59,21 +59,43 @@
 \ifxetex
     \RequirePackage{fontspec}
     \defaultfontfeatures{Ligatures=TeX}
-    % Use DejaVu fonts - widely available with full Polish character support
-    \setmainfont{DejaVu Serif}
-    \setsansfont{DejaVu Sans}
-    \setmonofont{DejaVu Sans Mono}
+    % Require Adagio Slab (bundled in repo); fail if not present
+    \IfFileExists{fonts/PW_Adagio_Slab/Adagio_Slab-Regular.otf}{%
+        \setmainfont[
+            Path = fonts/PW_Adagio_Slab/,
+            UprightFont = Adagio_Slab-Regular.otf,
+            ItalicFont = Adagio_Slab-Regular_italic.otf,
+            BoldFont = Adagio_Slab-Bold.otf,
+            BoldItalicFont = Adagio_Slab-Bold_italic.otf
+        ]{Adagio Slab}%
+        \setsansfont{DejaVu Sans}
+        \setmonofont{DejaVu Sans Mono}
+    }{%
+        \ClassError{wut-thesis}{Adagio Slab fonts not found in 'fonts/PW_Adagio_Slab'. Compilation requires these fonts.}{Please add the OTF files to the repository (latex/fonts/PW_Adagio_Slab/) and recompile with XeLaTeX or LuaLaTeX.}
+    }
 \else\ifluatex
     \RequirePackage{fontspec}
     \defaultfontfeatures{Ligatures=TeX}
-    \setmainfont{DejaVu Serif}
-    \setsansfont{DejaVu Sans}
-    \setmonofont{DejaVu Sans Mono}
+    % Require Adagio Slab (bundled in repo); fail if not present
+    \IfFileExists{fonts/PW_Adagio_Slab/Adagio_Slab-Regular.otf}{%
+        \setmainfont[
+            Path = fonts/PW_Adagio_Slab/,
+            UprightFont = Adagio_Slab-Regular.otf,
+            ItalicFont = Adagio_Slab-Regular_italic.otf,
+            BoldFont = Adagio_Slab-Bold.otf,
+            BoldItalicFont = Adagio_Slab-Bold_italic.otf
+        ]{Adagio Slab}%
+        \setsansfont{DejaVu Sans}
+        \setmonofont{DejaVu Sans Mono}
+    }{%
+        \ClassError{wut-thesis}{Adagio Slab fonts not found in 'fonts/PW_Adagio_Slab'. Compilation requires these fonts.}{Please add the OTF files to the repository (latex/fonts/PW_Adagio_Slab/) and recompile with XeLaTeX or LuaLaTeX.}
+    }
 \else
-    % pdfLaTeX - use Fourier (Utopia) font with proper Polish support
+    % pdfLaTeX - Adagio Slab requires XeLaTeX or LuaLaTeX; stop with error
     \RequirePackage[utf8]{inputenc}
     \RequirePackage[T1]{fontenc}
     \RequirePackage{fourier}
+    \ClassError{wut-thesis}{Adagio Slab requires compilation with XeLaTeX or LuaLaTeX; pdfLaTeX is unsupported for this template.}{Re-run using XeLaTeX or LuaLaTeX and ensure the Adagio Slab OTF files are present in 'latex/fonts/PW_Adagio_Slab/'.}
 \fi\fi
 \RequirePackage{graphicx}      % Enhanced images support
 \RequirePackage{ifluatex}      % LuaTeX-specific options

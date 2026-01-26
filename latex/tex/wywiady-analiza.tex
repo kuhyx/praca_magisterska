@@ -49,7 +49,13 @@ Wybór Unreal Engine często był podyktowany specyfiką projektu lub wymaganiam
 
 W zakresie dokumentacji oficjalnej respondenci wyraźnie faworyzowali Unity. Dokumentacja tego silnika była opisywana jako dogłębna i szczegółowa -- praktycznie wszystkie klasy, metody i właściwości są dokładnie opisane, a dodatkowo często zawierają działające przykłady kodu, które można bezpośrednio skopiować i uruchomić w projekcie.
 
-Dokumentacja Unreal Engine była oceniana znacznie gorzej. Respondenci określali ją jako szkieletową lub wręcz nieistniejącą w praktycznym sensie. Wiele stron dokumentacji zawiera jedynie nazwę funkcji i nazwy parametrów, bez jakiegokolwiek opisu działania. Jeden z respondentów porównał czytanie dokumentacji Unreal do przeglądania plików nagłówkowych (header files), gdzie użytkownik musi samodzielnie domyślać się, co dana funkcja robi.
+Dokumentacja Unreal Engine była oceniana znacznie gorzej. Respondenci
+\\ określali ją jako szkieletową lub wręcz nieistniejącą w~praktycznym
+sensie. Wiele stron dokumentacji zawiera jedynie nazwę funkcji i~nazwy
+parametrów, bez jakiegokolwiek opisu działania. Jeden z~respondentów
+porównał czytanie dokumentacji Unreal do przeglądania plików
+nagłówkowych (header files), gdzie użytkownik musi samodzielnie
+domyślać się, co dana funkcja robi.
 
 Jako pozytywny aspekt ekosystemu Unreal wskazywano fora deweloperskie, gdzie profesjonalni użytkownicy dzielą się rozwiązaniami. Problemem jest jednak to, że część najbardziej wartościowych zasobów znajduje się w zamkniętych sekcjach forum, dostępnych tylko dla wybranych firm po uzyskaniu specjalnych uprawnień od Epic Games.
 
@@ -98,13 +104,16 @@ Respondenci zauważyli, że Unreal Engine jest wyraźnie zoptymalizowany pod gry
 
 Czas kompilacji w Unity był identyfikowany jako znaczący problem przy większych projektach. W miarę rozrastania się bazy kodu, czas potrzebny na rekompilację po każdej zmianie rośnie.
 
-Unity oferuje mechanizm Assembly Definitions jako rozwiązanie tego problemu. Bez podziału projektu na osobne assemblies każda zmiana w kodzie powoduje rekompilację całego projektu. Podział na mniejsze moduły pozwala kompilować tylko zmienione fragmenty, znacząco skracając czas iteracji.
+Unity oferuje mechanizm Assembly Definitions jako rozwiązanie tego \\
+problemu. Bez podziału projektu na osobne assemblies każda zmiana w~kodzie powoduje rekompilację całego projektu. Podział na mniejsze moduły pozwala kompilować tylko zmienione fragmenty, znacząco skracając czas iteracji.
 
 \subsubsection{Stabilność środowiska}
 
 Istotną różnicą między silnikami jest obsługa błędów krytycznych. W Unity gra uruchomiona w edytorze działa jako osobny proces -- gdy wystąpi błąd krytyczny, zamyka się tylko ten proces, a edytor pozostaje stabilny. W Unreal Engine silnik i gra działają jako jeden proces, więc crash w grze powoduje utratę całego edytora wraz z ewentualnymi niezapisanymi zmianami.
 
-Ta różnica architekturalna ma istotne konsekwencje dla produktywności, szczególnie przy debugowaniu. Przy dużych projektach, gdzie uruchomienie silnika może trwać kilkanaście minut, każdy crash oznacza znaczną stratę czasu.
+Ta różnica architekturalna ma istotne konsekwencje dla produktywności, \\
+szczególnie przy debugowaniu. Przy dużych projektach, gdzie uruchomienie \\
+silnika może trwać kilkanaście minut, każdy crash oznacza znaczną stratę czasu.
 
 \subsubsection{Kompatybilność wsteczna}
 
@@ -117,7 +126,9 @@ Unreal Engine był krytykowany za problemy z kompatybilnością między wersjami
 
 Współpraca z systemem Git była oceniana lepiej dla Unity ze względu na tekstową serializację assetów. Pliki scen i prefabów w Unity są zapisywane w formacie YAML, co teoretycznie umożliwia ich mergowanie. Nowoczesne narzędzia (np. merge w Rider) potrafią automatycznie rozwiązywać niektóre konflikty na scenach.
 
-Pliki binarne w Unreal Engine stanowią znaczące wyzwanie. Respondenci zwracali uwagę, że nawet pliki Blueprintów, które ewidentnie mają serializację tekstową, są zapisywane na dysku jako binaria. To znacznie utrudnia współpracę wielu programistów nad tym samym projektem.
+Pliki binarne w Unreal Engine stanowią znaczące wyzwanie. Respondenci \\
+zwracali uwagę, że nawet pliki Blueprintów, które ewidentnie mają serializację \\
+tekstową, są zapisywane na dysku jako binaria. To znacznie utrudnia współpracę wielu programistów nad tym samym projektem.
 
 \subsubsection{Mergowanie konfliktów}
 
@@ -136,7 +147,12 @@ Jednocześnie integracja Blueprintów z kodem C++ nie jest idealna. Przejście m
 
 \subsubsection{Narzędzia dla artystów}
 
-Unity wymaga więcej pracy przy tworzeniu narzędzi dla osób nietechnicznych. Respondenci wskazywali, że w Unreal Engine osoby nietechniczne mają lepsze wsparcie ,,out of the box'', podczas gdy w Unity zazwyczaj trzeba przeprowadzać szkolenia lub tworzyć dedykowane narzędzia edytorowe, aby umożliwić artystom i designerom samodzielną pracę.
+Unity wymaga więcej pracy przy tworzeniu narzędzi dla osób \\
+nietechnicznych. Respondenci wskazywali, że w~Unreal Engine osoby \\
+nietechniczne mają lepsze wsparcie ,,out of the box'', podczas gdy
+w~Unity \\ zazwyczaj trzeba przeprowadzać szkolenia lub tworzyć
+dedykowane \\ narzędzia edytorowe, aby umożliwić artystom
+i~designerom samodzielną pracę.
 
 \subsection{Asset Store i zasoby zewnętrzne}
 \label{subsec:asset-store}
@@ -151,7 +167,9 @@ Interesującą obserwacją było to, że najlepsze produkty z Asset Store mają 
 opuszczania platformy -- twórcy zakładają własne \\ strony internetowe po osiągnięciu określonego 
 poziomu popularności.
 
-Unreal Marketplace przeszedł niedawno transformację w platformę Fab, co według respondentów pogorszyło doświadczenie użytkownika i zwiększyło liczbę kroków potrzebnych do pobrania darmowych zasobów.
+Unreal Marketplace przeszedł niedawno transformację w~platformę Fab, \\
+co według respondentów pogorszyło doświadczenie użytkownika \\
+i~zwiększyło liczbę kroków potrzebnych do pobrania darmowych zasobów.
 
 \subsubsection{Zastosowanie assetów}
 
@@ -162,9 +180,15 @@ Assety były rekomendowane głównie do prototypowania, nie do produkcji komercy
 
 \subsubsection{Doświadczenia z LLM}
 
-Większość respondentów miała ograniczone doświadczenia z wykorzystaniem AI w pracy z silnikami gier. Główna obserwacja dotyczyła niskiej jakości generowanego kodu -- naprawianie błędów w kodzie wygenerowanym przez ChatGPT często zajmowało więcej czasu niż napisanie rozwiązania od podstaw.
+Większość respondentów miała ograniczone doświadczenia
+\\ z~wykorzystaniem AI w~pracy z~silnikami gier. Główna obserwacja
+dotyczyła niskiej jakości generowanego kodu -- naprawianie błędów
+w~kodzie wygenerowanym przez ChatGPT często zajmowało więcej czasu
+niż napisanie rozwiązania od podstaw.
 
-Jednocześnie AI było wykorzystywane skuteczniej jako substytut dokumentacji dla Unreal Engine. Pomimo częstych konfabulacji, modele językowe potrafiły naprowadzić na właściwe słowa kluczowe lub nazwy funkcji, które następnie można było zweryfikować w kodzie źródłowym silnika.
+Jednocześnie AI było wykorzystywane skuteczniej jako substytut dokumentacji dla Unreal Engine. 
+Pomimo częstych konfabulacji, modele językowe potrafiły naprowadzić na właściwe słowa kluczowe 
+lub nazwy funkcji, które następnie można było zweryfikować w kodzie źródłowym silnika.
 
 \subsubsection{Generowanie grafik}
 
@@ -175,7 +199,8 @@ Pozytywne doświadczenia zgłoszono w zakresie generowania placeholderów grafic
 
 \subsubsection{Narzut silników}
 
-Respondenci wskazywali, że Unity ma mniejszy narzut wydajnościowy niż Unreal dla prostych projektów. Czas ładowania projektów w Unity jest znacznie krótszy, co respondenci przypisywali domyślnie niższym rozdzielczościom tekstur i prostszym ustawieniom graficznym.
+Respondenci wskazywali, że Unity ma mniejszy narzut wydajnościowy niż \\
+Unreal dla prostych projektów. Czas ładowania projektów w~Unity jest znacznie krótszy, co respondenci przypisywali domyślnie niższym rozdzielczościom tekstur i~prostszym ustawieniom graficznym.
 
 \subsubsection{Blueprinty vs C++}
 
@@ -191,7 +216,7 @@ Problem garbage collectora w Unity był wielokrotnie wspominany jako znany probl
 \subsubsection{Entity Component System (ECS)}
 
 Nowy system DOTS/ECS w Unity był oczekiwaną funkcjonalnością, \\ która w momencie przeprowadzania 
-wywiadów została już \\ oficjalnie wydana. System ten pozwala na pisanie wysoce wydajnego, 
+wywiadów została już oficjalnie wydana. \\ System ten pozwala na pisanie wysoce wydajnego, 
 zorientowanego na dane kodu, kosztem większej złożoności programistycznej.
 
 \subsubsection{UI Toolkit}
@@ -208,7 +233,8 @@ Część respondentów wyraziła zainteresowanie silnikiem Godot jako alternatyw
     \item Kontrowersje związane z próbą zmiany modelu licencyjnego Unity w 2023 roku
 \end{itemize}
 
-Respondenci przewidywali, że jeśli Unity nie poprawi swojego wizerunku i oferty, Godot może w przyszłości stać się poważną konkurencją w segmencie gier indie.
+Respondenci przewidywali, że jeśli Unity nie poprawi swojego wizerunku \\
+i~oferty, Godot może w~przyszłości stać się poważną konkurencją w~segmencie gier indie.
 
 \subsection{Podsumowanie wyników badań jakościowych}
 \label{subsec:podsumowanie-wywiady}
@@ -242,12 +268,12 @@ Na podstawie przeprowadzonych wywiadów można sformułować następujące wnios
     \item Poradniki koncentrujące się na implementacji kosztem dobrych praktyk
     \item Problemy z kompatybilnością między wersjami silników
 \end{itemize}
-
+\newpage
 \subsubsection{Rekomendacje z badań}
 
 Na podstawie wywiadów można zasugerować następujące kryteria wyboru silnika:
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Rekomendacje wyboru silnika w zależności od kontekstu projektu}
 \label{tab:rekomendacje-silnikow}
@@ -268,4 +294,6 @@ Wymagania graficzne & Standardowe & Wysokie \\
 \end{tabular}
 \end{table}
 
-Wyniki badań jakościowych uzupełniają obiektywne testy wydajnościowe przedstawione w rozdziale \ref{sec:testy-wydajnosci}, dostarczając kontekstu praktycznego użytkowania obu silników w rzeczywistych projektach.
+Wyniki badań jakościowych uzupełniają obiektywne testy wydajnościowe \\
+przedstawione w~rozdziale \ref{sec:testy-wydajnosci}, dostarczając \\
+kontekstu praktycznego użytkowania obu silników w~rzeczywistych \\ projektach.

@@ -6,41 +6,41 @@
 \subsubsection{Wsparcie dla różnych technik renderingu}
 
 \paragraph{Unity}
-Unity oferuje dwa główne pipeline'y renderowania: Built-in Render Pipeline (legacy), Universal Render Pipeline (URP) oraz High Definition Render Pipeline (HDRP)~\cite{unity_urp_docs, unity_hdrp_docs}. URP jest zoptymalizowany pod kątem wydajności i~kompatybilności między platformami, podczas gdy HDRP koncentruje się na~wysokiej jakości grafiki dla~platform o~dużej mocy obliczeniowej~\cite{gregory2018game}.
+Unity oferuje dwa główne pipeline'y renderowania: Built-in Render Pipeline (legacy), Universal Render Pipeline (URP) oraz High Definition Render Pipeline (HDRP). URP jest zoptymalizowany pod kątem wydajności i~kompatybilności między platformami, podczas gdy HDRP koncentruje się na~wysokiej jakości grafiki dla~platform o~dużej mocy obliczeniowej~\cite{gregory2018game}.
 
 \begin{itemize}
-    \item \textbf{Forward rendering} -- domyślny tryb w~URP, efektywny dla~scen z~niewielką liczbą źródeł światła~\cite{unity_urp_docs}
-    \item \textbf{Deferred rendering} -- dostępny w~HDRP, umożliwia obsługę większej liczby świateł~\cite{unity_hdrp_docs}
+    \item \textbf{Forward rendering} -- domyślny tryb w~URP, efektywny dla~scen z~niewielką liczbą źródeł światła
+    \item \textbf{Deferred rendering} -- dostępny w~HDRP, umożliwia obsługę większej liczby świateł
     \item \textbf{Ray tracing} -- wsparcie w~HDRP dla~kart graficznych NVIDIA RTX~\cite{parker2010optix}
 \end{itemize}
 
 \paragraph{Unreal Engine}
-Unreal Engine wykorzystuje zaawansowany deferred rendering pipeline z~obsługą ray tracingu w~czasie rzeczywistym~\cite{unreal_lumen, unreal_nanite}.
+Unreal Engine wykorzystuje zaawansowany deferred rendering pipeline z~obsługą ray tracingu w~czasie rzeczywistym~\cite{unreal_docs}.
 
 \begin{itemize}
     \item \textbf{Deferred shading} -- standardowy pipeline dla~większości projektów~\cite{gregory2018game}
     \item \textbf{Forward shading} -- opcjonalny tryb dla~projektów VR wymagających niskiej latencji~\cite{anthes2016state}
-    \item \textbf{Ray tracing} -- pełne wsparcie dla~Lumen (global illumination) i~ray-traced reflections~\cite{unreal_lumen}
-    \item \textbf{Nanite} -- zwirtualizowana geometria pozwalająca na~renderowanie miliardów poligonów~\cite{unreal_nanite}
+    \item \textbf{Ray tracing} -- pełne wsparcie dla~Lumen (global illumination) i~ray-traced reflections
+    \item \textbf{Nanite} -- zwirtualizowana geometria pozwalająca na~renderowanie miliardów poligonów
 \end{itemize}
 
 \subsubsection{Systemy materiałów i shaderów}
 
 \paragraph{Unity}
-Unity oferuje Shader Graph -- wizualny edytor do~tworzenia shaderów bez~pisania kodu~\cite{unity_shader_graph}. Dodatkowo wspiera shadery pisane w~HLSL oraz~Cg~\cite{farina2013shader}.
+Unity oferuje Shader Graph -- wizualny edytor do~tworzenia shaderów bez~pisania kodu. Dodatkowo wspiera shadery pisane w~HLSL oraz~Cg~\cite{farina2013shader}.
 
 \begin{itemize}
-    \item \textbf{Shader Graph} -- intuicyjny, oparty na~węzłach interfejs~\cite{unity_shader_graph}
+    \item \textbf{Shader Graph} -- intuicyjny, oparty na~węzłach interfejs
     \item \textbf{HLSL/Cg} -- możliwość pisania custom shaderów~\cite{farina2013shader}
-    \item \textbf{Shader variants} -- system wariantów dla~optymalizacji~\cite{unity_shader_graph}
+    \item \textbf{Shader variants} -- system wariantów dla~optymalizacji
 \end{itemize}
 
 \paragraph{Unreal Engine}
-Unreal oferuje Material Editor -- zaawansowany system węzłowy do~tworzenia materiałów~\cite{unreal_material_editor}.
+Unreal oferuje Material Editor -- zaawansowany system węzłowy do~tworzenia materiałów~\cite{unreal_docs}.
 
 \begin{itemize}
-    \item \textbf{Material Editor} -- bogaty zestaw węzłów i~funkcji~\cite{unreal_material_editor}
-    \item \textbf{Material Functions} -- możliwość tworzenia wielokrotnego użytku komponentów~\cite{unreal_material_editor}
+    \item \textbf{Material Editor} -- bogaty zestaw węzłów i~funkcji
+    \item \textbf{Material Functions} -- możliwość tworzenia wielokrotnego użytku komponentów
     \item \textbf{Custom HLSL} -- integracja własnego kodu HLSL~\cite{farina2013shader}
 \end{itemize}
 
@@ -48,18 +48,18 @@ Unreal oferuje Material Editor -- zaawansowany system węzłowy do~tworzenia mat
 
 \paragraph{Unity}
 \begin{itemize}
-    \item \textbf{Real-time lighting} -- dynamiczne oświetlenie w~czasie rzeczywistym~\cite{unity_hdrp_docs}
-    \item \textbf{Baked lighting} -- przedkalkulowane mapy oświetlenia (lightmaps)~\cite{unity_urp_docs}
-    \item \textbf{Mixed lighting} -- połączenie światła dynamicznego i~baked~\cite{unity_hdrp_docs}
+    \item \textbf{Real-time lighting} -- dynamiczne oświetlenie w~czasie rzeczywistym
+    \item \textbf{Baked lighting} -- przedkalkulowane mapy oświetlenia (lightmaps)
+    \item \textbf{Mixed lighting} -- połączenie światła dynamicznego i~baked
     \item \textbf{Global Illumination} -- Progressive Lightmapper dla~światła odbitego~\cite{gregory2018game}
 \end{itemize}
 
 \paragraph{Unreal Engine}
 \begin{itemize}
-    \item \textbf{Lumen} -- dynamiczne global illumination w~czasie rzeczywistym~\cite{unreal_lumen}
+    \item \textbf{Lumen} -- dynamiczne global illumination w~czasie rzeczywistym
     \item \textbf{Lightmass} -- high-quality baked lighting~\cite{gregory2018game}
     \item \textbf{Ray-traced lighting} -- fizycznie dokładne oświetlenie~\cite{parker2010optix}
-    \item \textbf{Volumetric fog} -- zaawansowane efekty atmosferyczne~\cite{unreal_lumen}
+    \item \textbf{Volumetric fog} -- zaawansowane efekty atmosferyczne
 \end{itemize}
 
 \subsection{Systemy fizyki i symulacji}
@@ -67,44 +67,38 @@ Unreal oferuje Material Editor -- zaawansowany system węzłowy do~tworzenia mat
 \subsubsection{Rigid body physics}
 
 \paragraph{Unity}
-Unity wykorzystuje NVIDIA PhysX jako~silnik fizyki~\cite{nvidia_physx, unity_physics}.
+Unity wykorzystuje NVIDIA PhysX jako~silnik fizyki~\cite{nvidia_physx}.
 
 \begin{itemize}
-    \item \textbf{Rigidbody} -- komponent dla~obiektów fizycznych~\cite{unity_physics}
-    \item \textbf{Colliders} -- różne typy koliderów (box, sphere, mesh, etc.)~\cite{unity_physics}
-    \item \textbf{Joints} -- więzy i~połączenia (hinge, spring, fixed, etc.)~\cite{nvidia_physx}
+    \item \textbf{Rigidbody} -- komponent dla~obiektów fizycznych
+    \item \textbf{Colliders} -- różne typy koliderów (box, sphere, mesh, etc.)
+    \item \textbf{Joints} -- więzy i~połączenia (hinge, spring, fixed, etc.)
     \item \textbf{Wydajność} -- efektywne dla~setek obiektów fizycznych~\cite{messaoudi2017performance}
 \end{itemize}
 
 \paragraph{Unreal Engine}
-Unreal przeszedł z~PhysX na~Chaos Physics -- 
+Unreal przeszedł z~PhysX na~Chaos Physics --
 własny silnik fizyki~\cite{unreal_docs}.
 
 \begin{itemize}
-    \item \textbf{Chaos Physics} -- nowy, 
-    zaawansowany system 
-    fizyki~\cite{unreal_docs}
-    \item \textbf{Destruction} -- wbudowane 
-    wsparcie dla~destrukcji 
-    obiektów~\cite{unreal_docs}
-    \item \textbf{Cloth simulation} -- 
-    symulacja tkanin~\cite{unreal_docs}
-    \item \textbf{Vehicles} -- zaawansowany 
-    system pojazdów~\cite{gregory2018game}
+    \item \textbf{Chaos Physics} -- nowy, zaawansowany system fizyki
+    \item \textbf{Destruction} -- wbudowane wsparcie dla~destrukcji obiektów
+    \item \textbf{Cloth simulation} -- symulacja tkanin
+    \item \textbf{Vehicles} -- zaawansowany system pojazdów~\cite{gregory2018game}
 \end{itemize}
 
 \subsubsection{Systemy cząstek}
 
 \paragraph{Unity}
 \begin{itemize}
-    \item \textbf{Shuriken Particle System} -- klasyczny system cząstek~\cite{unity_vfx_graph}
-    \item \textbf{Visual Effect Graph} -- system cząstek GPU-based dla~milionów cząstek~\cite{unity_vfx_graph}
+    \item \textbf{Shuriken Particle System} -- klasyczny system cząstek
+    \item \textbf{Visual Effect Graph} -- system cząstek GPU-based dla~milionów cząstek
 \end{itemize}
 
 \paragraph{Unreal Engine}
 \begin{itemize}
-    \item \textbf{Cascade} -- legacy system cząstek~\cite{unreal_niagara}
-    \item \textbf{Niagara} -- zaawansowany, skalowalny system efektów wizualnych~\cite{unreal_niagara}
+    \item \textbf{Cascade} -- legacy system cząstek
+    \item \textbf{Niagara} -- zaawansowany, skalowalny system efektów wizualnych
 \end{itemize}
 
 \subsection{Systemy audio}
@@ -113,15 +107,15 @@ własny silnik fizyki~\cite{unreal_docs}.
 
 \paragraph{Unity}
 \begin{itemize}
-    \item Obsługiwane formaty: WAV, MP3, OGG, AIFF~\cite{unity_physics}
-    \item Kompresja: Vorbis, MP3, ADPCM~\cite{unity_physics}
+    \item Obsługiwane formaty: WAV, MP3, OGG, AIFF
+    \item Kompresja: Vorbis, MP3, ADPCM
     \item Audio middleware: integracja z~Wwise, FMOD~\cite{firat2022sound}
 \end{itemize}
 
 \paragraph{Unreal Engine}
 \begin{itemize}
-    \item Obsługiwane formaty: WAV, OGG, FLAC~\cite{unreal_metasounds}
-    \item Natywna integracja z~MetaSounds~\cite{unreal_metasounds}
+    \item Obsługiwane formaty: WAV, OGG, FLAC
+    \item Natywna integracja z~MetaSounds
     \item Wsparcie dla~Wwise, FMOD~\cite{firat2022sound}
 \end{itemize}
 
@@ -159,18 +153,18 @@ Oba silniki oferują zaawansowane systemy dźwięku przestrzennego z~obsługą~\
 
 \paragraph{Unity}
 \begin{itemize}
-    \item Unity Profiler -- analiza wydajności CPU, GPU, pamięci~\cite{unity_profiler}
-    \item Console -- logi i~błędy w~czasie rzeczywistym~\cite{unity_profiler}
-    \item Frame Debugger -- analiza procesu renderowania klatka po~klatce~\cite{unity_profiler}
-    \item Memory Profiler -- szczegółowa analiza alokacji pamięci~\cite{unity_profiler}
+    \item Unity Profiler -- analiza wydajności CPU, GPU, pamięci
+    \item Console -- logi i~błędy w~czasie rzeczywistym
+    \item Frame Debugger -- analiza procesu renderowania klatka po~klatce
+    \item Memory Profiler -- szczegółowa analiza alokacji pamięci
 \end{itemize}
 
 \paragraph{Unreal Engine}
 \begin{itemize}
-    \item Unreal Insights -- kompleksowe narzędzie profilowania~\cite{unreal_insights}
-    \item Visual Logger -- wizualizacja logów w~kontekście gry~\cite{unreal_insights}
-    \item Session Frontend -- monitoring wielu instancji gry~\cite{unreal_insights}
-    \item GPU Visualizer -- analiza wydajności GPU~\cite{unreal_insights}
+    \item Unreal Insights -- kompleksowe narzędzie profilowania
+    \item Visual Logger -- wizualizacja logów w~kontekście gry
+    \item Session Frontend -- monitoring wielu instancji gry
+    \item GPU Visualizer -- analiza wydajności GPU
 \end{itemize}
 
 \subsection{Wsparcie dla platform docelowych}
@@ -289,14 +283,14 @@ Wielkość i~aktywność społeczności deweloperskiej jest istotnym czynnikiem 
 
 \paragraph{Unity}
 \begin{itemize}
-    \item \textbf{Dokumentacja oficjalna} -- ponad 5000 stron dokumentacji API~\cite{unity_urp_docs}
+    \item \textbf{Dokumentacja oficjalna} -- ponad 5000 stron dokumentacji API
     \item \textbf{Unity Learn} -- ponad 750 darmowych kursów i~tutoriali~\cite{christopoulou2017overview}
     \item \textbf{Certyfikacje} -- 4 poziomy certyfikacji (User, Associate, Professional, Expert)~\cite{barczak2019comparative}
 \end{itemize}
 
 \paragraph{Unreal Engine}
 \begin{itemize}
-    \item \textbf{Dokumentacja oficjalna} -- obszerna dokumentacja z~ponad 3000 stron~\cite{unreal_lumen}
+    \item \textbf{Dokumentacja oficjalna} -- obszerna dokumentacja z~ponad 3000 stron
     \item \textbf{Unreal Online Learning} -- ponad 200 darmowych kursów wideo~\cite{christopoulou2017overview}
     \item \textbf{Epic Developer Community} -- oficjalne forum wsparcia~\cite{barczak2019comparative}
 \end{itemize}

@@ -1,0 +1,8 @@
+unity_profiler:
+https://unity.com/blog/engine-platform/profiling-in-unity-2021-lts-what-when-and-how
+
+unreal_profiler:
+https://dev.epicgames.com/documentation/unreal-engine/profiler-tool-reference?application_version=4.27
+
+nvidia_nsight:
+https://developer.nvidia.com/nsight-systems

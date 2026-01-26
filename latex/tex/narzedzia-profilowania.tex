@@ -14,29 +14,43 @@ Zarówno Unity, jak i~Unreal Engine oferują własne, wbudowane narzędzia do an
 Unity dostarcza rozbudowany profiler dostępny bezpośrednio w~edytorze (Window $\rightarrow$ Analysis $\rightarrow$ Profiler)~\cite{unity_profiler}. Narzędzie to oferuje:
 
 \begin{itemize}
-    \item \textbf{CPU Profiler} -- analiza czasu wykonania poszczególnych funkcji, z~podziałem na kategorie (rendering, skrypty, fizyka, animacje)~\cite{unity_profiler_cpu}
-    \item \textbf{GPU Profiler} -- pomiar czasu renderowania na karcie graficznej~\cite{unity_profiler_gpu}
-    \item \textbf{Memory Profiler} -- szczegółowa analiza alokacji pamięci, wykrywanie wycieków~\cite{unity_profiler_memory}
-    \item \textbf{Audio Profiler} -- monitorowanie obciążenia systemu dźwiękowego~\cite{unity_profiler_audio}
-    \item \textbf{Physics Profiler} -- analiza wydajności silnika fizyki~\cite{unity_profiler_physics}
-    \item \textbf{Frame Debugger} -- krokowa analiza procesu renderowania pojedynczej klatki~\cite{unity_frame_debugger}
+    \item \textbf{CPU Profiler} -- analiza czasu wykonania poszczególnych funkcji, z~podziałem na kategorie (rendering, skrypty, fizyka, animacje)
+    \item \textbf{GPU Profiler} -- pomiar czasu renderowania na karcie graficznej
+    \item \textbf{Memory Profiler} -- szczegółowa analiza alokacji pamięci, wykrywanie wycieków
+    \item \textbf{Audio Profiler} -- monitorowanie obciążenia systemu dźwiękowego
+    \item \textbf{Physics Profiler} -- analiza wydajności silnika fizyki
+    \item \textbf{Frame Debugger} -- krokowa analiza procesu renderowania pojedynczej klatki
 \end{itemize}
 
 Unity Profiler umożliwia również zdalne profilowanie aplikacji uruchomionej na urządzeniu docelowym (np.~smartfonie), co jest szczególnie przydatne przy optymalizacji gier mobilnych.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{tex/img/unity_profiler.png}
+    \caption{Interfejs Unity Profiler z~widokiem analizy wydajności CPU i~GPU.}
+    \label{fig:unity-profiler}
+\end{figure}
 
 \subsubsection{Unreal Insights}
 
 Unreal Engine oferuje narzędzie Unreal Insights, które zastąpiło starszy system Session Frontend~\cite{unreal_insights}. Kluczowe funkcjonalności obejmują:
 
 \begin{itemize}
-    \item \textbf{Timing Insights} -- precyzyjny pomiar czasu wykonania poszczególnych systemów silnika~\cite{unreal_timing_insights}
-    \item \textbf{Asset Loading Insights} -- analiza czasu ładowania zasobów~\cite{unreal_insights}
-    \item \textbf{Memory Insights} -- monitorowanie alokacji i~dealokacji pamięci~\cite{unreal_memory_insights}
-    \item \textbf{Animation Insights} -- profilowanie systemu animacji~\cite{unreal_animation_insights}
-    \item \textbf{Network Insights} -- analiza ruchu sieciowego w~grach multiplayer~\cite{unreal_network_insights}
+    \item \textbf{Timing Insights} -- precyzyjny pomiar czasu wykonania poszczególnych systemów silnika
+    \item \textbf{Asset Loading Insights} -- analiza czasu ładowania zasobów
+    \item \textbf{Memory Insights} -- monitorowanie alokacji i~dealokacji pamięci
+    \item \textbf{Animation Insights} -- profilowanie systemu animacji
+    \item \textbf{Network Insights} -- analiza ruchu sieciowego w~grach multiplayer
 \end{itemize}
 
-Dodatkowo Unreal Engine udostępnia komendy konsolowe (np.~\texttt{stat fps}, \texttt{stat unit}, \texttt{stat gpu}) pozwalające na szybki podgląd podstawowych metryk wydajności podczas rozgrywki~\cite{unreal_stat_commands}.
+Dodatkowo Unreal Engine udostępnia komendy konsolowe (np.~\texttt{stat fps}, \texttt{stat unit}, \texttt{stat gpu}) pozwalające na szybki podgląd podstawowych metryk wydajności podczas rozgrywki~\cite{unreal_docs}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{tex/img/unreal_profiler.png}
+    \caption{Interfejs Unreal Insights z~widokiem analizy wydajności.}
+    \label{fig:unreal-profiler}
+\end{figure}
 
 \subsubsection{Ograniczenia narzędzi wbudowanych}
 
@@ -56,12 +70,19 @@ Z~powyższych powodów zdecydowano się na zastosowanie zewnętrznego, niezależ
 
 NVIDIA Nsight Graphics to narzędzie do profilowania i~debugowania
 aplikacji graficznych, oferujące wgląd w~działanie GPU
-niezależnie od używanego silnika czy API graficznego~\cite{nvidia_nsight, nsight_graphics_userguide}.
+niezależnie od używanego silnika czy API graficznego~\cite{nvidia_nsight}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{tex/img/nvidia_nsight.jpg}
+    \caption{Interfejs NVIDIA Nsight Graphics z~widokiem analizy GPU.}
+    \label{fig:nvidia-nsight}
+\end{figure}
 
 \subsubsection{Uzasadnienie wyboru}
 
 Wybór NVIDIA Nsight jako głównego narzędzia pomiarowego podyktowany
-był następującymi czynnikami~\cite{nsight_graphics_features}:
+był następującymi czynnikami:
 
 \begin{itemize}
     \item \textbf{Niezależność od silnika} -- Nsight analizuje aplikację na poziomie wywołań API graficznego (DirectX, Vulkan, OpenGL), co zapewnia porównywalność wyników między Unity a~Unreal Engine
@@ -73,10 +94,10 @@ był następującymi czynnikami~\cite{nsight_graphics_features}:
 
 \subsubsection{Możliwości narzędzia}
 
-NVIDIA Nsight Graphics oferuje szereg funkcjonalności istotnych dla badań wydajnościowych~\cite{nsight_graphics_userguide}:
+NVIDIA Nsight Graphics oferuje szereg funkcjonalności istotnych dla badań wydajnościowych:
 
 \paragraph{Frame Profiler}
-Główny moduł analizy wydajności, umożliwiający~\cite{nsight_graphics_features}:
+Główny moduł analizy wydajności, umożliwiający:
 \begin{itemize}
     \item Przechwycenie i~analizę pojedynczej klatki (frame capture)
     \item Hierarchiczny widok wszystkich wywołań GPU
@@ -86,7 +107,7 @@ Główny moduł analizy wydajności, umożliwiający~\cite{nsight_graphics_featu
 \end{itemize}
 
 \paragraph{GPU Trace}
-Moduł do długoterminowej analizy wydajności~\cite{nsight_gpu_trace}:
+Moduł do długoterminowej analizy wydajności:
 \begin{itemize}
     \item Rejestrowanie metryk przez określony czas (nie tylko pojedyncza klatka)
     \item Wykrywanie spadków wydajności i~ich przyczyn
@@ -95,7 +116,7 @@ Moduł do długoterminowej analizy wydajności~\cite{nsight_gpu_trace}:
 \end{itemize}
 
 \paragraph{Shader Profiler}
-Narzędzie do optymalizacji shaderów~\cite{nsight_graphics_userguide}:
+Narzędzie do optymalizacji shaderów:
 \begin{itemize}
     \item Analiza wydajności poszczególnych shaderów
     \item Identyfikacja nieefektywnych instrukcji
@@ -109,7 +130,7 @@ Dane zebrane przez NVIDIA Nsight wymagają odpowiedniego przetworzenia w~celu uz
 
 \subsubsection{Eksport danych}
 
-Nsight umożliwia eksport danych w~kilku formatach~\cite{nsight_graphics_userguide}:
+Nsight umożliwia eksport danych w~kilku formatach:
 \begin{itemize}
     \item \textbf{CSV} -- tabularyczne dane liczbowe
     \item \textbf{JSON} -- strukturalne dane z~pełną hierarchią wywołań

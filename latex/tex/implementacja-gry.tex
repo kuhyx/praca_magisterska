@@ -1,29 +1,28 @@
 \clearpage
 \section{Doświadczenia z implementacji gry testowej}
-\label{sec:implementacja-gry}
-
-W ramach praktycznej części badań zaimplementowano grę typu bullet-hell w obu porównywanych silnikach. Gatunek ten został wybrany ze względu na jego wymagania wydajnościowe -- jednoczesne renderowanie setek pocisków na ekranie stanowi doskonały test możliwości graficznych oraz efektywności zarządzania pamięcią przez silnik.
-
-\subsection{Opis projektu testowego}
-
-Zaimplementowana gra to klasyczny przedstawiciel gatunku bullet-hell, w~którym gracz steruje statkiem kosmicznym i~musi przetrwać przez określony czas (90~sekund), unikając pocisków wrogów i~eliminując przeciwników. Kluczowe mechaniki gry obejmują:
-
-\begin{itemize}
-    \item System spawnu wrogów z eskalującą trudnością -- częstotliwość pojawiania się przeciwników wzrasta wraz z upływem czasu
-    \item System pocisków z object poolingiem -- optymalizacja pozwalająca na obsługę setek aktywnych pocisków
-    \item System zdrowia i kolizji dla gracza oraz przeciwników
-    \item Dynamiczne tło z efektem paralaksy
-    \item System punktacji i warunki zwycięstwa/porażki
-\end{itemize}
-
 \subsection{Implementacja w Unity}
 \label{subsec:impl-unity}
 
 \subsubsection{Środowisko i konfiguracja projektu}
 
-Projekt Unity został utworzony w~wersji LTS z~wykorzystaniem standardowego renderera 2D. Instalacja silnika na systemie Linux przebiegła bezproblemowo dzięki Unity Hub, który zapewnia spójne zarządzanie wersjami edytora i~projektami.
+Projekt Unity został utworzony w~wersji LTS z~wykorzystaniem standardowego renderera 2D. Instalacja 
+silnika na systemie Linux przebiegła bezproblemowo dzięki Unity Hub 
+\cite{unity_hub} \cite{unity_hub_download_arch}, który zapewnia spójne 
+zarządzanie wersjami edytora i~projektami.
 
-Struktura projektu została zorganizowana według wzorca przestrzeni nazw, co pozwoliło na czytelną organizację kodu i~uniknięcie konfliktów nazw.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{tex/img/unity_hub_default_screen.png}
+    \caption{Ekran powitalny Unity Hub.}
+    \label{fig:unity_hub_welcome}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{tex/img/unity_hub_editor_view.png}
+    \caption{Widok edytora Unity.}
+    \label{fig:unity_hub_editor_view}
+\end{figure}
 
 \subsubsection{Architektura systemu}
 
@@ -74,6 +73,7 @@ Podczas implementacji napotkano następujące wyzwania:
     \item \textbf{Garbage Collection} -- początkowa implementacja bez object poolingu powodowała zauważalne spadki klatek przy dużej liczbie pocisków
     \item \textbf{Kolejność inicjalizacji} -- konieczność użycia wzorca Bootstrap wynikała z~nieprzewidywalnej kolejności wywoływania metod \texttt{Awake()} i~\texttt{Start()}
     \item \textbf{Serializacja} -- atrybuty \texttt{[SerializeField]} wymagały starannego rozplanowania, które pola powinny być edytowalne w~inspektorze
+    \item Interfejs użytkownika nie jest odświeżany po otwarciu menu \cite{linux_editor_does_not_redraw} -- wymagało to ręcznego wymuszenia odświeżenia inspektora
 \end{enumerate}
 
 \subsubsection{Pozytywne aspekty Unity}
@@ -83,6 +83,8 @@ Podczas implementacji napotkano następujące wyzwania:
     \item Hot reload -- możliwość edycji kodu i natychmiastowego testowania zmian
     \item Intuicyjny inspektor -- łatwa konfiguracja parametrów gry bez rekompilacji
     \item Bogata dokumentacja C\# i społeczność
+    \item Skupienie się na kodzie -- większość logiki gry zaimplementowana została w kodzie źródłowym co przyśpieszyło proces tworzenia gry
+    \item Dobre wsparcie dla LLM -- unity posiada narzędzie mcp oferującą prostą integrację edytora i narzędzi AI \cite{unity_mcp}
 \end{itemize}
 
 \subsection{Implementacja w Unreal Engine}
@@ -93,15 +95,29 @@ Podczas implementacji napotkano następujące wyzwania:
 Instalacja Unreal Engine na systemie Linux okazała się znacznie bardziej skomplikowana niż w przypadku Unity. Dostępne są dwie ścieżki:
 
 \begin{enumerate}
-    \item Uzyskanie dostępu do oficjalnego repozytorium GitHub Epic Games i samodzielna kompilacja silnika ze źródeł
-    \item Pobranie prekompilowanej wersji binarnej
+    \item Uzyskanie dostępu do oficjalnego repozytorium GitHub Epic Games i samodzielna kompilacja silnika ze źródeł \cite{unreal_arch_installation_source}
+    \item Pobranie prekompilowanej wersji binarnej \cite{unreal_arch_installation_binary}
 \end{enumerate}
 
-Należy zauważyć, że Unreal Engine nie oferuje wersji LTS (Long Term Support), co może stanowić wyzwanie dla długoterminowych projektów.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{tex/img/unreal_choose_project.png}
+    \caption{Wybór projektu w Unreal Engine.}
+    \label{fig:unreal_choose_project}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{tex/img/unreal_editor_view.png}
+    \caption{Widok edytora Unreal Engine.}
+    \label{fig:unreal_editor_view}
+\end{figure}
 
 \subsubsection{Podejście do grafiki 2D}
 
-Fundamentalna różnica między Unity a~Unreal w~kontekście gier 2D polega na tym, że Unreal traktuje 2D jako ,,fałszywe 2D'' -- w~rzeczywistości jest to scena 3D z~zablokowaną trzecią osią i~kamerą ortograficzną. Unity natomiast oferuje dedykowany tryb 2D z~wyspecjalizowanymi komponentami.
+Fundamentalna różnica między Unity a~Unreal w~kontekście gier 2D polega na tym, że Unreal traktuje 2D jako ,,fałszywe 2D'' -- 
+w~rzeczywistości jest to scena 3D z~zablokowaną trzecią osią i~kamerą ortograficzną. Unity natomiast oferuje dedykowany 
+tryb 2D z~wyspecjalizowanymi komponentami.
 
 Ta różnica ma praktyczne konsekwencje:
 \begin{itemize}
@@ -114,13 +130,24 @@ Ta różnica ma praktyczne konsekwencje:
 
 Unreal oferuje dwa podejścia do programowania logiki gry:
 
-\paragraph{Blueprinty} -- wizualny system skryptowy, który pozwala na szybkie prototypowanie bez pisania kodu. Dla prostych mechanik bullet-hell Blueprinty okazały się wystarczające i intuicyjne.
+\paragraph{Blueprinty} -- wizualny system skryptowy, który w teorii pozwala na szybkie prototypowanie bez pisania kodu. 
 
-\paragraph{C++} -- dla bardziej wydajnościowo krytycznych elementów (jak system object poolingu) zalecane jest użycie C++. Jednak próg wejścia jest znacznie wyższy niż w przypadku C\# w Unity.
+W praktyce korzystanie z nich dla osoby która zna tradycyjne programowanie okazazało się frustrujące ze względu na:
+\begin{itemize}
+    \item Problemy z kontrolą wersji
+    \item Trudności w debugowaniu
+    \item Ograniczoną czytelność i skalowalność
+    \item Ograniczenie w funkcjach z którycj można korzytsać
+\end{itemize}
+
+\paragraph{C++} -- dla bardziej wydajnościowo krytycznych elementów (jak system object poolingu) zalecane jest użycie C++. 
+użycie go ostatecznie okazało się bardziej intujcywne i prostsze dla projektu z uwagi na doświadczenie w pisaniu programów w 
+tradycyjny sposób
 
 \subsubsection{Object Pooling w Unreal}
 
-Implementacja object poolingu w~Unreal wymaga innego podejścia niż w~Unity. Zamiast prostego \texttt{SetActive(true/\allowbreak false)}, Unreal wykorzystuje:
+Implementacja object poolingu w~Unreal wymaga innego podejścia niż w~Unity. 
+Zamiast prostego \texttt{SetActive(true/\allowbreak false)}, Unreal wykorzystuje:
 
 \begin{itemize}
     \item \texttt{SetActorHiddenInGame()} -- kontrola widoczności
@@ -189,4 +216,5 @@ Doświadczenia z implementacji gry bullet-hell potwierdzają, że wybór silnika
     \item \textbf{Dla zespołów mieszanych} -- Blueprinty Unreal mogą być wartościowe dla współpracy z designerami, choć problemy z kontrolą wersji stanowią wyzwanie
 \end{enumerate}
 
-Implementacja gry bullet-hell w~Unity zajęła około 60\% czasu potrzebnego na implementację analogicznej funkcjonalności w~Unreal Engine, głównie ze względu na natywne wsparcie 2D i~prostszy system object poolingu.
+Implementacja gry bullet-hell w~Unity zajęła około 60\% czasu potrzebnego na implementację analogicznej funkcjonalności 
+w~Unreal Engine, głównie ze względu na natywne wsparcie 2D i~prostszy system object poolingu.

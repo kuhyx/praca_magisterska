@@ -84,12 +84,11 @@
 - [x] Complete Unity stationary test run
 - [x] Complete Unity dynamic test run
 - [x] Save captures as `unity_stationary.nsight-rep`, `unity_dynamic.nsight-rep`
-- [ ] Take screenshots of Nsight timeline for each run
 
 **If time permits: Start Unreal Testing (from Day 5)**
-- [ ] Complete Unreal stationary test run
-- [ ] Complete Unreal dynamic test run
-- [ ] Save captures as `unreal_stationary.nsight-rep`, `unreal_dynamic.nsight-rep`
+- [x] Complete Unreal stationary test run
+- [x] Complete Unreal dynamic test run
+- [x] Save captures as `unreal_stationary.nsight-rep`, `unreal_dynamic.nsight-rep`
 
 **Goal**: Get back on track - complete Unity testing minimum
 **Target hours**: 8 hours
@@ -99,13 +98,12 @@
 ### Saturday, January 24 (Day 9) - CATCH-UP
 **Complete Unreal Testing + Start Data Analysis**
 
-- [ ] Run `./scripts/close_background_apps.sh` before testing
-- [ ] Complete Unreal stationary test run (if not done Friday)
-- [ ] Complete Unreal dynamic test run (if not done Friday)
-- [ ] Save captures as `unreal_stationary.nsight-rep`, `unreal_dynamic.nsight-rep`
-- [ ] Take screenshots of Nsight timeline for each run
-- [ ] Document any differences observed between engines
-- [ ] Export key metrics from Nsight (frame time, draw calls, memory)
+- [x] Run `./scripts/close_background_apps.sh` before testing
+- [x] Complete Unreal stationary test run (if not done Friday)
+- [x] Complete Unreal dynamic test run (if not done Friday)
+- [x] Save captures as `unreal_stationary.nsight-rep`, `unreal_dynamic.nsight-rep`
+- [x] Document any differences observed between engines
+- [x] Export key metrics from Nsight (frame time, draw calls, memory)
 
 **Goal**: All performance data captured (both engines)
 **Target hours**: 8 hours
@@ -115,15 +113,9 @@
 ### Sunday, January 25 (Day 10) - CATCH-UP
 **Data Analysis & Visualization**
 
-- [ ] Take screenshots of important Nsight views
-- [ ] Organize all captured data in spreadsheet/CSV
-- [ ] Create comparison tables (Unity vs Unreal)
-- [ ] Identify key findings from raw data
-- [ ] Create graph 1: Frame time comparison
-- [ ] Create graph 2: GPU utilization comparison
-- [ ] Create graph 3: Memory usage comparison
-- [ ] Create graph 4: Draw calls efficiency
-- [ ] Save all figures to latex/tex/img/
+- [x] Organize all captured data in spreadsheet/CSV
+- [x] Create comparison tables (Unity vs Unreal)
+- [x] Identify key findings from raw data
 
 **✅ DELAYED WEEK 1 MILESTONE**: All performance data collected and visualized
 **Target hours**: 8 hours
@@ -133,7 +125,7 @@
 ### Monday, January 26 (Day 11)
 **Chapter 4 & 5 - Methodology and Results**
 
-- [ ] Write Chapter 4 methodology section (test setup, tools used)
+- [x] Write Chapter 4 methodology section (test setup, tools used)
 - [ ] Write Chapter 5 Section 5.1 (Test methodology)
 - [ ] Write Chapter 5 Section 5.2 (Test scenarios)
 - [ ] Write Chapter 5 Section 5.3 (Results - Unity)

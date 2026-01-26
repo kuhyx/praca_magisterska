@@ -64,7 +64,9 @@ Gatunek bullet hell został wybrany jako podstawa testów wydajnościowych z~nas
 \begin{enumerate}
     \item \textbf{Intensywne wykorzystanie zasobów} -- jednoczesne renderowanie setek lub tysięcy obiektów (pocisków) stanowi znaczące obciążenie dla systemu renderowania
     
-    \item \textbf{Testowanie zarządzania pamięcią} -- ciągłe tworzenie i~niszczenie obiektów pocisków eksponuje różnice w~implementacji garbage collectora (Unity/C\#) versus ręcznego zarządzania pamięcią (Unreal/C++)
+    \item \textbf{Testowanie zarządzania pamięcią} -- ciągłe tworzenie i~niszczenie obiektów 
+    pocisków eksponuje różnice w~implementacji \\ garbage collectora (Unity/C\#) versus ręcznego 
+    zarządzania pamięcią (Unreal/C++)
     
     \item \textbf{Wymagania systemu fizyki} -- wykrywanie kolizji między graczem a~setkami pocisków w~każdej klatce obciąża system fizyki
     
@@ -109,13 +111,9 @@ Praca składa się z~następujących rozdziałów:
 
 \subsection{Metodologia}
 
-W~pracy zastosowano metodologię badawczą łączącą podejście ilościowe z~jakościowym:
-
 \begin{itemize}
-    \item \textbf{Testy wydajnościowe} -- obiektywne pomiary z~wykorzystaniem NVIDIA Nsight Graphics, zapewniające porównywalność wyników między silnikami
+    \item \textbf{Testy wydajnościowe} -- Pomiary z~wykorzystaniem NVIDIA Nsight Graphics, zapewniające porównywalność wyników między silnikami
     \item \textbf{Wywiady z~deweloperami} -- badania jakościowe dostarczające kontekstu praktycznego użytkowania silników
     \item \textbf{Implementacja porównawcza} -- stworzenie identycznej gry w~obu silnikach, dokumentując różnice w~procesie deweloperskim
-    \item \textbf{Analiza dokumentacji} -- przegląd oficjalnej dokumentacji i~materiałów edukacyjnych
 \end{itemize}
 
-Takie wieloaspektowe podejście pozwala na kompleksową ocenę silników, uwzględniającą zarówno mierzalne parametry techniczne, jak i~subiektywne doświadczenia użytkowników.

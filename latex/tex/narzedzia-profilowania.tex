@@ -14,7 +14,7 @@ Zarówno Unity, jak i~Unreal Engine oferują własne, wbudowane narzędzia do an
 Unity dostarcza rozbudowany profiler dostępny bezpośrednio w~edytorze (Window $\rightarrow$ Analysis $\rightarrow$ Profiler)~\cite{unity_profiler}. Narzędzie to oferuje:
 
 \begin{itemize}
-    \item \textbf{CPU Profiler} -- analiza czasu wykonania poszczególnych funkcji, z~podziałem na kategorie (rendering, skrypty, fizyka, animacje)
+    \item \textbf{CPU Profiler} -- analiza czasu wykonania poszczególnych funkcji, z podziałem na kategorie (rendering, skrypty, fizyka, animacje)
     \item \textbf{GPU Profiler} -- pomiar czasu renderowania na karcie graficznej
     \item \textbf{Memory Profiler} -- szczegółowa analiza alokacji pamięci, wykrywanie wycieków
     \item \textbf{Audio Profiler} -- monitorowanie obciążenia systemu dźwiękowego
@@ -26,7 +26,7 @@ Unity Profiler umożliwia również zdalne profilowanie aplikacji uruchomionej n
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{tex/img/unity_profiler.png}
+    \includegraphics[width=0.9\textwidth]{tex/img/unity_profiler.png}
     \caption{Interfejs Unity Profiler z~widokiem analizy wydajności CPU i~GPU.}
     \label{fig:unity-profiler}
 \end{figure}
@@ -47,7 +47,7 @@ Dodatkowo Unreal Engine udostępnia komendy konsolowe (np.~\texttt{stat fps}, \t
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{tex/img/unreal_profiler.png}
+    \includegraphics[width=0.9\textwidth]{tex/img/unreal_profiler.png}
     \caption{Interfejs Unreal Insights z~widokiem analizy wydajności.}
     \label{fig:unreal-profiler}
 \end{figure}
@@ -58,7 +58,7 @@ Pomimo rozbudowanych możliwości, wbudowane profilery silników posiadają isto
 
 \begin{enumerate}
     \item \textbf{Brak standaryzacji metryk} -- każdy silnik definiuje i~mierzy parametry w~odmienny sposób, co utrudnia bezpośrednie porównania
-    \item \textbf{Różna granularność danych} -- poziom szczegółowości raportów różni się między silnikami
+    \item \textbf{Różna granularność danych} -- poziom szczegółowości raportów \\ różni się między silnikami
     \item \textbf{Narzut profilowania} -- wbudowane profilery same generują obciążenie, które może być różne dla każdego silnika
     \item \textbf{Nieporównywalność formatów wyjściowych} -- dane eksportowane przez różne profilery mają odmienne struktury
 \end{enumerate}
@@ -74,7 +74,7 @@ niezależnie od używanego silnika czy API graficznego~\cite{nvidia_nsight}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{tex/img/nvidia_nsight.jpg}
+    \includegraphics[width=0.9\textwidth]{tex/img/nvidia_nsight.jpg}
     \caption{Interfejs NVIDIA Nsight Graphics z~widokiem analizy GPU.}
     \label{fig:nvidia-nsight}
 \end{figure}
@@ -88,7 +88,7 @@ był następującymi czynnikami:
     \item \textbf{Niezależność od silnika} -- Nsight analizuje aplikację na poziomie wywołań API graficznego (DirectX, Vulkan, OpenGL), co zapewnia porównywalność wyników między Unity a~Unreal Engine
     \item \textbf{Standaryzowane metryki} -- narzędzie dostarcza zunifikowany zestaw metryk sprzętowych (GPU utilization, memory bandwidth, shader throughput)
     \item \textbf{Minimalny narzut} -- profilowanie na poziomie sterownika generuje mniejsze zakłócenia niż profilery działające wewnątrz silnika
-    \item \textbf{Dostęp do danych niskopoziomowych} -- możliwość analizy poszczególnych wywołań draw call, shaderów, transferów pamięci
+    \item \textbf{Dostęp do danych niskopoziomowych} -- możliwość analizy \\ poszczególnych wywołań draw call, shaderów, transferów pamięci
     \item \textbf{Spójny format danych} -- wyniki z~obu silników mają identyczną strukturę, co ułatwia automatyzację analizy
 \end{itemize}
 

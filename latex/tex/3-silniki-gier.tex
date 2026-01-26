@@ -14,7 +14,7 @@ kilkoma kluczowymi czynnikami:
 \begin{itemize}
     \item \textbf{Dominacja rynkowa} -- według raportu Video Game Insights,
     w~2024 roku 51\% gier wydanych na platformie Steam powstało w~Unity,
-    a~28\% w~Unreal Engine \cite{vgi2025engines}
+    \\ a 28\% w~Unreal Engine \cite{vgi2025engines}
     \item \textbf{Reprezentatywność podejść architektonicznych} --
     silniki reprezentują odmienne filozofie: Unity opiera się na
     języku C\# z~garbage collectorem,
@@ -59,9 +59,9 @@ platformie .NET/Mono, co zapewnia:
 \end{itemize}
 
 Architektura Unity opiera się na wzorcu \textit{GameObject-Component},
-gdzie każdy obiekt w scenie (GameObject) może posiadać dowolną
-liczbę komponentów definiujących jego zachowanie.
-Podejście to promuje kompozycję nad dziedziczeniem i ułatwia
+\\ gdzie każdy obiekt w scenie (GameObject) może posiadać dowolną
+liczbę \\ komponentów definiujących jego zachowanie.
+Podejście to promuje \\ kompozycję nad dziedziczeniem i ułatwia
 tworzenie modularnego kodu.
 
 \subsubsection{Możliwości i funkcjonalności}
@@ -90,7 +90,7 @@ funkcjonalnościami \cite{unity_wikipedia}:
 \begin{itemize}
     \item Hierarchiczny widok sceny z możliwością edycji w czasie
     rzeczywistym
-    \item Inspektor właściwości z obsługą serializacji pól poprzez
+    \item Inspektor właściwości z obsługą serializacji pól \\ poprzez
     atrybut \texttt{[SerializeField]}
     \item Wbudowany profiler wydajności (CPU, GPU, pamięć)
     \cite{unity_profiler}
@@ -162,19 +162,20 @@ Unreal Editor oferuje rozbudowane środowisko deweloperskie~\cite{unreal_docs}:
 \centering
 \caption{Porównanie kluczowych cech Unity i Unreal Engine}
 \label{tab:unity-vs-unreal}
-\begin{tabular}{|l|c|c|}
+\small
+\begin{tabular}{|l|l|l|}
 \hline
-\textbf{Cecha} & \textbf{Unity} & \textbf{Unreal Engine} \\
+\textbf{Cecha} & \textbf{Unity} & \textbf{Unreal} \\
 \hline
-Język programowania & C\# & C++ / Blueprints \\
+Język & C\# & C++ \\
 \hline
-Zarządzanie pamięcią & Automatyczne (GC) & Ręczne / Smart pointers \\
+Pamięć & Automatyczne (GC) & Ręczne (smart pointers) \\
 \hline
-Architektura & GameObject-Component & Actor-Component \\
+Architektura & GameObject Component & Actor Component \\
 \hline
-Natywne wsparcie 2D & Tak & Nie (symulowane) \\
+2D & Natywne & Ograniczone \\
 \hline
-Kod źródłowy & Częściowo dostępny & Pełny dostęp \\
+Kod źródłowy & Częściowy & Pełny \\
 \hline
 Główne zastosowania & Mobile, indie, 2D & AAA, FPS, 3D \\
 \hline

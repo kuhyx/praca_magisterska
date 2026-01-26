@@ -62,9 +62,31 @@
 %-------------------------------------
 \cleardoublepage % Zaczynamy od nieparzystej strony
 \abstract 
-Przez ostatnią dekadę rynek tworzenia gier komputerowych zdominowały dwa silniki: Unity oraz Unreal Engine. Niniejsza praca podejmuje się wyzwania przeprowadzenia analizy porównawczej obu tych silników pod kątem wydajności oraz procesu programowania gier. W~tym celu wykorzystano narzędzie do profilowania NVIDIA Nsight, służące do oceny wydajności aplikacji graficznych, w~szczególności do pomiaru czasu klatki, obciążenia GPU oraz efektywności renderowania. Przeprowadzono również wywiady środowiskowe z~osobami związanymi profesjonalnie z~tworzeniem gier na obu platformach, jak również opisano proces twórczy, napotkane trudności oraz przewagi każdego z~silników. Na potrzeby pracy stworzono dwie gry w~tym samym gatunku --- \emph{bullet hell} --- słynącym z~mnogości elementów na ekranie i~efektów specjalnych, a~jednocześnie będącym relatywnie łatwym do zaimplementowania. Jedna gra została stworzona w~języku C\# (Unity), druga w~C++ (Unreal Engine). Następnie obie gry zostały poddane analizie w~programie NVIDIA Nsight w~celu oceny możliwości optymalizacji obu silników. Na podstawie wywiadów oraz analizy procesu twórczego scharakteryzowano również inne aspekty obu silników, takie jak próg wejścia, współpraca z~systemami kontroli wersji oraz architektura silnika. Praca stara się wypełnić niszę w~literaturze i~badaniach związanych z~oceną obu silników do gier.
+Przez ostatnią dekadę rynek tworzenia gier \\ 
+komputerowych zdominowały dwa silniki: Unity oraz 
+Unreal Engine. \\ Niniejsza praca podejmuje się wyzwania przeprowadzenia analizy \\
+porównawczej 
+obu tych silników pod kątem wyd ajności oraz procesu \\ 
+programowania gier. W~tym celu wykorzystano 
+narzędzie do \\ 
+profilowania NVIDIA Nsight, służące do oceny wydajności aplikacji \\ graficznych, 
+w~szczególności do pomiaru czasu klatki, obciążenia GPU oraz
+efektywności renderowania. 
+Przeprowadzono również wywiady \\ środowiskowe z~osobami związanymi profesjonalnie z~tworzeniem 
+gier na obu platformach, jak również opisano proces twórczy, napotkane \\ trudności oraz przewagi 
+każdego z~silników. Na potrzeby pracy stworzono dwie gry w~tym samym gatunku --- 
+\emph{bullet hell} --- słynącym z \\ mnogości elementów na ekranie i~efektów specjalnych, 
+a~jednocześnie będącym relatywnie łatwym do zaimplementowania. Jedna gra została stworzona 
+w~języku C\# (Unity), druga w~C++ (Unreal Engine). \\ Następnie obie gry zostały poddane analizie 
+w~programie NVIDIA Nsight w~celu oceny możliwości optymalizacji obu silników. Na podstawie 
+wywiadów oraz analizy procesu twórczego scharakteryzowano również inne aspekty obu silników, 
+takie jak próg wejścia, współpraca z \\ systemami kontroli wersji oraz architektura silnika. 
+Praca stara się wypełnić niszę w~literaturze i~badaniach związanych z~oceną obu silników do gier.
 
-\keywords Gry, Silniki do gier, C\#, C++, Unreal Engine, Unity, Gry \emph{bullet hell}, NVIDIA Nsight, Wydajność, Wywiady, Analiza porównawcza, Profilowanie, Renderowanie, Optymalizacja, Programowanie gier, Tworzenie gier, Czas klatki, Architektura silnika, Kontrola wersji, GPU
+\keywords Gry, Silniki do gier, C\#, C++, Unreal Engine, Unity, Gry \emph{bullet hell}, 
+NVIDIA Nsight, Wydajność, Wywiady, Analiza porównawcza, Profilowanie, Renderowanie, 
+Optymalizacja, Programowanie gier, \\ Tworzenie gier, Czas klatki, Architektura silnika, 
+Kontrola wersji, GPU
 
 %----------------------------------------
 % Streszczenie po angielsku dla \langpol
@@ -97,7 +119,7 @@ Over the past decade, the video game development market has been dominated by tw
 \input{tex/wywiady-analiza}  
 \input{tex/implementacja-gry}           % Analiza wywiadów z deweloperami gier
 \input{tex/narzedzia-profilowania}      % Narzędzia profilowania wydajności
-% \input{tex/5-testy-wydajnosci}          % Testy wydajności
+%\input{tex/5-testy-wydajnosci}          % Testy wydajności
 % \input{tex/6-analiza-mozliwosci}        % Analiza możliwości i funkcjonalności
 % \input{tex/7-porownanie-wynikow}        % Porównanie wyników i analiza
 % \input{tex/8-podsumowanie}        

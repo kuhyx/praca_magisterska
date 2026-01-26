@@ -3,8 +3,6 @@
 \subsection{Implementacja w Unity}
 \label{subsec:impl-unity}
 
-\subsubsection{Środowisko i konfiguracja projektu}
-
 Projekt Unity został utworzony w~wersji LTS z~wykorzystaniem standardowego renderera 2D. Instalacja 
 silnika na systemie Linux przebiegła bezproblemowo dzięki Unity Hub 
 \cite{unity_hub} \cite{unity_hub_download_arch}, który zapewnia spójne 
@@ -12,14 +10,14 @@ zarządzanie wersjami edytora i~projektami.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{tex/img/unity_hub_default_screen.png}
+    \includegraphics[width=0.9\textwidth]{tex/img/unity_hub_default_screen.png}
     \caption{Ekran powitalny Unity Hub.}
     \label{fig:unity_hub_welcome}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{tex/img/unity_hub_editor_view.png}
+    \includegraphics[width=0.9\textwidth]{tex/img/unity_hub_editor_view.png}
     \caption{Widok edytora Unity.}
     \label{fig:unity_hub_editor_view}
 \end{figure}
@@ -29,7 +27,9 @@ zarządzanie wersjami edytora i~projektami.
 Implementacja Unity wykorzystuje kilka kluczowych wzorców projektowych:
 
 \paragraph{Wzorzec Bootstrap}
-Klasa \texttt{GameBootstrap} wykorzystuje atrybut \texttt{[Runtime\-Initialize\-OnLoad\-Method]} do zapewnienia, że obiekt \texttt{GameInitializer} istnieje w~scenie przed rozpoczęciem gry. Jest to eleganckie rozwiązanie problemu inicjalizacji singletonów w~Unity.
+Klasa \texttt{GameBootstrap} wykorzystuje atrybut \\ \texttt{[Runtime\-Initialize\-OnLoad\-Method]} 
+do zapewnienia, że obiekt \\ \texttt{GameInitializer} istnieje w~scenie przed rozpoczęciem gry. 
+Jest to eleganckie rozwiązanie problemu inicjalizacji singletonów w~Unity.
 
 \paragraph{Object Pooling}
 System \texttt{BulletPool} stanowi rdzeń optymalizacji wydajnościowej. Zamiast ciągłego tworzenia i niszczenia obiektów pocisków (co generowałoby znaczące obciążenie garbage collectora), pociski są recyklingowane z puli:
@@ -70,9 +70,9 @@ Przeciwnicy są definiowani przez strukturę \texttt{EnemyBlueprint}, która zaw
 Podczas implementacji napotkano następujące wyzwania:
 
 \begin{enumerate}
-    \item \textbf{Garbage Collection} -- początkowa implementacja bez object poolingu powodowała zauważalne spadki klatek przy dużej liczbie pocisków
+    \item \textbf{Garbage Collection} -- początkowa implementacja bez \\ object poolingu powodowała zauważalne spadki klatek przy dużej liczbie pocisków
     \item \textbf{Kolejność inicjalizacji} -- konieczność użycia wzorca Bootstrap wynikała z~nieprzewidywalnej kolejności wywoływania metod \texttt{Awake()} i~\texttt{Start()}
-    \item \textbf{Serializacja} -- atrybuty \texttt{[SerializeField]} wymagały starannego rozplanowania, które pola powinny być edytowalne w~inspektorze
+    \item \textbf{Serializacja} -- atrybuty \texttt{[SerializeField]} wymagały \\ starannego rozplanowania, które pola powinny być edytowalne w~inspektorze
     \item Interfejs użytkownika nie jest odświeżany po otwarciu menu \cite{linux_editor_does_not_redraw} -- wymagało to ręcznego wymuszenia odświeżenia inspektora
 \end{enumerate}
 
@@ -146,7 +146,7 @@ tradycyjny sposób
 
 \subsubsection{Object Pooling w Unreal}
 
-Implementacja object poolingu w~Unreal wymaga innego podejścia niż w~Unity. 
+Implementacja object poolingu w~Unreal wymaga innego podejścia \\ niż w Unity.
 Zamiast prostego \texttt{SetActive(true/\allowbreak false)}, Unreal wykorzystuje:
 
 \begin{itemize}
@@ -164,7 +164,7 @@ Ta granularność daje większą kontrolę, ale wymaga więcej kodu do osiągni�
     \item \textbf{Czas kompilacji} -- kompilacja projektów C++ jest znacznie wolniejsza niż kompilacja C\# w Unity
     \item \textbf{Rozmiar projektu} -- nawet prosty projekt Unreal zajmuje wielokrotnie więcej miejsca na dysku
     \item \textbf{Dokumentacja} -- dla mniej popularnych zastosowań (jak gry 2D) dokumentacja jest ograniczona
-    \item \textbf{Blueprinty i kontrola wersji} -- pliki Blueprintów są binarne, co utrudnia merge'owanie i code review
+    \item \textbf{Blueprinty i kontrola wersji} -- pliki Blueprintów są binarne, co \\ utrudnia merge'owanie i code review
 \end{enumerate}
 
 \subsubsection{Pozytywne aspekty Unreal}
@@ -204,7 +204,7 @@ Rozmiar projektu & Mały & Duży \\
 \hline
 \end{tabular}
 \end{table}
-
+\newpage
 \subsection{Wnioski z implementacji}
 
 Doświadczenia z implementacji gry bullet-hell potwierdzają, że wybór silnika powinien być uzależniony od typu projektu:
@@ -213,8 +213,10 @@ Doświadczenia z implementacji gry bullet-hell potwierdzają, że wybór silnika
     \item \textbf{Dla gier 2D} -- Unity oferuje znacznie lepsze wsparcie natywne, niższy próg wejścia i szybszy cykl iteracji
     \item \textbf{Dla gier 3D AAA} -- Unreal Engine dysponuje lepszymi narzędziami do tworzenia fotorealistycznej grafiki
     \item \textbf{Dla prototypowania} -- Unity pozwala na szybsze testowanie koncepcji dzięki hot reloadowi i prostszej konfiguracji
-    \item \textbf{Dla zespołów mieszanych} -- Blueprinty Unreal mogą być wartościowe dla współpracy z designerami, choć problemy z kontrolą wersji stanowią wyzwanie
+    \item \textbf{Dla zespołów mieszanych} -- Blueprinty Unreal mogą być \\ wartościowe dla współpracy 
+    z designerami, choć problemy \\ z kontrolą wersji stanowią wyzwanie
 \end{enumerate}
 
-Implementacja gry bullet-hell w~Unity zajęła około 60\% czasu potrzebnego na implementację analogicznej funkcjonalności 
-w~Unreal Engine, głównie ze względu na natywne wsparcie 2D i~prostszy system object poolingu.
+Implementacja gry bullet-hell w~Unity zajęła około 60\% czasu potrzebnego na implementację 
+analogicznej  funkcjonalności 
+w Unreal Engine, głównie ze względu na natywne wsparcie 2D i prostszy system object poolingu.

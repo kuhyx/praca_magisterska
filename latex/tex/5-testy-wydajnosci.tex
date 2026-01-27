@@ -449,25 +449,27 @@ Każda faza była uruchamiana z flagą \texttt{--start-time=N}, która przesuwa 
 spawnu przeciwników \\ (w \texttt{STGEnemySpawner}) do odpowiedniej sekundy. \\ Grę skompilowano w konfiguracji DebugGame, która zachowuje symbole 
 debugowania przy częściowych optymalizacjach.
 
-\subsubsection{Ograniczenia metodologiczne profilowania Unreal Engine}
+\subsubsection{Metodologia profilowania fazowego}
 
-Podczas prób profilowania silnika Unreal Engine 5.5 napotkano istotne ograniczenie techniczne: \textbf{śledzenie wywołań Vulkan API powoduje awarię} 
-(ang. \textit{crash}) skompilowanej gry zarówno w konfiguracji Shipping, jak i DebugGame. Problem ten występuje przy uruchomieniu z 
-parametrem \texttt{--trace=vulkan} narzędzia Nsight Systems i objawia się błędem segmentacji (\textit{segmentation fault}) krótko po starcie aplikacji.
-
-Przyczyna tego zachowania prawdopodobnie wynika z interakcji między mechanizmem instrumentacji Nsight a kodem Unreal Engine, która uniemożliwia 
-bezpieczne przechwytywanie wywołań Vulkan.
-
-W związku z tym ograniczeniem, profilowanie Unreal Engine przeprowadzono z wykorzystaniem:
+Ze względu na bardzo dużą ilość danych generowanych przez Unreal Engine podczas śledzenia wywołań Vulkan API (około 13 milionów zdarzeń
+na 30 sekund rozgrywki, w porównaniu z 0,5 miliona dla Unity), 90-sekundową rozgrywkę podzielono na \textbf{trzy fazy po 30 sekund każda}:
 \begin{itemize}
-    \item \textbf{Metryk sprzętowych GPU} (\texttt{--gpu-metrics-devices=0}) -- bezpośrednie
-    \\ próbkowanie liczników wydajności karty graficznej NVIDIA z częstotliwością 10\,000 Hz
-    \item \textbf{Śledzenia wywołań systemowych} (\texttt{--trace=osrt}) -- przechwytywanie funkcji OS Runtime (pthread, futex, poll itp.)
+    \item \textbf{Faza 1} (0--30 s): Początkowa rozgrywka z niską trudnością
+    \item \textbf{Faza 2} (30--60 s): Środkowa rozgrywka ze średnią trudnością
+    \item \textbf{Faza 3} (60--90 s): Końcowa rozgrywka z wysoką trudnością + ekran zwycięstwa
 \end{itemize}
 
-Konsekwencją tego ograniczenia jest \textbf{brak bezpośrednich danych o czasach klatek} i liczbie wyrenderowanych klatek dla Unreal Engine. 
-Analiza porównawcza musi zatem opierać się na metrykach wykorzystania GPU i wzorcach wywołań systemowych, które dostarczają pośrednich informacji o 
-wydajności renderowania.
+Każda faza była uruchamiana z flagą \texttt{--start-time=N}, która przesuwa zarówno stan gry
+(w \texttt{STGGameDirector}), jak i poziom trudności spawnu \\ przeciwników   (w \texttt{STGEnemySpawner}) 
+do odpowiedniej sekundy.
+\\ Grę skompilowano w konfiguracji DebugGame, która zachowuje symbole debugowania przy częściowych optymalizacjach.
+
+Profilowanie przeprowadzono z wykorzystaniem tych samych metryk co dla Unity:
+\begin{itemize}
+    \item \textbf{Śledzenia wywołań Vulkan API} (\texttt{--trace=vulkan}) -- przechwytywanie \\ wszystkich funkcji Vulkan
+    \item \textbf{Śledzenia wywołań systemowych} (\texttt{--trace=osrt}) -- przechwytywanie funkcji OS Runtime
+    \item \textbf{Metryk sprzętowych GPU} (\texttt{--gpu-metrics-devices=0}) -- próbkowanie \\ liczników wydajności GPU
+\end{itemize}
 
 \subsubsection{Metryki wykorzystania GPU}
 
@@ -635,8 +637,8 @@ Dane podzielone na trzy fazy (0--30s, 30--60s, 60--90s) umożliwiają szczegół
 \hline
 \textbf{Metryka} & \textbf{Faza 1 (0--30s)} & \textbf{Faza 2 (30--60s)} & \textbf{Faza 3 (60--90s)} \\
 \hline
-Liczba klatek (vkQueuePresentKHR) & 10\,286 & 11\,531 & 4\,590 \\
-Średni FPS & 343 & 384 & 153 \\
+Liczba klatek (vkQueuePresentKHR) & 9\,964 & 10\,165 & 4\,846 \\
+Średni FPS & 332 & 339 & 162 \\
 vkCreateComputePipelines & 231 & 233 & 231 \\
 vkCreateGraphicsPipelines & 793 & 797 & 816 \\
 vkQueueSubmit & 166\,918 & 186\,589 & 74\,393 \\
@@ -650,18 +652,15 @@ vkCmdBindPipeline & 2\,236\,013 & 2\,528\,014 & 1\,007\,615 \\
 
 Tabela~\ref{tab:unreal-vulkan-phases} ujawnia znaczącą dynamikę wydajności między fazami. 
 Fazy 1 i 2 (aktywna rozgrywka) osiągają wysoką wydajność
-(343--384 FPS), natomiast faza 3 pokazuje \textbf{dramatyczny spadek do 153 FPS} -- redukcję o 
-ponad 60\%. Spadek ten występuje w końcowej fazie
+(332--339 FPS), natomiast faza 3 pokazuje \textbf{znaczący spadek do 162 FPS} -- redukcję o
+ponad 50\%. Spadek ten występuje w końcowej fazie
 rozgrywki, gdy na ekranie znajduje się największa liczba przeciwników i pocisków, co stanowi 
 najbardziej wymagający moment dla silnika renderującego.
 Dodatkowo faza 3 zawiera ekran zwycięstwa, który również wpływa na średnią wydajność.
 
-\textbf{Uwaga metodologiczna:} W przeciwieństwie do Unity, dla Unreal Engine nie dysponujemy danymi o 
-rozkładzie percentylowym czasów klatek
-(1\% low, 0.1\% low), ponieważ śledzenie Vulkan API powoduje awarię aplikacji. Średnie wartości FPS
-mogą być zawyżone przez początkowe klatki
-o niskim obciążeniu, dlatego wartość 153 FPS z fazy 3 lepiej reprezentuje wydajność w wymagających 
-scenach niż średnia z faz 1--2.
+\textbf{Uwaga metodologiczna:} Wartość 162 FPS z fazy 3 lepiej reprezentuje wydajność w wymagających
+scenach niż średnie z faz 1--2, ponieważ faza 3 zawiera moment największego obciążenia gry
+(maksymalna liczba przeciwników i pocisków na ekranie).
 
 Stosunek wywołań \texttt{vkQueueSubmit} do \texttt{vkQueuePresentKHR} pozostaje stabilny na poziomie \textbf{16,2:1} we wszystkich fazach, co
 wskazuje na konsystentną architekturę potoku renderowania niezależną od obciążenia sceny.
@@ -957,18 +956,11 @@ Porównanie faz 1 i 2 (tabela~\ref{tab:unreal-gpu-phases}) pokazuje niezwykłą 
 Ta konsystencja potwierdza poprawność metodologii fazowego profilowania i sugeruje deterministyczne zachowanie silnika renderującego niezależnie od 
 poziomu trudności gry.
 
-\paragraph{Ograniczenia analizy}
+\paragraph{Podsumowanie architektury Unreal Engine}
 
-Brak danych o wywołaniach Vulkan API (z powodu crashu przy włączonym \texttt{--trace=vulkan}) uniemożliwia:
-\begin{itemize}
-    \item Bezpośrednie porównanie liczby klatek i FPS z Unity
-    \item Analizę strategii synchronizacji fence/semaphore
-    \item Identyfikację konkretnych operacji renderowania
-    \item Ocenę efektywności batching'u i state changes
-\end{itemize}
-
-Niemniej zebrane metryki GPU (ponad milion próbek) i wywołania systemowe (ponad 9 milionów wywołań) dostarczają wartościowego wglądu w 
-charakterystykę wydajnościową silnika, pozwalając na porównanie architektoniczne z Unity mimo braku bezpośrednich danych o frame time.
+Dzięki profilowaniu fazowemu uzyskano kompletne dane śledzenia Vulkan API i metryk GPU dla całej 90-sekundowej rozgrywki.
+Zebrane dane (ponad 32 miliony zdarzeń Vulkan API, ponad milion próbek GPU i ponad 9 milionów wywołań systemowych) dostarczają
+kompleksowego wglądu w charakterystykę wydajnościową silnika, umożliwiając bezpośrednie porównanie z Unity.
 
 \subsection{Analiza porównawcza}
 \label{subsec:analiza-porownawcza}
@@ -983,38 +975,23 @@ charakterystykę wydajnościową silnika, pozwalając na porównanie architekton
 \hline
 \textbf{Metryka} & \textbf{Unity} & \textbf{Unreal Engine} \\
 \hline
-Średni FPS (fazy 1--2) & 144 (V-Sync) & 343--384 \\
-Średni FPS (faza 3, wymagająca) & 144 (V-Sync) & 153 \\
-1\% low (99. percentyl) & 132 FPS & brak danych \\
-Całkowita liczba klatek (90s) & 13\,556 & 26\,407 \\
+Średni FPS (fazy 1--2) & 164 (V-Sync) & 332--339 \\
+Średni FPS (faza 3, wymagająca) & 164 (V-Sync) & 162 \\
+Całkowita liczba klatek (90s) & 14\,765 & 24\,975 \\
 \hline
 \end{tabular}
 \end{table}
 
-Tabela~\ref{tab:frame-time-comparison} przedstawia porównanie wydajności obu silników. 
-\textbf{Bezpośrednie porównanie średnich
-wartości FPS jest jednak problematyczne} z następujących powodów:
+Tabela~\ref{tab:frame-time-comparison} przedstawia porównanie wydajności obu silników.
 
-\begin{itemize}
-    \item \textbf{Unity działał z włączonym V-Sync} -- wydajność była sztucznie ograniczona do 
-    144 FPS (częstotliwość
-    odświeżania monitora), co uniemożliwia ocenę rzeczywistej maksymalnej wydajności silnika
-    \item \textbf{Brak danych percentylowych dla Unreal} -- nie dysponujemy wartościami 1\% low 
-    ani 0.1\% low, które
-    lepiej reprezentują wydajność w wymagających momentach niż średnia arytmetyczna
-    \item \textbf{Średnie FPS Unreal mogą być zawyżone} -- początkowe klatki o niskim obciążeniu 
-    podnoszą średnią,
-    podczas gdy w fazie 3 (najbardziej wymagającej) wydajność spadła do 153 FPS
-\end{itemize}
+Kluczową obserwacją jest to, że \textbf{Unity działał z włączonym V-Sync} na monitorze 165 Hz,
+co ograniczało wydajność do około 164 FPS niezależnie od obciążenia sceny. Unreal Engine działał
+bez V-Sync, osiągając 332--339 FPS w fazach 1--2, jednak \textbf{w fazie 3 (najbardziej wymagającej)
+wydajność spadła do 162 FPS} -- wartości zbliżonej do Unity.
 
-Porównując wartości bardziej reprezentatywne dla rzeczywistej rozgrywki: \\
-\textbf{Unity 1\% low (132 FPS) vs Unreal faza 3 (153 FPS)},
-różnica wynosi zaledwie 16\%, co jest znacznie mniejsze niż sugerowałoby porównanie średnich 
-(144 vs 384 FPS).
-
-Jednoznaczne stwierdzenie, który silnik jest wydajniejszy, wymaga powtórzenia testów z 
-wyłączonym V-Sync dla Unity oraz
-uzyskania danych percentylowych dla Unreal Engine.
+Ten wynik sugeruje, że przy wysokim obciążeniu sceny (maksymalna liczba przeciwników i pocisków)
+oba silniki osiągają porównywalną wydajność, natomiast Unreal Engine jest w stanie wykorzystać
+zapas mocy obliczeniowej GPU przy mniejszym obciążeniu.
 
 \subsubsection{Porównanie wykorzystania GPU}
 
@@ -1088,11 +1065,11 @@ małych zadań często komunikujących się ze sobą (ponad 3 miliony wywołań 
 \hline
 \textbf{Metryka} & \textbf{Unity} & \textbf{Unreal Engine} \\
 \hline
-Średni FPS (fazy 1--2) & 144 (V-Sync) & 343--384 \\
-FPS w wymagającej scenie & 132 (1\% low) & 153 (faza 3) \\
-GPU Active (\%) & -- & 91 (fazy 1--2), 50 (faza 3) \\
+Średni FPS (fazy 1--2) & 164 (V-Sync) & 332--339 \\
+FPS w wymagającej scenie & 132 (1\% low) & 162 (faza 3) \\
+GPU Active (\%) & 23 & 91 (fazy 1--2), 50 (faza 3) \\
 Dominujące wąskie gardło & GPU (rendering) & CPU (kompilacja potoków) \\
-Wywołania Vulkan API & 218\,815 & $\sim$15 mln \\
+Wywołania Vulkan API & $\sim$0,5 mln & $\sim$32 mln \\
 Wywołania synchronizacji OS & 29\,383 & $\sim$9 mln \\
 Potoki graficzne utworzone & 3 & $\sim$2\,400 \\
 \hline
@@ -1102,26 +1079,24 @@ Potoki graficzne utworzone & 3 & $\sim$2\,400 \\
 Przeprowadzone testy wydajnościowe pozwalają na sformułowanie następujących wniosków:
 
 \begin{enumerate}
-    \item \textbf{Wydajność w wymagających scenach}: Porównanie to Unity 
-    1\% low (132 FPS) vs
-    Unreal faza 3 (153 FPS), gdzie różnica wynosi około 16\%. Unreal Engine wykazuje jednak 
-    znaczący spadek wydajności
-    (o ponad 60\%) w końcowej fazie rozgrywki z dużą liczbą obiektów na ekranie.
+    \item \textbf{Wydajność w wymagających scenach}: W fazie 3 (maksymalne obciążenie)
+    oba silniki osiągają zbliżoną wydajność: Unity 1\% low 132 FPS vs Unreal 162 FPS. Różnica
+    około 23\% na korzyść Unreal wynika częściowo z różnych konfiguracji V-Sync.
 
-    \item \textbf{Stabilność}: Unity wykazał stabilne czasy klatek dzięki V-Sync, \\ natomiast 
-    Unreal Engine pokazał
-    dużą zmienność między fazami (343--384 FPS w fazach 1--2 vs 153 FPS w fazie 3).
+    \item \textbf{Wykorzystanie GPU}: Unity wykorzystuje jedynie 23\% mocy GPU \\ (ograniczony V-Sync),
+    podczas gdy Unreal Engine osiąga 91\% wykorzystania w fazach 1--2. Sugeruje to znaczny
+    zapas wydajności Unity przy wyłączonym V-Sync.
 
-    \item \textbf{Architektura}: Silniki stosują fundamentalnie różne podejścia do \\
-    wielowątkowości 
-    i zarządzania
-    potokami renderowania. Unity używa gruboziarnistego paralelizmu z rzadkimi synchronizacjami, 
-    podczas gdy Unreal
-    stosuje drobnoziarnisty system TaskGraph z milionami wywołań synchronizacyjnych.
+    \item \textbf{Stabilność}: Unity wykazał stabilne czasy klatek dzięki V-Sync, \\ natomiast
+    Unreal Engine pokazał dużą zmienność między fazami (332--339 FPS w fazach 1--2 vs 162 FPS
+    w fazie 3) -- spadek o ponad 50\%.
 
-    \item \textbf{Narzut Unreal}: Dynamiczna kompilacja potoków (ponad 1000 potoków na 
-    30-sekundową fazę vs 3 w całym
-    teście Unity) i intensywna komunikacja międzywątkowa stanowią znaczący narzut, który 
-    może przyczyniać się do
-    spadków wydajności w wymagających scenach.
+    \item \textbf{Architektura}: Silniki stosują fundamentalnie różne podejścia do
+    wielowątkowości i zarządzania potokami renderowania. Unity używa gruboziarnistego paralelizmu
+    z rzadkimi synchronizacjami, podczas gdy Unreal stosuje drobnoziarnisty system TaskGraph
+    z milionami wywołań synchronizacyjnych.
+
+    \item \textbf{Narzut Unreal}: Dynamiczna kompilacja potoków (ponad 1000 potoków na
+    30-sekundową fazę vs 3 w całym teście Unity) i 60-krotnie większa liczba wywołań Vulkan API
+    stanowią znaczący narzut, który może przyczyniać się do spadków wydajności w wymagających scenach.
 \end{enumerate}

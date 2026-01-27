@@ -1,219 +1,235 @@
 \clearpage
 \section{Podsumowanie i wnioski}
 
-\subsection{Główne wyniki badań}
+\subsection{Realizacja celów pracy}
 
-\subsubsection{Odpowiedzi na pytania badawcze}
-
-\paragraph{Pytanie 1: Który silnik oferuje lepszą wydajność dla gier 2D?}
-
-\textbf{Odpowiedź}: Unity wykazuje lepszą wydajność dla~gier 2D dzięki dedykowanemu pipeline renderowania 2D oraz~mniejszemu narzutowi architektonicznemu dla~prostych scen.
-
-\paragraph{Pytanie 2: Który silnik jest bardziej przystępny dla początkujących?}
-
-\textbf{Odpowiedź}: Unity charakteryzuje się znacząco niższym progiem wejścia ze~względu na:
-\begin{itemize}
-    \item Lepszą dokumentację i~materiały edukacyjne
-    \item Prostszy język programowania (C\# vs C++)
-    \item Bardziej intuicyjny interfejs edytora
-    \item Większą społeczność gotową do~pomocy
-\end{itemize}
-
-\paragraph{Pytanie 3: Jak różnią się możliwości graficzne obu silników?}
-
-\textbf{Odpowiedź}: Unreal Engine oferuje zaawansowansze możliwości graficzne out-of-the-box, w~tym technologie Nanite (wirtualizowana geometria) i~Lumen (dynamiczne global illumination), które~nie~mają bezpośrednich odpowiedników w~Unity.
-
-\paragraph{Pytanie 4: Który silnik lepiej wspiera platformy mobilne?}
-
-\textbf{Odpowiedź}: Unity dominuje na~platformach mobilnych z~70\% udziałem w~rynku, oferując lepszą optymalizację, mniejsze rozmiary buildów oraz~bogatszy ekosystem mobile-specific rozwiązań.
-
-\paragraph{Pytanie 5: Jak różnią się przepływy pracy w obu silnikach?}
-
-\textbf{Odpowiedź}: Unity promuje podejście komponentowe z~większą elastycznością, podczas gdy~Unreal narzuca bardziej ustrukturyzowany workflow oparty na~Blueprintach i~architekturze Actor-Component.
-
-\subsubsection{Weryfikacja hipotez}
-
-Wszystkie cztery postawione hipotezy badawcze zostały potwierdzone:
+Celem niniejszej pracy było porównanie wydajności i~możliwości dwóch wiodących silników gier komputerowych -- Unity oraz Unreal Engine -- ze~szczególnym uwzględnieniem ich wpływu na~proces tworzenia gier oraz~końcową jakość produktu. Cel ten został zrealizowany poprzez:
 
 \begin{enumerate}
-    \item Unreal Engine rzeczywiście oferuje lepszą wydajność renderowania 3D
-    \item Unity charakteryzuje się niższym progiem wejścia
-    \item Unity ma~lepsze wsparcie dla~platform mobilnych
-    \item Unreal Engine umożliwia osiągnięcie wyższej jakości grafiki
+    \item Przeprowadzenie szczegółowych testów wydajnościowych \\ z~wykorzystaniem niezależnego narzędzia NVIDIA Nsight Systems
+    \item Implementację identycznej gry typu bullet hell w~obu silnikach
+    \item Analizę porównawczą funkcjonalności i~możliwości obu silników
+    \item Przeprowadzenie wywiadów jakościowych z~ośmioma deweloperami gier
 \end{enumerate}
 
-\subsection{Wnioski praktyczne}
+\subsection{Weryfikacja hipotezy badawczej}
 
-\subsubsection{Rekomendacje dla deweloperów}
+Postawiona hipoteza badawcza brzmiała: \\ \textit{,,Silnik Unity, dzięki natywnemu wsparciu 
+dla~grafiki 2D, osiągnie lepszą wydajność w~grze typu bullet hell niż Unreal Engine, 
+który jest zoptymalizowany \\ przede wszystkim pod~kątem aplikacji 3D.''}
 
-\paragraph{Wybierz Unity jeśli}:
+Wyniki badań \textbf{częściowo potwierdzają} tę hipotezę, jednak obraz jest bardziej złożony niż początkowo zakładano:
+
+\paragraph{Wydajność w~fazie maksymalnego obciążenia}
+W~fazie 3 testu (60--90 sekund), reprezentującej maksymalne obciążenie sceny, oba silniki osiągnęły zbliżoną wydajność: Unity z~wartością 1\% low na~poziomie 132~FPS oraz Unreal Engine ze~średnią 162~FPS. Różnica około 23\% na~korzyść Unreal wynika częściowo z~różnych konfiguracji synchronizacji pionowej.
+
+\paragraph{Wykorzystanie zasobów GPU}
+Unity wykorzystywał jedynie 23\% mocy obliczeniowej GPU (ograniczony przez V-Sync), podczas gdy Unreal Engine osiągał 91\% wykorzystania w~fazach 1--2. Sugeruje to znaczny potencjał wydajnościowy Unity przy wyłączonej synchronizacji pionowej.
+
+\paragraph{Architektura renderowania}
+Analiza wywołań Vulkan API ujawniła fundamentalne różnice architektoniczne:
 \begin{itemize}
-    \item Jesteś początkującym deweloperem
-    \item Tworzysz grę 2D
-    \item Celujesz w~platformy mobilne
-    \item Potrzebujesz szybkiego prototypowania
-    \item Pracujesz solo lub w~małym zespole
-    \item Masz ograniczony budżet na~assety
+    \item Unity: prosty, dwuetapowy potok renderowania \\ (2 wywołania \texttt{vkQueueSubmit} na~klatkę), 
+    zdominowany przez \\ oczekiwanie na~GPU (\texttt{vkWaitForFences} -- 95,2\% czasu)
+    \item Unreal Engine: złożony potok z~16 wywołaniami \texttt{vkQueueSubmit} na~klatkę, zdominowany przez dynamiczną kompilację potoków (47--72\% czasu)
 \end{itemize}
 
-\paragraph{Wybierz Unreal Engine jeśli}:
-\begin{itemize}
-    \item Tworzysz grę 3D AAA
-    \item Grafika jest najwyższym priorytetem
-    \item Masz doświadczenie z~C++
-    \item Pracujesz w~dużym zespole
-    \item Celujesz w~PC/konsole nowej generacji
-    \item Potrzebujesz zaawansowanych funkcji wizualnych
-\end{itemize}
+\paragraph{Stabilność wydajności}
+Unity wykazał większą stabilność czasów klatek (98,24\% klatek w~przedziale 5--10~ms), podczas gdy Unreal Engine doświadczył spadku wydajności o~ponad 50\% między fazami niskiego (332--339~FPS) a~wysokiego obciążenia (162~FPS).
 
-\subsubsection{Wytyczne dla różnych typów projektów}
+\subsection{Główne wyniki badań}
 
-\begin{table}[h!]
-    \centering
-    \caption{Rekomendacje wyboru silnika według typu projektu}
-    \label{tab:recommendations}
-    \begin{tabular}{|l|c|c|}
-        \hline
-        \textbf{Typ projektu} & \textbf{Rekomendacja} & \textbf{Alternatywa} \\
-        \hline\hline
-        Gra 2D indie & Unity & -- \\
-        \hline
-        Gra 3D indie & Unity & Unreal (dla~AAA look) \\
-        \hline
-        Gra mobilna & Unity & -- \\
-        \hline
-        Gra AAA 3D & Unreal & -- \\
-        \hline
-        Gra VR high-end & Unreal & Unity \\
-        \hline
-        Gra VR mobilna & Unity & -- \\
-        \hline
-        Aplikacja edukacyjna & Unity & -- \\
-        \hline
-        Architectural viz & Unreal & Unity (HDRP) \\
-        \hline
-        Symulatory & Unreal & Unity \\
-        \hline
-    \end{tabular}
+\subsubsection{Wyniki testów wydajnościowych}
+
+\begin{table}[H]
+\centering
+\caption{Zestawienie kluczowych wyników testów wydajności}
+\label{tab:podsumowanie-wydajnosc}
+\begin{tabular}{|l|r|r|}
+\hline
+\textbf{Metryka} & \textbf{Unity} & \textbf{Unreal Engine} \\
+\hline
+Średni FPS (niskie obciążenie) & 164 (V-Sync) & 332--339 \\
+FPS w~wymagającej scenie & 132 (1\% low) & 162 (faza 3) \\
+Wykorzystanie GPU (\%) & 23 & 91 / 50 \\
+Wywołania Vulkan API & $\sim$0,5 mln & $\sim$32 mln \\
+Wywołania synchronizacji OS & 29\,383 & $\sim$9 mln \\
+Potoki graficzne utworzone & 3 & $\sim$2\,400 \\
+\hline
+\end{tabular}
 \end{table}
 
-\subsection{Wkład naukowy}
+\subsubsection{Wyniki analizy implementacji}
 
-\subsubsection{Nowatorskie aspekty badań}
+Praktyczna implementacja gry bullet hell potwierdziła przewagę Unity \\ dla~tego typu projektów:
+
+\begin{itemize}
+    \item \textbf{Czas implementacji}: Unity wymagał około 60\% czasu potrzebnego na~implementację w~Unreal Engine
+    \item \textbf{Wsparcie 2D}: Unity oferuje natywne komponenty 2D \\ (\texttt{Rigidbody2D}, \texttt{Collider2D}), podczas gdy Unreal symuluje 2D w~środowisku 3D
+    \item \textbf{Object pooling}: Implementacja w~Unity jest prostsza \\ 
+    (pojedyncza metoda \texttt{SetActive}) vs Unreal (trzy osobne metody: \\ 
+    \texttt{SetActorHiddenInGame}, 
+    \texttt{SetActorEnableCollision}, 
+    \\ \texttt{SetActorTickEnabled})
+    \item \textbf{Instalacja na~Linux}: Unity -- około 30 minut, Unreal -- 2--4 godziny
+\end{itemize}
+
+\subsubsection{Wyniki wywiadów z~deweloperami}
+
+Badania jakościowe z~udziałem 8~deweloperów potwierdziły:
+
+\begin{itemize}
+    \item Unity charakteryzuje się niższym progiem wejścia i~lepszą dokumentacją
+    \item Unreal Engine wymusza bardziej uporządkowaną strukturę projektu
+    \item System Blueprints ułatwia współpracę z~osobami nietechnicznymi
+    \item Problemy z~garbage collectorem w~Unity są znane, ale~rzadko doświadczane przy stosowaniu dobrych praktyk (object pooling)
+    \item Obie społeczności deweloperskie są aktywne, choć Unity ma~przewagę ilościową w~materiałach edukacyjnych
+\end{itemize}
+
+\subsection{Rekomendacje praktyczne}
+
+Na~podstawie przeprowadzonych badań sformułowano następujące rekomendacje:
+
+\subsubsection{Wybór Unity jest wskazany gdy}
+
+\begin{itemize}
+    \item Projekt dotyczy gry 2D lub mobilnej
+    \item Zespół składa się z~początkujących deweloperów
+    \item Wymagany jest szybki cykl iteracji (hot reload)
+    \item Projekt ma~ograniczony budżet czasowy na~naukę narzędzia
+    \item Preferowany jest język C\# nad C++
+    \item Wymagana jest dobra integracja z~Git (tekstowa serializacja scen)
+\end{itemize}
+
+\subsubsection{Wybór Unreal Engine jest wskazany gdy}
+
+\begin{itemize}
+    \item Projekt wymaga fotorealistycznej grafiki 3D
+    \item Zespół posiada doświadczenie w~C++
+    \item Projekt jest typu FPS lub AAA
+    \item W~zespole znajdują się osoby nietechniczne (designerzy, artyści)
+    \item Wymagane są zaawansowane funkcje wizualne (Nanite, Lumen)
+    \item Projekt wymaga dostępu do~kodu źródłowego silnika
+\end{itemize}
+
+\begin{table}[H]
+\centering
+\caption{Macierz rekomendacji wyboru silnika}
+\label{tab:macierz-rekomendacji}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Typ projektu} & \textbf{Rekomendacja} & \textbf{Uzasadnienie} \\
+\hline
+Gra 2D indie & Unity & Natywne wsparcie 2D \\
+\hline
+Gra mobilna & Unity & Optymalizacja, rozmiar buildu \\
+\hline
+Gra bullet hell & Unity & Prosty potok renderowania \\
+\hline
+Gra 3D AAA & Unreal & Nanite, Lumen, fotorealizm \\
+\hline
+Gra VR high-end & Unreal & Zaawansowane oświetlenie \\
+\hline
+Gra VR mobilna & Unity & Optymalizacja mobilna \\
+\hline
+Prototyp & Unity & Szybki cykl iteracji \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Wkład naukowy pracy}
 
 Niniejsza praca wnosi następujące elementy do~dziedziny badań nad~silnikami gier:
 
-\begin{itemize}
-    \item \textbf{Zunifikowana metodyka pomiaru} -- wykorzystanie NVIDIA Nsight jako niezależnego narzędzia eliminuje różnice w~profilowaniu wbudowanym
-    \item \textbf{Triangulacja danych} -- połączenie testów wydajnościowych, analizy funkcjonalności i~wywiadów jakościowych
-    \item \textbf{Praktyczne przypadki użycia} -- konkretne rekomendacje oparte na~danych empirycznych
-    \item \textbf{Perspektywa polskiej społeczności} -- uwzględnienie specyfiki rynku polskiego
-\end{itemize}
+\begin{enumerate}
+    \item \textbf{Zunifikowana metodyka pomiaru} -- wykorzystanie \\ NVIDIA Nsight Systems jako 
+    niezależnego narzędzia profilowania  \\ eliminuje różnice wynikające z~wbudowanych profilerów 
+    silników, zapewniając porównywalność wyników
 
-\subsubsection{Znaczenie dla branży}
+    \item \textbf{Szczegółowa analiza wywołań API} -- dokumentacja ponad 32~milionów wywołań 
+    Vulkan API dla~Unreal Engine i~0,5~miliona dla~Unity dostarcza wglądu w~architekturę 
+    renderowania obu silników
 
-Wyniki pracy mogą być wykorzystane przez:
+    \item \textbf{Triangulacja metod badawczych} -- połączenie testów wydajnościowych, analizy 
+    funkcjonalności, doświadczeń implementacyjnych i~wywiadów jakościowych daje kompleksowy 
+    obraz porównawczy
 
-\begin{itemize}
-    \item \textbf{Nowych deweloperów} -- jako przewodnik przy~wyborze pierwszego silnika
-    \item \textbf{Studia gamedev} -- przy~podejmowaniu decyzji technologicznych
-    \item \textbf{Uczelnie} -- jako materiał dydaktyczny w~kursach game development
-    \item \textbf{Firmy szkoleniowe} -- do~planowania ścieżek edukacyjnych
-\end{itemize}
+    \item \textbf{Praktyczne przypadki użycia} -- konkretne rekomendacje oparte na~danych empirycznych mogą służyć jako przewodnik dla~deweloperów
+\end{enumerate}
 
-\subsection{Ograniczenia i przyszłe badania}
-
-\subsubsection{Identyfikacja ograniczeń}
+\subsection{Ograniczenia badań}
 
 Przeprowadzone badania posiadają następujące ograniczenia:
 
 \begin{enumerate}
-    \item \textbf{Zakres czasowy} -- silniki ewoluują szybko; wyniki mogą się zdezaktualizować w~ciągu 12-24 miesięcy
-    \item \textbf{Zakres gatunkowy} -- koncentracja na~grach typu bullet-hell nie~pokrywa wszystkich możliwych zastosowań
-    \item \textbf{Konfiguracja sprzętowa} -- testy na~pojedynczej maszynie nie~uwzględniają różnorodności sprzętu graczy
-    \item \textbf{Próba badawcza} -- 8~wywiadów to~relatywnie mała próba, choć~wystarczająca dla~badań jakościowych
-    \item \textbf{Perspektywa geograficzna} -- fokus na~polskiej społeczności może nie~odzwierciedlać trendów globalnych
+    \item \textbf{Zakres gatunkowy} -- koncentracja na~grach typu bullet hell \\ nie~pokrywa 
+    wszystkich możliwych zastosowań silników gier; \\ inne gatunki (RPG, RTS, puzzle) 
+    mogą wykazywać odmienne charakterystyki wydajnościowe
+
+
+    \item \textbf{Pojedyncza konfiguracja sprzętowa} -- testy na~wysokowydajnym sprzęcie (RTX 3090, Ryzen 9 7900X3D) nie~odzwierciedlają wydajności na~typowych konfiguracjach graczy
+
+    \item \textbf{Próba badawcza} -- 8~wywiadów stanowi relatywnie małą próbę, choć~wystarczającą dla~badań jakościowych o~charakterze eksploracyjnym
+
+    \item \textbf{Ewolucja silników} -- szybki rozwój obu silników może spowodować dezaktualizację wyników w~ciągu 12--24 miesięcy
 \end{enumerate}
 
-\subsubsection{Propozycje dalszych badań}
+\subsection{Propozycje dalszych badań}
 
 Na~podstawie zidentyfikowanych ograniczeń proponuje się następujące kierunki przyszłych badań:
 
-\paragraph{Badania longitudinalne}
-Śledzenie wydajności obu silników przez~2-3~lata, dokumentując wpływ kolejnych aktualizacji na~wydajność i~funkcjonalność.
-
 \paragraph{Rozszerzenie zakresu gatunkowego}
-Przeprowadzenie analogicznych testów dla:
-\begin{itemize}
-    \item Gier RPG (open world)
-    \item Gier strategicznych czasu rzeczywistego
-    \item Gier puzzle
-    \item Symulatorów
-\end{itemize}
+Przeprowadzenie analogicznych testów 
+\\ dla~gier RPG (open world), strategii czasu rzeczywistego, gier puzzle oraz symulatorów 
+pozwoliłoby na~bardziej kompleksową ocenę wydajności silników.
 
 \paragraph{Testy wieloplatformowe}
-Porównanie wydajności na~różnych konfiguracjach sprzętowych:
-\begin{itemize}
-    \item PC low-end, mid-range, high-end
-    \item Urządzenia mobilne (Android, iOS)
-    \item Konsole (PlayStation, Xbox, Switch)
-\end{itemize}
-
-\paragraph{Badania społeczności międzynarodowej}
-Rozszerzenie wywiadów na~deweloperów z~różnych krajów i~kultur, co~pozwoliłoby na~identyfikację różnic regionalnych w~preferencjach i~doświadczeniach.
+Porównanie wydajności na~różnych konfiguracjach \\ sprzętowych 
+(PC low-end, mid-range, high-end; urządzenia mobilne; konsole) dostarczyłoby 
+praktycznych informacji dla~deweloperów celujących w~różne platformy.
 
 \paragraph{Analiza ekonomiczna}
-Badanie Total Cost of Ownership (TCO) dla~projektów w~Unity vs Unreal, uwzględniające:
-\begin{itemize}
-    \item Czas nauki dla~zespołu
-    \item Koszt licencji i~narzędzi dodatkowych
-    \item Koszt assetów i~rozszerzeń
-    \item Czas rozwoju projektu
-    \item Koszty maintenance i~aktualizacji
-\end{itemize}
+Badanie Total Cost of Ownership (TCO) uwzględniające \\ czas nauki zespołu, 
+koszty licencji, assetów, czas rozwoju i~koszty utrzymania projektu mogłoby 
+dostarczyć cennych informacji biznesowych.
 
-\paragraph{Badania UX deweloperów}
-Szczegółowa analiza user experience programistów i~artystów pracujących w~obu silnikach, z~wykorzystaniem metod:
-\begin{itemize}
-    \item Eye tracking podczas pracy w~edytorze
-    \item Think-aloud protocols
-    \item Kwestionariusze SUS (System Usability Scale)
-    \item Pomiary czasu wykonania typowych zadań
-\end{itemize}
+\paragraph{Badania longitudinalne}
+Śledzenie wydajności obu silników przez~2--3 lata, dokumentując wpływ kolejnych aktualizacji, pozwoliłoby na~ocenę długoterminowej stabilności i~kierunków rozwoju.
 
-\subsubsection{Rozwój metodologii}
-
-Przyszłe badania mogłyby udoskonalić metodologię poprzez:
-
-\begin{itemize}
-    \item \textbf{Automatyzację testów} -- stworzenie frameworka do~automatycznego uruchamiania i~profilowania scenariuszy testowych
-    \item \textbf{Standaryzację metryk} -- opracowanie branżowego standardu pomiaru wydajności silników gier
-    \item \textbf{Większą próbę} -- przeprowadzenie badań ilościowych na~próbie 100+ deweloperów
-    \item \textbf{Testy A/B} -- eksperymentalne porównanie czasu rozwoju tych samych projektów w~obu silnikach
-\end{itemize}
+\paragraph{Automatyzacja metodologii}
+Stworzenie frameworka \\ do~automatycznego uruchamiania i~profilowania scenariuszy testowych 
+umożliwiłoby powtarzalne badania na~większą skalę.
 
 \subsection{Refleksje końcowe}
 
-Przeprowadzone badania potwierdzają, że~nie~istnieje jednoznaczna odpowiedź na~pytanie ,,który silnik jest lepszy''. Zarówno Unity, jak i~Unreal Engine mają swoje unikalne zalety i~są optymalizowane pod~różne przypadki użycia.
+Przeprowadzone badania potwierdzają, że~nie~istnieje jednoznaczna odpowiedź \\na~pytanie ,,
+który silnik jest lepszy''. Unity i~Unreal Engine reprezentują różne filozofie projektowe 
+i~są zoptymalizowane pod~odmienne przypadki użycia.
 
-Unity dominuje na~rynku gier mobilnych i~2D oraz~stanowi lepszy wybór dla~początkujących, podczas gdy~Unreal Engine jest standardem dla~produkcji AAA wymagających najwyższej jakości grafiki.
+\textbf{Unity} wyróżnia się jako silnik oferujący:
+\begin{itemize}
+    \item Niższy próg wejścia i~szybszą krzywą uczenia
+    \item Lepsze natywne wsparcie dla~grafiki 2D
+    \item Prostszy i~bardziej przewidywalny potok renderowania
+    \item Efektywniejszą pracę na~platformach mobilnych
+    \item Większą społeczność i~więcej materiałów edukacyjnych
+\end{itemize}
 
-Kluczem do~sukcesu jest \textbf{świadomy wybór narzędzia dopasowanego do~konkretnego projektu}, zespołu i~celów biznesowych. W~dynamicznie rozwijającej się branży gier, znajomość obu silników staje się coraz bardziej wartościową umiejętnością.
+\textbf{Unreal Engine} natomiast dominuje w~obszarach:
+\begin{itemize}
+    \item Zaawansowanej grafiki 3D i~fotorealizmu
+    \item Produkcji wysokobudżetowych (AAA)
+    \item Współpracy z~osobami nietechnicznymi (Blueprints)
+    \item Dostępu do~kodu źródłowego silnika
+    \item Wbudowanych zaawansowanych funkcji (Nanite, Lumen)
+\end{itemize}
 
-\subsection{Znaczenie wyników w kontekście rozwoju technologii}
+W~kontekście testowanej gry bullet hell hipoteza o~przewadze Unity została częściowo potwierdzona -- 
+silnik oferuje prostszą architekturę renderowania, \\ stabilniejsze czasy klatek i~znacznie 
+łatwiejszy proces implementacji. Jednakże Unreal Engine wykazał zdolność do~osiągania porównywalnej 
+wydajności w~wymagających scenach, co~sugeruje, że~różnice wydajnościowe są mniejsze niż różnice 
+w~doświadczeniu deweloperskim.
 
-Obserwowany rozwój silników gier wskazuje na~kilka kluczowych trendów:
+Kluczem do~sukcesu jest \textbf{świadomy wybór narzędzia dopasowanego do~konkretnego projektu}, zespołu i~celów biznesowych. W~dynamicznie rozwijającej się branży gier znajomość obu silników staje się coraz bardziej wartościową umiejętnością, pozwalającą na~elastyczne dostosowanie się do~wymagań różnorodnych projektów.
 
-\begin{enumerate}
-    \item \textbf{Demokratyzacja tworzenia gier} -- oba silniki stają się coraz bardziej dostępne dla~indywidualnych twórców
-    \item \textbf{Konwergencja funkcjonalności} -- Unity dogania Unreal w~zakresie grafiki, Unreal staje się bardziej przyjazny dla~początkujących
-    \item \textbf{Wzrost znaczenia ekosystemu} -- assety, pluginy i~społeczność stają się równie ważne jak~sam silnik
-    \item \textbf{Cloud gaming} -- nowe platformy strumieniowania gier mogą zmienić wymagania wydajnościowe
-\end{enumerate}
-
-Przyszłość prawdopodobnie przyniesie dalszą specjalizację -- Unity będzie dominować na~mobile i~indie, Unreal w~AAA i~wysokobudżetowych produkcjach -- ale~z~rosnącą obszarem nakładania się możliwości, co~daje deweloperom większą swobodę wyboru.
-
-\vspace{1cm}
-
-\noindent
-Niniejsza praca stanowi wkład w~systematyzację wiedzy o~współczesnych silnikach gier i~może służyć jako punkt odniesienia dla~przyszłych badań w~tej dynamicznie rozwijającej się dziedzinie.
+Niniejsza praca stanowi wkład w~systematyzację wiedzy o~współczesnych silnikach gier i~może służyć jako punkt odniesienia dla~deweloperów podejmujących decyzję o~wyborze technologii oraz~dla~przyszłych badań w~tej dynamicznie rozwijającej się dziedzinie.

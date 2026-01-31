@@ -4,7 +4,6 @@
 
 \subsection{Metryki wydajności}
 
-\subsubsection{Zbierane dane}
 
 Dla każdego scenariusza i~silnika rejestrowano następujące metryki przy użyciu NVIDIA Nsight Systems:
 
@@ -27,7 +26,6 @@ podczas których gra działała w
 trybie stacjonarnym (gracz nieruchomy) z włączoną nieśmiertelnością, co pozwoliło na stabilne pomiary 
 bez przerwania rozgrywki.
 
-\subsubsection{Ogólne wyniki wydajności}
 
 Podczas 94,16-sekundowego okresu aktywnego renderowania zarejestrowano łącznie 13\,556 klatek, 
 co przekłada się na średnią wydajność
@@ -77,7 +75,6 @@ uwzględnienia ekstremalnych wartości inicjalizacyjnych.
 Po wykluczeniu pierwszych kilku klatek, stabilność renderowania jest znacznie wyższa, co potwierdza 
 analiza percentylowa przedstawiona w dalszej części.
 
-\subsubsection{Analiza rozkładu czasów klatek}
 
 Szczegółowa analiza rozkładu czasów klatek pozwala ocenić nie tylko średnią wydajność, ale przede 
 wszystkim stabilność i przewidywalność działania 
@@ -151,7 +148,6 @@ Kategoria 0--5 ms (230 klatek, 1,70\%) reprezentuje sytuacje szczególne: bardzo
 przejść między scenami, momenty niskiego 
 obciążenia lub artefakty pomiarowe wynikające z mechanizmu synchronizacji swapchain.
 
-\subsubsection{Szczegółowa analiza wywołań Vulkan API}
 
 NVIDIA Nsight Systems przechwytuje wszystkie wywołania interfejsu programistycznego Vulkan, umożliwiając dokładną analizę zachowania silnika 
 renderującego na poziomie pojedynczych funkcji API. Podczas testu zarejestrowano łącznie \textbf{218\,815 wywołań} 31 różnych funkcji Vulkan API.
@@ -174,7 +170,6 @@ renderującego na poziomie pojedynczych funkcji API. Podczas testu zarejestrowan
 \end{tabular}
 \end{table}
 
-\paragraph{Funkcja vkWaitForFences -- synchronizacja CPU-GPU}
 \texttt{vkWaitForFences} \\ pochłonęła \textbf{95,2\% całkowitego czasu}
 profilowania wywołań Vulkan API, co stanowi 77,04 sekundy z 
 94-sekundowego testu. Funkcja ta, zdefiniowana w specyfikacji Vulkan w rozdziale 7.3 dotyczącym 
@@ -203,7 +198,6 @@ Stosunek liczby wywołań \texttt{vkWaitForFences} (12\,895) do liczby klatek (1
 Unity stosuje strategię oczekiwania, prawie na 
 każdą klatkę z pewnymi optymalizacjami pozwalającymi pominąć oczekiwanie w niektórych przypadkach.
 
-\paragraph{Funkcja vkQueuePresentKHR -- prezentacja klatek}
 
 \texttt{vkQueuePresentKHR}, zdefiniowana w rozszerzeniu \texttt{VK\_KHR\_swapchain}, odpowiada za przesłanie żądania prezentacji 
 wyrenderowanego obrazu do silnika prezentacji (ang. \textit{presentation engine}). Każde wywołanie tej funkcji reprezentuje jedną klatkę przekazaną 
@@ -213,7 +207,6 @@ do wyświetlenia, dlatego liczba wywołań (13\,556) równa jest liczbie wyrende
 wymagają dłuższego oczekiwania (maksymalnie 7,20 ms). Dłuższe czasy mogą wynikać z oczekiwania na dostępność bufora w swapchain lub synchronizacji z 
 częstotliwością odświeżania monitora (nawet przy wyłączonym V-Sync, pewien poziom synchronizacji jest wymagany).
 
-\paragraph{Funkcja vkQueueSubmit -- przesyłanie pracy do GPU}
 
 \texttt{vkQueueSubmit} przesyła bufory poleceń (ang. \textit{command buffers}) do kolejki GPU celem wykonania. Zarejestrowano 27\,112 wywołań, co 
 oznacza średnio 2 wywołania na klatkę. Taki wzorzec sugeruje, że Unity stosuje architekturę z oddzielnymi przebiegami renderowania 
@@ -241,7 +234,6 @@ odbywa się asynchronicznie na GPU.
 \end{tabular}
 \end{table}
 
-\paragraph{Nagrywanie buforów poleceń}
 
 Tabela~\ref{tab:unity-vulkan-cmd} przedstawia statystyki funkcji związanych z buforami poleceń. 
 Liczba wywołań \texttt{vkBeginCommandBuffer} \\ oraz 
@@ -275,7 +267,6 @@ grupowanie obiektów według używanego potoku, minimalizując kosztowne zmiany 
 \end{tabular}
 \end{table}
 
-\paragraph{Operacje inicjalizacyjne}
 
 Tabela~\ref{tab:unity-vulkan-init} przedstawia jednorazowe operacje inicjalizacyjne. \texttt{vkCreateDevice} (162,35 ms) tworzy logiczne 
 urządzenie Vulkan -- jest to najdroższa pojedyncza operacja, obejmująca negocjację możliwości GPU, alokację struktur wewnętrznych sterownika i 
@@ -288,7 +279,6 @@ obejmuje alokację pamięci dla buforów, konfigurację formatów i synchronizac
 Utworzenie 341 obiektów fence (łącznie 135,60 ms) wskazuje na przygotowanie puli ogrodzeń do wielokrotnego użytku w cyklu renderowania. Unity stosuje 
 strategię pre-alokacji zamiast tworzenia ogrodzeń na żądanie, co jest praktyką zalecaną w dokumentacji Vulkan.
 
-\subsubsection{Analiza wywołań systemowych (OS Runtime)}
 
 Oprócz wywołań Vulkan API, Nsight Systems przechwytuje również wywołania funkcji systemowych, umożliwiając analizę zachowania aplikacji na poziomie 
 systemu operacyjnego. Zarejestrowano \textbf{29\,383 wywołania} 65 różnych funkcji systemowych.
@@ -311,7 +301,6 @@ systemu operacyjnego. Zarejestrowano \textbf{29\,383 wywołania} 65 różnych fu
 \end{tabular}
 \end{table}
 
-\paragraph{Mechanizm futex -- szybka synchronizacja w przestrzeni użytkownika}
 
 Funkcja \texttt{futex} (ang. \textit{Fast Userspace muTEX}) pochłonęła \textbf{95,9\% czasu} wywołań systemowych. Futex jest mechanizmem 
 synchronizacji wątków w jądrze Linux, zaprojektowanym dla maksymalnej wydajności w scenariuszach bez rywalizacji (ang. \textit{uncontended case}).
@@ -332,7 +321,6 @@ architekturę wielowątkową z oddzielnymi wątkami dla: głównej pętli gry, r
 (wątek od razu uzyskuje blokadę lub jest natychmiast budzony), ale niektóre wywołania skutkują długim oczekiwaniem. Maksymalny czas 11,05 sekundy 
 odpowiada najprawdopodobniej wątkowi oczekującemu na zakończenie długotrwałej operacji inicjalizacyjnej.
 
-\paragraph{Zmienne warunkowe POSIX}
 
 Funkcje \texttt{pthread\_cond\_timedwait} (2,7\%, 85 wywołań) i \texttt{pthread\_cond\_wait} (0,6\%, 26 wywołań) implementują zmienne warunkowe POSIX, 
 używane do bardziej złożonych scenariuszy synchronizacji niż proste muteksy.
@@ -364,7 +352,6 @@ robocze systemu zadań, sugeruje to pulę kilkudziesięciu wątków aktywnie ucz
 \end{tabular}
 \end{table}
 
-\paragraph{Operacje wejścia/wyjścia}
 
 Tabela~\ref{tab:unity-osrt-io} przedstawia statystyki operacji I/O. Funkcja \texttt{poll} (349 wywołań, 314,33 ms) służy do multipleksowanego 
 oczekiwania na zdarzenia z wielu deskryptorów plików -- w kontekście gry prawdopodobnie dotyczy komunikacji z systemem okienkowym (X11/Wayland) 
@@ -377,11 +364,9 @@ gry (tekstur, modeli, shaderów) z dysku. Średni czas 1,07 $\mu$s potwierdza ef
 używane do komunikacji ze sterownikiem GPU poprzez \\
 interfejs DRM/KMS (Direct Rendering Manager / Kernel Mode Setting).
 
-\subsubsection{Interpretacja wyników i wnioski}
 
 Przeprowadzona analiza pozwala na sformułowanie następujących wniosków dotyczących wydajności i architektury silnika Unity:
 
-\paragraph{Charakterystyka ograniczenia wydajności}
 
 Dominacja \texttt{vkWaitForFences} \\ (95,2\% czasu Vulkan) i \texttt{futex} (95,9\% czasu systemowego) 
 jednoznacznie wskazuje na scenariusz 
@@ -392,7 +377,6 @@ W scenariuszu CPU-bound obserwowalibyśmy niższy udział funkcji synchronizacyj
 funkcji przygotowujących polecenia \\
 (\texttt{vkBeginCommandBuffer}, \texttt{vkCmdBindPipeline} itp.), co wskazywałoby na wąskie gardło po stronie procesora.
 
-\paragraph{Efektywność potoku renderowania}
 
 Stosunek liczby wywołań \texttt{vkQueueSubmit} (27\,112) do \texttt{vkQueuePresentKHR} (13\,556) wynoszący 2:1 wskazuje na dwuetapowy potok 
 renderowania dla każdej klatki. Może to odpowiadać architekturze z oddzielnymi przebiegami dla sceny 3D i interfejsu użytkownika, lub użyciu techniki 
@@ -402,7 +386,6 @@ Niska liczba wywołań \texttt{vkCmdBindPipeline} (27\,027, ~2 na klatkę)
 sugeruje \\ efektywne grupowanie obiektów renderowanych tym samym shaderem,
 minimalizujące kosztowne zmiany stanu GPU.
 
-\paragraph{Stabilność czasów klatek}
 
 Pomimo wysokiego współczynnika zmienności (153\%) wynikającego z wartości ekstremalnych podczas 
 inicjalizacji, właściwa stabilność renderowania jest
@@ -419,7 +402,6 @@ działania synchronizacji pionowej (V-Sync), która sztucznie \\
 wyrównuje czasy klatek poprzez oczekiwanie na sygnał odświeżania monitora. \\ Bez V-Sync 
 zmienność czasów klatek mogłaby być wyższa.
 
-\paragraph{Architektura wielowątkowa}
 
 Analiza wywołań systemowych potwierdza intensywne wykorzystanie wielowątkowości:
 \begin{itemize}
@@ -449,7 +431,6 @@ Każda faza była uruchamiana z flagą \texttt{--start-time=N}, która przesuwa 
 spawnu przeciwników \\ (w \texttt{STGEnemySpawner}) do odpowiedniej sekundy. \\ Grę skompilowano w konfiguracji DebugGame, która zachowuje symbole 
 debugowania przy częściowych optymalizacjach.
 
-\subsubsection{Metodologia profilowania fazowego}
 
 Ze względu na bardzo dużą ilość danych generowanych przez Unreal Engine podczas śledzenia wywołań Vulkan API (około 13 milionów zdarzeń
 na 30 sekund rozgrywki, w porównaniu z 0,5 miliona dla Unity), 90-sekundową rozgrywkę podzielono na \textbf{trzy fazy po 30 sekund każda}:
@@ -471,7 +452,6 @@ Profilowanie przeprowadzono z wykorzystaniem tych samych metryk co dla Unity:
     \item \textbf{Metryk sprzętowych GPU} (\texttt{--gpu-metrics-devices=0}) -- próbkowanie \\ liczników wydajności GPU
 \end{itemize}
 
-\subsubsection{Metryki wykorzystania GPU}
 
 NVIDIA Nsight Systems zbiera metryki sprzętowe GPU poprzez bezpośredni dostęp do liczników 
 wydajności zintegrowanych w karcie graficznej. 
@@ -496,7 +476,6 @@ SM Issue [\%] & 13,94 & 0 & 99 \\
 \end{tabular}
 \end{table}
 
-\paragraph{GPU Active -- ogólna aktywność karty graficznej}
 
 Metryka \texttt{GPU Active} określa procentowy udział czasu, w którym karta graficzna wykonuje jakąkolwiek pracę obliczeniową. 
 Średnia wartość \textbf{90,98\%} dla faz 1--2 (aktywna rozgrywka) oznacza, że GPU był niemal w pełni wykorzystany podczas właściwej rozgrywki. 
@@ -529,7 +508,6 @@ fazowego profilowania. \\
 Wyraźny spadek w fazie 
 3 odzwierciedla zakończenie aktywnej rozgrywki i przejście do ekranu zwycięstwa.
 
-\paragraph{GR Active -- aktywność silnika graficznego}
 
 Metryka \texttt{GR Active} (Graphics Active) mierzy wykorzystanie silnika graficznego (ang. \textit{graphics engine}) karty NVIDIA, odpowiedzialnego 
 za wykonywanie potoków renderowania (vertex, tessellation, geometry, fragment shaders). Średnia wartość \textbf{85,59\%} dla aktywnej rozgrywki 
@@ -538,7 +516,6 @@ stanowi 94\% wartości \texttt{GPU Active} (90,98\%), co oznacza, że praca graf
 Różnica około 5 punktów procentowych między \texttt{GPU Active} a \texttt{GR Active} odpowiada pracy wykonanej przez jednostki compute i operacje 
 kopiowania pamięci, w tym asynchroniczny transfer danych przez Async Copy Engine (aktywny w 24--25\% czasu w fazach 1--2).
 
-\paragraph{SMs Active i Sync Compute -- wykorzystanie multiprocesorów strumieniowych}
 
 \texttt{SMs Active} (Streaming Multiprocessors Active) na poziomie \textbf{42,88\%} wskazuje, że średnio mniej niż połowa dostępnych multiprocesorów 
 strumieniowych jest aktywna jednocześnie. Karta NVIDIA RTX 3090 posiada 82 jednostki SM, więc średnio około 35 z nich wykonywało pracę w danym momencie.
@@ -562,7 +539,6 @@ PCIe TX Throughput & 1,39 & 17,0 \\
 \end{tabular}
 \end{table}
 
-\paragraph{Przepustowość pamięci VRAM}
 
 Tabela~\ref{tab:unreal-memory-metrics} przedstawia metryki przepustowości pamięci. Średnie wykorzystanie przepustowości odczytu 
 DRAM (\textbf{10,30\%}) i zapisu (\textbf{10,10\%}) jest umiarkowane, wskazując że pamięć nie stanowi głównego wąskiego gardła. 
@@ -587,7 +563,6 @@ Unallocated Warps in Active SMs & 20,73 & 90,0 \\
 \end{tabular}
 \end{table}
 
-\paragraph{Analiza wątków shaderów (warps)}
 
 Tabela~\ref{tab:unreal-warps} przedstawia rozkład typów aktywnych wątków shader 
 (warps -- grupy 32 wątków CUDA wykonywanych synchronicznie). 
@@ -623,7 +598,6 @@ Częstotliwości zegara (tabela~\ref{tab:unreal-gpu-clocks}) pokazują, że GPU 
 (96\% maksymalnej 1\,965 MHz), co wskazuje na niskie obciążenie termiczne pozwalające na utrzymanie wysokich częstotliwości boost bez throttlingu. 
 Minimalne wartości odpowiadają krótkim momentom niższego obciążenia podczas przejść między klatkami.
 
-\subsubsection{Analiza wywołań Vulkan API w trzech fazach}
 
 Dzięki zastosowaniu profilowania fazowego uzyskano \textbf{kompletne dane} śledzenia Vulkan API z całego 90-sekundowego przebiegu gry Unreal Engine. 
 Dane podzielone na trzy fazy (0--30s, 30--60s, 60--90s) umożliwiają szczegółową analizę ewolucji wykorzystania GPU w czasie rozgrywki.
@@ -648,7 +622,6 @@ vkCmdBindPipeline & 2\,236\,013 & 2\,528\,014 & 1\,007\,615 \\
 \end{tabular}
 \end{table}
 
-\paragraph{Dynamika wydajności między fazami}
 
 Tabela~\ref{tab:unreal-vulkan-phases} ujawnia znaczącą dynamikę wydajności między fazami. 
 Fazy 1 i 2 (aktywna rozgrywka) osiągają wysoką wydajność
@@ -695,7 +668,6 @@ wskazuje na konsystentną architekturę potoku renderowania niezależną od obci
 \end{tabular}
 \end{table}
 
-\paragraph{Kompilacja potoków -- ciągły proces}
 
 W przeciwieństwie do Unity, gdzie dominującą funkcją był \texttt{vkWaitForFences}, 
 w Unreal Engine \textbf{57--72\% czasu} Vulkan API 
@@ -732,7 +704,6 @@ Nsight Systems tworzy nową sesję dla każdej fazy.
 \end{tabular}
 \end{table}
 
-\paragraph{Synchronizacja -- minimalne oczekiwanie na GPU}
 
 W ostrzym kontraście z Unity (gdzie \texttt{vkWaitForFences} stanowił 95,2\% czasu), w Unreal Engine funkcja ta pochłonęła zaledwie 
 \textbf{0,5\% czasu} ze średnim czasem oczekiwania 3,63 $\mu$s. Tak niski czas oczekiwania wskazuje na:
@@ -765,7 +736,6 @@ wieloma przebiegami (deferred rendering, post-processing, UI).
 \end{tabular}
 \end{table}
 
-\paragraph{Bufory poleceń -- intensywna zmiana stanów}
 
 Liczba wywołań \\ \texttt{vkCmdBindPipeline} (\textbf{5\,771\,642} 
 łącznie we wszystkich fazach) jest \\ ponad \textbf{213 razy większa} niż w 
@@ -779,7 +749,6 @@ Unity (27\,027), \\ co odpowiada około 218 zmianom potoku na klatkę. Tak wysok
 Funkcja \texttt{vkCmdPipelineBarrier2KHR} (4\,090\,071 wywołań) synchronizuje dostęp do zasobów w obrębie GPU -- wysoka liczba wywołań wskazuje 
 na staranną kontrolę zależności między operacjami, typową dla nowoczesnych technik renderowania wykorzystujących wiele render targets.
 
-\paragraph{Ray tracing -- przygotowanie struktur akceleracji}
 
 Interesującą obserwacją jest obecność wywołań związanych z ray tracingiem we wszystkich fazach:
 \begin{itemize}
@@ -792,7 +761,6 @@ Pomimo że testowana gra nie wykorzystuje widocznych efektów ray tracingu, Unre
 (Bounding Volume Hierarchy), prawdopodobnie do potencjalnego użycia w globalnym oświetleniu lub śledzeniu promieni. Nierówna liczba utworzeń 
 i zniszczeń sugeruje akumulację struktur w pamięci GPU podczas rozgrywki.
 
-\subsubsection{Analiza wywołań systemowych Unreal Engine}
 
 Podobnie jak dla Unity, Nsight Systems przechwycił wywołania funkcji systemowych we wszystkich trzech fazach, umożliwiając analizę zachowania 
 wielowątkowego Unreal Engine. Łącznie zarejestrowano ponad \textbf{9 milionów wywołań} funkcji synchronizacji.
@@ -816,7 +784,6 @@ wielowątkowego Unreal Engine. Łącznie zarejestrowano ponad \textbf{9 milionó
 \end{tabular}
 \end{table}
 
-\paragraph{pthread\_cond\_wait -- architektura TaskGraph}
 
 Funkcja \texttt{pthread\_cond\_wait} \\ pochłonęła \textbf{64,6\% czasu} przy 
 \textbf{3\,095\,188 wywołaniach} we wszystkich trzech fazach. 
@@ -856,7 +823,6 @@ Tabela~\ref{tab:unreal-osrt-phases} pokazuje konsystencję wzorców wywołań mi
 fazie 3 (zawierającej ekran zwycięstwa). Szczególnie interesująca jest wysoka liczba wywołań \texttt{backtrace} (ponad 5,5 miliona łącznie), 
 co sugeruje intensywne wykorzystanie mechanizmów debugowania lub profilowania wbudowanych w Unreal Engine nawet w konfiguracji DebugGame.
 
-\paragraph{synchronizacja z limitem czasowym pthread\_cond\_timedwait}
 (19,2\%, 163\,783 \\ wywołań) różni się od 
 \texttt{pthread\_cond\_wait} możliwością określenia maksymalnego czasu 
 oczekiwania. Użycie tej funkcji wskazuje na mechanizmy:
@@ -870,7 +836,6 @@ oczekiwania. Użycie tej funkcji wskazuje na mechanizmy:
 gdzie wątki oczekują na gotowość kolejnej klatki z timeout'em 
 \\ zapobiegającym nieskończonemu oczekiwaniu w przypadku błędu.
 
-\paragraph{usleep -- precyzyjne opóźnienia}
 
 Funkcja \texttt{usleep} (4,7\%, 26\,062 wywołań, średnio 7,79 ms) wprowadza precyzyjne opóźnienia czasowe. Średni czas 7,79 ms jest zbliżony do 
 czasu klatki przy ~128 FPS, co może sugerować mechanizm regulacji tempa renderowania lub oszczędzanie energii poprzez redukcję spin-waitingu.
@@ -893,7 +858,6 @@ Liczba próbek GPU (10 kHz) & -- & 1\,050\,555 \\
 \end{tabular}
 \end{table}
 
-\paragraph{Porównanie modeli synchronizacji}
 
 Tabela~\ref{tab:sync-comparison} ujawnia fundamentalną różnicę architektoniczną między silnikami:
 
@@ -914,11 +878,9 @@ Różnica ta ma implikacje praktyczne:
     \item \textbf{Debugowanie}: Model Unity jest łatwiejszy do analizy ze względu na prostszą strukturę
 \end{itemize}
 
-\subsubsection{Charakterystyka architektury Unreal Engine na podstawie profilowania}
 
 Zebrane dane z trzech faz profilowania pozwalają na charakterystykę architektonicznych aspektów silnika Unreal Engine:
 
-\paragraph{Model wielowątkowości}
 
 Unreal Engine 5 stosuje zaawansowaną architekturę wielowątkową złożoną z:
 \begin{itemize}
@@ -933,7 +895,6 @@ komunikację między tymi wątkami.
 \\ Wysokie wykorzystanie 
 GPU (90,98\% w fazach aktywnej rozgrywki) przy jednoczesnej intensywnej synchronizacji CPU sugeruje efektywne wykorzystanie zasobów obu procesorów.
 
-\paragraph{Profil obciążenia GPU}
 
 Na podstawie zebranych metryk można \\ scharakteryzować profil obciążenia GPU:
 \begin{itemize}
@@ -944,7 +905,6 @@ Na podstawie zebranych metryk można \\ scharakteryzować profil obciążenia GP
     \item \textbf{Async Copy Engine}: Aktywny w 24--25\% czasu, wskazując na efektywne wykorzystanie asynchronicznych transferów
 \end{itemize}
 
-\paragraph{Stabilność między fazami}
 
 Porównanie faz 1 i 2 (tabela~\ref{tab:unreal-gpu-phases}) pokazuje niezwykłą stabilność metryk GPU:
 \begin{itemize}
@@ -956,7 +916,6 @@ Porównanie faz 1 i 2 (tabela~\ref{tab:unreal-gpu-phases}) pokazuje niezwykłą 
 Ta konsystencja potwierdza poprawność metodologii fazowego profilowania i sugeruje deterministyczne zachowanie silnika renderującego niezależnie od 
 poziomu trudności gry.
 
-\paragraph{Podsumowanie architektury Unreal Engine}
 
 Dzięki profilowaniu fazowemu uzyskano kompletne dane śledzenia Vulkan API i metryk GPU dla całej 90-sekundowej rozgrywki.
 Zebrane dane (ponad 32 miliony zdarzeń Vulkan API, ponad milion próbek GPU i ponad 9 milionów wywołań systemowych) dostarczają
@@ -965,7 +924,6 @@ kompleksowego wglądu w charakterystykę wydajnościową silnika, umożliwiając
 \subsection{Analiza porównawcza}
 \label{subsec:analiza-porownawcza}
 
-\subsubsection{Porównanie czasu klatki}
 
 \begin{table}[H]
 \centering
@@ -993,7 +951,6 @@ Ten wynik sugeruje, że przy wysokim obciążeniu sceny (maksymalna liczba przec
 oba silniki osiągają porównywalną wydajność, natomiast Unreal Engine jest w stanie wykorzystać
 zapas mocy obliczeniowej GPU przy mniejszym obciążeniu.
 
-\subsubsection{Porównanie wykorzystania GPU}
 
 \begin{table}[H]
 \centering
@@ -1014,12 +971,10 @@ vkCmdBindPipeline / klatkę & 2 & 218 \\
 
 Analiza wywołań Vulkan API ujawnia fundamentalnie różne profile obciążenia (tabela~\ref{tab:gpu-comparison}):
 
-\paragraph{Unity -- scenariusz GPU-bound}
 Dominacja \texttt{vkWaitForFences} (95,2\% czasu) \\ wskazuje, że CPU efektywnie przygotowuje pracę i oczekuje na GPU.
 Jest to pożądany wzorzec w aplikacjach graficznych, gdzie GPU wykonuje większość obliczeń. \\ Niski stosunek
 \texttt{vkQueueSubmit}/klatkę (2:1) świadczy o prostym, dwuetapowym potoku renderowania.
 
-\paragraph{Unreal Engine -- kompilacja potoków jako wąskie gardło}
 W Unreal Engine dominującymi operacjami były \texttt{vkCreateComputePipelines} \\ oraz \texttt{vkCreateGraphicsPipelines},
 pochłaniające łącznie 57--72\% czasu Vulkan. Silnik tworzy około \textbf{1000 potoków w każdej 30-sekundowej fazie}
 (vs 3 potoki w całym teście Unity), co wskazuje na strategię dynamicznej kompilacji shaderów.
@@ -1027,7 +982,6 @@ pochłaniające łącznie 57--72\% czasu Vulkan. Silnik tworzy około \textbf{10
 Wysoki stosunek \texttt{vkCmdBindPipeline}/klatkę (218:1 vs 2:1) odzwierciedla złożony system materiałów Unreal
 z wieloma wariantami shaderów, co wprowadza znaczący narzut zmian stanu GPU.
 
-\subsubsection{Porównanie architektury wielowątkowej}
 
 \begin{table}[H]
 \centering

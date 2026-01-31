@@ -59,37 +59,29 @@
 \ifxetex
     \RequirePackage{fontspec}
     \defaultfontfeatures{Ligatures=TeX}
-    % Require Adagio Slab (bundled in repo); fail if not present
-    \IfFileExists{fonts/PW_Adagio_Slab/Adagio_Slab-Regular.otf}{%
-        \setmainfont[
-            Path = fonts/PW_Adagio_Slab/,
-            UprightFont = Adagio_Slab-Regular.otf,
-            ItalicFont = Adagio_Slab-Regular_italic.otf,
-            BoldFont = Adagio_Slab-Bold.otf,
-            BoldItalicFont = Adagio_Slab-Bold_italic.otf
-        ]{Adagio Slab}%
-        \setsansfont{DejaVu Sans}
-        \setmonofont{DejaVu Sans Mono}
-    }{%
-        \ClassError{wut-thesis}{Adagio Slab fonts not found in 'fonts/PW_Adagio_Slab'. Compilation requires these fonts.}{Please add the OTF files to the repository (latex/fonts/PW_Adagio_Slab/) and recompile with XeLaTeX or LuaLaTeX.}
-    }
+    % Use TeX Gyre Pagella (Adobe Utopia compatible font)
+    \setmainfont[
+        Path = /usr/share/texmf-dist/fonts/opentype/public/tex-gyre/,
+        UprightFont = texgyrepagella-regular.otf,
+        ItalicFont = texgyrepagella-italic.otf,
+        BoldFont = texgyrepagella-bold.otf,
+        BoldItalicFont = texgyrepagella-bolditalic.otf
+    ]{TeX Gyre Pagella}
+    \setsansfont{DejaVu Sans}
+    \setmonofont{DejaVu Sans Mono}
 \else\ifluatex
     \RequirePackage{fontspec}
     \defaultfontfeatures{Ligatures=TeX}
-    % Require Adagio Slab (bundled in repo); fail if not present
-    \IfFileExists{fonts/PW_Adagio_Slab/Adagio_Slab-Regular.otf}{%
-        \setmainfont[
-            Path = fonts/PW_Adagio_Slab/,
-            UprightFont = Adagio_Slab-Regular.otf,
-            ItalicFont = Adagio_Slab-Regular_italic.otf,
-            BoldFont = Adagio_Slab-Bold.otf,
-            BoldItalicFont = Adagio_Slab-Bold_italic.otf
-        ]{Adagio Slab}%
-        \setsansfont{DejaVu Sans}
-        \setmonofont{DejaVu Sans Mono}
-    }{%
-        \ClassError{wut-thesis}{Adagio Slab fonts not found in 'fonts/PW_Adagio_Slab'. Compilation requires these fonts.}{Please add the OTF files to the repository (latex/fonts/PW_Adagio_Slab/) and recompile with XeLaTeX or LuaLaTeX.}
-    }
+    % Use TeX Gyre Pagella (Adobe Utopia compatible font)
+    \setmainfont[
+        Path = /usr/share/texmf-dist/fonts/opentype/public/tex-gyre/,
+        UprightFont = texgyrepagella-regular.otf,
+        ItalicFont = texgyrepagella-italic.otf,
+        BoldFont = texgyrepagella-bold.otf,
+        BoldItalicFont = texgyrepagella-bolditalic.otf
+    ]{TeX Gyre Pagella}
+    \setsansfont{DejaVu Sans}
+    \setmonofont{DejaVu Sans Mono}
 \else
     % pdfLaTeX - Adagio Slab requires XeLaTeX or LuaLaTeX; stop with error
     \RequirePackage[utf8]{inputenc}

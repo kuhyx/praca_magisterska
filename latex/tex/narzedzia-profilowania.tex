@@ -8,7 +8,6 @@
 
 Zarówno Unity, jak i~Unreal Engine oferują własne, wbudowane narzędzia do analizy wydajności. Każde z~nich posiada unikalne cechy dostosowane do specyfiki danego silnika.
 
-\subsubsection{Unity Profiler}
 
 Unity dostarcza rozbudowany profiler dostępny bezpośrednio w~edytorze \\ (Window $\rightarrow$ Analysis $\rightarrow$ Profiler)~\cite{unity_profiler}. \\ Narzędzie to oferuje:
 
@@ -31,7 +30,6 @@ docelowym (np.~smartfonie), co jest szczególnie przydatne przy optymalizacji gi
     \label{fig:unity-profiler}
 \end{figure}
 
-\subsubsection{Unreal Insights}
 
 Unreal Engine oferuje narzędzie Unreal Insights, które zastąpiło starszy system 
 Session Frontend~\cite{unreal_insights}. Kluczowe funkcjonalności obejmują:
@@ -55,7 +53,6 @@ podgląd podstawowych metryk wydajności podczas \\ rozgrywki~\cite{unreal_docs}
     \label{fig:unreal-profiler}
 \end{figure}
 
-\subsubsection{Ograniczenia narzędzi wbudowanych}
 
 Pomimo rozbudowanych możliwości, wbudowane profilery silników posiadają istotne ograniczenia 
 w~kontekście porównawczych badań wydajnościowych:
@@ -84,7 +81,6 @@ niezależnie od używanego silnika czy API graficznego~\cite{nvidia_nsight}.
     \label{fig:nvidia-nsight}
 \end{figure}
 
-\subsubsection{Uzasadnienie wyboru}
 
 Wybór NVIDIA Nsight jako głównego narzędzia pomiarowego podyktowany
 był następującymi czynnikami:
@@ -97,11 +93,9 @@ był następującymi czynnikami:
     \item \textbf{Spójny format danych} -- wyniki z~obu silników mają identyczną strukturę, co ułatwia automatyzację analizy
 \end{itemize}
 
-\subsubsection{Możliwości narzędzia}
 
 NVIDIA Nsight Graphics oferuje szereg funkcjonalności istotnych dla badań wydajnościowych:
 \newpage
-\paragraph{Frame Profiler}
 Główny moduł analizy wydajności, umożliwiający:
 \begin{itemize}
     \item Przechwycenie i~analizę pojedynczej klatki (frame capture)
@@ -111,7 +105,6 @@ Główny moduł analizy wydajności, umożliwiający:
     \item Analizę wykorzystania jednostek obliczeniowych GPU
 \end{itemize}
 
-\paragraph{GPU Trace}
 Moduł do długoterminowej analizy wydajności:
 \begin{itemize}
     \item Rejestrowanie metryk przez określony czas (nie tylko pojedyncza klatka)
@@ -120,7 +113,6 @@ Moduł do długoterminowej analizy wydajności:
     \item Korelacja obciążenia GPU z~wydarzeniami w~grze
 \end{itemize}
 
-\paragraph{Shader Profiler}
 Narzędzie do optymalizacji shaderów:
 \begin{itemize}
     \item Analiza wydajności poszczególnych shaderów
@@ -133,7 +125,6 @@ Narzędzie do optymalizacji shaderów:
 
 Dane zebrane przez NVIDIA Nsight wymagają odpowiedniego przetworzenia w~celu uzyskania porównywalnych metryk.
 
-\subsubsection{Eksport danych}
 
 Nsight umożliwia eksport danych w~kilku formatach:
 \begin{itemize}
@@ -144,7 +135,6 @@ Nsight umożliwia eksport danych w~kilku formatach:
 
 W~niniejszej pracy wykorzystano format CSV ze względu na łatwość importu do narzędzi analizy statystycznej.
 
-\subsubsection{Kluczowe metryki}
 
 Z~danych eksportowanych przez Nsight wyodrębniono następujące metryki:
 

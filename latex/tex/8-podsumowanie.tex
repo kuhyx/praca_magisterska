@@ -20,13 +20,10 @@ który jest zoptymalizowany \\ przede wszystkim pod~kątem aplikacji 3D.''}
 
 Wyniki badań \textbf{częściowo potwierdzają} tę hipotezę, jednak obraz jest bardziej złożony niż początkowo zakładano:
 
-\paragraph{Wydajność w~fazie maksymalnego obciążenia}
 W~fazie 3 testu (60--90 sekund), reprezentującej maksymalne obciążenie sceny, oba silniki osiągnęły zbliżoną wydajność: Unity z~wartością 1\% low na~poziomie 132~FPS oraz Unreal Engine ze~średnią 162~FPS. Różnica około 23\% na~korzyść Unreal wynika częściowo z~różnych konfiguracji synchronizacji pionowej.
 
-\paragraph{Wykorzystanie zasobów GPU}
 Unity wykorzystywał jedynie 23\% mocy obliczeniowej GPU (ograniczony przez V-Sync), podczas gdy Unreal Engine osiągał 91\% wykorzystania w~fazach 1--2. Sugeruje to znaczny potencjał wydajnościowy Unity przy wyłączonej synchronizacji pionowej.
 
-\paragraph{Architektura renderowania}
 Analiza wywołań Vulkan API ujawniła fundamentalne różnice architektoniczne:
 \begin{itemize}
     \item Unity: prosty, dwuetapowy potok renderowania \\ (2 wywołania \texttt{vkQueueSubmit} na~klatkę), 
@@ -34,12 +31,10 @@ Analiza wywołań Vulkan API ujawniła fundamentalne różnice architektoniczne:
     \item Unreal Engine: złożony potok z~16 wywołaniami \texttt{vkQueueSubmit} na~klatkę, zdominowany przez dynamiczną kompilację potoków (47--72\% czasu)
 \end{itemize}
 
-\paragraph{Stabilność wydajności}
 Unity wykazał większą stabilność czasów klatek (98,24\% klatek w~przedziale 5--10~ms), podczas gdy Unreal Engine doświadczył spadku wydajności o~ponad 50\% między fazami niskiego (332--339~FPS) a~wysokiego obciążenia (162~FPS).
 
 \subsection{Główne wyniki badań}
 
-\subsubsection{Wyniki testów wydajnościowych}
 
 \begin{table}[H]
 \centering
@@ -59,7 +54,6 @@ Potoki graficzne utworzone & 3 & $\sim$2\,400 \\
 \end{tabular}
 \end{table}
 
-\subsubsection{Wyniki analizy implementacji}
 
 Praktyczna implementacja gry bullet hell potwierdziła przewagę Unity \\ dla~tego typu projektów:
 
@@ -74,7 +68,6 @@ Praktyczna implementacja gry bullet hell potwierdziła przewagę Unity \\ dla~te
     \item \textbf{Instalacja na~Linux}: Unity -- około 30 minut, Unreal -- 2--4 godziny
 \end{itemize}
 
-\subsubsection{Wyniki wywiadów z~deweloperami}
 
 Badania jakościowe z~udziałem 8~deweloperów potwierdziły:
 
@@ -90,7 +83,6 @@ Badania jakościowe z~udziałem 8~deweloperów potwierdziły:
 
 Na~podstawie przeprowadzonych badań sformułowano następujące rekomendacje:
 
-\subsubsection{Wybór Unity jest wskazany gdy}
 
 \begin{itemize}
     \item Projekt dotyczy gry 2D lub mobilnej
@@ -101,7 +93,6 @@ Na~podstawie przeprowadzonych badań sformułowano następujące rekomendacje:
     \item Wymagana jest dobra integracja z~Git (tekstowa serializacja scen)
 \end{itemize}
 
-\subsubsection{Wybór Unreal Engine jest wskazany gdy}
 
 \begin{itemize}
     \item Projekt wymaga fotorealistycznej grafiki 3D
@@ -178,25 +169,20 @@ Przeprowadzone badania posiadają następujące ograniczenia:
 
 Na~podstawie zidentyfikowanych ograniczeń proponuje się następujące kierunki przyszłych badań:
 
-\paragraph{Rozszerzenie zakresu gatunkowego}
 Przeprowadzenie analogicznych testów 
 \\ dla~gier RPG (open world), strategii czasu rzeczywistego, gier puzzle oraz symulatorów 
 pozwoliłoby na~bardziej kompleksową ocenę wydajności silników.
 
-\paragraph{Testy wieloplatformowe}
 Porównanie wydajności na~różnych konfiguracjach \\ sprzętowych 
 (PC low-end, mid-range, high-end; urządzenia mobilne; konsole) dostarczyłoby 
 praktycznych informacji dla~deweloperów celujących w~różne platformy.
 
-\paragraph{Analiza ekonomiczna}
 Badanie Total Cost of Ownership (TCO) uwzględniające \\ czas nauki zespołu, 
 koszty licencji, assetów, czas rozwoju i~koszty utrzymania projektu mogłoby 
 dostarczyć cennych informacji biznesowych.
 
-\paragraph{Badania longitudinalne}
 Śledzenie wydajności obu silników przez~2--3 lata, dokumentując wpływ kolejnych aktualizacji, pozwoliłoby na~ocenę długoterminowej stabilności i~kierunków rozwoju.
 
-\paragraph{Automatyzacja metodologii}
 Stworzenie frameworka \\ do~automatycznego uruchamiania i~profilowania scenariuszy testowych 
 umożliwiłoby powtarzalne badania na~większą skalę.
 

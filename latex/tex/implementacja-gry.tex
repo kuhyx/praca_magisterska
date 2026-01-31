@@ -22,16 +22,13 @@ zarządzanie wersjami edytora i~projektami.
     \label{fig:unity_hub_editor_view}
 \end{figure}
 
-\subsubsection{Architektura systemu}
 
 Implementacja Unity wykorzystuje kilka kluczowych wzorców projektowych:
 
-\paragraph{Wzorzec Bootstrap}
 Klasa \texttt{GameBootstrap} wykorzystuje atrybut \\ \texttt{[Runtime\-Initialize\-OnLoad\-Method]} 
 do zapewnienia, że obiekt \\ \texttt{GameInitializer} istnieje w~scenie przed rozpoczęciem gry. 
 Jest to eleganckie rozwiązanie problemu inicjalizacji singletonów w~Unity.
 
-\paragraph{Object Pooling}
 System \texttt{BulletPool} stanowi rdzeń optymalizacji wydajnościowej. Zamiast ciągłego tworzenia i niszczenia obiektów pocisków (co generowałoby znaczące obciążenie garbage collectora), pociski są recyklingowane z puli:
 
 \begin{lstlisting}[language=C, caption={Fragment implementacji object poolingu w Unity}, label={lst:unity-pool}]
@@ -51,10 +48,8 @@ public Bullet Spawn(Vector2 position, Vector2 direction,
 
 Pula jest wstępnie rozgrzewana (\textit{warm capacity}) podczas inicjalizacji, co eliminuje alokacje podczas rozgrywki.
 
-\paragraph{Singleton Pattern}
 Klasy \texttt{GameDirector} i~\texttt{EnemySpawner} wykorzystują \\ wzorzec Singleton z~właściwością \texttt{Instance}, zapewniając \\ globalny punkt dostępu do kluczowych systemów gry.
 
-\subsubsection{System spawnu przeciwników}
 
 \texttt{EnemySpawner} implementuje system eskalującej trudności poprzez interpolację czasu między spawnami:
 
@@ -65,7 +60,6 @@ float delay = Mathf.Lerp(spawnDelayStart, spawnDelayEnd, t);
 
 Przeciwnicy są definiowani przez strukturę \texttt{EnemyBlueprint}, która zawiera parametry takie jak prędkość, zdrowie, wzorce strzelania i zachowania. To podejście data-driven pozwala na łatwe tworzenie różnorodnych typów wrogów.
 
-\subsubsection{Wyzwania napotkane w Unity}
 
 Podczas implementacji napotkano następujące wyzwania:
 
@@ -76,7 +70,6 @@ Podczas implementacji napotkano następujące wyzwania:
     \item Interfejs użytkownika nie jest odświeżany po otwarciu menu \cite{linux_editor_does_not_redraw} -- wymagało to ręcznego wymuszenia odświeżenia inspektora
 \end{enumerate}
 
-\subsubsection{Pozytywne aspekty Unity}
 
 \begin{itemize}
     \item Natywne wsparcie dla 2D -- dedykowany tryb 2D z odpowiednimi komponentami fizyki (\texttt{Rigidbody2D}, \texttt{Collider2D})
@@ -112,7 +105,6 @@ Instalacja Unreal Engine na systemie Linux okazała się znacznie bardziej skomp
     \label{fig:unreal_editor_view}
 \end{figure}
 
-\subsubsection{Podejście do grafiki 2D}
 
 Fundamentalna różnica między Unity a~Unreal w~kontekście gier 2D polega na tym, że Unreal traktuje 2D jako ,,fałszywe 2D'' -- 
 w~rzeczywistości jest to scena 3D z~zablokowaną trzecią osią i~kamerą ortograficzną. Unity natomiast oferuje dedykowany 
@@ -125,11 +117,9 @@ Ta różnica ma praktyczne konsekwencje:
     \item Sprite'y w Unreal są renderowane jako płaskie meshe w przestrzeni 3D
 \end{itemize}
 
-\subsubsection{System Blueprintów vs C++}
 
 Unreal oferuje dwa podejścia do programowania logiki gry:
 
-\paragraph{Blueprinty} -- wizualny system skryptowy, który w teorii pozwala na szybkie prototypowanie bez pisania kodu. 
 
 W praktyce korzystanie z nich dla osoby która zna tradycyjne programowanie okazazało się frustrujące ze względu na:
 \begin{itemize}
@@ -139,11 +129,9 @@ W praktyce korzystanie z nich dla osoby która zna tradycyjne programowanie okaz
     \item Ograniczenie w funkcjach z którycj można korzytsać
 \end{itemize}
 
-\paragraph{C++} -- dla bardziej wydajnościowo krytycznych elementów (jak system object poolingu) zalecane jest użycie C++. 
 użycie go ostatecznie okazało się bardziej intujcywne i prostsze dla projektu z uwagi na doświadczenie w pisaniu programów w 
 tradycyjny sposób
 
-\subsubsection{Object Pooling w Unreal}
 
 Implementacja object poolingu w~Unreal wymaga innego podejścia \\ niż w Unity.
 Zamiast prostego \texttt{SetActive(true/\allowbreak false)}, Unreal wykorzystuje:
@@ -156,7 +144,6 @@ Zamiast prostego \texttt{SetActive(true/\allowbreak false)}, Unreal wykorzystuje
 
 Ta granularność daje większą kontrolę, ale wymaga więcej kodu do osiągnięcia tego samego efektu.
 
-\subsubsection{Wyzwania napotkane w Unreal}
 
 \begin{enumerate}
     \item \textbf{Brak natywnego 2D} -- konieczność ``symulowania'' środowiska 2D w silniku 3D
@@ -166,7 +153,6 @@ Ta granularność daje większą kontrolę, ale wymaga więcej kodu do osiągni�
     \item \textbf{Blueprinty i kontrola wersji} -- pliki Blueprintów są binarne, co \\ utrudnia merge'owanie i code review
 \end{enumerate}
 
-\subsubsection{Pozytywne aspekty Unreal}
 
 \begin{itemize}
     \item Potężny system materiałów i efektów wizualnych

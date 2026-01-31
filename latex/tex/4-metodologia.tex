@@ -2,11 +2,9 @@
 \section{Metodologia badań i kryteria porównania}
 
 \subsection{Założenia metodologiczne}
-\subsubsection{Cel badań}
 Głównym celem badań jest porównanie wydajności i możliwości 
 wybranych silników gier.
 
-\subsubsection{Hipoteza badawcza}
 Silnik Unity, dzięki natywnemu wsparciu dla grafiki 2D, osiągnie lepszą
 wydajność w~grze typu \emph{bullet hell} niż Unreal Engine, który jest
 zoptymalizowany przede wszystkim pod kątem aplikacji 3D.
@@ -31,7 +29,6 @@ za pomocą narzędzia NVIDIA Nsight Systems:
 
 \subsection{Środowisko testowe}
 
-\subsubsection{Specyfikacja sprzętowa}
 \label{subsubsec:specyfikacja-sprzetowa}
 
 Wszystkie testy wydajnościowe przeprowadzono na komputerze o następującej specyfikacji:
@@ -46,7 +43,6 @@ Wszystkie testy wydajnościowe przeprowadzono na komputerze o następującej spe
     \item \textbf{Dysk}: SSD o pojemności 3,6 TB
 \end{itemize}
 
-\subsubsection{Specyfikacja oprogramowania}
 \label{subsubsec:specyfikacja-oprogramowania}
 
 W badaniach wykorzystano następujące wersje oprogramowania:
@@ -63,7 +59,6 @@ wybrano najnowszą dostępną wersję stabilną w momencie rozpoczęcia badań.
 
 \subsection{Projekt testów}
 
-\subsubsection{Gra testowa typu \emph{bullet hell}}
 \label{subsubsec:gra-testowa}
 
 Na potrzeby badań porównawczych zaimplementowano identyczną grę w gatunku 
@@ -81,7 +76,6 @@ Wybór gatunku \emph{bullet hell} podyktowany był możliwością generowania du
 liczby obiektów na ekranie (pociski, przeciwnicy, efekty wizualne), co 
 pozwala na skuteczne obciążenie silnika graficznego.
 
-\subsubsection{Fazy obciążenia}
 \label{subsubsec:fazy-obciazenia}
 
 Gra testowa została zaprojektowana tak, aby w~ciągu 90 sekund rozgrywki
@@ -102,20 +96,16 @@ progresywnie zwiększała obciążenie poprzez:
 
 Na potrzeby profilowania rozgrywka została podzielona na trzy fazy czasowe:
 
-\paragraph{Faza 1 (0--30 sekund)}
 Początkowa faza z~niskim obciążeniem. Spawner generuje wyłącznie podstawowych
 przeciwników (\emph{Fodder}) z~interwałem ok.~0,25~s.
 
-\paragraph{Faza 2 (30--60 sekund)}
 Średnie obciążenie. Wprowadzane są szybsze przeciwnicy (\emph{Runner}),
 interwał spawnu zmniejsza się do ok.~0,17~s.
 
-\paragraph{Faza 3 (60--90 sekund)}
 Wysokie obciążenie. Wszystkie typy przeciwników,
 interwał spawnu osiąga minimum 0,08~s. Ostatnie 5~sekund to
 ,,finalny szturm'' z~maksymalną intensywnością.
 
-\subsubsection{Procedura zbierania danych}
 \label{subsubsec:procedura-zbierania}
 
 Przeprowadzono cztery sesje pomiarowe -- po dwie dla każdego silnika:

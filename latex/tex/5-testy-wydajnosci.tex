@@ -476,7 +476,6 @@ SM Issue [\%] & 13,94 & 0 & 99 \\
 \end{tabular}
 \end{table}
 
-
 Metryka \texttt{GPU Active} określa procentowy udział czasu, w którym karta graficzna wykonuje jakąkolwiek pracę obliczeniową. 
 Średnia wartość \textbf{90,98\%} dla faz 1--2 (aktywna rozgrywka) oznacza, że GPU był niemal w pełni wykorzystany podczas właściwej rozgrywki. 
 Faza 3 wykazała niższą wartość (49,55\%) ze względu na włączenie ekranu zwycięstwa i procesu zamykania gry.
@@ -601,8 +600,10 @@ Minimalne wartości odpowiadają krótkim momentom niższego obciążenia podcza
 
 Dzięki zastosowaniu profilowania fazowego uzyskano \textbf{kompletne dane} śledzenia Vulkan API z całego 90-sekundowego przebiegu gry Unreal Engine. 
 Dane podzielone na trzy fazy (0--30s, 30--60s, 60--90s) umożliwiają szczegółową analizę ewolucji wykorzystania GPU w czasie rozgrywki.
-
-\begin{table}[H]
+\begingroup
+  \setlength{\textfloatsep}{0.5\baselineskip}
+  \setlength{\intextsep}{0.5\baselineskip}
+  \begin{table}[H]
 \centering
 \caption{Porównanie wywołań Vulkan API silnika Unreal Engine między fazami}
 \label{tab:unreal-vulkan-phases}
@@ -622,7 +623,7 @@ vkCmdBindPipeline & 2\,236\,013 & 2\,528\,014 & 1\,007\,615 \\
 \end{tabular}
 \end{table}
 
-
+\endgroup
 Tabela~\ref{tab:unreal-vulkan-phases} ujawnia znaczącą dynamikę wydajności między fazami. 
 Fazy 1 i 2 (aktywna rozgrywka) osiągają wysoką wydajność
 (332--339 FPS), natomiast faza 3 pokazuje \textbf{znaczący spadek do 162 FPS} -- redukcję o
@@ -668,7 +669,6 @@ wskazuje na konsystentną architekturę potoku renderowania niezależną od obci
 \end{tabular}
 \end{table}
 
-
 W przeciwieństwie do Unity, gdzie dominującą funkcją był \texttt{vkWaitForFences}, 
 w Unreal Engine \textbf{57--72\% czasu} Vulkan API 
 pochłonęły funkcje tworzenia potoków. 
@@ -704,7 +704,6 @@ Nsight Systems tworzy nową sesję dla każdej fazy.
 \end{tabular}
 \end{table}
 
-
 W ostrzym kontraście z Unity (gdzie \texttt{vkWaitForFences} stanowił 95,2\% czasu), w Unreal Engine funkcja ta pochłonęła zaledwie 
 \textbf{0,5\% czasu} ze średnim czasem oczekiwania 3,63 $\mu$s. Tak niski czas oczekiwania wskazuje na:
 \begin{itemize}
@@ -735,7 +734,6 @@ wieloma przebiegami (deferred rendering, post-processing, UI).
 \hline
 \end{tabular}
 \end{table}
-
 
 Liczba wywołań \\ \texttt{vkCmdBindPipeline} (\textbf{5\,771\,642} 
 łącznie we wszystkich fazach) jest \\ ponad \textbf{213 razy większa} niż w 
@@ -784,9 +782,7 @@ wielowątkowego Unreal Engine. Łącznie zarejestrowano ponad \textbf{9 milionó
 \end{tabular}
 \end{table}
 
-
-Funkcja \texttt{pthread\_cond\_wait} \\ pochłonęła \textbf{64,6\% czasu} przy 
-\textbf{3\,095\,188 wywołaniach} we wszystkich trzech fazach. 
+Funkcja \texttt{pthread\_cond\_wait} \\ pochłonęła \textbf{64,6\% czasu} przy \textbf{3\,095\,188 wywołaniach} we wszystkich trzech fazach. 
 Jest to funkcja POSIX do oczekiwania na zmienną warunkową, używana gdy wątek musi czekać na spełnienie określonego warunku sygnalizowanego przez 
 inny wątek.
 
@@ -1007,7 +1003,6 @@ większe jednostki pracy autonomicznie, co minimalizuje narzut komunikacji.
 
 \textbf{Unreal Engine} implementuje drobnoziarnisty paralelizm poprzez system TaskGraph. Praca jest dzielona na tysiące
 małych zadań często komunikujących się ze sobą (ponad 3 miliony wywołań synchronizacji w 90 sekund).
-
 \subsection{Podsumowanie wyników testów wydajności}
 \label{subsec:podsumowanie-testow}
 
@@ -1029,6 +1024,7 @@ Potoki graficzne utworzone & 3 & $\sim$2\,400 \\
 \hline
 \end{tabular}
 \end{table}
+\newpage
 
 Przeprowadzone testy wydajnościowe pozwalają na sformułowanie następujących wniosków:
 

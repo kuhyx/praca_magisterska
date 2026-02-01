@@ -2,9 +2,6 @@
 \section{Testy wydajności}
 \label{sec:testy-wydajnosci}
 
-\subsection{Metryki wydajności}
-
-
 Dla każdego scenariusza i~silnika rejestrowano następujące metryki przy użyciu NVIDIA Nsight Systems:
 
 \begin{itemize}
@@ -276,8 +273,11 @@ inicjalizację kolejek.
 buforów służących do prezentacji obrazu. Operacja ta 
 obejmuje alokację pamięci dla buforów, konfigurację formatów i synchronizację z systemem okienkowym.
 
-Utworzenie 341 obiektów fence (łącznie 135,60 ms) wskazuje na przygotowanie puli ogrodzeń do wielokrotnego użytku w cyklu renderowania. Unity stosuje 
-strategię pre-alokacji zamiast tworzenia ogrodzeń na żądanie, co jest praktyką zalecaną w dokumentacji Vulkan.
+Utworzenie 341 obiektów fence (łącznie 135,60 ms) wskazuje na przygotowanie puli ogrodzeń do 
+wielokrotnego użytku w cyklu renderowania. 
+\\ Unity stosuje 
+strategię pre-alokacji zamiast tworzenia ogrodzeń na żądanie, co jest praktyką zalecaną w dokumentacji 
+Vulkan.
 
 
 Oprócz wywołań Vulkan API, Nsight Systems przechwytuje również wywołania funkcji systemowych, umożliwiając analizę zachowania aplikacji na poziomie 
@@ -1046,7 +1046,7 @@ Przeprowadzone testy wydajnościowe pozwalają na sformułowanie następujących
     z rzadkimi synchronizacjami, podczas gdy Unreal stosuje drobnoziarnisty system TaskGraph
     z milionami wywołań synchronizacyjnych.
 
-    \item \textbf{Narzut Unreal}: Dynamiczna kompilacja potoków (ponad 1000 potoków na
+    \item \textbf{Narzut Unreal}: Dynamiczna kompilacja potoków \\ (ponad 1000 potoków na
     30-sekundową fazę vs 3 w całym teście Unity) i 60-krotnie większa liczba wywołań Vulkan API
     stanowią znaczący narzut, który może przyczyniać się do spadków wydajności w wymagających scenach.
 \end{enumerate}

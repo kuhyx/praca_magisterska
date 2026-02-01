@@ -50,45 +50,11 @@
 %---------------------
 \RequirePackage{amsmath}       % Basic mathematical typesetting
 \RequirePackage{amssymb}       % Advanced math symbols
+\RequirePackage{fourier}       % Adobe Utopia font
 \RequirePackage{amsthm}        % Theorems typesetting
 \RequirePackage{array}         % Advanced table column formats
 \RequirePackage{enumitem}      % Itemize/enumrate
 \RequirePackage{fancyhdr}      % Custom header/footer styles
-% Conditional font loading based on engine
-\RequirePackage{iftex}
-\ifxetex
-    \RequirePackage{fontspec}
-    \defaultfontfeatures{Ligatures=TeX}
-    % Use TeX Gyre Pagella (Adobe Utopia compatible font)
-    \setmainfont[
-        Path = /usr/share/texmf-dist/fonts/opentype/public/tex-gyre/,
-        UprightFont = texgyrepagella-regular.otf,
-        ItalicFont = texgyrepagella-italic.otf,
-        BoldFont = texgyrepagella-bold.otf,
-        BoldItalicFont = texgyrepagella-bolditalic.otf
-    ]{TeX Gyre Pagella}
-    \setsansfont{DejaVu Sans}
-    \setmonofont{DejaVu Sans Mono}
-\else\ifluatex
-    \RequirePackage{fontspec}
-    \defaultfontfeatures{Ligatures=TeX}
-    % Use TeX Gyre Pagella (Adobe Utopia compatible font)
-    \setmainfont[
-        Path = /usr/share/texmf-dist/fonts/opentype/public/tex-gyre/,
-        UprightFont = texgyrepagella-regular.otf,
-        ItalicFont = texgyrepagella-italic.otf,
-        BoldFont = texgyrepagella-bold.otf,
-        BoldItalicFont = texgyrepagella-bolditalic.otf
-    ]{TeX Gyre Pagella}
-    \setsansfont{DejaVu Sans}
-    \setmonofont{DejaVu Sans Mono}
-\else
-    % pdfLaTeX - Adagio Slab requires XeLaTeX or LuaLaTeX; stop with error
-    \RequirePackage[utf8]{inputenc}
-    \RequirePackage[T1]{fontenc}
-    \RequirePackage{fourier}
-    \ClassError{wut-thesis}{Adagio Slab requires compilation with XeLaTeX or LuaLaTeX; pdfLaTeX is unsupported for this template.}{Re-run using XeLaTeX or LuaLaTeX and ensure the Adagio Slab OTF files are present in 'latex/fonts/PW_Adagio_Slab/'.}
-\fi\fi
 \RequirePackage{graphicx}      % Enhanced images support
 \RequirePackage{ifluatex}      % LuaTeX-specific options
 \RequirePackage{kantlipsum}    % English kantian-style lipsum

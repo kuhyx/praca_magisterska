@@ -8,15 +8,16 @@
 Zarówno Unity, jak i~Unreal Engine oferują własne, wbudowane narzędzia do analizy wydajności. Każde z~nich posiada unikalne cechy dostosowane do specyfiki danego silnika.
 
 
-Unity dostarcza rozbudowany profiler dostępny bezpośrednio w~edytorze \\ (Window $\rightarrow$ Analysis $\rightarrow$ Profiler)~\cite{unity_profiler}. \\ Narzędzie to oferuje:
+Unity dostarcza rozbudowany profiler dostępny bezpośrednio w~edytorze
+(Window $\rightarrow$ Analysis $\rightarrow$ Profiler)~\cite{unity_profiler}. Narzędzie to oferuje:
 
 \begin{itemize}
-    \item \textbf{CPU Profiler} -- analiza czasu wykonania poszczególnych funkcji, z podziałem na kategorie (rendering, skrypty, fizyka, animacje)
-    \item \textbf{GPU Profiler} -- pomiar czasu renderowania na karcie graficznej
-    \item \textbf{Memory Profiler} -- szczegółowa analiza alokacji pamięci, wykrywanie wycieków
-    \item \textbf{Audio Profiler} -- monitorowanie obciążenia systemu dźwiękowego
-    \item \textbf{Physics Profiler} -- analiza wydajności silnika fizyki
-    \item \textbf{Frame Debugger} -- krokowa analiza procesu renderowania \\ pojedynczej klatki
+    \item \textbf{CPU Profiler} -- analiza czasu wykonania poszczególnych funkcji, z podziałem na kategorie (rendering, skrypty, fizyka, animacje).
+    \item \textbf{GPU Profiler} -- pomiar czasu renderowania na karcie graficznej.
+    \item \textbf{Memory Profiler} -- szczegółowa analiza alokacji pamięci, wykrywanie wycieków.
+    \item \textbf{Audio Profiler} -- monitorowanie obciążenia systemu dźwiękowego.
+    \item \textbf{Physics Profiler} -- analiza wydajności silnika fizyki.
+    \item \textbf{Frame Debugger} -- krokowa analiza procesu renderowania pojedynczej klatki.
 \end{itemize}
 
 Unity Profiler umożliwia również zdalne profilowanie aplikacji uruchomionej na urządzeniu 
@@ -34,16 +35,16 @@ Unreal Engine oferuje narzędzie Unreal Insights, które zastąpiło starszy sys
 Session Frontend~\cite{unreal_insights}. Kluczowe funkcjonalności obejmują:
 
 \begin{itemize}
-    \item \textbf{Timing Insights} -- precyzyjny pomiar czasu wykonania poszczególnych systemów silnika
-    \item \textbf{Asset Loading Insights} -- analiza czasu ładowania zasobów
-    \item \textbf{Memory Insights} -- monitorowanie alokacji i~dealokacji pamięci
-    \item \textbf{Animation Insights} -- profilowanie systemu animacji
-    \item \textbf{Network Insights} -- analiza ruchu sieciowego w~grach multiplayer
+    \item \textbf{Timing Insights} -- precyzyjny pomiar czasu wykonania poszczególnych systemów silnika.
+    \item \textbf{Asset Loading Insights} -- analiza czasu ładowania zasobów.
+    \item \textbf{Memory Insights} -- monitorowanie alokacji i~dealokacji pamięci.
+    \item \textbf{Animation Insights} -- profilowanie systemu animacji.
+    \item \textbf{Network Insights} -- analiza ruchu sieciowego w~grach multiplayer.
 \end{itemize}
 
-Dodatkowo Unreal Engine udostępnia komendy konsolowe \\ 
-(np.~\texttt{stat fps}, \texttt{stat unit}, \texttt{stat gpu}) pozwalające na szybki \\ 
-podgląd podstawowych metryk wydajności podczas \\ rozgrywki~\cite{unreal_docs}.
+Dodatkowo Unreal Engine udostępnia komendy konsolowe
+(np.~\texttt{stat fps}, \texttt{stat unit}, \texttt{stat gpu}) pozwalające na szybki
+podgląd podstawowych metryk wydajności podczas rozgrywki~\cite{unreal_docs}.
 
 \begin{figure}[H]
     \centering
@@ -58,10 +59,10 @@ w~kontekście porównawczych badań wydajnościowych:
 
 \begin{enumerate}
     \item \textbf{Brak standaryzacji metryk} -- każdy silnik definiuje i~mierzy parametry 
-    w~odmienny sposób, co utrudnia bezpośrednie porównania
-    \item \textbf{Różna granularność danych} -- poziom szczegółowości raportów różni się \\ między silnikami
-    \item \textbf{Narzut profilowania} -- wbudowane profilery same generują \\ obciążenie, które może być różne dla każdego silnika
-    \item \textbf{Nieporównywalność formatów wyjściowych} -- dane \\ eksportowane przez różne profilery mają odmienne struktury
+    w~odmienny sposób, co utrudnia bezpośrednie porównania.
+    \item \textbf{Różna granularność danych} -- poziom szczegółowości raportów różni się między silnikami.
+    \item \textbf{Narzut profilowania} -- wbudowane profilery same generują obciążenie, które może być różne dla każdego silnika.
+    \item \textbf{Nieporównywalność formatów wyjściowych} -- dane eksportowane przez różne profilery mają odmienne struktury.
 \end{enumerate}
 
 Z~powyższych powodów zdecydowano się na zastosowanie zewnętrznego, niezależnego od silnika narzędzia profilowania.
@@ -85,37 +86,37 @@ Wybór NVIDIA Nsight jako głównego narzędzia pomiarowego podyktowany
 był następującymi czynnikami:
 
 \begin{itemize}
-    \item \textbf{Niezależność od silnika} -- Nsight analizuje aplikację na poziomie wywołań API graficznego (DirectX, Vulkan, OpenGL), co zapewnia porównywalność wyników między Unity a~Unreal Engine
-    \item \textbf{Standaryzowane metryki} -- narzędzie dostarcza zunifikowany zestaw metryk sprzętowych (GPU utilization, memory bandwidth, shader throughput)
-    \item \textbf{Minimalny narzut} -- profilowanie na poziomie sterownika generuje mniejsze zakłócenia niż profilery działające wewnątrz silnika
-    \item \textbf{Dostęp do danych niskopoziomowych} -- możliwość analizy \\ poszczególnych wywołań draw call, shaderów, transferów pamięci
-    \item \textbf{Spójny format danych} -- wyniki z~obu silników mają identyczną strukturę, co ułatwia automatyzację analizy
+    \item \textbf{Niezależność od silnika} -- Nsight analizuje aplikację na poziomie wywołań API graficznego (DirectX, Vulkan, OpenGL), co zapewnia porównywalność wyników między Unity a~Unreal Engine.
+    \item \textbf{Standaryzowane metryki} -- narzędzie dostarcza zunifikowany zestaw metryk sprzętowych (GPU utilization, memory bandwidth, shader throughput).
+    \item \textbf{Minimalny narzut} -- profilowanie na poziomie sterownika generuje mniejsze zakłócenia niż profilery działające wewnątrz silnika.
+    \item \textbf{Dostęp do danych niskopoziomowych} -- możliwość analizy poszczególnych wywołań draw call, shaderów, transferów pamięci.
+    \item \textbf{Spójny format danych} -- wyniki z~obu silników mają identyczną strukturę, co ułatwia automatyzację analizy.
 \end{itemize}
 
 
 NVIDIA Nsight Graphics oferuje szereg funkcjonalności istotnych dla badań wydajnościowych:
 Główny moduł analizy wydajności, umożliwiający:
 \begin{itemize}
-    \item Przechwycenie i~analizę pojedynczej klatki (frame capture)
-    \item Hierarchiczny widok wszystkich wywołań GPU
-    \item Pomiar czasu wykonania każdego etapu renderowania
-    \item Identyfikację wąskich gardeł (bottlenecks)
-    \item Analizę wykorzystania jednostek obliczeniowych GPU
+    \item Przechwycenie i~analizę pojedynczej klatki (frame capture).
+    \item Hierarchiczny widok wszystkich wywołań GPU.
+    \item Pomiar czasu wykonania każdego etapu renderowania.
+    \item Identyfikację wąskich gardeł (bottlenecks).
+    \item Analizę wykorzystania jednostek obliczeniowych GPU.
 \end{itemize}
 
 Moduł do długoterminowej analizy wydajności:
 \begin{itemize}
-    \item Rejestrowanie metryk przez określony czas (nie tylko pojedyncza klatka)
-    \item Wykrywanie spadków wydajności i~ich przyczyn
-    \item Analiza zmienności czasów klatek (frame time variance)
-    \item Korelacja obciążenia GPU z~wydarzeniami w~grze
+    \item Rejestrowanie metryk przez określony czas (nie tylko pojedyncza klatka).
+    \item Wykrywanie spadków wydajności i~ich przyczyn.
+    \item Analiza zmienności czasów klatek (frame time variance).
+    \item Korelacja obciążenia GPU z~wydarzeniami w~grze.
 \end{itemize}
 
 Narzędzie do optymalizacji shaderów:
 \begin{itemize}
-    \item Analiza wydajności poszczególnych shaderów
-    \item Identyfikacja nieefektywnych instrukcji
-    \item Pomiar occupancy (wykorzystania jednostek obliczeniowych)
+    \item Analiza wydajności poszczególnych shaderów.
+    \item Identyfikacja nieefektywnych instrukcji.
+    \item Pomiar occupancy (wykorzystania jednostek obliczeniowych).
 \end{itemize}
 
 \subsection{Przetwarzanie danych z~Nsight}
@@ -126,9 +127,9 @@ Dane zebrane przez NVIDIA Nsight wymagają odpowiedniego przetworzenia w~celu uz
 
 Nsight umożliwia eksport danych w~kilku formatach:
 \begin{itemize}
-    \item \textbf{CSV} -- tabularyczne dane liczbowe
-    \item \textbf{JSON} -- strukturalne dane z~pełną hierarchią wywołań
-    \item \textbf{HTML Report} -- graficzny raport z~wykresami
+    \item \textbf{CSV} -- tabularyczne dane liczbowe.
+    \item \textbf{JSON} -- strukturalne dane z~pełną hierarchią wywołań.
+    \item \textbf{HTML Report} -- graficzny raport z~wykresami.
 \end{itemize}
 
 W~niniejszej pracy wykorzystano format CSV ze względu na łatwość importu do narzędzi analizy statystycznej.
@@ -167,8 +168,8 @@ Memory Bandwidth & GB/s & Przepustowość pamięci GPU \\
 Zastosowanie NVIDIA Nsight jako głównego narzędzia profilowania zapewnia:
 
 \begin{enumerate}
-    \item \textbf{Obiektywność} -- pomiary wykonywane na tym samym poziomie abstrakcji dla obu silników
-    \item \textbf{Porównywalność} -- identyczne metryki i~format danych
-    \item \textbf{Powtarzalność} -- standaryzowana procedura pomiarowa
+    \item \textbf{Obiektywność} -- pomiary wykonywane na tym samym poziomie abstrakcji dla obu silników.
+    \item \textbf{Porównywalność} -- identyczne metryki i~format danych.
+    \item \textbf{Powtarzalność} -- standaryzowana procedura pomiarowa.
 \end{enumerate}
 

@@ -1,16 +1,17 @@
 \clearpage
+\raggedbottom
 \section{Testy wydajności}
 \label{sec:testy-wydajnosci}
 
 Dla każdego scenariusza i~silnika rejestrowano następujące metryki przy użyciu NVIDIA Nsight Systems:
 
 \begin{itemize}
-    \item \textbf{Czas klatki} (frame time) -- czas renderowania pojedynczej klatki w~milisekundach
-    \item \textbf{FPS} (frames per second) -- liczba klatek na sekundę, wyliczana jako \\ $1000 / \text{frame time}$
-    \item \textbf{Wykorzystanie GPU} -- procent wykorzystania mocy obliczeniowej karty graficznej
-    \item \textbf{Zużycie pamięci VRAM} -- ilość zajętej pamięci karty graficznej w~megabajtach
-    \item \textbf{Liczba wywołań rysowania} (draw calls) -- liczba instrukcji renderowania na klatkę
-    \item \textbf{Liczba wierzchołków} -- całkowita liczba przetworzonych wierzchołków na klatkę
+    \item \textbf{Czas klatki} (frame time) -- czas renderowania pojedynczej klatki w~milisekundach.
+    \item \textbf{FPS} (frames per second) -- liczba klatek na sekundę, wyliczana jako $1000 / \text{frame time}$.
+    \item \textbf{Wykorzystanie GPU} -- procent wykorzystania mocy obliczeniowej karty graficznej.
+    \item \textbf{Zużycie pamięci VRAM} -- ilość zajętej pamięci karty graficznej w~megabajtach.
+    \item \textbf{Liczba wywołań rysowania} (draw calls) -- liczba instrukcji renderowania na klatkę.
+    \item \textbf{Liczba wierzchołków} -- całkowita liczba przetworzonych wierzchołków na klatkę.
 \end{itemize}
 
 \subsection{Wyniki testów dla silnika Unity}
@@ -60,12 +61,12 @@ klatki 0,08 ms odpowiada sytuacjom, gdy kolejne wywołania prezentacji następuj
 sobie -- może to wynikać z mechanizmu 
 podwójnego buforowania (ang. \textit{double buffering}) lub chwilowego braku pracy do wykonania przez GPU.
 
-Wartość maksymalna 1\,239,62 ms (ponad sekunda) występuje podczas \\ fazy inicjalizacji aplikacji, 
-gdy silnik Unity wykonuje jednorazowe \\ operacje: kompilację shaderów, alokację dużych bloków pamięci \\ GPU, 
+Wartość maksymalna 1\,239,62 ms (ponad sekunda) występuje podczas fazy inicjalizacji aplikacji, 
+gdy silnik Unity wykonuje jednorazowe operacje: kompilację shaderów, alokację dużych bloków pamięci \\ GPU, 
 tworzenie obiektów swapchain oraz 
-inicjalizację systemu renderowania. \\ Jest to zachowanie typowe dla aplikacji Vulkan, gdzie znaczna część 
+inicjalizację systemu renderowania. Jest to zachowanie typowe dla aplikacji Vulkan, gdzie znaczna część 
 pracy inicjalizacyjnej wykonywana jest przy 
-starcie, w przeciwieństwie \\ do OpenGL, gdzie inicjalizacja jest bardziej rozłożona w czasie.
+starcie, w przeciwieństwie do OpenGL, gdzie inicjalizacja jest bardziej rozłożona w czasie.
 
 Współczynnik zmienności (CV) wynoszący 153,24\% jest wysoki, jednak wynika on głównie z 
 uwzględnienia ekstremalnych wartości inicjalizacyjnych. 
@@ -167,15 +168,15 @@ renderującego na poziomie pojedynczych funkcji API. Podczas testu zarejestrowan
 \end{tabular}
 \end{table}
 
-\texttt{vkWaitForFences} \\ pochłonęła \textbf{95,2\% całkowitego czasu}
+\texttt{vkWaitForFences} pochłonęła \textbf{95,2\% całkowitego czasu}
 profilowania wywołań Vulkan API, co stanowi 77,04 sekundy z 
 94-sekundowego testu. Funkcja ta, zdefiniowana w specyfikacji Vulkan w rozdziale 7.3 dotyczącym 
 synchronizacji, realizuje blokujące oczekiwanie 
 procesora na sygnalizację obiektów ogrodzenia (ang. \textit{fence}) przez GPU.
 
-Mechanizm ogrodzeń w Vulkan działa następująco: aplikacja tworzy \\ obiekt fence, 
-dołącza go do operacji przesyłanej do kolejki GPU \\
-(np. poprzez \texttt{vkQueueSubmit}), a następnie może \\wywołać \texttt{vkWaitForFences}, 
+Mechanizm ogrodzeń w Vulkan działa następująco: aplikacja tworzy obiekt fence, 
+dołącza go do operacji przesyłanej do kolejki GPU
+(np. poprzez \texttt{vkQueueSubmit}), a następnie może wywołać \texttt{vkWaitForFences}, 
 aby zablokować wątek CPU do momentu zakończenia 
 powiązanej pracy przez GPU. Jest to fundamentalny mechanizm synchronizacji w architekturze 
 producent-konsument między CPU a GPU.
@@ -189,7 +190,7 @@ zdąża przygotować pracę dla GPU przed zakończeniem poprzedniej klatki.
 Różnica między średnią a medianą (0,26 ms) wynika z obecności bardzo krótkich 
 czasów oczekiwania w niektórych sytuacjach (np. gdy GPU zakończył pracę przed wywołaniem wait). 
 Maksymalny czas 1\,181,17 ms odpowiada fazie 
-inicjalizacji, \\ podczas której GPU wykonuje jednorazowe, kosztowne operacje.
+inicjalizacji, podczas której GPU wykonuje jednorazowe, kosztowne operacje.
 
 Stosunek liczby wywołań \texttt{vkWaitForFences} (12\,895) do liczby klatek (13\,556) wskazuje, że 
 Unity stosuje strategię oczekiwania, prawie na 
@@ -233,7 +234,7 @@ odbywa się asynchronicznie na GPU.
 
 
 Tabela~\ref{tab:unity-vulkan-cmd} przedstawia statystyki funkcji związanych z buforami poleceń. 
-Liczba wywołań \texttt{vkBeginCommandBuffer} \\ oraz 
+Liczba wywołań \texttt{vkBeginCommandBuffer} oraz 
 \texttt{vkEndCommandBuffer} (po 40\,679) oznacza, że Unity nagrywa średnio 3 bufory poleceń na klatkę. Jest to typowa wartość dla nowoczesnych 
 silników stosujących wielowątkowe nagrywanie poleceń.
 
@@ -269,14 +270,15 @@ Tabela~\ref{tab:unity-vulkan-init} przedstawia jednorazowe operacje inicjalizacy
 urządzenie Vulkan -- jest to najdroższa pojedyncza operacja, obejmująca negocjację możliwości GPU, alokację struktur wewnętrznych sterownika i 
 inicjalizację kolejek.
 
-\texttt{vkCreateSwapchainKHR} (77,02 ms) tworzy łańcuch wymiany (swapchain), \\ czyli zestaw 
+\texttt{vkCreateSwapchainKHR} (77,02 ms) tworzy łańcuch wymiany (swapchain), czyli zestaw 
 buforów służących do prezentacji obrazu. Operacja ta 
 obejmuje alokację pamięci dla buforów, konfigurację formatów i synchronizację z systemem okienkowym.
 
-Utworzenie 341 obiektów fence (łącznie 135,60 ms) wskazuje na przygotowanie puli ogrodzeń do 
-wielokrotnego użytku w cyklu renderowania. 
-\\ Unity stosuje 
-strategię pre-alokacji zamiast tworzenia ogrodzeń na żądanie, co jest praktyką zalecaną w dokumentacji 
+Utworzenie 341 obiektów fence (łącznie 135,60 ms) wskazuje na 
+przygotowanie puli ogrodzeń do wielokrotnego użytku w cyklu renderowania. 
+Unity stosuje 
+strategię \\ pre-alokacji zamiast tworzenia ogrodzeń na żądanie, co 
+jest praktyką zalecaną w dokumentacji 
 Vulkan.
 
 
@@ -361,21 +363,22 @@ Duża liczba wywołań \texttt{openat64} (22\,155) wskazuje na intensywne operac
 gry (tekstur, modeli, shaderów) z dysku. Średni czas 1,07 $\mu$s potwierdza efektywne buforowanie przez system operacyjny.
 
 \texttt{ioctl} (1\,907 wywołań) służy do kontroli urządzeń -- w kontekście grafiki Vulkan jest 
-używane do komunikacji ze sterownikiem GPU poprzez \\
+używane do komunikacji ze sterownikiem GPU poprzez
 interfejs DRM/KMS (Direct Rendering Manager / Kernel Mode Setting).
 
 
 Przeprowadzona analiza pozwala na sformułowanie następujących wniosków dotyczących wydajności i architektury silnika Unity:
 
 
-Dominacja \texttt{vkWaitForFences} \\ (95,2\% czasu Vulkan) i \texttt{futex} (95,9\% czasu systemowego) 
+Dominacja \texttt{vkWaitForFences} (95,2\% czasu Vulkan) i \texttt{futex} (95,9\% czasu systemowego) 
 jednoznacznie wskazuje na scenariusz 
 \textbf{GPU-bound}. Procesor główny efektywnie przygotowuje i przesyła pracę renderowania, po czym oczekuje na GPU. Jest to optymalny wzorzec dla 
 aplikacji graficznych, gdzie GPU wykonuje większość obliczeniowo intensywnej pracy.
 
-W scenariuszu CPU-bound obserwowalibyśmy niższy udział funkcji synchronizacyjnych i wyższy udział 
-funkcji przygotowujących polecenia \\
-(\texttt{vkBeginCommandBuffer}, \texttt{vkCmdBindPipeline} itp.), co wskazywałoby na wąskie gardło po stronie procesora.
+W scenariuszu CPU-bound obserwowalibyśmy niższy udział funkcji 
+synchronizacyjnych i wyższy udział 
+funkcji przygotowujących polecenia
+(\texttt{vkBeginCommandBuffer}, \\ \texttt{vkCmdBindPipeline} itp.), co wskazywałoby na wąskie gardło po stronie procesora.
 
 
 Stosunek liczby wywołań \texttt{vkQueueSubmit} (27\,112) do \texttt{vkQueuePresentKHR} (13\,556) wynoszący 2:1 wskazuje na dwuetapowy potok 
@@ -383,7 +386,7 @@ renderowania dla każdej klatki. Może to odpowiadać architekturze z oddzielnym
 odroczonego renderowania (ang. \textit{deferred rendering}).
 
 Niska liczba wywołań \texttt{vkCmdBindPipeline} (27\,027, ~2 na klatkę) 
-sugeruje \\ efektywne grupowanie obiektów renderowanych tym samym shaderem,
+sugeruje efektywne grupowanie obiektów renderowanych tym samym shaderem,
 minimalizujące kosztowne zmiany stanu GPU.
 
 
@@ -391,23 +394,23 @@ Pomimo wysokiego współczynnika zmienności (153\%) wynikającego z wartości e
 inicjalizacji, właściwa stabilność renderowania jest
 wysoka. Świadczy o tym:
 \begin{itemize}
-    \item Wąski rozstęp międzykwartylowy (0,08 ms)
-    \item Zbieżność mediany (6,94 ms) ze średnią (6,95 ms)
-    \item Mała różnica między 50. a 99. percentylem (0,64 ms, 9,2\%)
-    \item 98,24\% klatek w przedziale 5--10 ms
+    \item Wąski rozstęp międzykwartylowy (0,08 ms).
+    \item Zbieżność mediany (6,94 ms) ze średnią (6,95 ms).
+    \item Mała różnica między 50. a 99. percentylem (0,64 ms, 9,2\%).
+    \item 98,24\% klatek w przedziale 5--10 ms.
 \end{itemize}
 
 Należy jednak podkreślić, że obserwowana stabilność jest w znacznej mierze wynikiem 
-działania synchronizacji pionowej (V-Sync), która sztucznie \\
-wyrównuje czasy klatek poprzez oczekiwanie na sygnał odświeżania monitora. \\ Bez V-Sync 
+działania synchronizacji pionowej (V-Sync), która sztucznie
+wyrównuje czasy klatek poprzez oczekiwanie na sygnał odświeżania monitora. Bez V-Sync 
 zmienność czasów klatek mogłaby być wyższa.
 
 
 Analiza wywołań systemowych potwierdza intensywne wykorzystanie wielowątkowości:
 \begin{itemize}
-    \item 81 utworzonych wątków wskazuje na rozbudowany system zadań
-    \item Dominacja \texttt{futex} sugeruje częstą komunikację między wątkami
-    \item Użycie zmiennych warunkowych z timeoutem świadczy o responsywnej architekturze
+    \item 81 utworzonych wątków wskazuje na rozbudowany system zadań.
+    \item Dominacja \texttt{futex} sugeruje częstą komunikację między wątkami.
+    \item Użycie zmiennych warunkowych z timeoutem świadczy o responsywnej architekturze.
 \end{itemize}
 
 Unity 2023 LTS stosuje architekturę DOTS (Data-Oriented Technology Stack) z systemem zadań (Job System), który automatycznie dystrybuuje pracę na 
@@ -418,44 +421,47 @@ dostępne rdzenie procesora. Wyniki profilowania potwierdzają aktywne wykorzyst
 
 Profilowanie silnika Unreal Engine 5.5 przeprowadzono przy użyciu NVIDIA Nsight Systems w 
 wersji 2025.5.2. Ze względu na problemy ze stabilnością 
-połączenia agenta Nsight podczas długich sesji profilowania, 90-sekundową \\ rozgrywkę 
+połączenia agenta Nsight podczas długich sesji profilowania, 90-sekundową rozgrywkę 
 podzielono na \textbf{trzy fazy po 30 sekund każda}:
 \begin{itemize}
-    \item \textbf{Faza 1} (0--30 s): Początkowa rozgrywka z niską trudnością
-    \item \textbf{Faza 2} (30--60 s): Środkowa rozgrywka ze średnią trudnością
-    \item \textbf{Faza 3} (60--90 s): Końcowa rozgrywka z wysoką trudnością + ekran zwycięstwa
+    \item \textbf{Faza 1} (0--30 s): Początkowa rozgrywka z niską trudnością.
+    \item \textbf{Faza 2} (30--60 s): Środkowa rozgrywka ze średnią trudnością.
+    \item \textbf{Faza 3} (60--90 s): Końcowa rozgrywka z wysoką trudnością + ekran zwycięstwa.
 \end{itemize}
 
-Każda faza była uruchamiana z flagą \texttt{--start-time=N}, która przesuwa \\ zarówno stan gry 
+Każda faza była uruchamiana z flagą \texttt{--start-time=N}, która przesuwa 
+zarówno stan gry 
 (w \texttt{STGGameDirector}), jak i poziom trudności 
-spawnu przeciwników \\ (w \texttt{STGEnemySpawner}) do odpowiedniej sekundy. \\ Grę skompilowano w konfiguracji DebugGame, która zachowuje symbole 
+spawnu przeciwników \\ (w \texttt{STGEnemySpawner}) do odpowiedniej sekundy. Grę skompilowano w konfiguracji DebugGame, która zachowuje symbole 
 debugowania przy częściowych optymalizacjach.
 
 
 Ze względu na bardzo dużą ilość danych generowanych przez Unreal Engine podczas śledzenia wywołań Vulkan API (około 13 milionów zdarzeń
 na 30 sekund rozgrywki, w porównaniu z 0,5 miliona dla Unity), 90-sekundową rozgrywkę podzielono na \textbf{trzy fazy po 30 sekund każda}:
 \begin{itemize}
-    \item \textbf{Faza 1} (0--30 s): Początkowa rozgrywka z niską trudnością
-    \item \textbf{Faza 2} (30--60 s): Środkowa rozgrywka ze średnią trudnością
-    \item \textbf{Faza 3} (60--90 s): Końcowa rozgrywka z wysoką trudnością + ekran zwycięstwa
+    \item \textbf{Faza 1} (0--30 s): Początkowa rozgrywka z niską trudnością.
+    \item \textbf{Faza 2} (30--60 s): Środkowa rozgrywka ze średnią trudnością.
+    \item \textbf{Faza 3} (60--90 s): Końcowa rozgrywka z wysoką trudnością + ekran zwycięstwa.
 \end{itemize}
 
-Każda faza była uruchamiana z flagą \texttt{--start-time=N}, która przesuwa zarówno stan gry
-(w \texttt{STGGameDirector}), jak i poziom trudności spawnu \\ przeciwników   (w \texttt{STGEnemySpawner}) 
+Każda faza była uruchamiana z flagą \texttt{--start-time=N}, 
+która przesuwa zarówno stan gry
+(w \texttt{STGGameDirector}), jak i poziom trudności spawnu przeciwników 
+\\ (w \texttt{STGEnemySpawner}) 
 do odpowiedniej sekundy.
-\\ Grę skompilowano w konfiguracji DebugGame, która zachowuje symbole debugowania przy częściowych optymalizacjach.
+Grę skompilowano w konfiguracji DebugGame, która zachowuje symbole debugowania przy częściowych optymalizacjach.
 
 Profilowanie przeprowadzono z wykorzystaniem tych samych metryk co dla Unity:
 \begin{itemize}
-    \item \textbf{Śledzenia wywołań Vulkan API} (\texttt{--trace=vulkan}) -- przechwytywanie \\ wszystkich funkcji Vulkan
-    \item \textbf{Śledzenia wywołań systemowych} (\texttt{--trace=osrt}) -- przechwytywanie funkcji OS Runtime
-    \item \textbf{Metryk sprzętowych GPU} (\texttt{--gpu-metrics-devices=0}) -- próbkowanie \\ liczników wydajności GPU
+    \item \textbf{Śledzenia wywołań Vulkan API} (\texttt{--trace=vulkan}) -- przechwytywanie wszystkich funkcji Vulkan.
+    \item \textbf{Śledzenia wywołań systemowych} (\texttt{--trace=osrt}) -- przechwytywanie funkcji OS Runtime.
+    \item \textbf{Metryk sprzętowych GPU} (\texttt{--gpu-metrics-devices=0}) -- próbkowanie liczników wydajności GPU.
 \end{itemize}
 
 
 NVIDIA Nsight Systems zbiera metryki sprzętowe GPU poprzez bezpośredni dostęp do liczników 
 wydajności zintegrowanych w karcie graficznej. 
-\\ Podczas trzech 35-sekundowych sesji (30 sekund rozgrywki + 5 sekund buforu) zebrano łącznie \textbf{1\,050\,555 próbek} dla każdej z 
+Podczas trzech 35-sekundowych sesji (30 sekund rozgrywki + 5 sekund buforu) zebrano łącznie \textbf{1\,050\,555 próbek} dla każdej z 
 31 monitorowanych metryk.
 
 \begin{table}[H]
@@ -503,7 +509,7 @@ Liczba próbek & 350\,205 & 350\,249 & 350\,101 \\
 Tabela~\ref{tab:unreal-gpu-phases} pokazuje stabilność metryk GPU między fazami 1 i 2 
 różnice <0,5 pp.), 
 co potwierdza poprawność metodologii 
-fazowego profilowania. \\ 
+fazowego profilowania.
 Wyraźny spadek w fazie 
 3 odzwierciedla zakończenie aktywnej rozgrywki i przejście do ekranu zwycięstwa.
 
@@ -565,17 +571,17 @@ Unallocated Warps in Active SMs & 20,73 & 90,0 \\
 
 Tabela~\ref{tab:unreal-warps} przedstawia rozkład typów aktywnych wątków shader 
 (warps -- grupy 32 wątków CUDA wykonywanych synchronicznie). 
- \\Dominacja \texttt{Compute Warps} (13,03\%) nad \texttt{Pixel Warps} (9,36\%) wskazuje na znaczące wykorzystanie compute shaderów, prawdopodobnie do:
+ Dominacja \texttt{Compute Warps} (13,03\%) nad \texttt{Pixel Warps} (9,36\%) wskazuje na znaczące wykorzystanie compute shaderów, prawdopodobnie do:
 \begin{itemize}
-    \item Culling (odrzucanie niewidocznych obiektów na GPU)
-    \item Post-processing i tone mapping
-    \item Symulacji cząsteczek lub fizyki na GPU
+    \item Culling (odrzucanie niewidocznych obiektów na GPU).
+    \item Post-processing i tone mapping.
+    \item Symulacji cząsteczek lub fizyki na GPU.
 \end{itemize}
 
 Niski udział \texttt{Vertex/Tess/Geometry Warps} (0,45\%) sugeruje prostą geometrię sceny bez intensywnego wykorzystania teselacji -- 
 co jest zgodne z charakterystyką testowanej gry bullet-hell, gdzie większość efektów wizualnych to płaskie sprite'y i efekty cząsteczkowe.
 
-\texttt{Unallocated Warps in Active SMs} (20,73\%) reprezentuje \\ niewykorzystaną pojemność 
+\texttt{Unallocated Warps in Active SMs} (20,73\%) reprezentuje niewykorzystaną pojemność 
 aktywnych multiprocesorów. Wartość ta wskazuje na 
 potencjał optymalizacji przez zwiększenie granularności pracy lub lepsze grupowanie operacji.
 
@@ -672,7 +678,7 @@ wskazuje na konsystentną architekturę potoku renderowania niezależną od obci
 W przeciwieństwie do Unity, gdzie dominującą funkcją był \texttt{vkWaitForFences}, 
 w Unreal Engine \textbf{57--72\% czasu} Vulkan API 
 pochłonęły funkcje tworzenia potoków. 
-\\ Co istotne, liczba wywołań \texttt{vkCreateComputePipelines} i \\ 
+Co istotne, liczba wywołań \texttt{vkCreateComputePipelines} i 
 \texttt{vkCreateGraphicsPipelines} jest 
 \textbf{niemal identyczna we wszystkich trzech fazach}, co wskazuje na strategię \textbf{ciągłej rekompilacji potoków} (Pipeline State Object) 
 przez cały czas działania gry.
@@ -682,7 +688,7 @@ przez cały czas działania gry.
 
 Średni czas tworzenia potoku compute (18,63--19,21 ms) jest ponad \textbf{14 razy dłuższy} 
 niż dla potoku graficznego (1,14--1,39 ms). Różnica ta 
-wynika z większej złożoności shaderów obliczeniowych używanych \\ przez Unreal Engine do culling, post-processingu i systemu Nanite.
+wynika z większej złożoności shaderów obliczeniowych używanych przez Unreal Engine do culling, post-processingu i systemu Nanite.
 
 Wywołanie \texttt{vkCreateDevice} pojawia się raz w każdej fazie z czasem 541--590 ms, co odpowiada momentowi startu gry w tej fazie -- narzędzie 
 Nsight Systems tworzy nową sesję dla każdej fazy.
@@ -707,13 +713,13 @@ Nsight Systems tworzy nową sesję dla każdej fazy.
 W ostrzym kontraście z Unity (gdzie \texttt{vkWaitForFences} stanowił 95,2\% czasu), w Unreal Engine funkcja ta pochłonęła zaledwie 
 \textbf{0,5\% czasu} ze średnim czasem oczekiwania 3,63 $\mu$s. Tak niski czas oczekiwania wskazuje na:
 \begin{itemize}
-    \item Efektywne wykorzystanie wielokrotnego buforowania (triple buffering)
-    \item Asynchroniczne przesyłanie pracy do GPU bez blokowania
-    \item Lepsze rozłożenie pracy między CPU a GPU eliminujące przestoje
+    \item Efektywne wykorzystanie wielokrotnego buforowania (triple buffering).
+    \item Asynchroniczne przesyłanie pracy do GPU bez blokowania.
+    \item Lepsze rozłożenie pracy między CPU a GPU eliminujące przestoje.
 \end{itemize}
 
-Stosunek wywołań \texttt{vkQueueSubmit} (186\,589) do \\ \texttt{vkQueuePresentKHR} (11\,531) 
-wynosi \textbf{16,2:1}, co oznacza średnio \\ 16 
+Stosunek wywołań \texttt{vkQueueSubmit} (186\,589) do \texttt{vkQueuePresentKHR} (11\,531) 
+wynosi \textbf{16,2:1}, co oznacza średnio 16 
 przesyłek pracy na klatkę. Jest to znacznie więcej niż w Unity (2:1), odzwierciedlając 
 bardziej złożony potok renderowania Unreal Engine z 
 wieloma przebiegami (deferred rendering, post-processing, UI).
@@ -735,13 +741,13 @@ wieloma przebiegami (deferred rendering, post-processing, UI).
 \end{tabular}
 \end{table}
 
-Liczba wywołań \\ \texttt{vkCmdBindPipeline} (\textbf{5\,771\,642} 
-łącznie we wszystkich fazach) jest \\ ponad \textbf{213 razy większa} niż w 
-Unity (27\,027), \\ co odpowiada około 218 zmianom potoku na klatkę. Tak wysoka wartość wynika z:
+Liczba wywołań \texttt{vkCmdBindPipeline} (\textbf{5\,771\,642} 
+łącznie we wszystkich fazach) jest ponad \textbf{213 razy większa} niż w 
+Unity (27\,027), co odpowiada około 218 zmianom potoku na klatkę. Tak wysoka wartość wynika z:
 \begin{itemize}
-    \item Dynamicznego systemu materiałów Unreal Engine
-    \item Wielu wariantów shaderów dla różnych kombinacji oświetlenia
-    \item Złożonego potoku renderowania z wieloma przebiegami
+    \item Dynamicznego systemu materiałów Unreal Engine.
+    \item Wielu wariantów shaderów dla różnych kombinacji oświetlenia.
+    \item Złożonego potoku renderowania z wieloma przebiegami.
 \end{itemize}
 
 Funkcja \texttt{vkCmdPipelineBarrier2KHR} (4\,090\,071 wywołań) synchronizuje dostęp do zasobów w obrębie GPU -- wysoka liczba wywołań wskazuje 
@@ -750,9 +756,9 @@ na staranną kontrolę zależności między operacjami, typową dla nowoczesnych
 
 Interesującą obserwacją jest obecność wywołań związanych z ray tracingiem we wszystkich fazach:
 \begin{itemize}
-    \item \texttt{vkCreateAccelerationStructureKHR}: 23\,960 + 26\,275 + 11\,884 = 62\,119 wywołań
-    \item \texttt{vkDestroyAccelerationStructureKHR}: 20\,571 + 23\,063 + 9\,181 = 52\,815 wywołań
-    \item \texttt{vkGetAccelerationStructureBuildSizesKHR}: 41\,161 + 46\,147 + 18\,379 = 105\,687 wywołań
+    \item \texttt{vkCreateAccelerationStructureKHR}: 23\,960 + 26\,275 + 11\,884 = 62\,119 wywołań.
+    \item \texttt{vkDestroyAccelerationStructureKHR}: 20\,571 + 23\,063 + 9\,181 = 52\,815 wywołań.
+    \item \texttt{vkGetAccelerationStructureBuildSizesKHR}: 41\,161 + 46\,147 + 18\,379 = 105\,687 wywołań.
 \end{itemize}
 
 Pomimo że testowana gra nie wykorzystuje widocznych efektów ray tracingu, Unreal Engine przygotowuje struktury akceleracji BVH 
@@ -782,7 +788,7 @@ wielowątkowego Unreal Engine. Łącznie zarejestrowano ponad \textbf{9 milionó
 \end{tabular}
 \end{table}
 
-Funkcja \texttt{pthread\_cond\_wait} \\ pochłonęła \textbf{64,6\% czasu} przy \textbf{3\,095\,188 wywołaniach} we wszystkich trzech fazach. 
+Funkcja \texttt{pthread\_cond\_wait} pochłonęła \textbf{64,6\% czasu} przy \textbf{3\,095\,188 wywołaniach} we wszystkich trzech fazach. 
 Jest to funkcja POSIX do oczekiwania na zmienną warunkową, używana gdy wątek musi czekać na spełnienie określonego warunku sygnalizowanego przez 
 inny wątek.
 
@@ -790,10 +796,10 @@ Tak wysoka liczba wywołań (ponad 40 razy więcej niż dla Unity)
 odzwierciedla architekturę wielowątkową Unreal Engine opartą na systemie 
 \textbf{TaskGraph}. System ten dekomponuje pracę renderowania na małe zadania (ang. \textit{tasks}), 
 które są wykonywane przez pulę wątków roboczych. 
-Każde zadanie po zakończeniu sygnalizuje swoją gotowość, a zależne zadania są budzone \\ poprzez 
+Każde zadanie po zakończeniu sygnalizuje swoją gotowość, a zależne zadania są budzone poprzez 
 \texttt{pthread\_cond\_signal}/\texttt{pthread\_cond\_broadcast}.
 
-Średni czas pojedynczego oczekiwania (0,97 ms) jest krótki, co wskazuje \\ na częste, ale krótkotrwałe synchronizacje -- 
+Średni czas pojedynczego oczekiwania (0,97 ms) jest krótki, co wskazuje na częste, ale krótkotrwałe synchronizacje -- 
 typowe dla drobnoziarnistego paralelizmu. Maksymalny czas 22,23 sekundy odpowiada prawdopodobnie wywołaniu podczas długotrwałej operacji 
 inicjalizacyjnej w fazie 2.
 
@@ -819,18 +825,18 @@ Tabela~\ref{tab:unreal-osrt-phases} pokazuje konsystencję wzorców wywołań mi
 fazie 3 (zawierającej ekran zwycięstwa). Szczególnie interesująca jest wysoka liczba wywołań \texttt{backtrace} (ponad 5,5 miliona łącznie), 
 co sugeruje intensywne wykorzystanie mechanizmów debugowania lub profilowania wbudowanych w Unreal Engine nawet w konfiguracji DebugGame.
 
-(19,2\%, 163\,783 \\ wywołań) różni się od 
+(19,2\%, 163\,783 wywołań) różni się od 
 \texttt{pthread\_cond\_wait} możliwością określenia maksymalnego czasu 
 oczekiwania. Użycie tej funkcji wskazuje na mechanizmy:
 \begin{itemize}
-    \item Timeoutów zapobiegających zakleszczeniom (deadlock prevention)
-    \item Okresowego sprawdzania warunków (polling pattern)
-    \item Synchronizacji czasowej dla frame pacing
+    \item Timeoutów zapobiegających zakleszczeniom (deadlock prevention).
+    \item Okresowego sprawdzania warunków (polling pattern).
+    \item Synchronizacji czasowej dla frame pacing.
 \end{itemize}
 
-Średni czas 5,46 ms sugeruje użycie do synchronizacji między-klatkowej, \\ 
+Średni czas 5,46 ms sugeruje użycie do synchronizacji między-klatkowej,
 gdzie wątki oczekują na gotowość kolejnej klatki z timeout'em 
-\\ zapobiegającym nieskończonemu oczekiwaniu w przypadku błędu.
+zapobiegającym nieskończonemu oczekiwaniu w przypadku błędu.
 
 
 Funkcja \texttt{usleep} (4,7\%, 26\,062 wywołań, średnio 7,79 ms) wprowadza precyzyjne opóźnienia czasowe. Średni czas 7,79 ms jest zbliżony do 
@@ -857,21 +863,21 @@ Liczba próbek GPU (10 kHz) & -- & 1\,050\,555 \\
 
 Tabela~\ref{tab:sync-comparison} ujawnia fundamentalną różnicę architektoniczną między silnikami:
 
-\textbf{Unity} stosuje mechanizm \texttt{futex} z niewielką liczbą wywołań (247) \\ i 
+\textbf{Unity} stosuje mechanizm \texttt{futex} z niewielką liczbą wywołań (247) i 
 długim średnim czasem (444 ms). Wskazuje to na architekturę z 
 większymi, bardziej autonomicznymi jednostkami pracy i rzadszą synchronizacją między wątkami.
 
 \textbf{Unreal Engine} używa \texttt{pthread\_cond\_wait} z ogromną liczbą wywołań 
-\\ (ponad 3 miliony w 90-sekundowym teście) \\ i bardzo krótkim średnim 
+(ponad 3 miliony w 90-sekundowym teście) i bardzo krótkim średnim 
 czasem (0,97 ms). Odzwierciedla to drobnoziarnisty paralelizm systemu TaskGraph, gdzie praca jest dzielona na małe zadania często komunikujące się ze 
 sobą.
 
 Różnica ta ma implikacje praktyczne:
 \begin{itemize}
-    \item \textbf{Skalowalność}: Drobnoziarnisty model Unreal lepiej skaluje się na procesory z wieloma rdzeniami
-    \item \textbf{Narzut synchronizacji}: Model Unity ma mniejszy narzut \\ z powodu rzadszych wywołań
-    \item \textbf{Responsywność}: Unreal może szybciej reagować na zmiany (np. przerwanie zadania)
-    \item \textbf{Debugowanie}: Model Unity jest łatwiejszy do analizy ze względu na prostszą strukturę
+    \item \textbf{Skalowalność}: Drobnoziarnisty model Unreal lepiej skaluje się na procesory z wieloma rdzeniami.
+    \item \textbf{Narzut synchronizacji}: Model Unity ma mniejszy narzut z powodu rzadszych wywołań.
+    \item \textbf{Responsywność}: Unreal może szybciej reagować na zmiany (np. przerwanie zadania).
+    \item \textbf{Debugowanie}: Model Unity jest łatwiejszy do analizy ze względu na prostszą strukturę.
 \end{itemize}
 
 
@@ -880,33 +886,33 @@ Zebrane dane z trzech faz profilowania pozwalają na charakterystykę architekto
 
 Unreal Engine 5 stosuje zaawansowaną architekturę wielowątkową złożoną z:
 \begin{itemize}
-    \item \textbf{Game Thread} -- główny wątek logiki gry
-    \item \textbf{Render Thread} -- wątek przygotowujący polecenia renderowania
-    \item \textbf{RHI Thread} (Render Hardware Interface) -- wątek komunikujący się z API graficznym
-    \item \textbf{Worker Threads} -- pula wątków roboczych systemu TaskGraph
+    \item \textbf{Game Thread} -- główny wątek logiki gry.
+    \item \textbf{Render Thread} -- wątek przygotowujący polecenia renderowania.
+    \item \textbf{RHI Thread} (Render Hardware Interface) -- wątek komunikujący się z API graficznym.
+    \item \textbf{Worker Threads} -- pula wątków roboczych systemu TaskGraph.
 \end{itemize}
 
-Obserwowana dominacja \texttt{pthread\_cond\_wait} (3+ miliony wywołań) \\ potwierdza intensywną 
+Obserwowana dominacja \texttt{pthread\_cond\_wait} (3+ miliony wywołań) potwierdza intensywną 
 komunikację między tymi wątkami. 
-\\ Wysokie wykorzystanie 
+Wysokie wykorzystanie 
 GPU (90,98\% w fazach aktywnej rozgrywki) przy jednoczesnej intensywnej synchronizacji CPU sugeruje efektywne wykorzystanie zasobów obu procesorów.
 
 
-Na podstawie zebranych metryk można \\ scharakteryzować profil obciążenia GPU:
+Na podstawie zebranych metryk można scharakteryzować profil obciążenia GPU:
 \begin{itemize}
-    \item \textbf{Charakter pracy}: Mieszany graficzno-obliczeniowy (GR Active 85,59\%, Sync Compute 43,23\%)
-    \item \textbf{Wykorzystanie SM}: Umiarkowane (42,88\%), wskazujące na potencjał optymalizacji
-    \item \textbf{Przepustowość pamięci}: Niewysoka (10,30\% odczyt, 10,10\% zapis), nie jest wąskim gardłem
-    \item \textbf{Transfer PCIe}: Niski (1,50\% RX), dane pozostają w pamięci GPU
-    \item \textbf{Async Copy Engine}: Aktywny w 24--25\% czasu, wskazując na efektywne wykorzystanie asynchronicznych transferów
+    \item \textbf{Charakter pracy}: Mieszany graficzno-obliczeniowy (GR Active 85,59\%, Sync Compute 43,23\%).
+    \item \textbf{Wykorzystanie SM}: Umiarkowane (42,88\%), wskazujące na potencjał optymalizacji.
+    \item \textbf{Przepustowość pamięci}: Niewysoka (10,30\% odczyt, 10,10\% zapis), nie jest wąskim gardłem.
+    \item \textbf{Transfer PCIe}: Niski (1,50\% RX), dane pozostają w pamięci GPU.
+    \item \textbf{Async Copy Engine}: Aktywny w 24--25\% czasu, wskazując na efektywne wykorzystanie asynchronicznych transferów.
 \end{itemize}
 
 
 Porównanie faz 1 i 2 (tabela~\ref{tab:unreal-gpu-phases}) pokazuje niezwykłą stabilność metryk GPU:
 \begin{itemize}
-    \item GPU Active: różnica 0,36 pp. (91,16\% vs 90,80\%)
-    \item GR Active: różnica 0,21 pp. (85,69\% vs 85,48\%)
-    \item SMs Active: różnica 0,18 pp. (42,79\% vs 42,97\%)
+    \item GPU Active: różnica 0,36 pp. (91,16\% vs 90,80\%).
+    \item GR Active: różnica 0,21 pp. (85,69\% vs 85,48\%).
+    \item SMs Active: różnica 0,18 pp. (42,79\% vs 42,97\%).
 \end{itemize}
 
 Ta konsystencja potwierdza poprawność metodologii fazowego profilowania i sugeruje deterministyczne zachowanie silnika renderującego niezależnie od 
@@ -967,11 +973,15 @@ vkCmdBindPipeline / klatkę & 2 & 218 \\
 
 Analiza wywołań Vulkan API ujawnia fundamentalnie różne profile obciążenia (tabela~\ref{tab:gpu-comparison}):
 
-Dominacja \texttt{vkWaitForFences} (95,2\% czasu) \\ wskazuje, że CPU efektywnie przygotowuje pracę i oczekuje na GPU.
-Jest to pożądany wzorzec w aplikacjach graficznych, gdzie GPU wykonuje większość obliczeń. \\ Niski stosunek
-\texttt{vkQueueSubmit}/klatkę (2:1) świadczy o prostym, dwuetapowym potoku renderowania.
+Dominacja \texttt{vkWaitForFences} (95,2\% czasu) wskazuje, że CPU efektywnie 
+przygotowuje pracę i oczekuje na GPU.
+Jest to pożądany wzorzec w aplikacjach graficznych, gdzie GPU wykonuje 
+większość obliczeń. Niski stosunek
+\texttt{vkQueueSubmit}/klatkę (2:1) świadczy o prostym, dwuetapowym potoku 
+renderowania.
 
-W Unreal Engine dominującymi operacjami były \texttt{vkCreateComputePipelines} \\ oraz \texttt{vkCreateGraphicsPipelines},
+W Unreal Engine dominującymi operacjami były \texttt{vkCreateComputePipelines} 
+oraz \texttt{vkCreateGraphicsPipelines},
 pochłaniające łącznie 57--72\% czasu Vulkan. Silnik tworzy około \textbf{1000 potoków w każdej 30-sekundowej fazie}
 (vs 3 potoki w całym teście Unity), co wskazuje na strategię dynamicznej kompilacji shaderów.
 
@@ -1003,6 +1013,7 @@ większe jednostki pracy autonomicznie, co minimalizuje narzut komunikacji.
 
 \textbf{Unreal Engine} implementuje drobnoziarnisty paralelizm poprzez system TaskGraph. Praca jest dzielona na tysiące
 małych zadań często komunikujących się ze sobą (ponad 3 miliony wywołań synchronizacji w 90 sekund).
+
 \subsection{Podsumowanie wyników testów wydajności}
 \label{subsec:podsumowanie-testow}
 
@@ -1024,7 +1035,6 @@ Potoki graficzne utworzone & 3 & $\sim$2\,400 \\
 \hline
 \end{tabular}
 \end{table}
-\newpage
 
 Przeprowadzone testy wydajnościowe pozwalają na sformułowanie następujących wniosków:
 
@@ -1033,11 +1043,13 @@ Przeprowadzone testy wydajnościowe pozwalają na sformułowanie następujących
     oba silniki osiągają zbliżoną wydajność: Unity 1\% low 132 FPS vs Unreal 162 FPS. Różnica
     około 23\% na korzyść Unreal wynika częściowo z różnych konfiguracji V-Sync.
 
-    \item \textbf{Wykorzystanie GPU}: Unity wykorzystuje jedynie 23\% mocy GPU \\ (ograniczony V-Sync),
+    \item \textbf{Wykorzystanie GPU}: Unity wykorzystuje jedynie 23\% mocy GPU 
+    \\ (ograniczony V-Sync),
     podczas gdy Unreal Engine osiąga 91\% wykorzystania w fazach 1--2. Sugeruje to znaczny
     zapas wydajności Unity przy wyłączonym V-Sync.
 
-    \item \textbf{Stabilność}: Unity wykazał stabilne czasy klatek dzięki V-Sync, \\ natomiast
+    \item \textbf{Stabilność}: Unity wykazał stabilne czasy klatek dzięki 
+    V-Sync, natomiast
     Unreal Engine pokazał dużą zmienność między fazami (332--339 FPS w fazach 1--2 vs 162 FPS
     w fazie 3) -- spadek o ponad 50\%.
 
@@ -1046,7 +1058,7 @@ Przeprowadzone testy wydajnościowe pozwalają na sformułowanie następujących
     z rzadkimi synchronizacjami, podczas gdy Unreal stosuje drobnoziarnisty system TaskGraph
     z milionami wywołań synchronizacyjnych.
 
-    \item \textbf{Narzut Unreal}: Dynamiczna kompilacja potoków \\ (ponad 1000 potoków na
-    30-sekundową fazę vs 3 w całym teście Unity) i 60-krotnie większa liczba wywołań Vulkan API
+    \item \textbf{Narzut Unreal}: Dynamiczna kompilacja potoków (ponad 1000 potoków na
+    \\ 30-sekundową fazę vs 3 w całym teście Unity) i 60-krotnie większa liczba wywołań Vulkan API
     stanowią znaczący narzut, który może przyczyniać się do spadków wydajności w wymagających scenach.
 \end{enumerate}

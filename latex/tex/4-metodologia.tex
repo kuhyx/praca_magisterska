@@ -15,15 +15,15 @@ za pomocą narzędzia NVIDIA Nsight Systems:
 
 \begin{itemize}
     \item \textbf{Czas klatki} (ang. \emph{frame time}) -- czas potrzebny
-    na wyrenderowanie pojedynczej klatki, wyrażony w~milisekundach
-    \item \textbf{Liczba klatek na sekundę} (FPS) -- wartość \\ pochodna
-    od czasu klatki, kluczowa dla płynności rozgrywki
+    na wyrenderowanie pojedynczej klatki, wyrażony w~milisekundach.
+    \item \textbf{Liczba klatek na sekundę} (FPS) -- wartość pochodna
+    od czasu klatki, kluczowa dla płynności rozgrywki.
     \item \textbf{Wykorzystanie GPU} -- procentowe obciążenie karty graficznej,
-    mierzone poprzez liczniki sprzętowe NVIDIA
+    mierzone poprzez liczniki sprzętowe NVIDIA.
     \item \textbf{Wywołania Vulkan API} -- szczegółowa analiza wywołań
-    interfejsu graficznego, w~tym funkcji synchronizacji i~prezentacji
+    interfejsu graficznego, w~tym funkcji synchronizacji i~prezentacji.
     \item \textbf{Wywołania systemowe} -- analiza mechanizmów wielowątkowości
-    i~synchronizacji na poziomie systemu operacyjnego
+    i~synchronizacji na poziomie systemu operacyjnego.
 \end{itemize}
 
 \subsection{Środowisko testowe}
@@ -33,13 +33,13 @@ za pomocą narzędzia NVIDIA Nsight Systems:
 Wszystkie testy wydajnościowe przeprowadzono na komputerze o następującej specyfikacji:
 
 \begin{itemize}
-    \item \textbf{Procesor}: AMD Ryzen 9 7900X3D 12-Core Processor (24 rdzenie, 48 wątków)
-    \item \textbf{Karta graficzna}: NVIDIA GeForce RTX 3090
-    \item \textbf{Pamięć GPU}: 24 GB GDDR6X
-    \item \textbf{Sterowniki NVIDIA}: wersja 590.48.01
-    \item \textbf{Pamięć RAM}: 32 GB
-    \item \textbf{System operacyjny}: Arch Linux (jądro Linux 6.18.5-arch1-1)
-    \item \textbf{Dysk}: SSD o pojemności 3,6 TB
+    \item \textbf{Procesor}: AMD Ryzen 9 7900X3D 12-Core Processor (24 rdzenie, 48 wątków).
+    \item \textbf{Karta graficzna}: NVIDIA GeForce RTX 3090.
+    \item \textbf{Pamięć GPU}: 24 GB GDDR6X.
+    \item \textbf{Sterowniki NVIDIA}: wersja 590.48.01.
+    \item \textbf{Pamięć RAM}: 32 GB.
+    \item \textbf{System operacyjny}: Arch Linux (jądro Linux 6.18.5-arch1-1).
+    \item \textbf{Dysk}: SSD o pojemności 3,6 TB.
 \end{itemize}
 
 \label{subsubsec:specyfikacja-oprogramowania}
@@ -47,9 +47,9 @@ Wszystkie testy wydajnościowe przeprowadzono na komputerze o następującej spe
 W badaniach wykorzystano następujące wersje oprogramowania:
 
 \begin{itemize}
-    \item \textbf{Unity}: 6.0 (6000.0.58f2) LTS
-    \item \textbf{Unreal Engine}: 5.5.3
-    \item \textbf{NVIDIA Nsight Systems}: 2025.5.2
+    \item \textbf{Unity}: 6.0 (6000.0.58f2) LTS.
+    \item \textbf{Unreal Engine}: 5.5.3.
+    \item \textbf{NVIDIA Nsight Systems}: 2025.5.2.
 \end{itemize}
 
 Wybór wersji LTS silnika Unity podyktowany był stabilnością oraz długoterminowym wsparciem, 
@@ -64,11 +64,11 @@ Na potrzeby badań porównawczych zaimplementowano identyczną grę w gatunku
 \emph{bullet hell} w obu silnikach. Gra charakteryzuje się następującymi cechami:
 
 \begin{itemize}
-    \item Sterowana przez gracza postać
-    \item System generowania przeciwników z progresywnie rosnącym obciążeniem
-    \item Generowanie wzorców pocisków
-    \item Wykrywanie kolizji między obiektami
-    \item Tryb przetrwania trwający 90 sekund
+    \item Sterowana przez gracza postać.
+    \item System generowania przeciwników z progresywnie rosnącym obciążeniem.
+    \item Generowanie wzorców pocisków.
+    \item Wykrywanie kolizji między obiektami.
+    \item Tryb przetrwania trwający 90 sekund.
 \end{itemize}
 
 Wybór gatunku \emph{bullet hell} podyktowany był możliwością generowania dużej 
@@ -83,14 +83,14 @@ progresywnie zwiększała obciążenie poprzez:
 \begin{itemize}
     \item \textbf{Przyspieszanie spawnu przeciwników} -- interwał między
     spawnem zmniejsza się liniowo od 0,25~s (początek) do 0,08~s (koniec),
-    z~dodatkowym ,,finalnym szturmem'' przez ostatnie 5~sekund
+    z~dodatkowym ,,finalnym szturmem'' przez ostatnie 5~sekund.
     \item \textbf{Zwiększanie różnorodności typów przeciwników} -- 
-    początkowo \\ (0--25\% czasu) pojawiają się tylko podstawowi
+    początkowo (0--25\% czasu) pojawiają się tylko podstawowi
     przeciwnicy, później wprowadzane są kolejno szybsze jednostki
     (25--50\%), strzelające wieżyczki (50--75\%) oraz wytrzymałe
-    czołgi (75--100\%)
+    czołgi (75--100\%).
     \item \textbf{Maksymalna liczba przeciwników} -- limit jednoczesnych
-    przeciwników na scenie wynosi 200 jednostek
+    przeciwników na scenie wynosi 200 jednostek.
 \end{itemize}
 \newpage
 Na potrzeby profilowania rozgrywka została podzielona na trzy fazy czasowe:
@@ -110,21 +110,21 @@ interwał spawnu osiąga minimum 0,08~s. Ostatnie 5~sekund to
 Przeprowadzono cztery sesje pomiarowe -- po dwie dla każdego silnika:
 
 \begin{enumerate}
-    \item \textbf{Unity -- tryb statyczny}: Gracz nieruchomy z~włączoną \\
-    nieśmiertelnością, pełne 90~sekund rozgrywki profilowane w~jednej sesji
+    \item \textbf{Unity -- tryb statyczny}: Gracz nieruchomy z~włączoną
+    nieśmiertelnością, pełne 90~sekund rozgrywki profilowane w~jednej sesji.
     \item \textbf{Unity -- tryb dynamiczny}: Gracz aktywnie poruszający się
-    i~strzelający, pełne 90~sekund rozgrywki
+    i~strzelający, pełne 90~sekund rozgrywki.
     \item \textbf{Unreal Engine -- tryb statyczny}: Ze względu na ograniczenia
     techniczne (awaria przy śledzeniu Vulkan API) rozgrywkę podzielono na
-    trzy 30-sekundowe fazy, uruchamiane z~flagą \texttt{-{}-start-time=N}
+    trzy 30-sekundowe fazy, uruchamiane z~flagą \texttt{-{}-start-time=N}.
     \item \textbf{Unreal Engine -- tryb dynamiczny}: Analogicznie do trybu
-    statycznego, trzy fazy po 30~sekund z~aktywnym graczem
+    statycznego, trzy fazy po 30~sekund z~aktywnym graczem.
 \end{enumerate}
 
 Narzędzie NVIDIA Nsight Systems rejestrowało:
 \begin{itemize}
     \item Wywołania Vulkan API (dla Unity -- dla Unreal niemożliwe z~powodu
-    awarii)
-    \item Metryki sprzętowe GPU z~częstotliwością 10\,000~Hz
-    \item Wywołania funkcji systemowych (pthread, futex itp.)
+    awarii).
+    \item Metryki sprzętowe GPU z~częstotliwością 10\,000~Hz.
+    \item Wywołania funkcji systemowych (pthread, futex itp.).
 \end{itemize}

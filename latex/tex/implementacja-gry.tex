@@ -6,14 +6,14 @@ W~ramach pracy zaimplementowano identyczną grę typu bullet-hell w~obu silnikac
 \subsection{Implementacja w Unity}
 \label{subsec:impl-unity}
 
-Projekt Unity został utworzony w~wersji LTS z~wykorzystaniem \\ standardowego renderera 2D. Instalacja
+Projekt Unity został utworzony w~wersji LTS z~wykorzystaniem standardowego renderera 2D. Instalacja
 silnika na systemie Linux przebiegła bezproblemowo dzięki Unity Hub 
 \cite{unity_hub} \cite{unity_hub_download_arch}, który zapewnia spójne 
 zarządzanie wersjami edytora i~projektami.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{tex/img/unity_hub_default_screen.png}
+    \includegraphics[width=0.8\textwidth]{tex/img/unity_hub_default_screen.png}
     \caption{Ekran powitalny Unity Hub.}
     \label{fig:unity_hub_welcome}
 \end{figure}
@@ -34,8 +34,8 @@ zarządzanie wersjami edytora i~projektami.
 
 Implementacja Unity wykorzystuje kilka kluczowych wzorców projektowych:
 
-Klasa \texttt{GameBootstrap} wykorzystuje atrybut \\ \texttt{[Runtime\-Initialize\-OnLoad\-Method]} 
-do zapewnienia, że obiekt \\ \texttt{GameInitializer} istnieje w~scenie przed rozpoczęciem gry. 
+Klasa \texttt{GameBootstrap} wykorzystuje atrybut \texttt{[Runtime\-Initialize\-OnLoad\-Method]} 
+do zapewnienia, że obiekt \texttt{GameInitializer} istnieje w~scenie przed rozpoczęciem gry. 
 Jest to eleganckie rozwiązanie problemu inicjalizacji singletonów w~Unity.
 
 System \texttt{BulletPool} stanowi rdzeń optymalizacji wydajnościowej. Zamiast ciągłego tworzenia i niszczenia obiektów pocisków (co generowałoby znaczące obciążenie garbage collectora), pociski są recyklingowane z puli:
@@ -57,7 +57,8 @@ public Bullet Spawn(Vector2 position, Vector2 direction,
 
 Pula jest wstępnie rozgrzewana (\textit{warm capacity}) podczas inicjalizacji, co eliminuje alokacje podczas rozgrywki.
 
-Klasy \texttt{GameDirector} i~\texttt{EnemySpawner} wykorzystują \\ wzorzec Singleton z~właściwością \texttt{Instance}, zapewniając \\ globalny punkt dostępu do kluczowych systemów gry.
+Klasy \texttt{GameDirector} i~\texttt{EnemySpawner} wykorzystują wzorzec Singleton z~właściwością \texttt{Instance}, 
+zapewniając globalny punkt dostępu do kluczowych systemów gry.
 
 
 \texttt{EnemySpawner} implementuje system eskalującej trudności poprzez interpolację czasu między spawnami:
@@ -73,20 +74,20 @@ Przeciwnicy są definiowani przez strukturę \texttt{EnemyBlueprint}, która zaw
 Podczas implementacji napotkano następujące wyzwania:
 
 \begin{enumerate}
-    \item \textbf{Garbage Collection} -- początkowa implementacja bez \\ object poolingu powodowała zauważalne spadki klatek przy dużej liczbie pocisków
-    \item \textbf{Kolejność inicjalizacji} -- konieczność użycia wzorca Bootstrap wynikała z~nieprzewidywalnej kolejności wywoływania metod \texttt{Awake()} i~\texttt{Start()}
-    \item \textbf{Serializacja} -- atrybuty \texttt{[SerializeField]} wymagały \\ starannego rozplanowania, które pola powinny być edytowalne w~inspektorze
-    \item Interfejs użytkownika nie jest odświeżany po otwarciu menu \cite{linux_editor_does_not_redraw} -- wymagało to ręcznego wymuszenia odświeżenia inspektora
+    \item \textbf{Garbage Collection} -- początkowa implementacja bez object poolingu powodowała zauważalne spadki klatek przy dużej liczbie pocisków.
+    \item \textbf{Kolejność inicjalizacji} -- konieczność użycia wzorca Bootstrap wynikała z~nieprzewidywalnej kolejności wywoływania metod \texttt{Awake()} i~\texttt{Start()}.
+    \item \textbf{Serializacja} -- atrybuty \texttt{[SerializeField]} wymagały starannego rozplanowania, które pola powinny być edytowalne w~inspektorze.
+    \item Interfejs użytkownika nie jest odświeżany po otwarciu menu \cite{linux_editor_does_not_redraw} -- wymagało to ręcznego wymuszenia odświeżenia inspektora.
 \end{enumerate}
 
 
 \begin{itemize}
-    \item Natywne wsparcie dla 2D -- dedykowany tryb 2D z odpowiednimi komponentami fizyki (\texttt{Rigidbody2D}, \texttt{Collider2D})
-    \item Hot reload -- możliwość edycji kodu i natychmiastowego testowania zmian
-    \item Intuicyjny inspektor -- łatwa konfiguracja parametrów gry bez rekompilacji
-    \item Bogata dokumentacja C\# i społeczność
-    \item Skupienie się na kodzie -- większość logiki gry zaimplementowana została w kodzie źródłowym co przyśpieszyło proces tworzenia gry
-    \item Dobre wsparcie dla LLM -- unity posiada narzędzie mcp oferującą prostą integrację edytora i narzędzi AI \cite{unity_mcp}
+    \item Natywne wsparcie dla 2D -- dedykowany tryb 2D z odpowiednimi komponentami fizyki (\texttt{Rigidbody2D}, \texttt{Collider2D}).
+    \item Hot reload -- możliwość edycji kodu i natychmiastowego testowania zmian.
+    \item Intuicyjny inspektor -- łatwa konfiguracja parametrów gry bez rekompilacji.
+    \item Bogata dokumentacja C\# i społeczność.
+    \item Skupienie się na kodzie -- większość logiki gry zaimplementowana została w kodzie źródłowym co przyśpieszyło proces tworzenia gry.
+    \item Dobre wsparcie dla LLM -- unity posiada narzędzie mcp oferującą prostą integrację edytora i narzędzi AI \cite{unity_mcp}.
 \end{itemize}
 \newpage
 \subsection{Implementacja w Unreal Engine}
@@ -96,8 +97,8 @@ Podczas implementacji napotkano następujące wyzwania:
 Instalacja Unreal Engine na systemie Linux okazała się znacznie bardziej skomplikowana niż w przypadku Unity. Dostępne są dwie ścieżki:
 
 \begin{enumerate}
-    \item Uzyskanie dostępu do oficjalnego repozytorium GitHub Epic Games i samodzielna kompilacja silnika ze źródeł \cite{unreal_arch_installation_source}
-    \item Pobranie prekompilowanej wersji binarnej \cite{unreal_arch_installation_binary}
+    \item Uzyskanie dostępu do oficjalnego repozytorium GitHub Epic Games i samodzielna kompilacja silnika ze źródeł \cite{unreal_arch_installation_source}.
+    \item Pobranie prekompilowanej wersji binarnej \cite{unreal_arch_installation_binary}.
 \end{enumerate}
 
 \begin{figure}[H]
@@ -127,9 +128,9 @@ tryb 2D z~wyspecjalizowanymi komponentami.
 
 Ta różnica ma praktyczne konsekwencje:
 \begin{itemize}
-    \item W Unreal konieczne jest ręczne konfigurowanie kamery ortograficznej
-    \item Fizyka 2D w~Unreal wykorzystuje te same komponenty co 3D, z~ograniczeniami na odpowiednich osiach
-    \item Sprite'y w Unreal są renderowane jako płaskie meshe w przestrzeni 3D
+    \item W Unreal konieczne jest ręczne konfigurowanie kamery ortograficznej.
+    \item Fizyka 2D w~Unreal wykorzystuje te same komponenty co 3D, z~ograniczeniami na odpowiednich osiach.
+    \item Sprite'y w Unreal są renderowane jako płaskie meshe w przestrzeni 3D.
 \end{itemize}
 
 
@@ -138,42 +139,42 @@ Unreal oferuje dwa podejścia do programowania logiki gry:
 
 W praktyce korzystanie z nich dla osoby która zna tradycyjne programowanie okazazało się frustrujące ze względu na:
 \begin{itemize}
-    \item Problemy z kontrolą wersji
-    \item Trudności w debugowaniu
-    \item Ograniczoną czytelność i skalowalność
-    \item Ograniczenie w funkcjach z którycj można korzytsać
+    \item Problemy z kontrolą wersji.
+    \item Trudności w debugowaniu.
+    \item Ograniczoną czytelność i skalowalność.
+    \item Ograniczenie w funkcjach z którycj można korzytsać.
 \end{itemize}
 
 użycie go ostatecznie okazało się bardziej intujcywne i prostsze dla projektu z uwagi na doświadczenie w pisaniu programów w 
 tradycyjny sposób
 
 
-Implementacja object poolingu w~Unreal wymaga innego podejścia \\ niż w Unity.
+Implementacja object poolingu w~Unreal wymaga innego podejścia niż w Unity.
 Zamiast prostego \texttt{SetActive(true/\allowbreak false)}, Unreal wykorzystuje:
 
 \begin{itemize}
-    \item \texttt{SetActorHiddenInGame()} -- kontrola widoczności
-    \item \texttt{SetActorEnableCollision()} -- kontrola kolizji
-    \item \texttt{SetActorTickEnabled()} -- kontrola aktualizacji logiki
+    \item \texttt{SetActorHiddenInGame()} -- kontrola widoczności.
+    \item \texttt{SetActorEnableCollision()} -- kontrola kolizji.
+    \item \texttt{SetActorTickEnabled()} -- kontrola aktualizacji logiki.
 \end{itemize}
 
 Ta granularność daje większą kontrolę, ale wymaga więcej kodu do osiągnięcia tego samego efektu.
 
 
 \begin{enumerate}
-    \item \textbf{Brak natywnego 2D} -- konieczność ``symulowania'' środowiska 2D w silniku 3D
-    \item \textbf{Czas kompilacji} -- kompilacja projektów C++ jest znacznie wolniejsza niż kompilacja C\# w Unity
-    \item \textbf{Rozmiar projektu} -- nawet prosty projekt Unreal zajmuje wielokrotnie więcej miejsca na dysku
-    \item \textbf{Dokumentacja} -- dla mniej popularnych zastosowań (jak gry 2D) dokumentacja jest ograniczona
-    \item \textbf{Blueprinty i kontrola wersji} -- pliki Blueprintów są binarne, co \\ utrudnia merge'owanie i code review
+    \item \textbf{Brak natywnego 2D} -- konieczność ``symulowania'' środowiska 2D w silniku 3D.
+    \item \textbf{Czas kompilacji} -- kompilacja projektów C++ jest znacznie wolniejsza niż kompilacja C\# w Unity.
+    \item \textbf{Rozmiar projektu} -- nawet prosty projekt Unreal zajmuje wielokrotnie więcej miejsca na dysku.
+    \item \textbf{Dokumentacja} -- dla mniej popularnych zastosowań (jak gry 2D) dokumentacja jest ograniczona.
+    \item \textbf{Blueprinty i kontrola wersji} -- pliki Blueprintów są binarne, co utrudnia merge'owanie i code review.
 \end{enumerate}
 
 
 \begin{itemize}
-    \item Potężny system materiałów i efektów wizualnych
-    \item Wbudowane zaawansowane narzędzia profilowania
-    \item Blueprinty umożliwiają szybkie prototypowanie przez osoby nietechniczne
-    \item Doskonałe wsparcie dla grafiki 3D i fotorealizmu
+    \item Potężny system materiałów i efektów wizualnych.
+    \item Wbudowane zaawansowane narzędzia profilowania.
+    \item Blueprinty umożliwiają szybkie prototypowanie przez osoby nietechniczne.
+    \item Doskonałe wsparcie dla grafiki 3D i fotorealizmu.
 \end{itemize}
 
 \subsection{Porównanie doświadczeń implementacyjnych}
@@ -210,11 +211,11 @@ Rozmiar projektu & Mały & Duży \\
 Doświadczenia z implementacji gry bullet-hell potwierdzają, że wybór silnika powinien być uzależniony od typu projektu:
 
 \begin{enumerate}
-    \item \textbf{Dla gier 2D} -- Unity oferuje znacznie lepsze wsparcie natywne, niższy próg wejścia i szybszy cykl iteracji
-    \item \textbf{Dla gier 3D AAA} -- Unreal Engine dysponuje lepszymi narzędziami do tworzenia fotorealistycznej grafiki
-    \item \textbf{Dla prototypowania} -- Unity pozwala na szybsze testowanie koncepcji dzięki hot reloadowi i prostszej konfiguracji
-    \item \textbf{Dla zespołów mieszanych} -- Blueprinty Unreal mogą być \\ wartościowe dla współpracy 
-    z designerami, choć problemy \\ z kontrolą wersji stanowią wyzwanie
+    \item \textbf{Dla gier 2D} -- Unity oferuje znacznie lepsze wsparcie natywne, niższy próg wejścia i szybszy cykl iteracji.
+    \item \textbf{Dla gier 3D AAA} -- Unreal Engine dysponuje lepszymi narzędziami do tworzenia fotorealistycznej grafiki.
+    \item \textbf{Dla prototypowania} -- Unity pozwala na szybsze testowanie koncepcji dzięki hot reloadowi i prostszej konfiguracji.
+    \item \textbf{Dla zespołów mieszanych} -- Blueprinty Unreal mogą być wartościowe dla współpracy 
+    z designerami, choć problemy z kontrolą wersji stanowią wyzwanie.
 \end{enumerate}
 
 Implementacja gry bullet-hell w~Unity zajęła około 60\% czasu

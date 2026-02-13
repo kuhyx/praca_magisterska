@@ -1,0 +1,925 @@
+#separator:Tab
+#html:true
+#tags column:3
+#notetype:Basic
+Jaki typ pamięci ma automat skończony (FA)?	Brak — tylko stan	pyt01 AISDI FA pamięć
+Jaki typ pamięci ma automat ze stosem (PDA)?	Stos (LIFO)	pyt01 AISDI PDA pamięć
+Jaki typ pamięci ma maszyna Turinga (TM)?	Taśma nieskończona R/W	pyt01 AISDI TM pamięć
+Jaki typ pamięci ma LBA (Typ 1)?	Taśma ograniczona do |w| (R/W)	pyt01 AISDI LBA pamięć
+Jaką klasę języków rozpoznaje FA?	Regularne (Typ 3)	pyt01 AISDI FA klasa
+Jaką klasę języków rozpoznaje PDA?	Bezkontekstowe (Typ 2)	pyt01 AISDI PDA klasa
+Jaką klasę języków rozpoznaje LBA?	Kontekstowe (Typ 1)	pyt01 AISDI LBA klasa
+Jaką klasę języków rozpoznaje TM?	Rekurencyjnie przeliczalne (Typ 0)	pyt01 AISDI TM klasa
+Czy DFA i NFA są równoważne (rozpoznają te same języki)?	Tak	pyt01 AISDI FA det_niedet
+Czy DPDA i NPDA są równoważne?	Nie — NPDA rozpoznaje ściśle więcej (DPDA ⊂ NPDA)	pyt01 AISDI PDA det_niedet
+Czy DLBA i NLBA są równoważne?	Problem otwarty (nierozwiązany!)	pyt01 AISDI LBA det_niedet
+Czy DTM i NTM są równoważne pod względem mocy?	Tak — rozpoznają te same języki	pyt01 AISDI TM det_niedet
+Jaki język jest klasycznym kontrprzykładem łamiącym FA (Typ 3)?	aⁿbⁿ	pyt01 AISDI FA kontrprzyklad
+Jaki język jest klasycznym kontrprzykładem łamiącym PDA (Typ 2)?	aⁿbⁿcⁿ	pyt01 AISDI PDA kontrprzyklad
+Dlaczego FA nie rozpoznaje aⁿbⁿ?	Brak pamięci do zliczania a-ek	pyt01 AISDI FA anbn
+Dlaczego PDA nie rozpoznaje aⁿbⁿcⁿ?	Stos zużyty przy a↔b, pusty przy c — potrzeba dwóch liczników	pyt01 AISDI PDA anbncn
+Hierarchia siły wyrazu automatów (od najsłabszego)?	FA ⊂ PDA ⊂ LBA ⊂ TM	pyt01 AISDI hierarchia_sily
+Języki regularne to Typ ... w hierarchii Chomsky'ego?	Typ 3	pyt01 AISDI Chomsky regularne
+Typ 3 w hierarchii Chomsky'ego to języki ...?	Regularne	pyt01 AISDI Chomsky typ3
+Języki bezkontekstowe to Typ ... w hierarchii Chomsky'ego?	Typ 2	pyt01 AISDI Chomsky bezkontekstowe
+Typ 2 w hierarchii Chomsky'ego to języki ...?	Bezkontekstowe	pyt01 AISDI Chomsky typ2
+Języki kontekstowe to Typ ... w hierarchii Chomsky'ego?	Typ 1	pyt01 AISDI Chomsky kontekstowe
+Typ 1 w hierarchii Chomsky'ego to języki ...?	Kontekstowe	pyt01 AISDI Chomsky typ1
+Języki rekurencyjnie przeliczalne to Typ ... w hierarchii Chomsky'ego?	Typ 0	pyt01 AISDI Chomsky rek_przeliczalne
+Typ 0 w hierarchii Chomsky'ego to języki ...?	Rekurencyjnie przeliczalne	pyt01 AISDI Chomsky typ0
+Czemu FA są równoważne (jaki formalizm)?	Wyrażeniom regularnym (regex)	pyt01 AISDI FA regex
+Co to LIFO?	Last In, First Out — zasada działania stosu	pyt01 AISDI LIFO
+Czy języki regularne są domknięte na przecięcie (∩)?	Tak	pyt01 AISDI regularne domkniecie_przeciecie
+Czy języki regularne są domknięte na dopełnienie (¬)?	Tak	pyt01 AISDI regularne domkniecie_dopelnienie
+Czy języki bezkontekstowe są domknięte na przecięcie (∩)?	Nie	pyt01 AISDI bezkontekstowe domkniecie_przeciecie
+Czy języki bezkontekstowe są domknięte na dopełnienie (¬)?	Nie	pyt01 AISDI bezkontekstowe domkniecie_dopelnienie
+Czy języki rek. przeliczalne są domknięte na dopełnienie (¬)?	Nie (komplement problemu stopu)	pyt01 AISDI rek_przeliczalne domkniecie
+Zastosowanie praktyczne FA (Typ 3)?	Leksery (analiza leksykalna — tokenizacja kodu)	pyt01 AISDI FA zastosowanie
+Zastosowanie praktyczne PDA (Typ 2)?	Parsery (analiza składniowa — drzewo składniowe)	pyt01 AISDI PDA zastosowanie
+Zastosowanie praktyczne LBA (Typ 1)?	Weryfikacja ograniczeń kontekstowych	pyt01 AISDI LBA zastosowanie
+Zastosowanie praktyczne TM (Typ 0)?	Obliczenia ogólne (każde obliczenie algorytmiczne)	pyt01 AISDI TM zastosowanie
+Context-Free (bezkontekstowe) — dlaczego ta nazwa?	Produkcje A → α stosowane BEZ patrzenia na kontekst wokół A	pyt01 AISDI bezkontekstowe etymologia
+Context-Sensitive (kontekstowe) — dlaczego ta nazwa?	Produkcje αAβ → αγβ — przepisanie A ZALEŻY od kontekstu α i β	pyt01 AISDI kontekstowe etymologia
+Kto stworzył hierarchię Chomsky'ego i kiedy?	Noam Chomsky (MIT, 1956)	pyt01 AISDI Chomsky autor
+Kto stworzył maszynę Turinga i kiedy?	Alan Turing (1936, „On Computable Numbers")	pyt01 AISDI Turing autor
+„Pushdown" w PDA pochodzi od ...?	Dozownik tac w stołówce (spring-loaded tray dispenser — push down)	pyt01 AISDI PDA pushdown_etymologia
+Teza Churcha-Turinga mówi, że ...?	TM modeluje każde możliwe obliczenie	pyt01 AISDI Turing teza
+Mnemotechnika: „Raz Bardzo Kolorowy Rekin" — kolejność hierarchii Chomsky'ego?	Regularny ⊂ Bezkontekstowy ⊂ Kontekstowy ⊂ Rek.przeliczalny	pyt01 AISDI Chomsky mnemotechnika
+Mnemotechnika pamięci automatów (od najsłabszego)?	Brak → Stos → Taśma ogr. → Taśma ∞	pyt01 AISDI pamięć mnemotechnika
+Język ww (powtórzenie słowa, np. abab) — czy PDA go rozpoznaje?	Nie — stos odwraca kolejność, co pomaga przy palindromach, ale nie przy powtórzeniu	pyt01 AISDI PDA ww
+Język wwᴿ (palindrom, np. abba) — czy PDA go rozpoznaje?	Tak (NPDA „zgaduje" środek słowa)	pyt01 AISDI PDA palindrom
+#notetype:Cloze
+Hierarchia Chomsky'ego: Typ 3 = {{c1::Regularne}} (FA) ⊂ Typ 2 = {{c2::Bezkontekstowe}} (PDA) ⊂ Typ 1 = {{c3::Kontekstowe}} (LBA) ⊂ Typ 0 = {{c4::Rek. przeliczalne}} (TM)		pyt01 AISDI Chomsky_cloze
+FA: M = (Q, Σ, {{c1::δ}}, q₀, F) — {{c1::δ}} to funkcja ...?	przejścia (transition function)	pyt01 AISDI FA definicja
+Domknięcie ∩/¬ — FA: {{c1::TAK}}/{{c2::TAK}}, PDA: {{c3::NIE}}/{{c4::NIE}}, TM: {{c5::TAK}}/{{c6::NIE}}		pyt01 AISDI domkniecie_cloze
+#notetype:Basic
+Dijkstra — jaki typ algorytmu?	Zachłanny (greedy)	pyt02 AISDI Dijkstra typ
+Bellman-Ford — jaki typ algorytmu?	Programowanie dynamiczne	pyt02 AISDI BellmanFord typ
+A* — jaki typ algorytmu?	Heurystyczny	pyt02 AISDI Astar typ
+Dijkstra rozwiązuje problem typu ...?	SSSP (Single-Source Shortest Path)	pyt02 AISDI Dijkstra problem
+Bellman-Ford rozwiązuje problem typu ...?	SSSP (Single-Source Shortest Path)	pyt02 AISDI BellmanFord problem
+A* rozwiązuje problem typu ...?	Single-Pair (najkrótsza ścieżka z A do B)	pyt02 AISDI Astar problem
+Czy Dijkstra obsługuje ujemne wagi?	Nie — raz oznaczony wierzchołek nie jest rewidowany	pyt02 AISDI Dijkstra ujemne_wagi
+Czy Bellman-Ford obsługuje ujemne wagi?	Tak	pyt02 AISDI BellmanFord ujemne_wagi
+Czy Bellman-Ford wykrywa cykle ujemne?	Tak — jeśli w V-tej iteracji nadal można poprawić	pyt02 AISDI BellmanFord cykl_ujemny
+Złożoność Dijkstry z tablicą?	O(V²)	pyt02 AISDI Dijkstra zlozonosc_tablica
+Złożoność Dijkstry z kopcem binarnym?	O((V+E) log V)	pyt02 AISDI Dijkstra zlozonosc_kopiec
+Złożoność Dijkstry z kopcem Fibonacciego?	O(V log V + E)	pyt02 AISDI Dijkstra zlozonosc_fib
+Złożoność Bellmana-Forda?	O(V·E)	pyt02 AISDI BellmanFord zlozonosc
+Dlaczego Bellman-Ford wykonuje dokładnie V−1 iteracji?	Najdłuższa najkrótsza ścieżka bez cykli ma co najwyżej V−1 krawędzi	pyt02 AISDI BellmanFord V-1
+W A*: f(n) = ?	g(n) + h(n)	pyt02 AISDI Astar f
+W A*: g(n) to ...?	Dotychczasowy koszt od startu do n (znany, dokładny)	pyt02 AISDI Astar g
+W A*: h(n) to ...?	Heurystyka — oszacowanie kosztu od n do celu	pyt02 AISDI Astar h
+h(n) w A* musi być ... żeby gwarantować optymalność?	Dopuszczalna (admissible): h(n) ≤ rzeczywisty koszt n→cel	pyt02 AISDI Astar admissible
+Heurystyka spójna (consistent) w A* — warunek?	h(n) ≤ w(n,m) + h(m) dla każdej krawędzi n→m	pyt02 AISDI Astar consistent
+Czy spójność heurystyki implikuje dopuszczalność?	Tak (spójna ⇒ dopuszczalna, ale nie odwrotnie)	pyt02 AISDI Astar spoj_implikuje_dop
+Najlepszy przypadek złożoności A*?	O(V) — gdy heurystyka jest idealna	pyt02 AISDI Astar best_case
+Najgorszy przypadek A* (h=0)?	Degeneruje się do Dijkstry	pyt02 AISDI Astar worst_case
+Co to jest relaksacja krawędzi (edge relaxation)?	Jeśli d[u] + w(u,v) < d[v], zaktualizuj d[v] — „rozluźnienie" górnego ograniczenia	pyt02 AISDI relaksacja
+Kopiec Fibonacciego — klucz. przewaga nad zwykłym kopcem w Dijkstrze?	Decrease-key w zamortyzowanym O(1) zamiast O(log V)	pyt02 AISDI kopiec_fib
+Kto opracował algorytm Dijkstry i kiedy?	Edsger W. Dijkstra (Holandia, 1959)	pyt02 AISDI Dijkstra autor
+Hart, Nilsson, Raphael (Stanford, 1968) opracowali algorytm ...?	A*	pyt02 AISDI Astar autor_rev
+Kto opracował algorytm A*?	Hart, Nilsson, Raphael (Stanford, 1968)	pyt02 AISDI Astar autor
+Richard Bellman jest też twórcą koncepcji ...?	Programowania dynamicznego	pyt02 AISDI Bellman DP
+Dlaczego Bellman nazwał swoją metodę „dynamic programming"?	By brzmiało imponująco dla polityków — nie miało związku z dynamiką	pyt02 AISDI Bellman DP_etymologia
+„Heurystyka" — etymologia (język grecki)?	„heuriskein" = znajdować (to samo co „Eureka!" Archimedesa)	pyt02 AISDI heurystyka_etymologia
+A* rozszerza algorytm ... o heurystykę h(n).	Dijkstry	pyt02 AISDI Astar relacja_Dijkstra
+Mnemotechnika: „Dijkstra = chciwy" — co to oznacza?	Bierze minimum i nie patrzy wstecz (stąd problem z ujemnymi wagami)	pyt02 AISDI Dijkstra mnemotechnika
+Mnemotechnika: „Bellman-Ford = brute force × (V−1)"?	Relaksuj wszystkie krawędzie V−1 razy	pyt02 AISDI BellmanFord mnemotechnika
+Mnemotechnika: „A* = Dijkstra + GPS"?	Heurystyka mówi w którą stronę jest cel	pyt02 AISDI Astar mnemotechnika
+SSSP to skrót od ...?	Single-Source Shortest Path	pyt02 AISDI SSSP
+#notetype:Cloze
+Złożoność Dijkstry: tablica = {{c1::O(V²)}}, kopiec = {{c2::O((V+E) log V)}}, Fibonacci = {{c3::O(V log V + E)}}		pyt02 AISDI Dijkstra zlozonosc_cloze
+A*: f(n) = {{c1::g(n)}} + {{c2::h(n)}}		pyt02 AISDI Astar f_cloze
+Algorytm {{c1::Dijkstry}} — zachłanny SSSP, wagi ≥ 0; {{c2::Bellman-Ford}} — DP, SSSP, ujemne wagi + cykle; {{c3::A*}} — heurystyczny, Single-Pair		pyt02 AISDI porownanie_cloze
+#notetype:Basic
+Co to jest redundancja w bazie danych?	Powtarzanie tych samych danych w wielu miejscach	pyt03 BD2 redundancja definicja
+Anomalia wstawiania (insert anomaly) — na czym polega?	Nie można dodać danych bez podania niepotrzebnych powiązań	pyt03 BD2 anomalia_wstawiania
+Anomalia usuwania (delete anomaly) — na czym polega?	Usunięcie rekordu kasuje niezwiązane informacje	pyt03 BD2 anomalia_usuwania
+Anomalia modyfikacji (update anomaly) — na czym polega?	Zmiana jednej informacji wymaga aktualizacji wielu wierszy	pyt03 BD2 anomalia_modyfikacji
+Co oznacza zapis X → Y (zależność funkcyjna)?	Znając wartość X, zawsze można jednoznacznie wyznaczyć Y	pyt03 BD2 FD definicja
+Co to jest zależność przechodnia (transitive dependency)?	A → B i B → C, więc A → C „przez pośrednika B"	pyt03 BD2 FD_przechodnia
+Co to jest klucz złożony (composite key)?	Klucz główny składający się z więcej niż jednej kolumny	pyt03 BD2 klucz_zlozony
+Co to jest atrybut wtórny (non-prime)?	Kolumna, która NIE jest częścią żadnego klucza kandydującego	pyt03 BD2 atrybut_wtorny
+Co to jest nadklucz (superkey)?	Dowolny zbiór kolumn identyfikujący wiersz jednoznacznie (może mieć „nadmiarowe" kolumny)	pyt03 BD2 nadklucz
+1NF wymaga ...?	Atomowych wartości (brak list/tablic w komórkach) + istnieje klucz główny	pyt03 BD2 1NF
+2NF dodaje do 1NF ...?	Każdy atrybut wtórny zależy od CAŁEGO klucza (brak częściowych zależności)	pyt03 BD2 2NF
+3NF dodaje do 2NF ...?	Brak zależności przechodnich (atrybut wtórny nie zależy od innego wtórnego)	pyt03 BD2 3NF
+BCNF — warunek?	Dla każdej nietrywialnej FD X→A, X jest nadkluczem	pyt03 BD2 BCNF
+Czym BCNF różni się od 3NF?	BCNF nie ma wyjątku dla atrybutów pierwszych — lewa strona FD ZAWSZE nadklucz	pyt03 BD2 BCNF_vs_3NF
+4NF dodaje do BCNF ...?	Brak nietrywialnych wielowartościowych zależności (MVD)	pyt03 BD2 4NF
+Co to jest MVD (Multi-Valued Dependency)?	X →→ Y — dla jednej wartości X istnieje ZBIÓR wartości Y, niezależny od reszty	pyt03 BD2 MVD
+Normalizacja eliminuje redundancję przez ...?	Dekompozycję (rozbicie dużej tabeli na mniejsze)	pyt03 BD2 normalizacja_metoda
+Co to jest denormalizacja?	Świadome wprowadzanie redundancji dla wydajności (mniej JOIN-ów)	pyt03 BD2 denormalizacja
+Denormalizacja stosowana głównie w systemach typu ...?	OLAP / data warehousing (analitycznych)	pyt03 BD2 denormalizacja_zastosowanie
+Kolejność zawierania postaci normalnych (od najsilniejszej)?	5NF ⊂ 4NF ⊂ BCNF ⊂ 3NF ⊂ 2NF ⊂ 1NF	pyt03 BD2 NF_hierarchia
+Kto zaproponował normalizację (1NF–3NF)?	Edgar F. Codd (IBM, 1970)	pyt03 BD2 Codd autor
+BCNF — nazwana od ...?	Raymond Boyce + Codd (1974)	pyt03 BD2 BCNF autor
+Problem naruszenia 2NF: NazwaKursu zależy tylko od KursID, a klucz to (StudentID, KursID). To jest ...?	Częściowa zależność od klucza złożonego	pyt03 BD2 2NF_naruszenie
+Problem naruszenia 3NF: StudentID → WydziałID → NazwaWydziału. To jest ...?	Zależność przechodnia	pyt03 BD2 3NF_naruszenie
+Mnemotechnika: „Klucz, cały klucz i tylko klucz — tak mi dopomóż ..."?	Codd (1NF = klucz, 2NF = cały klucz, 3NF = tylko klucz)	pyt03 BD2 mnemotechnika_Codd
+Mnemotechnika: „WUM" dla 3 anomalii?	Wstawianie, Usuwanie, Modyfikacja	pyt03 BD2 mnemotechnika_WUM
+FD: Prowadzący → Przedmiot, a Prowadzący NIE jest nadkluczem — łamie ...?	BCNF (ale może spełniać 3NF, jeśli Przedmiot jest atrybutem pierwszym)	pyt03 BD2 BCNF_przyklad
+Nietrywialna FD to ...?	X → A, gdzie A nie jest częścią X	pyt03 BD2 FD_nietrywialna
+#notetype:Cloze
+Postacie normalne: {{c1::1NF}} = atomowe wartości; {{c2::2NF}} = brak częściowych zależności; {{c3::3NF}} = brak zależności przechodnich		pyt03 BD2 NF_cloze
+„Klucz, cały klucz i tylko klucz": klucz = {{c1::1NF}}, cały klucz = {{c2::2NF}}, tylko klucz = {{c3::3NF}}		pyt03 BD2 Codd_cloze
+3 anomalie redundancji: {{c1::Wstawiania}}, {{c2::Usuwania}}, {{c3::Modyfikacji}}		pyt03 BD2 anomalie_cloze
+#notetype:Basic
+Przelew bankowy: crash po odjęciu 100 zł od Ani, ale przed dodaniem Janowi. Która cecha ACID ratuje?	Atomicity — albo cała transakcja, albo nic (rollback)	pyt04 BD2 ACID atomicity_scenariusz
+ACID — A = ?	Atomicity (Atomowość): transakcja — albo cała, albo nic	pyt04 BD2 ACID A
+ACID — C = ?	Consistency (Spójność): baza ze spójnego stanu w spójny stan	pyt04 BD2 ACID C
+ACID — I = ?	Isolation (Izolacja): równoległe transakcje nie widzą swoich niedokończonych zmian	pyt04 BD2 ACID I
+ACID — D = ?	Durability (Trwałość): po COMMIT efekty przetrwają każdą awarię	pyt04 BD2 ACID D
+Co zapewnia Durability technicznie?	Zapis do trwałego magazynu (dysk, WAL — Write-Ahead Log)	pyt04 BD2 ACID D_mechanizm
+3 poziomy architektury ANSI/SPARC (od góry)?	Zewnętrzny → Konceptualny → Wewnętrzny	pyt04 BD2 ANSI_SPARC poziomy
+Poziom zewnętrzny ANSI/SPARC = ?	CO widzi użytkownik/aplikacja (widoki, podzbiory danych)	pyt04 BD2 ANSI_SPARC zewnetrzny
+Poziom konceptualny ANSI/SPARC = ?	JAKA jest struktura danych (tabele, kolumny, relacje)	pyt04 BD2 ANSI_SPARC konceptualny
+Poziom wewnętrzny ANSI/SPARC = ?	JAK dane są fizycznie przechowywane (pliki, indeksy, bloki)	pyt04 BD2 ANSI_SPARC wewnetrzny
+Niezależność fizyczna w bazach danych — co oznacza?	Zmiana sposobu przechowywania (indeksy, partycje) nie wymaga zmiany aplikacji	pyt04 BD2 niezaleznosc_fizyczna
+Niezależność logiczna w bazach danych — co oznacza?	Zmiana struktury tabel minimalizuje wpływ na aplikacje (dzięki widokom)	pyt04 BD2 niezaleznosc_logiczna
+MVCC (Multi-Version Concurrency Control) — idea?	Baza trzyma wiele wersji danych — odczyt nie blokuje zapisu	pyt04 BD2 MVCC
+Snapshot Isolation — co widzi transakcja?	„Migawkę" bazy z momentu swojego startu (spójny obraz z przeszłości)	pyt04 BD2 snapshot_isolation
+Co to jest klucz obcy (foreign key)?	Wiersz MUSI odnosić się do istniejącego wiersza w innej tabeli	pyt04 BD2 FK
+CHECK constraint — do czego służy?	Ograniczenie na wartości kolumny (np. wiek ≥ 0)	pyt04 BD2 CHECK
+Co to jest trigger (wyzwalacz)?	Fragment kodu uruchamiany AUTOMATYCZNIE przy operacji na bazie	pyt04 BD2 trigger
+Co robi optymalizator zapytań (query optimizer)?	Automatycznie wybiera najszybszy sposób wykonania zapytania SQL	pyt04 BD2 optymalizator
+GRANT i REVOKE w SQL służą do ...?	Nadawania/odbierania uprawnień użytkownikom	pyt04 BD2 GRANT_REVOKE
+TDE (Transparent Data Encryption) — co to?	Szyfrowanie przezroczyste — aplikacja nie wie, że dane są szyfrowane	pyt04 BD2 TDE
+Replikacja bazy danych — idea?	Kopia bazy na wielu serwerach (master + repliki)	pyt04 BD2 replikacja
+Sharding (fragmentacja) — idea?	Podział danych na kawałki na RÓŻNYCH serwerach	pyt04 BD2 sharding
+ANSI/SPARC — rok zaproponowania architektury?	1975	pyt04 BD2 ANSI_SPARC rok
+SQL — oryginalnie nazywał się ...?	SEQUEL (Structured English Query Language, Chamberlin & Boyce, IBM 1974)	pyt04 BD2 SQL etymologia
+ACID jako akronim — kto zaproponował?	Reuter & Härder (1983)	pyt04 BD2 ACID autor
+8 powodów, dla których DB to dobry fundament: trwałość, współbieżność, integralność, niezależność, optymalizacja, bezpieczeństwo, skalowalność, standardowy SQL — jak to zapamiętać?	„DB = centralne źródło prawdy" + ACID gwarantuje podstawy	pyt04 BD2 mnemotechnika
+#notetype:Cloze
+ACID: A = {{c1::Atomicity}}, C = {{c2::Consistency}}, I = {{c3::Isolation}}, D = {{c4::Durability}}		pyt04 BD2 ACID_cloze
+ANSI/SPARC: {{c1::Zewnętrzny}} (CO) → {{c2::Konceptualny}} (JAKA) → {{c3::Wewnętrzny}} (JAK)		pyt04 BD2 ANSI_SPARC_cloze
+SQL oryginalnie: {{c1::SEQUEL}} — autorzy: {{c2::Chamberlin}} & {{c3::Boyce}} (IBM, {{c4::1974}})		pyt04 BD2 SQL_cloze
+#notetype:Basic
+Cztery filary STL?	Kontenery, Iteratory, Algorytmy, Funktory	pyt05 PROI STL filary
+STL — co oznacza skrót?	Standard Template Library	pyt05 PROI STL skrot
+Co to jest kontener (container) w STL?	Struktura danych przechowująca kolekcję elementów	pyt05 PROI STL kontener
+Co to jest iterator w STL?	Obiekt wskazujący na element w kontenerze, umożliwiający przechodzenie po elementach	pyt05 PROI STL iterator
+Co to jest algorytm w STL?	Gotowa operacja na danych (sort, find, copy itp.)	pyt05 PROI STL algorytm
+Co to jest funktor (function object) w STL?	Obiekt z operator() — parametryzuje algorytmy (JAK porównywać/przekształcać)	pyt05 PROI STL funktor
+Architektura ortogonalna STL — M kontenerów + N algorytmów wymaga ... implementacji?	M + N (nie M × N) — dzięki iteratorom jako łącznikowi	pyt05 PROI STL ortogonalnosc
+vector — typ pamięci?	Ciągły blok (contiguous memory)	pyt05 PROI vector pamiec
+vector — dostęp do i-tego elementu?	O(1)	pyt05 PROI vector dostep
+vector — push_back?	Zamortyzowane O(1)	pyt05 PROI vector push_back
+vector — wstawianie w środku?	O(n)	pyt05 PROI vector insert
+Dlaczego vector jest domyślnym wyborem w C++?	Ciągła pamięć → cache-friendly (CPU ładuje bloki pamięci)	pyt05 PROI vector domyslny
+deque — co oznacza nazwa?	Double-Ended QUEue (kolejka dwustronna)	pyt05 PROI deque nazwa
+deque — push_front i push_back?	Oba O(1)	pyt05 PROI deque push
+list w STL — typ listy?	Lista dwukierunkowa (prev + next)	pyt05 PROI list typ
+list — wstawianie/usuwanie (mając iterator)?	O(1) — wystarczy przepiąć wskaźniki	pyt05 PROI list insert
+list — dostęp do i-tego elementu?	O(n) — brak indeksowania, trzeba przejść po wskaźnikach	pyt05 PROI list dostep
+forward_list — różnica od list?	Wskaźnik TYLKO na następny element (nie na poprzedni) — iteracja tylko do przodu	pyt05 PROI forward_list
+Kontenery asocjacyjne (set, map) — wewnętrzna struktura?	Drzewo czerwono-czarne (R-B tree)	pyt05 PROI asocjacyjne struktura
+set/map — złożoność wyszukiwania?	O(log n)	pyt05 PROI set_map zlozonosc
+Czym multiset różni się od set?	Pozwala na duplikaty	pyt05 PROI multiset
+unordered_set/unordered_map — wewnętrzna struktura?	Tablica haszująca (hash table)	pyt05 PROI unordered struktura
+unordered_set/map — średnia złożoność wyszukiwania?	O(1)	pyt05 PROI unordered zlozonosc_srednia
+unordered_set/map — najgorsza złożoność (kolizje)?	O(n)	pyt05 PROI unordered zlozonosc_worst
+stack — zasada działania?	LIFO (Last In, First Out)	pyt05 PROI stack
+queue — zasada działania?	FIFO (First In, First Out)	pyt05 PROI queue
+priority_queue — wewnętrzna struktura?	Kopiec (heap)	pyt05 PROI priority_queue
+priority_queue — push/pop?	O(log n)	pyt05 PROI priority_queue zlozonosc
+Adaptery kontenerów w STL (3 główne)?	stack, queue, priority_queue	pyt05 PROI adaptery
+Hierarchia iteratorów (od najsłabszego): Input → ... → Random Access?	Input → Output → Forward → Bidirectional → Random Access	pyt05 PROI iterator hierarchia
+vector::iterator to iterator typu ...?	Random Access (ciągła pamięć → skok O(1))	pyt05 PROI vector iterator_typ
+list::iterator to iterator typu ...?	Bidirectional (prev/next wskaźniki)	pyt05 PROI list iterator_typ
+forward_list::iterator to iterator typu ...?	Forward (tylko next)	pyt05 PROI forward_list iterator_typ
+Dlaczego NIE można sort(list.begin(), list.end())?	sort wymaga Random Access, a list daje Bidirectional (lista ma własny .sort())	pyt05 PROI list sort
+sort wymaga iteratora typu ...?	Random Access	pyt05 PROI sort iterator
+Złożoność std::sort?	O(n log n)	pyt05 PROI sort zlozonosc
+Zakres iteratorów w STL: [begin, end) — co oznacza nawiasy?	begin = pierwszy element; end = JEDEN ZA OSTATNIM (nie sam ostatni)	pyt05 PROI zakres
+Lambda w C++ (od C++11) — co to?	Anonimowa funkcja definiowana w miejscu użycia: [capture](params){ body }	pyt05 PROI lambda
+Kto stworzył STL?	Alexander Stepanov + Meng Lee (HP, 1994)	pyt05 PROI STL autor
+Mnemotechnika: „KIAF" — filary STL?	Kontenery, Iteratory, Algorytmy, Funktory	pyt05 PROI STL mnemotechnika
+Kiedy set/map zamiast unordered?	Gdy potrzebne posortowane dane lub iteracja w kolejności	pyt05 PROI set_vs_unordered
+#notetype:Cloze
+Filary STL: {{c1::Kontenery}} + {{c2::Iteratory}} + {{c3::Algorytmy}} + {{c4::Funktory}}		pyt05 PROI STL filary_cloze
+Iteratory STL: {{c1::Input}} → {{c2::Forward}} → {{c3::Bidirectional}} → {{c4::Random Access}}		pyt05 PROI iterator_cloze
+Kontenery asocjacyjne (set/map) = {{c1::drzewo R-B}}, O({{c2::log n}}); unordered = {{c3::hash table}}, O({{c4::1}}) średnio		pyt05 PROI kontenery_cloze
+#notetype:Basic
+Dziedziczenie (inheritance) — jaka relacja?	„Jest" (is-a): Dog jest Animal	pyt06 PROI OOP dziedziczenie
+Kompozycja (composition) — jaka relacja?	„Ma" / „Zawiera" (has-a): Car ma Engine	pyt06 PROI OOP kompozycja
+Problem diamentu (diamond problem) — na czym polega?	Klasa D dziedziczy po B i C, oba po A → D ma dwie kopie A	pyt06 PROI OOP diament
+Rozwiązanie problemu diamentu w C++?	Dziedziczenie wirtualne: class B : virtual public A	pyt06 PROI OOP diament_rozwiazanie
+Polimorfizm — co oznacza?	„Wiele form" — traktowanie obiektów różnych klas przez wspólny interfejs	pyt06 PROI OOP polimorfizm
+Polimorfizm w C++ — realizacja techniczna?	Funkcje wirtualne (virtual + override) + tablica vtable	pyt06 PROI OOP vtable
+„Favor composition over inheritance" — skąd pochodzi?	GoF — Gang of Four (Design Patterns, 1994)	pyt06 PROI OOP GoF_zasada
+Dlaczego preferować kompozycję nad dziedziczenie?	Luźniejsze wiązanie, łatwiejsze testowanie, elastyczność w runtime	pyt06 PROI OOP kompozycja_dlaczego
+GoF — kto to?	Gamma, Helm, Johnson, Vlissides — autorzy „Design Patterns" (1994)	pyt06 PROI OOP GoF
+Ile wzorców w książce GoF?	23 (w 3 kategoriach: kreacyjne, strukturalne, behawioralne)	pyt06 PROI OOP GoF_23
+Wzorzec Strategy — idea?	Wymień algorytm w runtime przez interfejs	pyt06 PROI OOP Strategy
+Wzorzec Observer — idea?	Obiekt powiadamia subskrybentów o zmianach stanu (pub/sub w OOP)	pyt06 PROI OOP Observer
+Wzorzec Factory — idea?	Tworzenie obiektów bez określania dokładnej klasy (decyzja w runtime)	pyt06 PROI OOP Factory
+Wzorzec Decorator — idea?	Dodaj zachowanie do obiektu dynamicznie, opakowując go	pyt06 PROI OOP Decorator
+Template (C++) — co robi kompilator?	Generuje osobną wersję kodu dla każdego użytego typu (monomorfizacja)	pyt06 PROI OOP template
+Interfejs (interface) w OOP — co to?	Kontrakt: zbiór metod BEZ implementacji; klasa musi dostarczyć ciała	pyt06 PROI OOP interfejs
+Interfejs w C++ — oznaczenie?	Czysto wirtualne metody (virtual void draw() = 0)	pyt06 PROI OOP interfejs_cpp
+Klasa abstrakcyjna vs interfejs?	Abstrakcyjna może mieć implementację; interfejs = 100% abstrakcyjna	pyt06 PROI OOP abstrakcyjna_vs_interfejs
+Biblioteka vs framework — co to jest IoC?	Library: my code calls library; Framework: framework calls my code (Inversion of Control)	pyt06 PROI OOP IoC
+Trait / Mixin — do czego służy?	Współdzielenie kodu między klasami BEZ dziedziczenia	pyt06 PROI OOP trait_mixin
+Enkapsulacja (encapsulation) — na czym polega?	Ukrywanie szczegółów implementacji za interfejsem publicznym (private, protected, public)	pyt06 PROI OOP enkapsulacja
+Kto ukuł termin „object-oriented programming"?	Alan Kay (Smalltalk, 1970s)	pyt06 PROI OOP Kay
+Polimorfizm — etymologia?	Grec. „poly" = wiele + „morphē" = forma	pyt06 PROI OOP polimorfizm_etymologia
+Agregacja vs kompozycja?	Agregacja = „używa" (obiekt istnieje niezależnie); Kompozycja = „posiada" (obiekt nie istnieje bez właściciela)	pyt06 PROI OOP agregacja_vs_kompozycja
+Mnemotechnika: „Kompozycja > Dziedziczenie" — kiedy dziedziczenie?	Tylko dla prawdziwego „is-a" z polimorfizmem; kompozycja dla reszty	pyt06 PROI OOP mnemotechnika
+#notetype:Cloze
+OOP: 6 metod reużywalności: {{c1::Dziedziczenie}}, {{c2::Kompozycja}}, {{c3::Generyki/Templates}}, {{c4::Interfejsy}}, {{c5::Wzorce projektowe}}, {{c6::Biblioteki/frameworki}}		pyt06 PROI OOP metody_cloze
+GoF 3 kategorie wzorców: {{c1::kreacyjne}}, {{c2::strukturalne}}, {{c3::behawioralne}}		pyt06 PROI OOP GoF_cloze
+#notetype:Basic
+DNS — co oznacza skrót?	Domain Name System	pyt07 SKM DNS skrot
+Ile jest logicznych root serwerów DNS?	13 (a..m.root-servers.net)	pyt07 SKM DNS root_ilosc
+Root server — co robi na zapytanie DNS?	Odsyła (referral) do serwera TLD — nie zna adresów konkretnych domen	pyt07 SKM DNS root_rola
+TLD server — przykłady domen, które obsługuje?	.com, .pl, .org, .net	pyt07 SKM DNS TLD
+Authoritative NS — Primary vs Secondary?	Primary = oryginalne rekordy (edytowalny); Secondary = kopia (nadmiarowość)	pyt07 SKM DNS auth_primary_secondary
+Recursive resolver — co robi?	Wykonuje pełne rozwiązywanie: pyta root → TLD → authoritative	pyt07 SKM DNS recursive
+Stub resolver — co to?	Prosty klient DNS w OS — wysyła zapytanie do recursive resolvera	pyt07 SKM DNS stub
+Które serwery DNS zyskują NAJWIĘCEJ na cachingu?	Root i TLD — bo najmniej serwerów obsługuje najwięcej ruchu	pyt07 SKM DNS caching_odpowiedz
+TTL w DNS — co oznacza?	Time To Live — czas (w sekundach), przez który odpowiedź jest w cache	pyt07 SKM DNS TTL
+Typowy TTL root referrals?	48h–7 dni	pyt07 SKM DNS TTL_root
+Anycast — na czym polega?	Ten sam IP z wielu lokalizacji — klient trafia do najbliższego serwera	pyt07 SKM DNS anycast
+Kto stworzył DNS i kiedy?	Paul Mockapetris (1983, RFC 882/883)	pyt07 SKM DNS autor
+Kolejność zapytań DNS (resolver)?	Recursive Resolver → Root → TLD → Authoritative	pyt07 SKM DNS kolejnosc
+Mnemotechnika: „Piramida DNS"?	Root (wierzchołek, najmniej serwerów) → TLD → Auth (podstawa, miliony)	pyt07 SKM DNS mnemotechnika
+TCP handshake — ile kroków?	3 (three-way): SYN → SYN-ACK → ACK	pyt08 SKM TCP handshake_kroki
+TCP handshake krok 1: klient wysyła ...?	SYN, seq=x (swój ISN)	pyt08 SKM TCP handshake_1
+TCP handshake krok 2: serwer odpowiada ...?	SYN+ACK, seq=y (swój ISN), ack=x+1	pyt08 SKM TCP handshake_2
+TCP handshake krok 3: klient wysyła ...?	ACK, seq=x+1, ack=y+1	pyt08 SKM TCP handshake_3
+3 cele TCP handshake'u?	(1) Nawiązanie połączenia (2) Synchronizacja ISN (3) Uzgodnienie parametrów (MSS, Window Scale)	pyt08 SKM TCP handshake_cel
+W kontekście TCP: co oznacza ISN?	Initial Sequence Number — początkowy numer sekwencyjny	pyt08 SKM TCP ISN
+Dlaczego ISN NIE zaczyna od 0? (2 powody)	(1) Bezpieczeństwo — utrudnia TCP hijacking (2) Unikanie kolizji z poprzednimi połączeniami	pyt08 SKM TCP ISN_nie_zero
+ISN wg RFC 6528 (współczesny)?	ISN = M + F(adresy, porty, secret_key) — kryptograficznie losowy	pyt08 SKM TCP ISN_rfc6528
+SEQ w TCP — co identyfikuje?	Numer pierwszego bajtu danych w segmencie (32-bitowy)	pyt08 SKM TCP SEQ
+ACK number w TCP — co oznacza?	„Odebrałem wszystko do bajtu X−1, czekam na bajt X" (kumulatywne)	pyt08 SKM TCP ACK_number
+SACK (Selective ACK) — do czego służy?	Potwierdzanie niesąsiednich bloków danych (przyspiesza retransmisję)	pyt08 SKM TCP SACK
+MSS (Maximum Segment Size) — typowa wartość dla Ethernetu?	1460 bajtów (MTU 1500 − 20 IP − 20 TCP)	pyt08 SKM TCP MSS
+TCP to protokół warstwy ...?	Transportowej	pyt08 SKM TCP warstwa
+SYN — co oznacza?	Synchronize	pyt08 SKM TCP SYN
+ACK — co oznacza?	Acknowledge	pyt08 SKM TCP ACK
+Kto stworzył TCP?	Vint Cerf + Bob Kahn (1974)	pyt08 SKM TCP autor
+TCP (RFC 793) opublikowany w roku ...?	1981	pyt08 SKM TCP RFC
+Mnemotechnika: „SYN, SYN-ACK, ACK" — metafora?	„Hej!" → „Hej, słyszę!" → „OK, gadamy!"	pyt08 SKM TCP mnemotechnika
+#notetype:Cloze
+TCP handshake: (1) {{c1::SYN, seq=x}} → (2) {{c2::SYN+ACK, seq=y, ack=x+1}} → (3) {{c3::ACK, seq=x+1, ack=y+1}}		pyt08 SKM TCP handshake_cloze
+DNS hierarchia: {{c1::Root}} → {{c2::TLD}} → {{c3::Authoritative NS}} → odpowiedź		pyt07 SKM DNS hierarchia_cloze
+#notetype:Basic
+Proces vs wątek — pamięć?	Proces: własna izolowana; Wątek: współdzielona z procesem	pyt09 SOI procesy_watki pamiec
+Tworzenie procesu — rząd wielkości czasu?	~1–10 ms	pyt09 SOI proces tworzenie
+Tworzenie wątku — rząd wielkości czasu?	~10–100 μs (ok. 100× szybciej niż proces)	pyt09 SOI watek tworzenie
+Przełączanie kontekstu procesu jest wolne z powodu ...?	TLB flush (unieważnienie cache translacji adresów)	pyt09 SOI context_switch TLB
+Wątek — co jest prywatne (nie współdzielone)?	Stos, rejestry CPU, PC, TID	pyt09 SOI watek prywatne
+Wątek — co jest współdzielone z procesem?	Kod, dane globalne, heap, otwarte pliki	pyt09 SOI watek wspoldzielone
+PCB — co przechowuje?	PID, stan procesu, rejestry CPU, tablice stron, otwarte pliki, priorytety	pyt09 SOI PCB
+Stany procesu (5 głównych)?	NEW → READY ↔ RUNNING → BLOCKED, TERMINATED	pyt09 SOI stany
+Race condition — na czym polega?	Wynik programu zależy od kolejności operacji wątków na współdzielonych danych	pyt09 SOI race_condition
+Sekcja krytyczna — co to?	Fragment kodu wykonywany przez najwyżej jeden wątek naraz	pyt09 SOI sekcja_krytyczna
+Deadlock (zakleszczenie) — metafora?	Dwa samochody na skrzyżowaniu — oba czekają, nikt nie jedzie	pyt09 SOI deadlock
+Warunek Coffmana: zasób wyłącznie dla jednego procesu = ...?	Mutual Exclusion (wzajemne wykluczanie)	pyt09 SOI deadlock coffman_ME
+Warunek Coffmana: proces trzyma zasób i czeka na kolejny = ...?	Hold and Wait	pyt09 SOI deadlock coffman_HW
+Warunek Coffmana: zasobów nie można odebrać siłą = ...?	No Preemption	pyt09 SOI deadlock coffman_NP
+Warunek Coffmana: P1→P2→...→P1 = ...?	Circular Wait (cykliczne oczekiwanie)	pyt09 SOI deadlock coffman_CW
+Jak uniknąć deadlocka?	Złamać choćby jeden z 4 warunków Coffmana	pyt09 SOI deadlock rozwiazanie
+Zagłodzenie (starvation) — na czym polega?	Wątek nigdy nie dostaje zasobu, bo inni ciągle go wyprzedzają	pyt09 SOI starvation
+Mutex — na czym polega?	Lock na sekcję krytyczną — tylko jeden wątek może go „zamknąć", reszta czeka	pyt09 SOI mutex
+Semafor — czym różni się od mutexa?	Ma licznik — semafor(n) pozwala n wątkom jednocześnie	pyt09 SOI semafor
+Semafor: P() i V() — co oznaczają?	P() = probeer (zmniejsz); V() = verhoog (zwiększ) — holenderski, Dijkstra 1965	pyt09 SOI semafor PV
+Spinlock — czym różni się od mutexa?	Aktywne czekanie w pętli (busy-wait) zamiast zasypiania	pyt09 SOI spinlock
+Read-Write Lock — idea?	Wielu czytelników jednocześnie LUB jeden pisarz	pyt09 SOI rw_lock
+Shared Memory jako IPC — dlaczego najszybsza?	Brak kopiowania danych (wspólny region pamięci)	pyt09 SOI IPC shm
+Pipe — kierunek i ograniczenie?	Jednokierunkowy; tylko między spokrewnionymi procesami	pyt09 SOI IPC pipe
+Mnemotechnika: „Proces = mieszkanie, Wątek = pokój"?	Mieszkanie ma adres (przestrzeń); pokoje dzielą kuchnię (heap)	pyt09 SOI mnemotechnika
+Kto opracował semafory?	Dijkstra (1965)	pyt09 SOI semafor autor
+Stronicowanie — jednostka pamięci wirtualnej?	Strona (page) — stały rozmiar, typowo 4 KB	pyt10 SOI paging strona
+Ramka (frame) — co to?	Jednostka pamięci FIZYCZNEJ o tym samym rozmiarze co strona	pyt10 SOI paging ramka
+Tablica stron (page table) — co robi?	Tłumaczy numer strony → numer ramki	pyt10 SOI paging tablica_stron
+Translacja adresu: adres wirtualny = ?	[numer strony | offset] → [numer ramki | offset]	pyt10 SOI paging translacja
+TLB — co to i po co?	Translation Lookaside Buffer — sprzętowy cache translacji adresów (hit: ~1 ns)	pyt10 SOI TLB
+TLB — typowy hit rate?	>99%	pyt10 SOI TLB hitrate
+Page fault — co to?	Wyjątek sprzętowy: strona nie jest w RAM → OS ładuje z dysku (swap)	pyt10 SOI page_fault
+Koszt page fault vs dostęp do RAM?	~1–10 ms vs ~100 ns — różnica ~10 000×	pyt10 SOI page_fault koszt
+Fragmentacja zewnętrzna (external) — na czym polega?	Wolna pamięć rozproszona w małych kawałkach — suma wystarczy, ale żaden nie jest dość duży	pyt10 SOI fragmentacja_zewnetrzna
+Fragmentacja wewnętrzna (internal) — na czym polega?	Przydzielony blok większy niż potrzebny (np. strona 4KB dla 100 bajtów)	pyt10 SOI fragmentacja_wewnetrzna
+Stronicowanie — jaki typ fragmentacji?	Wewnętrzna	pyt10 SOI paging fragmentacja
+Segmentacja — jaki typ fragmentacji?	Zewnętrzna	pyt10 SOI segmentacja fragmentacja
+Segmentacja — adres = ?	(numer segmentu, offset); tablica segmentów: (baza, limit)	pyt10 SOI segmentacja adres
+Dlaczego stronicowanie wygrało nad segmentacją?	Stałe rozmiary stron = brak fragmentacji zewnętrznej, prostsze zarządzanie sprzętowe	pyt10 SOI paging_vs_seg
+COW (Copy-on-Write) — na czym polega?	Przy fork() dziecko współdzieli strony; kopia fizyczna dopiero przy zapisie	pyt10 SOI COW
+Algorytm wymiany stron LRU?	Least Recently Used — usuń najdawniej używaną stronę	pyt10 SOI LRU
+Algorytm FIFO — problem?	Anomalia Bélády'ego: więcej ramek → więcej page faults	pyt10 SOI FIFO anomalia
+Algorytm Clock (Second Chance) — idea?	Przybliżenie LRU: wskazówka + bit odwołania; bit=1 → zeruj i idź dalej; bit=0 → wymień	pyt10 SOI Clock
+Wielopoziomowe tablice stron w x86-64?	4 poziomy: PML4 → PDPT → PD → PT	pyt10 SOI tablica_4level
+Swap — co to?	Przestrzeń na dysku dla stron gdy RAM się wyczerpie	pyt10 SOI swap
+Mnemotechnika: stronicowanie vs segmentacja?	Stronicowanie = szuflady jednakowe; Segmentacja = pudełka różnej wielkości	pyt10 SOI mnemotechnika
+#notetype:Cloze
+Warunki Coffmana (deadlock): {{c1::Mutual Exclusion}}, {{c2::Hold and Wait}}, {{c3::No Preemption}}, {{c4::Circular Wait}}		pyt09 SOI deadlock coffman_cloze
+Segmenty pamięci procesu (od dołu): {{c1::TEXT}} → {{c2::DATA}} → {{c3::BSS}} → {{c4::HEAP ↑}} → {{c5::STACK ↓}}		pyt09 SOI segmenty_cloze
+Stronicowanie: {{c1::wewnętrzna}} fragmentacja, stały rozmiar; Segmentacja: {{c2::zewnętrzna}} fragmentacja, zmienny rozmiar		pyt10 SOI frag_cloze
+Algorytmy wymiany stron: {{c1::FIFO}} (prosty, anomalia), {{c2::LRU}} (optymalny praktyczny), {{c3::Clock}} (przybliżenie LRU), {{c4::Optimal}} (nierealizowalny benchmark)		pyt10 SOI algorytmy_cloze
+#notetype:Basic
+BPMN — co oznacza skrót?	Business Process Model and Notation	pyt11 WSYZ BPMN skrot
+Kto utrzymuje standard BPMN?	OMG (Object Management Group)	pyt11 WSYZ BPMN OMG
+Bramka XOR w BPMN?	Dokładnie JEDNA ścieżka (jak if/else)	pyt11 WSYZ BPMN XOR
+Bramka AND w BPMN?	WSZYSTKIE ścieżki jednocześnie (parallel)	pyt11 WSYZ BPMN AND
+Bramka OR (inclusive) w BPMN?	Jedna LUB więcej ścieżek	pyt11 WSYZ BPMN OR
+Swimlane w BPMN: Pool vs Lane?	Pool = organizacja/uczestnik; Lane = dział/rola wewnątrz	pyt11 WSYZ BPMN swimlane
+BPMN 2.0 — kluczowa zaleta formatu XML?	Diagramy mogą być bezpośrednio wykonywane przez silnik procesów (BPMS)	pyt11 WSYZ BPMN XML
+UML Activity Diagram vs BPMN — główna różnica w odbiorcach?	UML: głównie IT; BPMN: biznes + IT	pyt11 WSYZ UML_vs_BPMN
+EPC — w jakim środowisku popularny?	SAP (framework ARIS)	pyt11 WSYZ EPC SAP
+Dijkstra, Bellman-Ford, A* — jaki model sieciowy?	Najkrótsza ścieżka (shortest path)	pyt12 WSYZ shortest_path
+Ford-Fulkerson — jaki problem rozwiązuje?	Maksymalny przepływ (max flow)	pyt12 WSYZ max_flow
+Twierdzenie max-flow min-cut mówi, że ...?	Maksymalny przepływ = minimalna przepustowość przekroju	pyt12 WSYZ max_flow_min_cut
+Algorytm węgierski — jaki problem, jaka złożoność?	Problem przydziału (n zadań do n osób), O(n³)	pyt12 WSYZ hungarian
+TSP (problem komiwojażera) — klasa złożoności?	NP-trudny	pyt12 WSYZ TSP
+CPM (Critical Path Method) — co wyznacza?	Ścieżkę krytyczną = najdłuższą ścieżkę w grafie zadań	pyt12 WSYZ CPM
+PERT vs CPM — główna różnica?	PERT uwzględnia niepewność czasu (rozkład β: optymist., pesymist., prawdopod.)	pyt12 WSYZ PERT
+MST — Kruskal vs Prim (idea)?	Kruskal: sortuj krawędzie, dodawaj najtańszą bez cyklu; Prim: rośnij drzewo od węzła	pyt12 WSYZ MST
+TOGAF — 4 domeny?	Business, Data, Application, Technology	pyt13_27 AIS TOGAF domeny
+TOGAF ADM — co to?	Architecture Development Method — cykliczny proces tworzenia architektury	pyt13_27 AIS TOGAF ADM
+4+1 View Model (Kruchten) — 5 perspektyw?	Logical, Process, Development, Physical + Scenarios	pyt13_27 AIS Kruchten
+C4 Model — 4 poziomy zoomu?	Context → Container → Component → Code	pyt13_27 AIS C4
+Zachman Framework — co definiuje?	Taksonomia 6×6: CO/JAK/GDZIE/KTO/KIEDY/DLACZEGO × poziomy abstrakcji	pyt13_27 AIS Zachman
+ArchiMate — 3 warstwy?	Business, Application, Technology	pyt13_27 AIS ArchiMate warstwy
+ATAM — co to?	Architecture Tradeoff Analysis Method — ocena architektury przez scenariusze jakościowe (SEI)	pyt13_27 AIS ATAM
+ADR (Architecture Decision Records) — co zawiera?	Kontekst, decyzję, konsekwencje (w repo, wersjonowane)	pyt13_27 AIS ADR
+Kto zaproponował 4+1 View Model?	Philippe Kruchten (1995)	pyt13_27 AIS Kruchten autor
+Wzorzec architektoniczny vs projektowy — skala?	Architektoniczny: cały system; Projektowy: klasa/obiekt	pyt14_28 AIS wzorzec skala
+Layered (warstwowy) — kolejność warstw?	Presentation → Business Logic → Data Access → Database	pyt14_28 AIS Layered
+Microservices — kluczowa zaleta?	Niezależne skalowanie i deployment per serwis	pyt14_28 AIS Microservices zaleta
+Microservices — kluczowa wada?	Złożoność operacyjna (sieć, monitoring, transakcje rozproszone)	pyt14_28 AIS Microservices wada
+Event-Driven Architecture — mechanizm komunikacji?	Producer → Event Broker (np. Kafka) → Consumers	pyt14_28 AIS EDA
+CQRS — na czym polega?	Osobne modele do zapisu (Command) i odczytu (Query)	pyt14_28 AIS CQRS
+Hexagonal (Ports & Adapters) — kluczowa korzyść?	Rdzeń domeny niezależny od frameworków — testowalność	pyt14_28 AIS Hexagonal
+POSA — co to za katalog wzorców?	Pattern-Oriented Software Architecture (5 tomów, wzorce architektoniczne)	pyt14_28 AIS POSA
+EIP — co to za katalog?	Enterprise Integration Patterns (Hohpe & Woolf, 2003) — wzorce komunikacji	pyt14_28 AIS EIP
+PoEAA — autor?	Martin Fowler (2002)	pyt14_28 AIS PoEAA
+Eventual consistency — co oznacza?	Dane mogą być chwilowo niespójne, ale „w końcu" się zsynchronizują	pyt14_28 AIS eventual_consistency
+Cykl agenta upostaciowionego: See-Think-Act = ?	Percepcja → Deliberacja → Akcja	pyt15 ROB agent cykl
+3T Architecture — 3 warstwy sterownika robota?	Planner (sekundy–minuty) → Sequencer (100ms–s) → Controller (ms)	pyt15 ROB 3T
+BDI — co oznaczają litery?	Beliefs (wiedza), Desires (cele), Intentions (aktualny plan)	pyt15 ROB BDI
+Behavior Tree: Selector (?) — jak działa?	Wykonuj dzieci po kolei aż PIERWSZY sukces (jak OR)	pyt15 ROB BT Selector
+Behavior Tree: Sequence (→) — jak działa?	Wykonuj dzieci po kolei, wstrzymaj przy PORAŻCE (jak AND)	pyt15 ROB BT Sequence
+LTL: □ (always) i ◇ (eventually) — przykład safety i liveness?	Safety: □(¬collision); Liveness: ◇(at_goal)	pyt15 ROB LTL
+PID — 3 składniki?	P = proporcjonalny, I = całkowy (drift), D = różniczkowy (oscylacje)	pyt15 ROB PID
+ROS — co to NIE jest?	Nie jest prawdziwym OS — to middleware (pub/sub)	pyt15 ROB ROS
+Klasyfikacja języków robotów: T-R-M-S?	Task → Robot → Motion → Servo (od najwyższej abstrakcji)	pyt16 ROB TRMS
+RAPID — producent?	ABB	pyt16 ROB RAPID
+KRL — producent?	KUKA	pyt16 ROB KRL
+Karel — producent i etymologia?	FANUC; od Karla Čapka (który ukuł słowo „robot")	pyt16 ROB Karel
+Online programming (teach-in) — na czym polega?	Operator prowadzi robota „za rękę", robot zapamiętuje punkty	pyt16 ROB teach-in
+Offline programming — zaleta nad online?	Bez zatrzymywania produkcji (programowanie w symulacji)	pyt16 ROB offline
+Vendor lock-in w robotyce — na czym polega?	Każdy producent ma WŁASNY język — program nie działa na robocie innej firmy	pyt16 ROB vendor_lock
+Kinematyka odwrotna (IK) — co oblicza?	Kąty w stawach robota, aby efektor znalazł się w zadanej pozycji	pyt16 ROB IK
+Kto ukuł słowo „robot"?	Karel Čapek (R.U.R., 1920); cz. „robota" = ciężka praca	pyt16 ROB robot_etymologia
+#notetype:Cloze
+BPMN bramki: {{c1::XOR}} = dokładnie jedna; {{c2::AND}} = wszystkie; {{c3::OR}} = jedna lub więcej		pyt11 WSYZ BPMN bramki_cloze
+C4: {{c1::Context}} → {{c2::Container}} → {{c3::Component}} → {{c4::Code}}		pyt13_27 AIS C4_cloze
+BDI: B = {{c1::Beliefs}}, D = {{c2::Desires}}, I = {{c3::Intentions}}		pyt15 ROB BDI_cloze
+3T: {{c1::Planner}} (min) → {{c2::Sequencer}} (s) → {{c3::Controller}} (ms)		pyt15 ROB 3T_cloze
+Klasyfikacja języków robotów: {{c1::Task}} → {{c2::Robot}} → {{c3::Motion}} → {{c4::Servo}}		pyt16 ROB TRMS_cloze
+
+#notetype:Basic
+Czym jest szeregowanie zadań (scheduling)?	Przydzielanie zadań do maszyn w czasie w celu optymalizacji wybranego kryterium	pyt17 WSYZ szeregowanie_def
+Jak nazywa się standardowa notacja opisu problemu szeregowania?	Notacja Grahama (α | β | γ)	pyt17 WSYZ Graham_notacja
+Co oznacza pole α w notacji Grahama?	Środowisko maszynowe (ile i jakie maszyny)	pyt17 WSYZ Graham_alpha
+Co oznacza pole β w notacji Grahama?	Charakterystyki zadań (ograniczenia)	pyt17 WSYZ Graham_beta
+Co oznacza pole γ w notacji Grahama?	Kryterium optymalizacji	pyt17 WSYZ Graham_gamma
+Co oznacza Cmax (makespan)?	Czas ukończenia OSTATNIEGO zadania	pyt17 WSYZ Cmax
+Co oznacza ΣCⱼ jako kryterium szeregowania?	Suma czasów ukończenia (minimalizacja → min. średniego czasu)	pyt17 WSYZ sumCj
+Co oznacza Lmax jako kryterium szeregowania?	Maksymalne opóźnienie: max(Cⱼ − dⱼ)	pyt17 WSYZ Lmax
+Czym jest flow shop?	Środowisko, w którym zadania przechodzą przez maszyny w tej samej kolejności (jak taśma)	pyt17 WSYZ flow_shop
+Czym jest job shop?	Środowisko, w którym każde zadanie ma indywidualną trasę przez maszyny	pyt17 WSYZ job_shop
+Reguła SPT (Shortest Processing Time) — co mówi?	Wykonuj najkrótsze zadanie najpierw	pyt17 WSYZ SPT
+Dla jakiego problemu SPT jest optymalna?	1 || ΣCⱼ (1 maszyna, min. suma czasów ukończenia)	pyt17 WSYZ SPT_problem
+Reguła EDD (Earliest Due Date) — co mówi?	Wykonuj najpierw zadanie z najwcześniejszym terminem	pyt17 WSYZ EDD
+Dla jakiego problemu EDD jest optymalna?	1 || Lmax (1 maszyna, min. max. opóźnienia)	pyt17 WSYZ EDD_problem
+Algorytm Johnsona — do jakiego problemu jest optymalny?	F2 || Cmax (flow shop, 2 maszyny, min. makespan)	pyt17 WSYZ Johnson_problem
+Algorytm Johnsona — zasada: jeśli min czas jest na maszynie 1, to ...?	Zadanie na początek	pyt17 WSYZ Johnson_M1
+Algorytm Johnsona — zasada: jeśli min czas jest na maszynie 2, to ...?	Zadanie na koniec	pyt17 WSYZ Johnson_M2
+Czy Job shop scheduling jest NP-trudny?	Tak, już dla 3 maszyn	pyt17 WSYZ jobshop_NP
+Czy Pm||Cmax jest NP-trudny?	Tak, dla m ≥ 2	pyt17 WSYZ Pm_NP
+Czym jest preemption (wywłaszczanie) w szeregowaniu?	Możliwość przerwania zadania i dokończenia go później	pyt17 WSYZ preemption
+Kto jest autorem notacji Grahama?	Ronald Graham (Bell Labs, lata 1966–1979)	pyt17 WSYZ Graham_autor
+Ronald Graham opracował ...?	Notację α|β|γ do opisu problemów szeregowania	pyt17 WSYZ Graham_autor_rev
+Kto opracował algorytm optymalny dla F2||Cmax?	Selmer Johnson (RAND, 1954)	pyt17 WSYZ Johnson_autor
+Mnemotechnika: α|β|γ =?	Maszyny | Zadania | Cel	pyt17 WSYZ mnemotechnika_abg
+
+#notetype:Cloze
+Notacja Grahama: {{c1::α}} = maszyny, {{c2::β}} = zadania, {{c3::γ}} = kryterium		pyt17 WSYZ Graham_cloze
+SPT jest optymalne dla {{c1::1 || ΣCⱼ}}, EDD dla {{c2::1 || Lmax}}, Johnson dla {{c3::F2 || Cmax}}		pyt17 WSYZ reguły_cloze
+
+#notetype:Basic
+Czym jest łańcuch dostaw (supply chain)?	Sieć organizacji od surowca do klienta końcowego: dostawcy → producenci → dystrybutorzy → detaliści → klienci	pyt18 WSYZ łańcuch_def
+Czym jest Bullwhip Effect (efekt byczego bicza)?	Amplifikacja wahań popytu w górę łańcucha dostaw (mała zmiana u detalisty → coraz większe wahania wyżej)	pyt18 WSYZ bullwhip_def
+Kto nadał nazwę „Bullwhip Effect"?	Procter & Gamble (1990s); zjawisko opisał Jay Forrester (MIT, 1961)	pyt18 WSYZ bullwhip_autor
+Podaj przyczyny Bullwhip Effect (jedną z czterech).	Prognozowanie, zamawianie partiami, promocje cenowe, racjonowanie przy niedoborach	pyt18 WSYZ bullwhip_przyczyny
+Trzy kategorie kosztów zapasów to ...?	Koszt utrzymania (h), zamawiania (K), braku (p)	pyt18 WSYZ koszty
+Koszt utrzymania zapasów (holding cost, h) obejmuje ...?	Magazyn, ubezpieczenie, koszt kapitału, utrata wartości (15–30% wartości towaru/rok)	pyt18 WSYZ holding_cost
+Koszt zamawiania (ordering cost, K) — od czego zależy?	Stały koszt per zamówienie (transport, admin), niezależny od ilości	pyt18 WSYZ ordering_cost
+Co to jest EOQ (Economic Order Quantity)?	Model Harrisa-Wilsona (1913) — optymalna wielkość zamówienia minimalizująca łączny koszt	pyt18 WSYZ EOQ_def
+Kto opracował model EOQ i kiedy?	Ford W. Harris (1913, „How Many Parts To Make At Once")	pyt18 WSYZ EOQ_autor
+Ford W. Harris (1913) opracował model ...?	EOQ (Economic Order Quantity)	pyt18 WSYZ EOQ_autor_rev
+Jakie są założenia modelu EOQ?	Popyt stały i znany (D), lead time = 0, brak braków, koszt zamówienia K, koszt utrzymania h	pyt18 WSYZ EOQ_założenia
+Dlaczego w EOQ optimum ma postać √? (intuicja)	Koszty zamawiania maleją z Q, koszty utrzymania rosną z Q → optimum w punkcie przecięcia	pyt18 WSYZ EOQ_intuicja
+Co to jest ROP (Reorder Point)?	Poziom zapasu, przy którym składamy nowe zamówienie: ROP = d × L + SS	pyt18 WSYZ ROP_def
+Co to jest Safety Stock (zapas bezpieczeństwa)?	Dodatkowy bufor na wahania popytu/opóźnienia dostawy: SS = z × σ_L	pyt18 WSYZ safety_stock
+Co to jest lead time (L)?	Czas od złożenia zamówienia do otrzymania dostawy	pyt18 WSYZ lead_time
+Model zapasów (s, Q) — co oznacza?	Gdy stan spadnie do s, zamów dokładnie Q sztuk	pyt18 WSYZ model_sQ
+Model zapasów (s, S) — co oznacza?	Gdy stan spadnie do s, zamów „do poziomu S" (order-up-to)	pyt18 WSYZ model_sS
+Model zapasów (R, S) — co oznacza?	Co R dni (stały cykl) zamów „do poziomu S"	pyt18 WSYZ model_RS
+Co to VMI (Vendor Managed Inventory)?	Dostawca zarządza zapasami klienta (np. Walmart + P&G)	pyt18 WSYZ VMI
+Przykład EOQ: D=10000, K=100, h=2 → Q*=?	1000 szt	pyt18 WSYZ EOQ_przykład
+
+#notetype:Cloze
+EOQ: Q* = {{c1::√(2KD/h)}}		pyt18 WSYZ EOQ_wzór
+TC(Q) = {{c1::K·D/Q}} + {{c2::h·Q/2}} (koszt zamawiania + utrzymania)		pyt18 WSYZ TC_cloze
+Optymalny koszt EOQ: TC* = {{c1::√(2KDh)}}		pyt18 WSYZ TC_opt_cloze
+ROP = {{c1::d × L}} + {{c2::SS}}		pyt18 WSYZ ROP_cloze
+SS = {{c1::z}} × {{c2::σ_L}} (z = kwantyl normalny, σ_L = odch. std. popytu w lead time)		pyt18 WSYZ SS_cloze
+
+#notetype:Basic
+Czym jest wzorzec Pub/Sub (Publish-Subscribe)?	Wzorzec komunikacji: nadawcy wysyłają wiadomości do brokera, odbiorcy subskrybują — nadawca nie wie kto odbiera	pyt19_29 AIS pubsub_def
+Kim jest Publisher w Pub/Sub?	Komponent wysyłający wiadomości do brokera, nie wie kto subskrybuje	pyt19_29 AIS publisher
+Kim jest Subscriber w Pub/Sub?	Komponent rejestrujący się u brokera na określone tematy/typy wiadomości	pyt19_29 AIS subscriber
+Czym jest Broker w Pub/Sub?	Centralny komponent routujący wiadomości od publishers do subscribers	pyt19_29 AIS broker
+Co to luźne powiązanie (loose coupling) w Pub/Sub?	Publisher i subscriber nie znają się nawzajem — można dodać subscribera bez zmiany publishera	pyt19_29 AIS loose_coupling
+Subskrypcja topic-based polega na ...?	Subscriber subskrybuje temat (np. „orders.created") — najprostszy typ	pyt19_29 AIS topic_based
+Subskrypcja content-based polega na ...?	Filtrowanie po treści wiadomości (np. „price > 100") — elastyczniejszy, ale wolniejszy	pyt19_29 AIS content_based
+QoS At-most-once — co gwarantuje?	Wiadomość dostarczana 0 lub 1 raz (fire and forget) — najszybszy, ryzyko utraty	pyt19_29 AIS at_most_once
+QoS At-least-once — co gwarantuje?	Wiadomość dostarczana ≥1 raz — mogą być duplikaty	pyt19_29 AIS at_least_once
+QoS Exactly-once — co gwarantuje?	Wiadomość dokładnie 1 raz — najtrudniejszy do zaimplementowania	pyt19_29 AIS exactly_once
+Kafka — jaki model (push/pull)?	Pull (consumer sam ciągnie ze logu)	pyt19_29 AIS kafka_model
+Kafka — czy przechowuje wiadomości?	Tak, na dysku (retention 7 dni domyślnie) — rozproszony log append-only	pyt19_29 AIS kafka_persistence
+Kto stworzył Apache Kafka i kiedy?	Jay Kreps, LinkedIn, 2011	pyt19_29 AIS kafka_autor
+Dlaczego Kafka nazywa się „Kafka"?	Od Franza Kafki — „system zoptymalizowany do pisania, a Kafka był pisarzem"	pyt19_29 AIS kafka_nazwa
+RabbitMQ — jaki model (push/pull)?	Push (broker dostarcza do konsumenta)	pyt19_29 AIS rabbitmq_model
+RabbitMQ — jaki protokół?	AMQP (Advanced Message Queuing Protocol)	pyt19_29 AIS rabbitmq_amqp
+RabbitMQ Exchange types (wymień)?	Direct, Topic, Fanout, Headers	pyt19_29 AIS rabbitmq_exchange
+MQTT — do czego zaprojektowany?	IoT i urządzenia z ograniczonymi zasobami (2-bajtowy nagłówek)	pyt19_29 AIS mqtt_usecase
+MQTT — kto stworzył i kiedy?	Andy Stanford-Clark (IBM) + Arlen Nipper (1999) — monitoring rurociągów naftowych	pyt19_29 AIS mqtt_autor
+Redis Pub/Sub — czy ma persistencję?	Nie — jeśli subscriber offline, wiadomość przepada	pyt19_29 AIS redis_persistence
+Co to SPOF w kontekście Pub/Sub?	Broker jako Single Point of Failure — rozwiązanie: klasteryzacja	pyt19_29 AIS SPOF
+Kafka vs RabbitMQ — kluczowa różnica modelu?	Kafka = log (przechowuje historię), RabbitMQ = queue (konsumuje i kasuje)	pyt19_29 AIS kafka_vs_rabbit
+Mnemotechnika: „Pub/Sub = ..."?	Radio — nadawca nadaje, kto chce słucha	pyt19_29 AIS mnemotechnika
+
+#notetype:Cloze
+QoS: {{c1::At-most-once}} (0–1), {{c2::At-least-once}} (≥1, duplikaty), {{c3::Exactly-once}} (dokładnie 1)		pyt19_29 AIS QoS_cloze
+AMQP Exchange types: {{c1::Direct}}, {{c2::Topic}}, {{c3::Fanout}}, {{c4::Headers}}		pyt19_29 AIS exchange_cloze
+
+#notetype:Basic
+Czym są dane strumieniowe (streaming data)?	Ciągły, potencjalnie nieskończony przepływ zdarzeń przychodzących w czasie rzeczywistym	pyt20_30 AIS streaming_def
+Batch vs Streaming — kluczowa różnica?	Batch: cały zbiór → analiza (minuty/h); Streaming: event po event → analiza ciągła (ms/s)	pyt20_30 AIS batch_vs_stream
+Event Time vs Processing Time — czym się różnią?	Event Time = kiedy zdarzenie nastąpiło; Processing Time = kiedy system je przetwarza	pyt20_30 AIS event_vs_proc_time
+Co to Watermark w strumieniach?	Znacznik postępu: „z dużym prawdopodobieństwem nie przyjdą już zdarzenia z event time < W"	pyt20_30 AIS watermark
+Tumbling window — czym jest?	Okno stałego rozmiaru, rozłączne (0 nakładania)	pyt20_30 AIS tumbling
+Sliding window — czym jest?	Okno stałego rozmiaru + krok przesunięcia, nakładające się	pyt20_30 AIS sliding
+Session window — czym jest?	Okno dynamicznego rozmiaru oparte na aktywności (nowa sesja po przerwie)	pyt20_30 AIS session
+Global window — czym jest?	Jedno okno na cały strumień; trigger decyduje emisję wyniku	pyt20_30 AIS global
+True streaming vs Micro-batch — różnica?	True streaming: event-by-event (niższa latencja); Micro-batch: małe paczki np. co 100ms	pyt20_30 AIS true_vs_micro
+Kafka Streams — czy to klaster?	Nie — to biblioteka (library) działająca w procesie aplikacji Java	pyt20_30 AIS kafka_streams_typ
+Apache Flink — jaki model przetwarzania?	True streaming, bardzo niska latencja (<10ms)	pyt20_30 AIS flink_model
+Spark Streaming — jaki model przetwarzania?	Micro-batch (~100ms+), średnia latencja	pyt20_30 AIS spark_model
+Skąd nazwa „Flink"?	Niem. „flink" = zwinny/szybki (TU Berlin, 2014)	pyt20_30 AIS flink_nazwa
+HyperLogLog — do czego służy?	Estymacja liczby unikalnych elementów (cardinality), O(1) pamięci (~1.5 KB), ~2% błędu	pyt20_30 AIS HLL
+Count-Min Sketch — do czego służy?	Estymacja częstości elementów, gwarantuje overestimates (nigdy nie zaniży)	pyt20_30 AIS CMS
+Reservoir Sampling — do czego służy?	Równomierne próbkowanie k elementów ze strumienia o nieznanym rozmiarze n, O(k) pamięci	pyt20_30 AIS reservoir
+Strategie obsługi spóźnionych danych (late data) — wymień jedną z czterech.	Drop, Recompute, Side output, Allowed lateness	pyt20_30 AIS late_data
+Kto opracował HyperLogLog?	Philippe Flajolet et al. (2007)	pyt20_30 AIS HLL_autor
+Kto opracował Count-Min Sketch?	Cormode & Muthukrishnan (2005)	pyt20_30 AIS CMS_autor
+Mnemotechnika: 4 okna = „TSSG" — co to?	Tumbling, Sliding, Session, Global	pyt20_30 AIS mnemotechnika_TSSG
+
+#notetype:Cloze
+4 okna: {{c1::Tumbling}} (rozłączne), {{c2::Sliding}} (nakładające), {{c3::Session}} (aktywność), {{c4::Global}} (jedno)		pyt20_30 AIS okna_cloze
+HyperLogLog: {{c1::cardinality}} (ile unikalnych), O(1) space, ~{{c2::2}}% error		pyt20_30 AIS HLL_cloze
+
+#notetype:Basic
+Dlaczego w systemie rozproszonym potrzebne są zegary logiczne?	Brak globalnego zegara — zegary fizyczne driftują, nie można polegać na nich do ustalenia kolejności zdarzeń	pyt21 SR zegary_dlaczego
+Czym jest relacja happened-before (→)?	Porządek częściowy zdarzeń: a→b w jednym procesie, send→recv, przechodniość (Lamport, 1978)	pyt21 SR happened_before
+Kiedy zdarzenia a i b są współbieżne (a || b)?	Gdy ani a→b, ani b→a — brak związku przyczynowego	pyt21 SR współbieżne
+Zegar Lamporta — jaki typ danych?	Skalar (jeden licznik per proces)	pyt21 SR lamport_typ
+Zegar Lamporta — algorytm przy odbieraniu (timestamp t)?	C_i = max(C_i, t) + 1	pyt21 SR lamport_recv
+Zegar Lamporta: a→b ⟹ C(a) < C(b)?	TAK	pyt21 SR lamport_implikacja
+Zegar Lamporta: C(a) < C(b) ⟹ a→b?	NIE — Lamport nie wykrywa współbieżności	pyt21 SR lamport_odwrotna
+Zegar wektorowy — jaki typ danych?	Wektor V[1..N] (N = liczba procesów)	pyt21 SR vector_typ
+V_i[j] w zegarze wektorowym oznacza ...?	Ile zdarzeń procesu j jest znanych procesowi i	pyt21 SR vector_meaning
+Zegar wektorowy — algorytm przy odbieraniu (wektor T)?	V_i[j] = max(V_i[j], T[j]) ∀j, potem V_i[i]++	pyt21 SR vector_recv
+Zegar wektorowy: V(a) < V(b) ⟺ a→b?	TAK — pełna charakteryzacja happened-before (równoważność!)	pyt21 SR vector_equivalence
+V(a) < V(b) zachodzi gdy ...?	∀i: V(a)[i] ≤ V(b)[i] i ∃j: V(a)[j] < V(b)[j]	pyt21 SR vector_lt
+V(a) || V(b) (współbieżne) zachodzi gdy ...?	¬(V(a) ≤ V(b)) ∧ ¬(V(b) ≤ V(a))	pyt21 SR vector_concurrent
+Rozmiar per zdarzenie: Lamport vs Vector?	Lamport: O(1); Vector: O(N)	pyt21 SR rozmiar_porównanie
+Dlaczego O(N) w zegarach wektorowych to problem?	W systemie z 1000 węzłów każda wiadomość niesie wektor 1000 liczb — duży overhead	pyt21 SR vector_overhead
+Kto zaproponował zegar Lamporta?	Leslie Lamport (1978, „Time, Clocks, and the Ordering of Events...")	pyt21 SR lamport_autor
+Leslie Lamport (1978) zaproponował ...?	Zegar skalarny (Lamport clock) i relację happened-before	pyt21 SR lamport_autor_rev
+Kto zaproponował zegary wektorowe?	Friedemann Mattern i Colin Fidge (niezależnie, 1988)	pyt21 SR vector_autorzy
+Co to version vectors (wektory wersji)?	Mechanizm replikacji danych (np. Amazon Dynamo) do wykrywania konfliktów przy współbieżnych zapisach	pyt21 SR version_vectors
+Co to causal broadcast?	Protokół rozsyłania wiadomości zachowujący porządek przyczynowy (B zależne od A → A dostarczane przed B)	pyt21 SR causal_broadcast
+
+#notetype:Cloze
+Lamport: a→b ⟹ C(a)<C(b) = {{c1::TAK}}; C(a)<C(b) ⟹ a→b = {{c2::NIE}}		pyt21 SR lamport_cloze
+Vector: a→b ⟺ V(a)<V(b) = {{c1::TAK}}; wykrywa współbieżność = {{c2::TAK}}		pyt21 SR vector_cloze
+Zegar Lamporta: rozmiar {{c1::O(1)}}, współbieżność {{c2::NIE}}; Wektorowy: rozmiar {{c3::O(N)}}, współbieżność {{c4::TAK}}		pyt21 SR porównanie_cloze
+
+#notetype:Basic
+Czym jest spójność danych (consistency) w systemie rozproszonym?	Gwarancja, że wszystkie węzły widzą te same dane w przewidywalny sposób	pyt22 SR spójność_def
+Linearizability — co gwarantuje?	Każda operacja wygląda jakby nastąpiła atomowo w jednym momencie — system jak JEDNA kopia danych	pyt22 SR linearizability
+Linearizability — przykład systemu?	Google Spanner (zegary atomowe TrueTime)	pyt22 SR linearizability_przykład
+Sequential consistency — czym różni się od linearizability?	Globalny porządek zgodny z porządkiem programu każdego procesu, ale NIE musi odpowiadać czasowi rzeczywistemu	pyt22 SR sequential
+Causal consistency — co gwarantuje?	Operacje przyczynowo zależne widziane w tej samej kolejności; niezależne mogą być w różnej	pyt22 SR causal
+Causal consistency wymaga ...?	Vector clocks (zegarów wektorowych)	pyt22 SR causal_wymaga
+Eventual consistency — co gwarantuje?	Jeśli przestaniesz pisać, KIEDYŚ wszystkie odczyty zwrócą tę samą wartość (najsłabszy model)	pyt22 SR eventual
+Eventual consistency — przykłady systemów?	DNS, Cassandra	pyt22 SR eventual_przykład
+Read Your Writes — co to gwarancja sesji?	Jeśli zapisałem x=5, mój następny odczyt zobaczy 5	pyt22 SR read_your_writes
+Monotonic Reads — co to gwarancja sesji?	Odczyty nie „cofają się w czasie" (jeśli widziałem x=5, nie zobaczę x=3)	pyt22 SR monotonic_reads
+CAP Theorem — co mówi?	Przy partycji sieciowej (P) musisz wybrać między Consistency (C) a Availability (A)	pyt22 SR CAP
+CAP: system CP oznacza ...?	Spójny, ale niedostępny przy partycji (np. HBase, Spanner)	pyt22 SR CP
+CAP: system AP oznacza ...?	Dostępny, ale niespójny przy partycji (np. Cassandra, DynamoDB)	pyt22 SR AP
+Kto sformułował CAP Theorem?	Eric Brewer (UC Berkeley, 2000); udowodniony przez Gilbert & Lynch (2002)	pyt22 SR CAP_autor
+Co to Quorum w replikacji?	Min. liczba węzłów potwierdzających operację: W + R > N gwarantuje odczyt najnowszej wartości	pyt22 SR quorum
+Co to CRDTs?	Conflict-free Replicated Data Types — struktury danych automatycznie zbiegające do spójnego stanu bez koordynacji	pyt22 SR CRDTs
+Co to LWW (Last-Writer-Wins)?	Mechanizm rozwiązywania konfliktów: wygrywa zapis z najnowszym timestampem	pyt22 SR LWW
+Co to consensus (uzgadnianie)?	Protokół, w którym rozproszone węzły zgadzają się na jedną wartość pomimo awarii	pyt22 SR consensus
+Algorytmy consensus — wymień trzy.	Paxos (Lamport), Raft (prostszy), Zab (Zookeeper)	pyt22 SR consensus_algo
+Spektrum spójności od silnej do słabej?	Linearizability → Sequential → Causal → Session → Eventual	pyt22 SR spektrum
+Kto zdefiniował linearizability?	Maurice Herlihy + Jeannette Wing (1990)	pyt22 SR linearizability_autor
+Mnemotechnika: „Linearizable = ..."?	Natychmiast, atomowo, jak 1 kopia	pyt22 SR mnemotechnika_lin
+Mnemotechnika: „Eventual = ..."?	Kiedyś się zsynchronizuje (ale kiedy?)	pyt22 SR mnemotechnika_ev
+Mnemotechnika: Quorum W+R > N gwarantuje ...?	Odczyt najnowszej wartości	pyt22 SR mnemotechnika_quorum
+
+#notetype:Cloze
+Spektrum spójności: {{c1::Linearizability}} → {{c2::Sequential}} → {{c3::Causal}} → {{c4::Session}} → {{c5::Eventual}}		pyt22 SR spektrum_cloze
+Quorum: {{c1::W}} + {{c2::R}} > {{c3::N}} → gwarantuje odczyt najnowszej wartości		pyt22 SR quorum_cloze
+CAP: przy partycji wybierz {{c1::C}} (spójność) lub {{c2::A}} (dostępność)		pyt22 SR CAP_cloze
+
+#notetype:Basic
+Czym jest segmentacja obrazu?	Podział obrazu na regiony — każdy piksel dostaje etykietę klasy (np. samochód, droga, niebo)	pyt23 CV segmentacja_def
+Semantic segmentation — co robi?	Każdy piksel → klasa, ale NIE rozróżnia instancji (wszystkie samochody = „samochód")	pyt23 CV semantic
+Instance segmentation — czym różni się od semantic?	Rozróżnia instancje tego samego obiektu (samochód#1 ≠ samochód#2)	pyt23 CV instance
+Panoptic segmentation — co łączy?	Semantic + Instance: „things" (obiekty) mają instancje, „stuff" (niebo, droga) tylko klasy	pyt23 CV panoptic
+Thresholding (progowanie) — na czym polega?	Piksel > próg → klasa 1, inaczej → klasa 0; Otsu = automatyczny dobór progu	pyt23 CV thresholding
+Co to metoda Otsu?	Automatyczny dobór progu minimalizujący wariancję wewnątrzklasową (Nobuyuki Otsu, 1979)	pyt23 CV otsu
+Region Growing — na czym polega?	Zacznij od seeda, dodawaj sąsiednie piksele o podobnej wartości	pyt23 CV region_growing
+Watershed — na czym polega?	Traktuje obraz jak mapę topograficzną, „zalewa" od minimów; granice = granie	pyt23 CV watershed
+Wada Region Growing i Watershed?	Over-segmentation (nadmierna fragmentacja)	pyt23 CV overseg
+Normalized Cuts — złożoność?	O(n³)	pyt23 CV norm_cuts
+Co to architektura Encoder-Decoder w segmentacji?	Encoder zmniejsza rozdzielczość (cechy), Decoder zwiększa (mapa segmentacji)	pyt23 CV encoder_decoder
+Co to skip connections?	Połączenia „na skróty" z encodera do decodera przenoszące detale przestrzenne	pyt23 CV skip_connections
+FCN (2015) — co wprowadził?	Pierwsza sieć fully convolutional do segmentacji — wejście dowolnego rozmiaru	pyt23 CV FCN
+U-Net (2015) — kluczowe cechy?	Encoder-decoder w kształcie „U" ze skip connections (concat), dominuje w segmentacji medycznej	pyt23 CV unet
+DeepLab v3+ — kluczowa innowacja?	Atrous (dilated) convolutions — większe receptive field bez dodatkowych parametrów	pyt23 CV deeplab
+Co to atrous/dilated convolution?	Konwolucja z „dziurami" (fr. à trous) — zwiększa receptive field bez dodatkowych parametrów	pyt23 CV atrous
+Co to ASPP w DeepLab?	Atrous Spatial Pyramid Pooling — wieloskalowe cechy równolegle	pyt23 CV ASPP
+mIoU — czym jest?	Mean Intersection over Union — standardowa metryka segmentacji (IoU per klasa, potem średnia)	pyt23 CV mIoU
+Co to Dice Loss?	Funkcja kosztu: 2·|A∩B| / (|A|+|B|), popularna w segmentacji medycznej	pyt23 CV dice_loss
+Co to Focal Loss?	Modyfikacja cross-entropy redukująca wpływ łatwych przykładów, dla class imbalance	pyt23 CV focal_loss
+Kto stworzył U-Net?	Ronneberger et al. (Freiburg, 2015)	pyt23 CV unet_autor
+Mnemotechnika: U-Net = ...?	U-shape + skip connections (encoder-decoder)	pyt23 CV mnemotechnika_unet
+Mnemotechnika: DeepLab = ...?	Atrous (dilated) convolutions + ASPP	pyt23 CV mnemotechnika_deeplab
+
+#notetype:Cloze
+Typy segmentacji: {{c1::Semantic}} (klasa per piksel), {{c2::Instance}} (rozróżnia instancje), {{c3::Panoptic}} (unified)		pyt23 CV typy_cloze
+mIoU = {{c1::Intersection}} / {{c2::Union}}, uśrednione per klasa		pyt23 CV mIoU_cloze
+
+
+#notetype:Basic
+Czym jest detekcja obiektów?	Zlokalizuj obiekty na obrazie (bounding box) i przypisz klasy — wynik: (klasa, bbox, confidence)	pyt24 CV detekcja_def
+Klasyfikacja vs Detekcja vs Segmentacja — różnica?	Klasyfikacja: 1 label na obraz; Detekcja: bbox + label; Segmentacja: maska per piksel	pyt24 CV klas_vs_det_vs_seg
+Co to bounding box (bbox)?	Prostokąt ograniczający opisujący położenie obiektu: (x_min, y_min, x_max, y_max)	pyt24 CV bbox
+Co to sliding window w detekcji?	Wytnij fragment obrazu (wiele rozmiarów/pozycji), sklasyfikuj każdy — ekstremalnie wolne	pyt24 CV sliding_window
+HOG — czym jest?	Histogram of Oriented Gradients — deskryptor cech opisujący kształt (kierunki krawędzi)	pyt24 CV HOG
+Kto opracował HOG do detekcji pieszych?	Dalal & Triggs (2005)	pyt24 CV HOG_autor
+Viola-Jones (2001) — trzy kluczowe innowacje?	Haar features, Integral Image (O(1) suma prostokąta), AdaBoost cascade	pyt24 CV viola_jones
+R-CNN (2014) — jak działa?	Selective Search → ~2000 regionów → CNN per region → SVM; ~50 sec/obraz	pyt24 CV rcnn
+Fast R-CNN — kluczowe ulepszenie vs R-CNN?	CNN raz na całym obrazie, ROI Pooling wycinająca cechy regionów (~2 sec/obraz)	pyt24 CV fast_rcnn
+Faster R-CNN — co zastąpiło Selective Search?	RPN (Region Proposal Network) — generuje propozycje w sieci (~5 fps)	pyt24 CV faster_rcnn
+RPN to skrót od ...?	Region Proposal Network	pyt24 CV RPN
+Two-stage vs One-stage detectors — różnica?	Two-stage: osobny etap propozycji regionów; One-stage: klasyfikacja + lokalizacja w jednym przejściu	pyt24 CV two_vs_one_stage
+YOLO — co oznacza skrót?	You Only Look Once	pyt24 CV YOLO_skrot
+YOLO — jak działa?	Dzieli obraz na siatkę S×S, każda komórka predykuje B bbox + C klas w jednym przejściu	pyt24 CV YOLO_jak
+YOLO — typowa szybkość?	45–155 fps (real-time)	pyt24 CV YOLO_fps
+SSD — co łączy?	Szybkość YOLO z multi-scale feature maps (lepszy na małych obiektach)	pyt24 CV SSD
+Co to anchor box?	Predefiniowany prostokąt o określonym kształcie — sieć przewiduje offset od anchora	pyt24 CV anchor
+Co to NMS (Non-Maximum Suppression)?	Post-processing: weź najlepszą detekcję (max confidence), usuń nakładające się (IoU > próg), powtórz	pyt24 CV NMS
+IoU (Intersection over Union) — wzór?	Pole przecięcia / pole sumy dwóch bbox; IoU=1 → identyczne, IoU=0 → brak nakładania	pyt24 CV IoU
+Jak zbudować detektor z klasyfikatora? (3 podejścia)	1) Sliding window; 2) Region proposals + klasyfikator + NMS; 3) Fine-tune backbone + detection head	pyt24 CV detektor_z_klas
+Które podejście budowy detektora daje najlepszą jakość?	Fine-tune pretrained backbone (np. ResNet) + detection head	pyt24 CV najlepsza_jakość
+DETR (2020) — kluczowa cecha?	Transformer zamiast CNN, bezpośrednia predykcja zestawu obiektów, bez NMS	pyt24 CV DETR
+Kto stworzył YOLO?	Joseph Redmon et al. (2016)	pyt24 CV YOLO_autor
+Kto stworzył R-CNN?	Ross Girshick (2014)	pyt24 CV RCNN_autor
+Mnemotechnika: YOLO = ...?	You Only Look Once — jednoetapowy, szybki	pyt24 CV mnemotechnika_YOLO
+
+#notetype:Cloze
+R-CNN family: {{c1::R-CNN}} (50s) → {{c2::Fast R-CNN}} (2s) → {{c3::Faster R-CNN}} (RPN, ~5fps)		pyt24 CV rcnn_family_cloze
+Detektor z klasyfikatora: {{c1::Sliding window}} (wolno) → {{c2::Region proposals}} (lepiej) → {{c3::Fine-tune backbone}} (najlepiej)		pyt24 CV detektor_cloze
+
+#notetype:Basic
+Czym jest przyspieszenie (speedup) S(n)?	S(n) = T_seq / T_par(n) -- stosunek czasu sekwencyjnego do rownoległego	pyt25 HPC speedup_def
+Co mówi Prawo Amdahla?	Określa MAKSYMALNE przyspieszenie przy zrównolegleniu: S(n) = 1/((1-p) + p/n)	pyt25 HPC amdahl_def
+p w Prawie Amdahla oznacza ...?	Część programu, którą DA SIĘ zrównoleglić (0 ≤ p ≤ 1)	pyt25 HPC p_def
+(1-p) w Prawie Amdahla oznacza ...?	Część sekwencyjna (nie do zrównoleglenia)	pyt25 HPC 1mp_def
+Maksymalne przyspieszenie wg Amdahla (n→∞)?	S_max = 1/(1-p)	pyt25 HPC Smax
+Amdahl: p=90%, S_max = ?	10x (bo 1/0.10 = 10)	pyt25 HPC p90
+Amdahl: p=95%, S_max = ?	20x	pyt25 HPC p95
+Amdahl: p=99%, S_max = ?	100x	pyt25 HPC p99
+Amdahl: p=90%, n=4, S(4) = ?	≈3.08x (1/(0.10 + 0.90/4))	pyt25 HPC p90n4
+Kluczowy wniosek Prawa Amdahla?	Nawet z ∞ procesorami, 10% sekwencyjnego kodu ogranicza przyspieszenie do 10x	pyt25 HPC wniosek
+Co mówi Prawo Gustafsona?	Alternatywa: zamiast przyspieszać stały problem, rozwiąż WIĘKSZY problem w tym samym czasie: S = 1 − p + p·n	pyt25 HPC gustafson
+Gustafson: p=90%, n=100, S = ?	90.1x (vs Amdahl: ~10x)	pyt25 HPC gustafson_przykład
+Strong scaling (Amdahl) vs Weak scaling (Gustafson)?	Strong: stały rozmiar problemu; Weak: rozmiar rośnie proporcjonalnie do procesorów	pyt25 HPC strong_vs_weak
+Efektywność E(n) -- wzór?	E(n) = S(n)/n -- ile z dodanych procesorów jest wykorzystane	pyt25 HPC efektywność
+Co to false sharing?	Dwa rdzenie modyfikują różne zmienne w tej samej linii cache → ciągłe invalidation	pyt25 HPC false_sharing
+Co to NUMA?	Non-Uniform Memory Access -- pamięć bliska procesorowi jest szybsza; zdalna = wolniejsza	pyt25 HPC NUMA
+Co to load imbalance?	Procesory kończą w różnych czasach; najwolniejszy limituje cały czas	pyt25 HPC load_imbalance
+Kto sformułował Prawo Amdahla?	Gene Amdahl (IBM, 1967)	pyt25 HPC amdahl_autor
+Gene Amdahl (IBM, 1967) sformułował ...?	Prawo Amdahla o maks. przyspieszeniu równoległym	pyt25 HPC amdahl_autor_rev
+Kto sformułował Prawo Gustafsona?	John Gustafson (Sandia Labs, 1988)	pyt25 HPC gustafson_autor
+Mnemotechnika: 10% seq = ...?	max 10x -- sekwencyjna cześć limituje WSZYSTKO	pyt25 HPC mnemotechnika
+Mnemotechnika: Gustafson = ...?	zwiększ problem, nie procesory -- weak scaling	pyt25 HPC mnemotechnika_gust
+
+#notetype:Cloze
+Prawo Amdahla: S(n) = 1 / ( {{c1::(1-p)}} + {{c2::p/n}} )		pyt25 HPC amdahl_cloze
+Maks. przyspieszenie (n→∞): S_max = {{c1::1/(1-p)}}		pyt25 HPC Smax_cloze
+Prawo Gustafsona: S = {{c1::1 − p}} + {{c2::p·n}}		pyt25 HPC gustafson_cloze
+Efektywność: E(n) = {{c1::S(n)}} / {{c2::n}}		pyt25 HPC efektywność_cloze
+
+#notetype:Basic
+Komunikacja synchroniczna -- co oznacza?	Nadawca czeka, aż odbiorca faktycznie odbierze wiadomość (obie strony zsynchronizowane)	pyt26 HPC sync_def
+Komunikacja asynchroniczna -- co oznacza?	Nadawca wysyła do bufora i kontynuuje pracę, nie czekając na odbiorcę	pyt26 HPC async_def
+Funkcja blokująca (blocking) -- co oznacza?	Wywołanie nie wraca, dopóki operacja nie jest zakończona -- wątek zamrożony	pyt26 HPC blocking_def
+Funkcja nieblokująca (non-blocking) -- co oznacza?	Wywołanie wraca natychmiast, operacja w tle; sprawdzaj wait()/test()	pyt26 HPC nonblocking_def
+Czy synchroniczność = blokowanie?	NIE -- to ortogonalne koncepcje (sync/async vs blocking/non-blocking)	pyt26 HPC sync_vs_block
+MPI_Send -- blokująca? sync?	Blokująca; synchroniczność zależy od implementacji	pyt26 HPC MPI_Send
+MPI_Ssend -- co gwarantuje?	Blokująca + synchroniczna (czeka aż odbiorca dopasuje recv)	pyt26 HPC MPI_Ssend
+MPI_Bsend -- co gwarantuje?	Blokująca + asynchroniczna (kopiuje do bufora użytkownika i wraca)	pyt26 HPC MPI_Bsend
+MPI_Isend -- co oznacza I?	Immediate = nieblokujące (wraca natychmiast)	pyt26 HPC MPI_Isend
+Deadlock Send-Send -- dlaczego powstaje?	Oba procesy wywołują blokujące Send przed Recv -- żaden nie może odebrać	pyt26 HPC deadlock_sendsend
+Metoda Jacobiego -- czym jest?	Iteracyjna metoda rozwiązywania układów równań liniowych; w wersji równoległej wymiana granic z sąsiadami	pyt26 HPC jacobi
+Rozwiązanie deadlocka: asymetria kolejności?	Proc 0: Send→Recv; Proc 1: Recv→Send (ale asymetryczne)	pyt26 HPC fix_asymetria
+Rozwiązanie deadlocka: nieblokujące?	Irecv + Isend + Waitall -- oba procesy symetrycznie	pyt26 HPC fix_nonblock
+Rozwiązanie deadlocka: MPI_Sendrecv?	Jedna funkcja wykonująca Send i Recv atomowo -- bezpieczna, symetryczna, rekomendowana	pyt26 HPC fix_sendrecv
+Rozwiązanie deadlocka: Bsend?	Buforowane wysyłanie -- kopiuje do bufora i wraca; Recv nie musi być gotowy	pyt26 HPC fix_bsend
+Kto to Carl Gustav Jacob Jacobi?	Matematyk niemiecki (1804-1851); metoda iteracyjna rozwiązywania układów równań	pyt26 HPC jacobi_autor
+Mnemotechnika: Deadlock = ...?	Send-Send -- oba czekają, nikt nie odbiera	pyt26 HPC mnemotechnika_deadlock
+Mnemotechnika: Sendrecv = ...?	safe exchange -- jedna funkcja, zero deadlocków	pyt26 HPC mnemotechnika_sendrecv
+Mnemotechnika: I = ...? (MPI)	Immediate = Non-blocking (MPI_Isend, MPI_Irecv)	pyt26 HPC mnemotechnika_I
+Mnemotechnika: S = ...? (MPI_Ssend)	Synchronous -- czeka na recv	pyt26 HPC mnemotechnika_S
+
+#notetype:Cloze
+MPI: {{c1::MPI_Send}} (blok, zależy), {{c2::MPI_Ssend}} (blok, sync), {{c3::MPI_Bsend}} (blok, async), {{c4::MPI_Isend}} (nieblok)		pyt26 HPC MPI_cloze
+Deadlock fix: {{c1::Irecv}} + {{c2::Isend}} + {{c3::Waitall}} (nieblokujące, symetryczne)		pyt26 HPC fix_cloze
+
+#notetype:Basic
+Trzy poziomy warunków decyzyjnych?	Pewność (znamy wynik), Ryzyko (znamy prawdopodobieństwa), Niepewność (nie znamy prawdopodobieństw)	pyt31 TD warunki_decyzyjne
+Czym jest funkcja użyteczności U(x)?	Matematyczne przypisanie wartości subiektywnej do wyniku (np. pieniędzy)	pyt31 TD uzytecznosc_def
+Risk averse -- jaki kształt U(x)?	Wklęsła (concave): U''(x) < 0 -- malejaca użyteczność krańcowa	pyt31 TD risk_averse
+Risk neutral -- jaki kształt U(x)?	Liniowa -- obojętne czy pewny E[X] czy loteria	pyt31 TD risk_neutral
+Risk seeking -- jaki kształt U(x)?	Wypukła (convex): U''(x) > 0 -- woli ryzyko niż pewniaka	pyt31 TD risk_seeking
+Metoda loterii -- na czym polega?	Ustal U(worst)=0, U(best)=1; pytaj o punkt obojętności p* między pewną kwotą a loterią (p: best, 1-p: worst); U(x_mid) = p*	pyt31 TD metoda_loterii
+Certainty Equivalent (CE) -- czym jest?	Pewna kwota równoważna loterii dla decydenta	pyt31 TD CE_def
+CE < E[X] oznacza ...?	Risk averse (awersja do ryzyka)	pyt31 TD CE_lt_EX
+CE = E[X] oznacza ...?	Risk neutral	pyt31 TD CE_eq_EX
+CE > E[X] oznacza ...?	Risk seeking	pyt31 TD CE_gt_EX
+Risk Premium -- wzór?	Risk Premium = E[X] − CE	pyt31 TD risk_premium
+AHP (Analytic Hierarchy Process) -- na czym polega?	Hierarchia Cel → Kryteria → Alternatywy; porównania parami (skala 1-9) → eigenvalue → wagi	pyt31 TD AHP_def
+Kto opracował AHP?	Thomas Saaty (U. of Pittsburgh, 1970s)	pyt31 TD AHP_autor
+Thomas Saaty opracował ...?	AHP (Analytic Hierarchy Process)	pyt31 TD AHP_autor_rev
+Skala Saaty'ego w AHP: 1 = ?, 9 = ?	1 = równe znaczenie; 9 = absolutna przewaga	pyt31 TD saaty_skala
+Consistency Ratio (CR) w AHP -- kiedy akceptowalne?	CR < 0.1	pyt31 TD CR
+PROMETHEE -- co oblicza?	Przepływy: Φ+(a) = outgoing (siła), Φ-(a) = incoming (słabość), Φ(a) = net flow = Φ+ − Φ-	pyt31 TD promethee
+ELECTRE -- na czym polega outranking?	A przewyższa B gdy: concordance (dość kryteriów popiera A) + discordance (żadne nie daje B drastycznej przewagi)	pyt31 TD electre
+AHP vs PROMETHEE vs ELECTRE -- typ wyniku?	AHP: wagi + ranking; PROMETHEE: przepływy Φ; ELECTRE: relacja outranking	pyt31 TD porównanie_metod
+Kto opracował PROMETHEE?	Jean-Pierre Brans (1982)	pyt31 TD promethee_autor
+Kto opracował ELECTRE?	Bernard Roy (1965)	pyt31 TD electre_autor
+Mnemotechnika: CE = ...?	ile dałbyś za pewniaka zamiast loterii -- miara awersji do ryzyka	pyt31 TD mnemotechnika_CE
+Mnemotechnika: AHP = ...?	porównaj parami, policz wagi (macierz → eigenvalue)	pyt31 TD mnemotechnika_AHP
+Mnemotechnika: PROMETHEE = ...?	przepływy (Φ+ outgoing, Φ- incoming)	pyt31 TD mnemotechnika_PROM
+
+#notetype:Cloze
+Risk Premium = {{c1::E[X]}} − {{c2::CE}}		pyt31 TD risk_premium_cloze
+AHP: Consistency Ratio CR < {{c1::0.1}} = akceptowalne		pyt31 TD CR_cloze
+PROMETHEE: Φ(a) = {{c1::Φ+(a)}} − {{c2::Φ-(a)}} (net flow)		pyt31 TD promethee_cloze
+
+#notetype:Basic
+Czym jest dominacja stochastyczna?	Metoda porównywania rozkładów prawdopodobieństwa BEZ znajomości dokładnej U -- jeśli A dominuje B, cała klasa racjonalnych decydentów wybierze A	pyt32 TD dominacja_def
+FSD (First-order Stochastic Dominance) -- warunek?	F_A(x) ≤ F_B(x) dla każdego x (dystrybuanta A zawsze poniżej B)	pyt32 TD FSD_warunek
+FSD -- jaki warunek na U?	U'(x) ≥ 0 (monotoniczność -- więcej = lepiej)	pyt32 TD FSD_U
+FSD -- dla jakiej klasy decydentów?	WSZYSCY racjonalni (nienasyceni)	pyt32 TD FSD_klasa
+F_A(x) ≤ F_B(x) ∀x interpretacja?	Dla dowolnego progu x, szansa że A daje wynik ≤ x jest mniejsza lub równa niż dla B	pyt32 TD FSD_interpretacja
+Czy FSD jest częsta w praktyce?	Rzadka -- wystarczy JEDEN punkt gdzie F_A(x) > F_B(x) i dominacja nie zachodzi	pyt32 TD FSD_rzadka
+SSD (Second-order Stochastic Dominance) -- warunek?	∫ F_A(t)dt ≤ ∫ F_B(t)dt dla każdego x (skumulowana całka z dystrybuanty)	pyt32 TD SSD_warunek
+SSD -- jaki warunek na U?	U' ≥ 0 i U'' ≤ 0 (monotoniczność + wklęsłość)	pyt32 TD SSD_U
+SSD -- dla jakiej klasy decydentów?	Risk-averse (awersja do ryzyka)	pyt32 TD SSD_klasa
+Czy dystrybuanty mogą się przecinać przy SSD?	TAK -- ale skumulowane pole pod F_A musi być ≤ pola pod F_B	pyt32 TD SSD_przecinanie
+Relacja FSD a SSD?	FSD ⇒ SSD (ale NIE odwrotnie) -- FSD silniejsza	pyt32 TD FSD_implies_SSD
+FSD implikuje SSD?	TAK	pyt32 TD FSD_SSD_tak
+SSD implikuje FSD?	NIE	pyt32 TD SSD_FSD_nie
+Mean-Preserving Spread (MPS) -- czym jest?	Operacja zwiększająca rozrzut (wariancję) rozklądu zachowując tę samą średnią: B = A + ε, E[ε|A]=0	pyt32 TD MPS_def
+Twierdzenie Rothschilda-Stiglitza?	A SSD-dominuje B ⇔ B jest mean-preserving spread A (przy jednakowej średniej)	pyt32 TD rothschild_stiglitz
+Kto sformułował FSD/SSD?	Hadar & Russell (1969); Rothschild & Stiglitz (1970) niezależnie	pyt32 TD FSD_SSD_autorzy
+Zastosowanie dominacji stochastycznej w portfelach?	Eliminuj zdominowane stochastycznie portfele BEZ znajomości dokładnej U inwestora	pyt32 TD portfolio
+FSD vs SSD -- częstość?	FSD rzadka; SSD częstsza	pyt32 TD FSD_vs_SSD_czest
+Mnemotechnika: FSD = ...?	F always below -- dystrybuanta A zawsze ≤ B	pyt32 TD mnemotechnika_FSD
+Mnemotechnika: SSD = ...?	Second = Sum (integral) -- całka z F_A ≤ całka z F_B	pyt32 TD mnemotechnika_SSD
+Mnemotechnika: FSD → kto? SSD → kto?	FSD → wszyscy racjonalni; SSD → risk-averse	pyt32 TD mnemotechnika_klasy
+
+#notetype:Cloze
+FSD: F_A(x) {{c1::≤}} F_B(x) ∀x; warunek na U: {{c2::U' ≥ 0}}		pyt32 TD FSD_cloze
+SSD: ∫F_A(t)dt {{c1::≤}} ∫F_B(t)dt ∀x; warunek na U: {{c2::U' ≥ 0, U'' ≤ 0}}		pyt32 TD SSD_cloze
+Hierarchia: {{c1::FSD}} ⇒ {{c2::SSD}} ⇒ TSD (ale nie odwrotnie)		pyt32 TD hierarchia_cloze
+Mean-Preserving Spread: B = A + {{c1::ε}}, gdzie E[{{c1::ε}}|A] = {{c2::0}}		pyt32 TD MPS_cloze
+
+#notetype:Basic
+Przykład języka regularnego: identyfikatory w programowaniu?	[a-zA-Z_][a-zA-Z0-9_]* — wyrażenie regularne, więc język regularny	pyt01 AISDI regularne_identyfikatory
+Przykład języka regularnego: podzielność?	Liczby binarne podzielne przez 3 — automat z 3 stanami (śledzi resztę)	pyt01 AISDI regularne_podzielnosc
+Nawiasy — jaki typ języka?	Bezkontekstowy (Typ 2) — PDA: push (, pop )	pyt01 AISDI nawiasy_typ
+|w| w kontekście LBA oznacza?	Długość słowa wejściowego (np. w=aabbcc → |w|=6)	pyt01 AISDI LBA_w
+Dlaczego LBA rozpoznaje aⁿbⁿcⁿ?	Taśma R/W: wiele przejść zaznaczając po jednym a, b, c za każdym razem	pyt01 AISDI LBA_anbncn
+Dlaczego LBA rozpoznaje ww (podwojone słowo)?	Swobodny dostęp do taśmy — porównuje i-ty symbol pierwszej i drugiej połowy	pyt01 AISDI LBA_ww
+Jak DTM symuluje NTM?	BFS po drzewie konfiguracji — symulacja wykładniczo wolniejsza, ale te same języki	pyt01 AISDI DTM_NTM_BFS
+Kontrprzykład: domknięcie ∩ dla jęz. bezkontekstowych?	{aⁿbⁿcᵐ} ∩ {aᵐbⁿcⁿ} = {aⁿbⁿcⁿ} — NIE jest bezkontekstowy	pyt01 AISDI CFL_intersection
+Lekser (lexer) — który Typ Chomsky’ego?	Typ 3 (FA / regex) — dzieli kod na tokeny (if, 123, +)	pyt01 AISDI lekser_typ
+Parser — który Typ Chomsky’ego?	Typ 2 (PDA / CFG) — buduje drzewo składniowe z tokenów	pyt01 AISDI parser_typ
+Weryfikacja ograniczeń (np. typowanie) — który Typ?	Typ 1 (LBA / kontekstowe) — np. zmienna zadeklarowana przed użyciem	pyt01 AISDI weryfikacja_typ
+Obliczenia ogólne — który Typ?	Typ 0 (TM) — dowolne obliczenia (teza Churcha-Turinga)	pyt01 AISDI obliczenia_typ
+Etymologia: „rekurencyjnie przeliczalne”?	TM może wyliczyć (enumerate) wszystkie słowa języka, ale może NIE zatrzymać się na nie-członkach	pyt01 AISDI rek_przelicz_etym
+Cykl ujemny (negative cycle) w grafie?	Cykl, w którym suma wag < 0 — najkrótsza ścieżka = −∞	pyt02 AISDI cykl_ujemny
+d[v] w algorytmach SSSP?	Tablica odległości: d[start]=0, d[inne]=∞, relaksacja obniża d[v]	pyt02 AISDI tablica_d
+Bellman-Ford — współtwórca oprócz Bellmana?	Lester Ford Jr. (1956)	pyt02 AISDI bellman_ford_jr
+Atrybut pierwszy (prime attribute)?	Kolumna będąca częścią klucza kandydującego (vs non-prime)	pyt03 BD2 prime_attribute
+Klucz kandydujący (candidate key)?	Minimalny nadklucz (superkey) — usunięcie dowolnej kolumny traci unikalność	pyt03 BD2 candidate_key
+Dekompozycja (w normalizacji)?	Podział dużej tabeli na mniejsze powiązane FK, eliminując anomalie	pyt03 BD2 dekompozycja
+5NF (Piąta Postać Normalna)?	Project-Join NF — usunięcie WSZYSTKICH redundancji wynikających z join dependencies	pyt03 BD2 5NF
+Etymologia: redundancja?	Łac. „redundantia” = nadmiar, przelewanie się	pyt03 BD2 redundancja_etym
+Transakcja (w bazach danych)?	Logiczna jednostka pracy — zbiór operacji: albo WSZYSTKIE, albo żadna (atomowość)	pyt04 BD2 transakcja_def
+Blokada współdzielona (shared lock)?	Wielu czytelników równocześnie; blokuje zapis	pyt04 BD2 shared_lock
+Blokada wyłączna (exclusive lock)?	Jeden pisarz; blokuje odczyt i inne zapisy	pyt04 BD2 exclusive_lock
+Widok (view) w bazie danych?	Wirtualna tabela = zapisane zapytanie SQL; umożliwia niezależność logiczną	pyt04 BD2 view
+Procedura składowana (stored procedure)?	Funkcja zapisana w bazie, wywoływana via SQL — logika blisko danych	pyt04 BD2 stored_proc
+Plan wykonania (execution plan)?	Sekwencja kroków (scan, join, sort) wybrana przez optymalizator dla zapytania	pyt04 BD2 execution_plan
+Rola (role) w bezpieczeństwie BD?	Grupa uprawnień przypisywana użytkownikom (np. rola „Kasjer”)	pyt04 BD2 role
+Audyt (audit) w BD?	Logowanie KTO, KIEDY, CO zrobił — zgodność: RODO, SOX, PCI-DSS	pyt04 BD2 audyt
+Indeks (index) w BD?	Pomocnicza struktura przyspieszająca wyszukiwanie (jak indeks w książce)	pyt04 BD2 indeks
+Partycjonowanie tabeli?	Podział tabeli na części (np. wg roku) — szybsze zapytania na podzbiorze danych	pyt04 BD2 partycjonowanie
+Etymologia: transakcja?	Łac. „transactio” = załatwienie, dokonanie	pyt04 BD2 transakcja_etym
+std::array<T,N> — cechy?	Rozmiar stały (compile-time), zero narzutu vs C-array, ciągła pamięć	pyt05 PROI STL_array
+Cache-friendliness — dlaczego ciągła pamięć jest szybsza?	CPU ładuje pamięć w liniach cache (64B); ciągłe = prefetch; rozproszone = cache miss	pyt05 PROI cache_friendliness
+Contiguous Iterator (C++17)?	Jak Random Access + gwarancja sąsiadującej pamięci (np. vector, array)	pyt05 PROI contiguous_iterator
+Lambda — etymologia?	Gr. λ; rachunek lambda Alonzo Churcha (1930s)	pyt05 PROI lambda_etym
+Funktor — etymologia?	Z teorii kategorii (matematyka) — odwzorowanie zachowujące strukturę	pyt05 PROI funktor_etym
+Programowanie generyczne (generic programming)?	Kod niezależny od konkretnego typu — C++ templates, Java/C# generics	pyt06 PROI generyczne_def
+Java generics vs C# generics — kluczowa różnica?	Java: type erasure (usunięcie typów w runtime); C#: reification (typy zachowane)	pyt06 PROI java_vs_csharp_generics
+Enkapsulacja — etymologia?	Łac. „capsula” = pudełeczko — ukrycie wewnętrznych danych za interfejsem	pyt06 PROI enkapsulacja_etym
+Christopher Alexander (1977) — znaczenie dla GoF?	Książka „A Pattern Language” — GoF zaadaptowali ideę wzorcow do oprogramowania	pyt06 PROI alexander_gof
+Luźne wiązanie (loose coupling)?	Minimalne zależności między komponentami — zmiana jednego nie wymusza zmian w innych	pyt06 PROI loose_coupling
+Dziedziczenie wielokrotne — które języki obsługują?	C++: TAK; Java/C#: NIE (tylko interfejsy); Python: TAK (MRO)	pyt06 PROI multiple_inheritance
+
+#notetype:Basic
+Forwarding server (DNS)?	Serwer DNS, który sam nie rozpoznaje — przekazuje zapytanie do innego resolvera	pyt07 SKM forwarding_server
+Referral (DNS)?	Odpowiedź „nie wiem, zapytaj tamten serwer” — delegacja w dół drzewa DNS	pyt07 SKM referral
+Cache — etymologia?	Fr. „cacher” = ukryć — dane ukryte blisko klienta, szybki dostęp	pyt07 SKM cache_etym
+TTL wpisów TLD w DNS?	24h–48h (dłuższe niż dla zwykłych rekordów)	pyt07 SKM TTL_TLD
+Przykłady publicznych recursive resolvers?	Google 8.8.8.8; Cloudflare 1.1.1.1	pyt07 SKM public_resolvers
+Window Scale option (TCP handshake)?	Negocjowane w handshake — pozwala okno >65535 B (do ~1 GB)	pyt08 SKM window_scale
+RFC — pełna nazwa i charakter?	Request For Comments; tradycja ARPANET; w praktyce = wiążący standard internetowy	pyt08 SKM RFC
+TCP jest ... (typ połączenia)?	Connection-oriented — połączenie musi być ustanowione przed transmisją danych	pyt08 SKM tcp_connection_oriented
+Segment TCP — definicja?	Jednostka danych TCP: nagłówek (20+ bajtów) + dane	pyt08 SKM segment_def
+TCP gwarantuje (3 cechy)?	Brak utraty, poprawna kolejność, brak duplikatów	pyt08 SKM tcp_gwarancje
+Monitor (synchronizacja)?	Wysokopoziomowa synchronizacja — obiekt z wbudowanym mutexem; Java: synchronized	pyt09 SOI monitor
+Condition Variable?	Pozwala wątkowi czekać (wait) na warunek; inny wątek sygnałem (signal/notify) budzi	pyt09 SOI condition_variable
+Bariera (barrier) — synchronizacja?	Punkt synchronizacji: WSZYSTKIE wątki muszą dotrzeć, zanim którykolwiek ruszy dalej	pyt09 SOI barrier
+Named Pipe (FIFO) — vs anonimowy pipe?	Ma nazwę w systemie plików — dostępny dla niespokrewnionych procesów	pyt09 SOI named_pipe
+Message Queue (IPC)?	Kolejka wiadomości w jądrze; komunikacja asynchroniczna między procesami	pyt09 SOI message_queue
+Socket IPC?	Komunikacja sieciowa lub lokalna (Unix domain socket); działa między maszynami	pyt09 SOI socket_ipc
+Sygnał (signal) — IPC?	Asynchroniczne powiadomienie: SIGKILL, SIGTERM; ograniczone (tylko numer sygnału)	pyt09 SOI signal_ipc
+Edward Coffman Jr. et al. (1971) — co opublikowali?	4 warunki konieczne zakleszczenia (deadlock)	pyt09 SOI coffman_author
+Mutex — etymologia?	MUTual EXclusion — portmanteau (zbitka słowna)	pyt09 SOI mutex_etym
+Pamięć wirtualna — definicja?	Abstrakcja: każdy proces widzi własną ciągłą przestrzeń adresową; może użyć więcej niż fizycznie dostępne	pyt10 SOI virtual_memory_def
+Ochrona pamięci (memory protection)?	Zapobiega dostępowi procesu do pamięci innego — bity R/W/X w tablicy stron + MMU	pyt10 SOI memory_protection
+Relokacja (relocation)?	Program musi działać pod różnymi adresami fizycznymi; pamięć wirtualna rozwiązuje automatycznie	pyt10 SOI relocation
+MMU (Memory Management Unit)?	Sprzęt tłumaczący adresy wirtualne → fizyczne	pyt10 SOI MMU
+TLB etymologia („lookaside”)?	Zajrzyj na bok/do cache zanim chodzisz po tablicy stron	pyt10 SOI TLB_etym
+Page fault — etymologia „fault”?	Wyjątek sprzętowy (hardware exception), NIE błąd programisty	pyt10 SOI pagefault_etym
+BPMN zdarzenia (Events) — 3 typy?	○ start, ◎ intermediate, ◉ end — co uruchamia/kończy proces	pyt11 WSYZ bpmn_events
+BPMN czynności (Activities)?	Prostokąty = praca (task, subprocess)	pyt11 WSYZ bpmn_activities
+BPMN łączniki: Sequence / Message / Association?	→ kolejność (Sequence); --→ między pulami (Message); ··· powiązanie (Association)	pyt11 WSYZ bpmn_flows
+BPMS — co to?	Oprogramowanie wykonujące diagramy BPMN 2.0 XML (np. Camunda, jBPM)	pyt11 WSYZ BPMS
+IDEF0 — pochodzenie i przeznaczenie?	Integration DEFinition; US Air Force (1970s); wejścia/wyjścia/mechanizmy/kontrole	pyt11 WSYZ IDEF0
+VSM (Value Stream Map)?	Narzędzie Lean Manufacturing — mapuje przepływ materiałów i informacji; identyfikuje marnotrawstwo	pyt11 WSYZ VSM
+UML „Three Amigos”?	Booch, Rumbaugh, Jacobson — zjednoczyli swoje metody w latach 90.	pyt11 WSYZ UML_three_amigos
+EPC — twórca?	August-Wilhelm Scheer (Saarland, lata 90.; podstawa SAP ARIS)	pyt11 WSYZ EPC_author
+Edmonds-Karp — czym różni się od Ford-Fulkersona?	BFS zamiast DFS do szukania ścieżki powiększającej; gwarancja O(VE²)	pyt12 WSYZ edmonds_karp
+Ścieżka powiększająca (augmenting path)?	Ścieżka w sieci resztów używana przez Ford-Fulkersona do zwiększenia przepływu	pyt12 WSYZ augmenting_path
+Minimalny koszt przepływu (min-cost flow)?	Prześlij wymagany przepływ s→t po minimalnym koszcie	pyt12 WSYZ min_cost_flow
+Ford-Fulkerson — autorzy/rok?	Lester Ford Jr. + Delbert Fulkerson (1956)	pyt12 WSYZ ford_fulkerson_authors
+Edmonds-Karp — autorzy/rok?	Jack Edmonds + Richard Karp (1972)	pyt12 WSYZ edmonds_karp_authors
+CPM — twórca/rok?	DuPont (1957)	pyt12 WSYZ CPM_author
+PERT — twórca/rok?	US Navy, program Polaris (1958)	pyt12 WSYZ PERT_author
+Kruskal — twórca/rok?	Joseph Kruskal (1956)	pyt12 WSYZ kruskal_author
+Prim — twórca/rok?	Robert Prim (1957); niezależnie Jarník (1930)	pyt12 WSYZ prim_author
+Algorytm węgierski — twórca/rok?	Harold Kuhn (1955); nazwany na cześć Kőniga i Egerváry’ego	pyt12 WSYZ hungarian_author
+NP-trudny (NP-hard) — definicja?	Brak znanego algorytmu wielomianowego; używane heurystyki i aproksymacje	pyt12 WSYZ NP_hard
+
+#notetype:Basic
+ArchiMate 3 aspekty?	Active Structure (KTO), Behavior (CO robi), Passive Structure (NA CZYM)	pyt13_27 AIS archimate_aspekty
+ArchiMate — etymologia?	„Architecture” + „animate”	pyt13_27 AIS archimate_etym
+Zachman Framework — autor/rok?	John Zachman, IBM (1987)	pyt13_27 AIS zachman_author
+C4 Model — autor/rok?	Simon Brown (2006)	pyt13_27 AIS C4_author
+ISO 25010 Quality Attributes (przykłady)?	Performance, Security, Scalability, Maintainability, Reliability, Usability, Portability	pyt13_27 AIS iso25010
+Wzorzec — kanoniczna struktura opisu?	Name + Problem + Solution + Consequences	pyt14_28 AIS pattern_structure
+Monolit (monolith) — definicja?	Cały system jako jedna aplikacja, jeden deployment; prosty, ale trudny do skalowania	pyt14_28 AIS monolith_def
+Skala wzorców: 3 poziomy?	Architektoniczny (cały system) > Projektowy (klasa/obiekt) > Idiomatyczny (linia kodu)	pyt14_28 AIS pattern_scale
+POSA — autorzy/rok?	Buschmann et al. (1996)	pyt14_28 AIS POSA_author
+Hexagonal Architecture — autor/rok?	Alistair Cockburn (2005)	pyt14_28 AIS hexagonal_author
+CQRS — autor? Na czym bazuje?	Greg Young (~2010); bazuje na CQS Bertranda Meyera	pyt14_28 AIS CQRS_author
+Termin „microservices” — popularyzatorzy?	James Lewis + Martin Fowler (~2012)	pyt14_28 AIS microservices_origin
+Cloud Patterns (4 przykłady)?	Circuit Breaker, Sidecar, Saga, Strangler Fig	pyt14_28 AIS cloud_patterns
+Separation of Concerns?	Każdy komponent odpowiada za JEDNĄ rzecz	pyt14_28 AIS SoC
+Agent (w robotyce) — definicja?	Autonomiczny byt: postrzega (sensory), decyduje (deliberacja), działa (efektory)	pyt15 ROB agent_def
+Agent upostaciowiony — definicja?	Agent z fizycznym ciałem w świecie rzeczywistym (vs agent czysto programowy)	pyt15 ROB embodied_def
+FSM w robotyce?	Skończone stany + warunkowe przejścia; prosty, ale eksplozja stanów	pyt15 ROB FSM_robotics
+BDI — autorzy?	Bratman (filozof, 1987); Rao & Georgeff (1991) przenieśli do AI	pyt15 ROB BDI_authors
+LTL — autor i nagroda?	Amir Pnueli (1977); Turing Award 1996	pyt15 ROB LTL_author
+PID — autor?	Nicolas Minorsky (1922, sterowanie statkiem)	pyt15 ROB PID_author
+ROS — skąd pochodzi?	Willow Garage (2007)	pyt15 ROB ROS_origin
+Behavior Trees — geneza?	Z game AI (Halo 2, ~2004); zaadaptowane do robotyki	pyt15 ROB BT_origin
+Task-level (w klasyfikacji T-R-M-S)?	Opisz CO robot ma zrobić, nie JAK (PDDL, Behavior Trees)	pyt16 ROB task_level
+Robot-level (w klasyfikacji T-R-M-S)?	Komendy ruchu: move_to, grasp — w przestrzeni kartezjańskiej/konfiguracyjnej	pyt16 ROB robot_level
+Motion-level (w klasyfikacji T-R-M-S)?	Planowanie trajektorii, unikanie kolizji (MoveIt, OMPL)	pyt16 ROB motion_level
+Servo-level (w klasyfikacji T-R-M-S)?	Bezpośrednie sterowanie silnikami, PID, PWM (C/C++, FPGA)	pyt16 ROB servo_level
+RAPID — pełna nazwa?	Robotics Application Programming Interactive Dialogue (ABB)	pyt16 ROB RAPID_name
+RAPID — 3 typy ruchu?	MoveJ (joint), MoveL (linear), MoveC (circular)	pyt16 ROB RAPID_moves
+KRL — 3 typy ruchu?	PTP (point-to-point), LIN (linear), CIRC (circular)	pyt16 ROB KRL_moves
+MoveIt (ROS)?	Biblioteka planowania ruchu manipulatora (IK, unikanie kolizji)	pyt16 ROB MoveIt
+PDDL?	Planning Domain Definition Language — definiuje stany/akcje/cele; planer szuka sekwencji	pyt16 ROB PDDL
+FPGA w robotyce?	Field-Programmable Gate Array; servo-level; nanosekundowe przetwarzanie	pyt16 ROB FPGA
+ΣTⱼ (suma spóźnień) definicja?	Tⱼ = max(0, Cⱼ − dⱼ); mierzy łączne spóźnienie	pyt17 ZSSK sumTj
+ΣUⱼ (liczba spóźnionych) definicja?	Uⱼ = 1 jeśli Cⱼ > dⱼ, inaczej 0; liczy ile zadań nie zmieściło się w terminie	pyt17 ZSSK sumUj
+rⱼ (release date) w β notacji Grahama?	Zadanie j dostępne dopiero w czasie rⱼ	pyt17 ZSSK release_date
+prec (precedencje) w β?	Zadanie A musi skończyć się przed B — modelowane jako DAG	pyt17 ZSSK precedence
+Makespan — etymologia?	„make” = ukończyć + „span” = rozpiętość — czas od startu do końca ostatniego zadania	pyt17 ZSSK makespan_etym
+Zapasy (inventory) — dylemat?	Za dużo = zamrożony kapitał; za mało = stockout	pyt18 ZSSK inventory_dilemma
+Stockout (brak towaru) — konsekwencje?	Utrata sprzedaży, utrata klienta, kary umowne	pyt18 ZSSK stockout
+Overstock (nadmiar) — konsekwencje?	Koszty magazynowania, zamrożony kapitał, obsolescence (dezaktualizacja)	pyt18 ZSSK overstock
+Koszt braku towaru (shortage cost, p)?	Utrata sprzedaży, ekspresowe dostawy, kary	pyt18 ZSSK shortage_cost
+
+#notetype:Basic
+Type-based subscription (Pub/Sub)?	Filtrowanie po typie wiadomości (np. klasa OrderEvent)	pyt19_29 AIS type_based_sub
+Hierarchical/wildcard subscription?	Wzorce tematów: orders.* dopasowuje orders.created	pyt19_29 AIS wildcard_sub
+AMQP pełna nazwa?	Advanced Message Queuing Protocol	pyt19_29 AIS AMQP_name
+Redis etymologia?	REmote DIctionary Server (Salvatore Sanfilippo, 2009)	pyt19_29 AIS redis_etym
+RabbitMQ etymologia?	„rabbit” = szybkość (królik)	pyt19_29 AIS rabbitmq_etym
+Spark etymologia + autor?	„iskra”; Matei Zaharia (UC Berkeley, 2012)	pyt20_30 AIS spark_etym
+Reservoir Sampling — autor?	Jeffrey Vitter (1985)	pyt20_30 AIS reservoir_author
+Out-of-order events (w strumieniach)?	Zdarzenia mogą przyjść w złej kolejności z powodu opóźnień sieciowych	pyt20_30 AIS out_of_order
+HyperLogLog — „LogLog” w nazwie?	Zużywa log(log(n)) pamięci	pyt20_30 AIS HLL_name
+Porządek częściowy (partial order)?	Relacja, w której NIE wszystkie pary są porównywalne	pyt21 SR partial_order
+Porządek przyczynowy (causal order)?	Wiadomości dostarczane zgodnie z relacją happened-before	pyt21 SR causal_order
+Zdarzenie (event) w systemach rozproszonych?	Atomowa akcja: instrukcja lokalna, wysłanie msg lub odebranie msg	pyt21 SR event_def
+Lamport — nagroda?	Turing Award 2013	pyt21 SR lamport_turing
+Lamport — inny znany wynalazek?	LaTeX	pyt21 SR lamport_latex
+Amazon Dynamo (2007) — używa?	Wektorów wersji (version vectors) do wykrywania konfliktów	pyt21 SR dynamo
+Zegar Lamporta — krok przed własnym zdarzeniem?	C_i := C_i + 1 (inkrementacja przed każdym zdarzeniem)	pyt21 SR lamport_local_step
+Replikacja (replication) — cel?	Kopie danych na wielu węzłach; cel: dostępność + wydajność	pyt22 SR replication_def
+Monotonic Writes (gwarancja sesji)?	Moje zapisy stosowane w kolejności, w jakiej je wysłałem	pyt22 SR monotonic_writes
+Writes Follow Reads?	Jeśli przeczytałem x i zapisałem y na jego podstawie, inni widzą x przed y	pyt22 SR writes_follow_reads
+Sequential Consistency — autor?	Leslie Lamport (1979)	pyt22 SR seq_consistency_author
+Causal Consistency — autorzy?	Ahamad et al. (1995)	pyt22 SR causal_consistency_author
+CRDTs — autorzy?	Marc Shapiro et al. (2011)	pyt22 SR CRDTs_author
+Quorum — etymologia?	Łac. „of whom” = minimalna liczba głosów (z prawa rzymskiego)	pyt22 SR quorum_etym
+Sequential Consistency — przykład systemu?	ZooKeeper	pyt22 SR seq_consistency_example
+Causal Consistency — przykład systemu?	MongoDB	pyt22 SR causal_consistency_example
+Mean Shift (segmentacja)?	Iteracyjne przesuwanie jądra do maks. gęstości; O(n²), wolny	pyt23 RO mean_shift
+Transformer-based segmentation (przykłady)?	SegFormer, Mask2Former; self-attention = globalne zależności	pyt23 RO transformer_seg
+Receptive field (pole recepcyjne)?	Ile wejścia „widzi” jeden neuron; atrous/dilated zwiększa bez dodatkowych parametrów	pyt23 RO receptive_field
+CNN (Convolutional Neural Network)?	Sieć ze splotowymi warstwami; filtr → cechy hierarchiczne	pyt23 RO CNN_def
+Pixel Accuracy (metryka segmentacji)?	% poprawnie zaklasyfikowanych pikseli; prostsza niż mIoU	pyt23 RO pixel_accuracy
+FCN — autorzy/rok?	Long, Shelhamer, Darrell (2015)	pyt23 RO FCN_authors
+Confidence (w detekcji obiektów)?	Wynik 0–1 mówiący jak pewny jest detektor; próg np. 0.5	pyt24 RO confidence_def
+SVM (Support Vector Machine)?	Hiperpaszczyzna maks. separująca klasy; HOG+SVM = klasyczny pipeline	pyt24 RO SVM
+Anchor-free detectors?	FCOS, YOLOv8: bezpośrednia predykcja bez predefiniowanych anchorów	pyt24 RO anchor_free
+Backbone (w detekcji)?	Sieć bazowa (ResNet, VGG) wyciągająca cechy; detection head dodawana na wierzch	pyt24 RO backbone
+Integral Image (Viola-Jones)?	Obliczenie sumy prostokąta w O(1)	pyt24 RO integral_image
+SSD pełna nazwa?	Single Shot MultiBox Detector (Liu et al., 2016)	pyt24 RO SSD_name
+Overhead synchronizacji (w HPC)?	Dodatkowy koszt koordynacji: mutex contention, bariery, komunikacja	pyt25 HPC sync_overhead
+Lock-free — co zamiast mutexów?	CAS (Compare-And-Swap) — atomowe operacje sprzętowe	pyt25 HPC lock_free
+Pipelining (równoległość)?	Podział na etapy na osobnych rdzeniach (jak taśma montażowa)	pyt25 HPC pipelining
+Gene Amdahl — inny wkład?	Współtwórca IBM System/360	pyt25 HPC amdahl_ibm
+MPI — pełna nazwa i rok?	Message Passing Interface; MPI Forum (1994)	pyt26 HPC MPI_name
+MPI_Recv — typ?	Blokujące odbieranie (czeka aż wiadomość dotrze)	pyt26 HPC MPI_Recv
+MPI_Irecv — typ?	Nieblokujące odbieranie (wraca natychmiast; sprawdzamy MPI_Wait/Test)	pyt26 HPC MPI_Irecv
+Synchroniczna — etymologia?	Gr. „syn” (razem) + „chronos” (czas)	pyt26 HPC sync_etym
+Loteria (lottery) — formalizacja?	Decyzja ryzykowna: zbiór wyników z prawdopodobieństwami, L = (p: best, 1-p: worst)	pyt31 TD lottery_def
+PROMETHEE pełna nazwa?	Preference Ranking Organization METHod for Enrichment Evaluations	pyt31 TD PROMETHEE_name
+ELECTRE pełna nazwa?	ÉLimination Et Choix Traduisant la RÉalité	pyt31 TD ELECTRE_name
+Eigenvalue w AHP?	Z macierzy porównań wyznaczamy wektor własny → wagi kryteriów	pyt31 TD AHP_eigenvalue
+von Neumann-Morgenstern (1944)?	Sformalizowali aksjomatycznie teorię użyteczności	pyt31 TD vNM
+Daniel Bernoulli (1738)?	Wprowadził koncepcję użyteczności (paradoks petersburski)	pyt31 TD bernoulli
+Kompensacyjna vs niekompensacyjna metoda?	AHP = kompensacyjna (dobre kompensuje złe); ELECTRE = niekompensacyjna	pyt31 TD komp_vs_niekomp
+Dystrybuanta F(x) (CDF)?	P(X ≤ x); rośnie od 0 do 1	pyt32 TD CDF_def
+Funkcja wklęsła (concave) — warunek?	U''(x) ≤ 0; malejąca użyteczność krańcowa; np. U(x) = √x	pyt32 TD concave
+Funkcja wypukła (convex) — warunek?	U''(x) ≥ 0; modeluje risk seeking	pyt32 TD convex
+Stochastyczna — etymologia?	Gr. „stochastos” = zdolny do celowania; „stochazein” = mierzyć/celować	pyt32 TD stochastic_etym
+Ubezpieczenia + dominacja stochastyczna?	Fair ubezpieczenie SSD-dominuje brak ubezpieczenia (dla risk-averse)	pyt32 TD insurance_SSD

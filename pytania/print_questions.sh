@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# print_questions.sh — Convert and print exam questions from OBRONA_MAGISTERSKA_ODPOWIEDZI.md
+# print_questions.sh — Convert and print exam questions from questions/ folder
 #
 # Usage:
 #   ./print_questions.sh [OPTIONS] [QUESTION_NUMBERS...]
@@ -28,7 +28,7 @@ set -euo pipefail
 
 # ── Configuration ──────────────────────────────────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SOURCE_MD="${SCRIPT_DIR}/OBRONA_MAGISTERSKA_ODPOWIEDZI.md"
+QUESTIONS_DIR="${SCRIPT_DIR}/questions"
 PRINTER="Brother_HL-1110_series"
 DO_PRINT=false
 LIST_ONLY=false
@@ -85,24 +85,61 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# ── Verify source file ───────────────────────────────────────────────────────
-if [[ ! -f "$SOURCE_MD" ]]; then
-    echo "Error: Source file not found: $SOURCE_MD" >&2
+# ── Verify questions directory ────────────────────────────────────────────────
+if [[ ! -d "$QUESTIONS_DIR" ]]; then
+    echo "Error: Questions directory not found: $QUESTIONS_DIR" >&2
+    echo "Run split_questions.py first to generate per-question files." >&2
     exit 1
 fi
 
+# ── Helper: find question file by number ──────────────────────────────────────
+# Matches question number against filenames like pytanie_01.md, pytanie_13_27.md
+find_question_file() {
+    local num="$1"
+    local padded
+    padded=$(printf "%02d" "$num")
+
+    # Try exact match: pytanie_NN.md
+    local exact="${QUESTIONS_DIR}/pytanie_${padded}.md"
+    if [[ -f "$exact" ]]; then
+        echo "$exact"
+        return 0
+    fi
+
+    # Try dual-numbered: pytanie_NN_MM.md (match either side)
+    for f in "${QUESTIONS_DIR}"/pytanie_*_*.md; do
+        [[ -f "$f" ]] || continue
+        local base
+        base=$(basename "$f" .md)
+        # Extract numbers from pytanie_NN_MM
+        local nums="${base#pytanie_}"
+        local left="${nums%%_*}"
+        local right="${nums##*_}"
+        if [[ "$padded" == "$left" || "$padded" == "$right" ]]; then
+            echo "$f"
+            return 0
+        fi
+    done
+
+    return 1
+}
+
 # ── List questions ────────────────────────────────────────────────────────────
 list_questions() {
-    echo "Available questions in $(basename "$SOURCE_MD"):"
+    echo "Available questions in ${QUESTIONS_DIR}/"
     echo ""
-    grep "^## PYTANIE" "$SOURCE_MD" | while IFS= read -r line; do
-        # Extract question number and title
-        num=$(echo "$line" | sed 's/^## PYTANIE \([0-9/]*\):.*/\1/')
-        title=$(echo "$line" | sed 's/^## PYTANIE [0-9/]*: //')
+    for f in "${QUESTIONS_DIR}"/pytanie_*.md; do
+        [[ -f "$f" ]] || continue
+        # Read first line to get the header
+        local header
+        header=$(head -1 "$f")
+        local num title
+        num=$(echo "$header" | sed 's/^## PYTANIE \([0-9/]*\):.*/\1/')
+        title=$(echo "$header" | sed 's/^## PYTANIE [0-9/]*: //')
         printf "  %6s  %s\n" "$num" "$title"
     done
     echo ""
-    echo "Total: $(grep -c "^## PYTANIE" "$SOURCE_MD") questions"
+    echo "Total: $(ls -1 "${QUESTIONS_DIR}"/pytanie_*.md 2>/dev/null | wc -l) questions"
 }
 
 if $LIST_ONLY; then
@@ -110,83 +147,48 @@ if $LIST_ONLY; then
     exit 0
 fi
 
-# ── Extract questions ─────────────────────────────────────────────────────────
-extract_questions() {
-    local md_file="$1"
-    shift
+# ── Assemble selected questions ───────────────────────────────────────────────
+assemble_questions() {
     local selected=("$@")
 
     if [[ ${#selected[@]} -eq 0 ]]; then
-        # All questions — output entire file
-        cat "$md_file"
+        # All questions — concatenate all files in order
+        local first=true
+        for f in "${QUESTIONS_DIR}"/pytanie_*.md; do
+            [[ -f "$f" ]] || continue
+            if ! $first; then
+                echo ""
+                echo "\\newpage"
+                echo ""
+            fi
+            first=false
+            cat "$f"
+        done
         return
     fi
 
-    local tmpfile
-    tmpfile=$(mktemp)
-    local in_question=false
-    local current_num=""
-    local line_num=0
-
-    # Build a grep pattern to find question headers with their line numbers
-    # Then extract the relevant sections
-    local question_starts=()
-    local question_labels=()
-
-    while IFS= read -r line; do
-        ((line_num++)) || true
-        if [[ "$line" =~ ^##\ PYTANIE\ ([0-9]+(/[0-9]+)?): ]]; then
-            question_starts+=("$line_num")
-            question_labels+=("${BASH_REMATCH[1]}")
-        fi
-    done < "$md_file"
-
-    # Total lines in file
-    local total_lines
-    total_lines=$(wc -l < "$md_file")
-
-    # For each selected question, find its start and end lines
+    # Selected questions
     local first=true
+    local found_any=false
     for sel in "${selected[@]}"; do
-        for i in "${!question_labels[@]}"; do
-            local label="${question_labels[$i]}"
-            # Match: exact number, or either side of a slash (e.g., "13" matches "13/27")
-            local match=false
-            if [[ "$label" == "$sel" ]]; then
-                match=true
-            elif [[ "$label" == */* ]]; then
-                local left="${label%%/*}"
-                local right="${label##*/}"
-                if [[ "$sel" == "$left" || "$sel" == "$right" ]]; then
-                    match=true
-                fi
+        local qfile
+        if qfile=$(find_question_file "$sel"); then
+            found_any=true
+            if ! $first; then
+                echo ""
+                echo "\\newpage"
+                echo ""
             fi
-
-            if $match; then
-                local start="${question_starts[$i]}"
-                local end="$total_lines"
-
-                # End = next question start - 1, or EOF
-                local next=$((i + 1))
-                if [[ $next -lt ${#question_starts[@]} ]]; then
-                    end=$(( ${question_starts[$next]} - 1 ))
-                fi
-
-                # Strip trailing blank lines and \newpage
-                if ! $first; then
-                    echo ""
-                    echo "\\newpage"
-                    echo ""
-                fi
-                first=false
-
-                sed -n "${start},${end}p" "$md_file" | sed '/^\\newpage$/d' | sed -e :a -e '/^\s*$/{ $d; N; ba; }'
-                break
-            fi
-        done
+            first=false
+            cat "$qfile"
+        else
+            echo "Warning: Question $sel not found, skipping." >&2
+        fi
     done
 
-    rm -f "$tmpfile"
+    if ! $found_any; then
+        return 1
+    fi
 }
 
 # ── Generate output filename ─────────────────────────────────────────────────
@@ -206,7 +208,12 @@ fi
 TMP_DIR=$(mktemp -d)
 TMP_MD="${TMP_DIR}/questions.md"
 
-extract_questions "$SOURCE_MD" "${QUESTIONS[@]}" > "$TMP_MD"
+if ! assemble_questions "${QUESTIONS[@]}" > "$TMP_MD"; then
+    echo "Error: No matching questions found for: ${QUESTIONS[*]}" >&2
+    echo "Use --list to see available questions." >&2
+    rm -rf "$TMP_DIR"
+    exit 1
+fi
 
 # Count extracted questions
 extracted=$(grep -c "^## PYTANIE" "$TMP_MD" || echo "0")
@@ -223,6 +230,7 @@ echo "Converting $extracted question(s) to PDF..."
 pandoc "$TMP_MD" \
     -o "$OUTPUT_PDF" \
     --pdf-engine=xelatex \
+    --resource-path="${SCRIPT_DIR}" \
     -V geometry:a4paper \
     -V geometry:margin=1.8cm \
     -V fontsize=12pt \

@@ -92,24 +92,226 @@
 
 ### FA — Typ 3: Języki regularne
 
-M = (Q, Σ, δ, q₀, F). **Pamięć:** brak — tylko stan. **DFA ≡ NFA.**
+**Definicja formalna:** M = (Q, Σ, δ, q₀, F)
+
+| Symbol | Nazwa | Znaczenie | Przykład |
+|--------|-------|-----------|----------|
+| **Q** | Zbiór stanów (States) | Skończony zbiór wszystkich stanów automatu — „pozycji" w schemacie | Q = {q₀, q₁, q₂} — trzy stany |
+| **Σ** | Alfabet wejściowy (Sigma) | Skończony zbiór symboli, które automat czyta | Σ = {a, b} — alfabet dwuliterowy |
+| **δ** | Funkcja przejścia (Delta) | Reguła: „w stanie q, czytając symbol a, przejdź do stanu q'" — δ: Q × Σ → Q (DFA) | δ(q₀, a) = q₁ — z q₀ po 'a' idź do q₁ |
+| **q₀** | Stan początkowy | Stan, w którym automat zaczyna pracę | q₀ — zawsze startujemy tu |
+| **F** | Stany akceptujące (Final) | Podzbiór Q — jeśli automat skończy w stanie z F, słowo jest AKCEPTOWANE | F = {q₂} — tylko q₂ akceptuje |
+
+**Pamięć:** brak — cała informacja to aktualny stan. **DFA ≡ NFA.**
 Równoważne wyrażeniom regularnym (regex).
 Przykłady: identyfikatory, podzielność. Nie: aⁿbⁿ, nawiasy, palindromy.
 
+**Przykład krok po kroku — FA rozpoznaje język L = {słowa nad {a,b} kończące się na "ab"}:**
+
+Automat DFA: Q = {q₀, q₁, q₂}, Σ = {a, b}, F = {q₂}
+
+    Tabela przejść:
+    ┌───────┬───────┬───────┐
+    │ Stan  │  a    │  b    │
+    ├───────┼───────┼───────┤
+    │  q₀   │  q₁   │  q₀   │   (q₀ = „nie widziałem 'a' na końcu")
+    │  q₁   │  q₁   │  q₂   │   (q₁ = „ostatni symbol to 'a'")
+    │  q₂*  │  q₁   │  q₀   │   (q₂ = „ostatnie dwa to 'ab'" ← AKCEPTUJ)
+    └───────┴───────┴───────┘
+
+    Wejście: w = "baab"
+
+    Krok 1: stan = q₀, czytam 'b' → δ(q₀, b) = q₀     stan: q₀
+    Krok 2: stan = q₀, czytam 'a' → δ(q₀, a) = q₁     stan: q₁
+    Krok 3: stan = q₁, czytam 'a' → δ(q₁, a) = q₁     stan: q₁
+    Krok 4: stan = q₁, czytam 'b' → δ(q₁, b) = q₂     stan: q₂ ✓
+
+    Końcowy stan q₂ ∈ F → słowo "baab" AKCEPTOWANE ✓
+
+    Wejście: w = "ba"
+
+    Krok 1: stan = q₀, czytam 'b' → δ(q₀, b) = q₀     stan: q₀
+    Krok 2: stan = q₀, czytam 'a' → δ(q₀, a) = q₁     stan: q₁
+
+    Końcowy stan q₁ ∉ F → słowo "ba" ODRZUCONE ✗
+
+![Diagram FA rozpoznającego język kończący się na "ab"](img/fa_recognition_example.png)
+
 ### PDA — Typ 2: Języki bezkontekstowe
 
-M = (Q, Σ, Γ, δ, q₀, Z₀, F). **Pamięć:** stos LIFO. **DPDA ⊂ NPDA!**
+**Definicja formalna:** M = (Q, Σ, Γ, δ, q₀, Z₀, F)
+
+| Symbol | Nazwa | Znaczenie | Przykład |
+|--------|-------|-----------|----------|
+| **Q** | Zbiór stanów | Jak w FA — skończony zbiór stanów | Q = {q₀, q₁, q₂} |
+| **Σ** | Alfabet wejściowy | Symbole czytane z wejścia | Σ = {a, b} |
+| **Γ** | Alfabet stosowy (Gamma) | Symbole, które mogą być na stosie — INNE niż alfabet wejściowy! | Γ = {Z₀, A} — Z₀ = dno stosu, A = znacznik |
+| **δ** | Funkcja przejścia | Teraz zależy od TRZECH rzeczy: stan + symbol wejściowy + szczyt stosu → nowy stan + operacja na stosie | δ(q₀, a, Z₀) = (q₀, AZ₀) — „push A" |
+| **q₀** | Stan początkowy | Jak w FA | q₀ |
+| **Z₀** | Symbol dna stosu | Początkowy symbol na stosie — pozwala wykryć, że stos jest „pusty" | Z₀ — stos zaczyna z jednym Z₀ |
+| **F** | Stany akceptujące | Jak w FA (alternatywnie: akceptacja przez pusty stos) | F = {q₂} |
+
+**Pamięć:** stos LIFO — ostatni włożony, pierwszy wyjęty. **DPDA ⊂ NPDA!**
 Przykłady: aⁿbⁿ, nawiasy, wwᴿ. Nie: aⁿbⁿcⁿ, ww.
+
+**Przykład krok po kroku — PDA rozpoznaje język L = {aⁿbⁿ | n ≥ 1}:**
+
+Automat PDA: Q = {q₀, q₁, q₂}, Σ = {a, b}, Γ = {Z₀, A}, F = {q₂}
+
+    Reguły przejścia:
+    δ(q₀, a, Z₀) = (q₀, AZ₀)    ← czytam 'a', stos pusty → push A
+    δ(q₀, a, A)  = (q₀, AA)      ← czytam 'a', na stosie A → push jeszcze A
+    δ(q₀, b, A)  = (q₁, ε)       ← czytam 'b', na stosie A → pop A, przejdź do q₁
+    δ(q₁, b, A)  = (q₁, ε)       ← czytam 'b', na stosie A → pop A
+    δ(q₁, ε, Z₀) = (q₂, Z₀)     ← brak wejścia, stos = Z₀ → akceptuj!
+
+    Wejście: w = "aabb" (a²b², n=2)
+
+    Krok 1: stan=q₀, czytam 'a', stos=[Z₀]
+            δ(q₀, a, Z₀) = (q₀, AZ₀) → push A
+            stan=q₀, stos=[A, Z₀]
+
+    Krok 2: stan=q₀, czytam 'a', stos=[A, Z₀]
+            δ(q₀, a, A) = (q₀, AA) → push A
+            stan=q₀, stos=[A, A, Z₀]
+
+    Krok 3: stan=q₀, czytam 'b', stos=[A, A, Z₀]
+            δ(q₀, b, A) = (q₁, ε) → pop A
+            stan=q₁, stos=[A, Z₀]
+
+    Krok 4: stan=q₁, czytam 'b', stos=[A, Z₀]
+            δ(q₁, b, A) = (q₁, ε) → pop A
+            stan=q₁, stos=[Z₀]
+
+    Krok 5: stan=q₁, brak wejścia, stos=[Z₀]
+            δ(q₁, ε, Z₀) = (q₂, Z₀) → akceptuj!
+            stan=q₂ ∈ F → "aabb" AKCEPTOWANE ✓
+
+    Intuicja: Push A za każde 'a', pop A za każde 'b'.
+    Jeśli stos pusty po przeczytaniu → równo a i b → akceptuj!
+
+![Diagram PDA rozpoznającego język aⁿbⁿ](img/pda_recognition_example.png)
 
 ### LBA — Typ 1: Języki kontekstowe
 
-TM z taśmą ograniczoną do |w|. **DLBA =? NLBA** — problem otwarty!
+**Definicja formalna:** M = (Q, Σ, Γ, δ, q₀, q_acc, q_rej) — jak TM, ale z ograniczeniem taśmy
+
+| Symbol | Nazwa | Znaczenie | Przykład |
+|--------|-------|-----------|----------|
+| **Q** | Zbiór stanów | Skończony zbiór stanów — może być większy niż w FA/PDA | Q = {q₀, q₁, q₂, q₃, q₄, q_acc, q_rej} |
+| **Σ** | Alfabet wejściowy | Symbole na taśmie na początku (BEZ markera pustego) | Σ = {a, b, c} |
+| **Γ** | Alfabet taśmowy (Gamma) | Wszystkie symbole dozwolone na taśmie, Σ ⊂ Γ, zawiera marker pusty ⊔ | Γ = {a, b, c, X, Y, Z, ⊔} — X,Y,Z = zaznaczone |
+| **δ** | Funkcja przejścia | δ(stan, symbol_na_taśmie) = (nowy_stan, symbol_do_zapisania, kierunek_głowicy) | δ(q₀, a) = (q₁, X, R) — zaznacz 'a' jako X, idź w prawo |
+| **q₀** | Stan początkowy | Głowica na pierwszym symbolu taśmy | q₀ |
+| **q_acc** | Stan akceptujący | Akceptacja — automat się ZATRZYMUJE | q_acc |
+| **q_rej** | Stan odrzucający | Odrzucenie — automat się ZATRZYMUJE | q_rej |
+
+**Ograniczenie LBA:** Głowica NIE może wyjść poza |w| komórek (długość wejścia). To jedyna różnica od TM!
+**DLBA =? NLBA** — problem otwarty!
 Przykłady: aⁿbⁿcⁿ, ww.
+
+**Przykład krok po kroku — LBA rozpoznaje język L = {aⁿbⁿcⁿ | n ≥ 1}:**
+
+Strategia: wielokrotnie przejdź taśmę, za każdym razem zaznacz jedno 'a', jedno 'b', jedno 'c'.
+
+    Wejście: w = "aabbcc" (n=2), taśma = [a, a, b, b, c, c]
+
+    === Runda 1: zaznacz po jednym z każdego ===
+    Krok 1: stan=q₀, głowica→'a', zaznacz a→X, idź w prawo
+            taśma = [X, a, b, b, c, c]  głowica na 'a'
+
+    Krok 2: stan=q₁, przeskocz pozostałe 'a' (idź prawo)
+            głowica na 'b'
+
+    Krok 3: zaznacz b→Y, idź w prawo
+            taśma = [X, a, Y, b, c, c]  głowica na 'b'
+
+    Krok 4: stan=q₂, przeskocz pozostałe 'b' (idź prawo)
+            głowica na 'c'
+
+    Krok 5: zaznacz c→Z, wróć na początek
+            taśma = [X, a, Y, b, Z, c]
+
+    === Runda 2: zaznacz kolejne ===
+    Krok 6: od początku, znajdź pierwsze niezaznaczone 'a' → zaznacz X
+            taśma = [X, X, Y, b, Z, c]
+
+    Krok 7: znajdź pierwsze niezaznaczone 'b' → zaznacz Y
+            taśma = [X, X, Y, Y, Z, c]
+
+    Krok 8: znajdź pierwsze niezaznaczone 'c' → zaznacz Z
+            taśma = [X, X, Y, Y, Z, Z]
+
+    === Sprawdzenie: nie ma niezaznaczonych symboli → AKCEPTUJ ✓ ===
+
+    Gdyby "aabcc" (2a, 1b, 2c): po zaznaczeniu a,b,c w rundzie 1
+    w rundzie 2 zaznaczamy drugie 'a', ale NIE MA drugiego 'b' → ODRZUĆ ✗
+
+![Diagram LBA rozpoznającego język aⁿbⁿcⁿ](img/lba_recognition_example.png)
 
 ### TM — Typ 0: Rekurencyjnie przeliczalne
 
-M = (Q, Σ, Γ, δ, q₀, q_acc, q_rej). **Pamięć:** taśma ∞ R/W. **DTM ≡ NTM** (moc).
+**Definicja formalna:** M = (Q, Σ, Γ, δ, q₀, q_acc, q_rej)
+
+| Symbol | Nazwa | Znaczenie | Przykład |
+|--------|-------|-----------|----------|
+| **Q** | Zbiór stanów | Skończony zbiór stanów — jak LBA | Q = {q₀, q₁, q₂, q₃, q_acc, q_rej} |
+| **Σ** | Alfabet wejściowy | Symbole wejścia (nie zawiera ⊔) | Σ = {0, 1} |
+| **Γ** | Alfabet taśmowy | Σ ⊂ Γ, zawiera marker pusty ⊔ (blank) | Γ = {0, 1, X, ⊔} |
+| **δ** | Funkcja przejścia | Identyczna forma jak LBA: δ(q, a) = (q', b, L/R) | δ(q₀, 0) = (q₁, X, R) |
+| **q₀** | Stan początkowy | Głowica na pierwszym symbolu | q₀ |
+| **q_acc** | Stan akceptujący | Wejście do q_acc → słowo AKCEPTOWANE, stop | q_acc |
+| **q_rej** | Stan odrzucający | Wejście do q_rej → słowo ODRZUCONE, stop | q_rej |
+
+**Kluczowa różnica od LBA:** Taśma jest **nieskończona** w prawo — głowica może wyjść poza wejście i pisać na pustych komórkach. To daje NIEOGRANICZONĄ pamięć roboczą.
+
+**Pamięć:** taśma ∞ R/W. **DTM ≡ NTM** (równoważne pod względem mocy).
 Teza Churcha-Turinga: TM modeluje każde obliczenie. Nie: komplement problemu stopu.
+
+**Przykład krok po kroku — TM rozpoznaje język L = {0ⁿ1ⁿ | n ≥ 1} (jak aⁿbⁿ, ale z 0 i 1):**
+
+Strategia: zaznacz jedno '0' i jedno '1' w każdej rundzie, powtarzaj aż do wyczerpania.
+
+    Wejście: w = "0011", taśma = [0, 0, 1, 1, ⊔, ⊔, ⊔, ...]
+                                                    ↑ nieskończona!
+
+    === Runda 1 ===
+    Krok 1: stan=q₀, głowica→'0', zaznacz 0→X, idź w prawo
+            taśma = [X, 0, 1, 1, ⊔, ...]  stan=q₁
+
+    Krok 2: stan=q₁, przeskocz '0' w prawo, znajdź '1'
+            głowica na pierwszym '1'
+
+    Krok 3: zaznacz 1→Y, wróć na początek (idź w lewo do X)
+            taśma = [X, 0, Y, 1, ⊔, ...]  stan=q₃
+
+    === Runda 2 ===
+    Krok 4: znajdź pierwsze niezaznaczone '0' → zaznacz X
+            taśma = [X, X, Y, 1, ⊔, ...]
+
+    Krok 5: znajdź pierwsze niezaznaczone '1' → zaznacz Y
+            taśma = [X, X, Y, Y, ⊔, ...]
+
+    === Sprawdzenie ===
+    Krok 6: od początku szukam niezaznaczonych — nie ma → q_acc
+            "0011" AKCEPTOWANE ✓
+
+    TM może też WYJŚĆ poza wejście (czego LBA nie może):
+    Np. "011" — po zaznaczeniu 0↔1, zostaje '1' bez pary → q_rej ✗
+
+![Diagram TM rozpoznającego język 0ⁿ1ⁿ](img/tm_recognition_example.png)
+
+### Porównanie definicji formalnych
+
+| Element | FA | PDA | LBA | TM |
+|---------|----|----|-----|-----|
+| **Stany Q** | ✓ mało | ✓ mało | ✓ więcej | ✓ więcej |
+| **Alfabet Σ** | ✓ | ✓ | ✓ | ✓ |
+| **Alfabet stosu/taśmy Γ** | ✗ brak | ✓ stosowy | ✓ taśmowy | ✓ taśmowy |
+| **Przejście δ** | q × Σ → q | q × (Σ∪ε) × Γ → q × Γ* | q × Γ → q × Γ × {L,R} | q × Γ → q × Γ × {L,R} |
+| **Dodatkowa pamięć** | brak | stos (LIFO) | taśma ogr. do \|w\| | taśma ∞ |
+| **Akceptacja** | stan ∈ F | stan ∈ F lub pusty stos | stan = q_acc | stan = q_acc |
+| **Może się zapętlić?** | NIE (skończone) | TAK (ε-przejścia) | TAK | TAK (problem stopu!) |
 
 ### Tabela porównawcza
 
@@ -166,11 +368,7 @@ Teza Churcha-Turinga: TM modeluje każde obliczenie. Nie: komplement problemu st
 
 Przykład — graf z 4 wierzchołkami (A, B, C, D), start = A:
 
-    Graf:  A --2-- B --3-- D
-           |               |
-           4               1
-           |               |
-           C ------5-------+
+![Graf przykładowy — 4 wierzchołki z wagami](img/graph_example_structure.png)
 
     d = [ A:0,  B:∞,  C:∞,  D:∞ ]     ← tablica na starcie
          odwiedzone = {}
@@ -272,51 +470,197 @@ Przykład — kluczowa różnica: decrease-key:
 
 **Dijkstra:**
 
-    import heapq
-    def dijkstra(graph, start):
-        d = {v: float('inf') for v in graph}
-        d[start] = 0
-        pq = [(0, start)]               # (odległość, wierzchołek)
-        while pq:
-            dist_u, u = heapq.heappop(pq)
-            if dist_u > d[u]: continue   # nieaktualny wpis
-            for v, w in graph[u]:        # v=sąsiad, w=waga
-                if d[u] + w < d[v]:      # relaksacja
-                    d[v] = d[u] + w
-                    heapq.heappush(pq, (d[v], v))
-        return d
+    def dijkstra(graph, start):              # graph = słownik, klucz = wierzchołek,
+                                             #   wartość = lista par (sąsiad, waga)
+                                             #   np. graph = {'A': [('B',2), ('C',4)],
+                                             #                'B': [('D',3)], ...}
+                                             # start = wierzchołek startowy, np. 'A'
+
+        d = {v: float('inf') for v in graph} # d = słownik odległości (distance)
+                                             # Klucz: wierzchołek v
+                                             # Wartość: najkrótsza DOTYCHCZAS ZNANA
+                                             #   odległość od start do v
+                                             # Na początku: ∞ (nieskończoność) dla
+                                             #   wszystkich — bo jeszcze niczego
+                                             #   nie odkryliśmy
+                                             # float('inf') = Python-owa nieskończoność,
+                                             #   każda liczba jest od niej mniejsza
+
+        d[start] = 0                         # odległość od startu do samego siebie = 0
+
+        visited = set()                      # visited = zbiór ZAMKNIĘTYCH wierzchołków
+                                             # (już przetworzonych, nie wracamy do nich)
+                                             # set() = pusty zbiór Pythona — O(1) lookup
+
+        for _ in range(len(graph)):          # powtórz V razy (raz na każdy wierzchołek)
+                                             # W każdej iteracji wybieramy JEDEN
+                                             # wierzchołek o min d[v] i go przetwarzamy
+
+            # --- Szukanie minimum w tablicy d --- → O(V) na każde szukanie
+            u = None                         # u = wierzchołek o najmniejszej odległości
+                                             # (jeszcze nie odwiedzony)
+            for v in graph:                  # przejrzyj WSZYSTKIE wierzchołki
+                if v not in visited:         # pomiń już odwiedzone
+                    if u is None or d[v] < d[u]:  # jeśli v ma mniejszą odległość
+                        u = v                # zapamiętaj go jako kandydata
+            # Po tej pętli: u = wierzchołek z min d, spośród nieodwiedzonych
+            # To jest O(V) — przeszukujemy całą tablicę!
+
+            if d[u] == float('inf'):          # jeśli minimum to ∞, reszta jest
+                break                        # nieosiągalna — koniec
+
+            visited.add(u)                   # oznacz u jako odwiedzony (zamknięty)
+                                             # NIE WRACAMY do u — to jest ZACHŁANNOŚĆ
+                                             # Dijkstry (i dlatego ujemne wagi psują!)
+
+            for v, w in graph[u]:            # iteruj po sąsiadach wierzchołka u
+                                             # v = sąsiad (vertex), w = waga krawędzi u→v
+                                             # np. graph['A'] = [('B',2), ('C',4)]
+                                             #   → v='B', w=2, potem v='C', w=4
+
+                if d[u] + w < d[v]:          # RELAKSACJA: czy droga do v PRZEZ u
+                                             #   jest krótsza niż dotychczas znana?
+                                             #   d[u] = koszt dotarcia do u
+                                             #   w = koszt krawędzi u→v
+                                             #   d[u]+w = koszt drogi start→u→v
+                                             #   d[v] = dotychczasowy najlepszy koszt do v
+
+                    d[v] = d[u] + w          # TAK, jest krótsza → zaktualizuj!
+                                             # (tablica d pełni tu rolę kolejki
+                                             #  priorytetowej — po prostu szukamy
+                                             #  minimum w niej w każdej iteracji)
+
+        return d                             # zwróć słownik najkrótszych odległości
+                                             # np. {'A': 0, 'B': 2, 'C': 4, 'D': 5}
+                                             # Złożoność: O(V²) — V szukań min × O(V) każde
+
+![Przejście grafu algorytmem Dijkstry — krok po kroku](img/dijkstra_traversal.png)
 
 **Bellman-Ford:**
 
-    def bellman_ford(vertices, edges, start):
-        d = {v: float('inf') for v in vertices}
-        d[start] = 0
-        for _ in range(len(vertices) - 1):  # V-1 iteracji
-            for u, v, w in edges:            # każda krawędź
-                if d[u] + w < d[v]:          # relaksacja
-                    d[v] = d[u] + w
-        # Wykrywanie cyklu ujemnego:
-        for u, v, w in edges:
-            if d[u] + w < d[v]:
-                return None  # cykl ujemny!
-        return d
+    def bellman_ford(vertices, edges, start): # vertices = lista wierzchołków, np. ['A','B','C','D']
+                                              # edges = lista krawędzi, każda to (skąd, dokąd, waga)
+                                              #   np. [('A','B',2), ('A','C',4), ('B','D',3), ...]
+                                              # start = wierzchołek startowy
+                                              # UWAGA: format inny niż w Dijkstrze!
+                                              #   Dijkstra: graf jako słownik sąsiedztwa
+                                              #   B-F: explicite lista krawędzi
+
+        d = {v: float('inf') for v in vertices}  # d = słownik odległości — identycznie
+                                              # jak w Dijkstrze. Klucz = wierzchołek,
+                                              # wartość = najkrótsza znana odległość.
+                                              # Na starcie: ∞ dla wszystkich.
+
+        d[start] = 0                          # odległość do siebie = 0
+
+        for _ in range(len(vertices) - 1):    # powtórz V−1 razy (V = liczba wierzchołków)
+                                              # DLACZEGO V−1? Bo najdłuższa najkrótsza
+                                              # ścieżka (bez cykli) ma co najwyżej V−1
+                                              # krawędzi. Po k iteracjach mamy poprawne
+                                              # odległości dla ścieżek o ≤ k krawędziach.
+                                              # _ = zmienna, której nie używamy (konwencja)
+
+            for u, v, w in edges:             # w KAŻDEJ iteracji przejrzyj WSZYSTKIE krawędzie
+                                              # u = początek krawędzi, v = koniec, w = waga
+                                              # To jest brute-force — stąd O(V·E)
+
+                if d[u] + w < d[v]:           # RELAKSACJA — identyczna jak w Dijkstrze:
+                                              # czy droga start→u→v jest krótsza niż d[v]?
+
+                    d[v] = d[u] + w           # TAK → zaktualizuj
+
+        # --- Wykrywanie cyklu ujemnego ---
+        for u, v, w in edges:                 # dodatkowe (V-te) przejście po krawędziach
+                                              # Jeśli NADAL da się poprawić odległość,
+                                              # to znaczy, że istnieje cykl ujemny!
+                                              # (po V−1 iteracjach powinno być stabilne)
+
+            if d[u] + w < d[v]:               # nadal można polepszyć? → cykl ujemny!
+                return None                   # zwróć None = sygnał "cykl ujemny wykryty"
+
+        return d                              # zwróć słownik odległości (jak Dijkstra)
+
+![Przejście grafu algorytmem Bellmana-Forda — krok po kroku](img/bellman_ford_traversal.png)
 
 **A*:**
 
-    def a_star(graph, start, goal, h):
-        d = {start: 0}
-        pq = [(h(start), start)]             # f = g + h
-        came_from = {}
-        while pq:
-            f_u, u = heapq.heappop(pq)
-            if u == goal: break              # znaleziono!
-            for v, w in graph[u]:
-                g_new = d[u] + w
-                if v not in d or g_new < d[v]:
-                    d[v] = g_new
-                    heapq.heappush(pq, (g_new + h(v), v))
-                    came_from[v] = u
-        return came_from, d.get(goal)
+    def a_star(graph, start, goal, h):        # graph = słownik sąsiedztwa (jak Dijkstra)
+                                              # start = wierzchołek startowy
+                                              # goal = wierzchołek DOCELOWY (cel)
+                                              #   → to jedyna różnica od Dijkstry:
+                                              #     szukamy ścieżki do JEDNEGO celu
+                                              # h = FUNKCJA heurystyczna: h(v) zwraca
+                                              #   oszacowanie odległości od v do goal
+                                              #   np. h = lambda v: odl_euklidesowa(v, goal)
+
+        d = {start: 0}                        # d = słownik g(n) = faktyczny koszt
+                                              #   dotarcia od start do n
+                                              # Tu trzymamy TYLKO odkryte wierzchołki
+                                              # (nie inicjalizujemy ∞ dla reszty)
+
+        f = {start: h(start)}                 # f = słownik f(n) = g(n) + h(n)
+                                              # f to szacunkowy ŁĄCZNY koszt ścieżki:
+                                              #   dotychczasowy koszt g + heurystyka h
+                                              # Sortujemy po f (nie po g!) — to kieruje
+                                              #   przeszukiwanie W STRONĘ CELU
+                                              # Na starcie: f(start) = 0 + h(start)
+
+        came_from = {}                        # came_from = słownik "skąd przyszliśmy"
+                                              # Klucz: wierzchołek v
+                                              # Wartość: wierzchołek, z którego dotarliśmy do v
+                                              # Służy do ODTWORZENIA ścieżki po znalezieniu celu
+                                              # np. came_from = {'B':'A', 'D':'B'}
+                                              #   → ścieżka: A → B → D
+
+        visited = set()                       # visited = zbiór zamkniętych wierzchołków
+                                              # (już przetworzonych)
+
+        while f:                              # dopóki są odkryte, nieprzetworzone wierzchołki
+                                              # (f zawiera tylko te, do których dotarliśmy)
+
+            # --- Szukanie minimum f w tablicy --- → O(V)
+            u = min(f, key=f.get)             # u = wierzchołek o najniższym f(n)
+                                              # min() przeszukuje WSZYSTKIE klucze w f
+                                              # key=f.get → porównuj po wartościach f[v]
+                                              # Równoważne: for v in f: if f[v] < f[best]...
+            del f[u]                          # usuń u z open set (przetwarzamy go teraz)
+
+            if u == goal: break               # ZNALEZIONO CEL! → przerwij
+                                              # Kluczowa optymalizacja A*:
+                                              # Dijkstra przetwarza WSZYSTKIE wierzchołki,
+                                              # A* KOŃCZY gdy dotrze do celu
+
+            visited.add(u)                    # oznacz u jako przetworzony
+
+            for v, w in graph[u]:             # iteruj po sąsiadach u
+                                              # v = sąsiad, w = waga krawędzi u→v
+
+                if v in visited:              # jeśli v już przetworzony → pomiń
+                    continue
+
+                g_new = d[u] + w              # g_new = potencjalny nowy koszt dotarcia do v
+                                              # (koszt do u + krawędź u→v)
+
+                if v not in d or g_new < d[v]:  # jeśli v jeszcze nie odkryty
+                                              # LUB znaleźliśmy krótszą drogę
+
+                    d[v] = g_new              # zaktualizuj g(v) = faktyczny koszt do v
+
+                    f[v] = g_new + h(v)       # zaktualizuj f(v) = g(v) + h(v)
+                                              # f kieruje przeszukiwanie:
+                                              #   niskie f = „obiecujący" wierzchołek
+                                              #   (blisko celu wg heurystyki)
+
+                    came_from[v] = u          # zapamiętaj: do v dotarliśmy z u
+                                              # (do odtworzenia ścieżki)
+
+        return came_from, d.get(goal)         # came_from = mapa do odtworzenia ścieżki
+                                              # d.get(goal) = koszt najkrótszej ścieżki
+                                              #   do celu (None jeśli nieosiągalny)
+                                              # Złożoność: O(V²) z tablicą, ale w praktyce
+                                              #   dużo szybciej dzięki heurystyce
+
+![Przejście grafu algorytmem A* — krok po kroku](img/astar_traversal.png)
 
 ---
 
@@ -383,16 +727,11 @@ Przykład — kluczowa różnica: decrease-key:
 
 **Redundancja** — powtarzanie tych samych danych w wielu miejscach. Nie chodzi o kopie zapasowe — chodzi o niepotrzebne duplikowanie informacji w tabeli.
 
-Przykład — tabela StudentKursy (ZŁEJ konstrukcji, BEZ normalizacji):
+Przykład — tabela „Rejestr" (ZŁEJ konstrukcji, BEZ normalizacji) — ta sama tabela będzie normalizowana krok po kroku od 0NF do 5NF w dalszej części:
 
-    | StudentID | Imię  | WydziałID | NazwaWydziału | KursID | NazwaKursu |
-    |-----------|-------|-----------|---------------|--------|------------|
-    | 1         | Anna  | W4        | EiTI          | K10    | Bazy danych|
-    | 1         | Anna  | W4        | EiTI          | K20    | Algorytmy  |
-    | 2         | Jan   | W4        | EiTI          | K10    | Bazy danych|
-    | 3         | Ewa   | W2        | Fizyka        | K30    | Optyka     |
+![Tabela 0NF — forma nienormalna z listami w komórkach](img/nf_0nf_table.png)
 
-Problem: „Anna", „W4", „EiTI", „Bazy danych" powtórzone wielokrotnie!
+Problem: „Anna", „W4", „EiTI", „Bazy danych" powtórzone wielokrotnie! Kolumna „Telefony" zawiera listy (nieatomowe wartości).
 
 **Anomalia** — niepożądany efekt uboczny operacji na redundantnych danych. Trzy typy:
 
@@ -410,116 +749,181 @@ Problem: „Anna", „W4", „EiTI", „Bazy danych" powtórzone wielokrotnie!
 **Zależność przechodnia (transitive dependency):** A → B i B → C, więc A → C „przez pośrednika B". Np. StudentID → WydziałID → NazwaWydziału. StudentID nie określa bezpośrednio NazwaWydziału — robi to pośrednio przez WydziałID. Problem: NazwaWydziału „zależy od czegoś, co nie jest kluczem" → redundancja.
 
 **Nietrywialna FD:** X → A, gdzie A nie jest częścią X. Np. StudentID → Imię (nietrywialna: Imię ≠ StudentID). Ale {StudentID, Imię} → StudentID jest TRYWIALNA (StudentID jest częścią lewej strony — oczywiste). W BCNF sprawdzamy tylko nietrywialne FD.
-
+P
 **Wielowartościowa zależność (MVD — Multi-Valued Dependency):** X →→ Y oznacza: dla jednej wartości X istnieje ZBIÓR wartości Y, niezależny od reszty. Np. Student →→ Hobby i Student →→ Kurs: hobby Ani nie zależą od jej kursów i odwrotnie, ale ich połączenie tworzy iloczyn kartezjański (niepotrzebne powtórzenia).
 
 **Dekompozycja** — rozbicie jednej dużej tabeli na kilka mniejszych, połączonych kluczami obcymi. Cel: każda tabela przechowuje JEDEN fakt. **Normalizacja eliminuje redundancję** właśnie przez dekompozycję — informacja zamiast być powtarzana w wielu wierszach, przechowywana jest RAZ w osobnej tabeli i łączona przez JOIN.
 
-Przykład dekompozycji powyższej tabeli:
-
-    Studenci:                    Wydziały:              Kursy:
-    | StID | Imię | WydziałID |  | WydziałID | Nazwa | | KursID | Nazwa      |
-    |------|------|-----------|  |-----------|-------|  |--------|------------|
-    | 1    | Anna | W4        |  | W4        | EiTI  |  | K10    | Bazy danych|
-    | 2    | Jan  | W4        |  | W2        |Fizyka |  | K20    | Algorytmy  |
-    | 3    | Ewa  | W2        |                         | K30    | Optyka     |
-
-    Zapisy (StudentID, KursID):
-    | StID | KursID |
-    |------|--------|
-    | 1    | K10    |
-    | 1    | K20    |
-    | 2    | K10    |
-    | 3    | K30    |
-
-    Teraz: „EiTI" zapisane RAZ (w Wydziały). Zmiana nazwy = 1 wiersz.
-
 **Atomowe wartości (1NF)** — każda komórka zawiera JEDNĄ niepodzielną wartość. NIE listy, NIE zbiory, NIE tabele w komórce.
 
-    ŹLE (łamie 1NF):                    DOBRZE (1NF):
-    | Student | Kursy           |        | Student | Kurs        |
-    |---------|-----------------|        |---------|-------------|
-    | Anna    | BD, Algorytmy   |        | Anna    | BD          |
-    | Jan     | BD              |        | Anna    | Algorytmy   |
-                                         | Jan     | BD          |
+**Zależność złączenia (JD — Join Dependency):** Tabela R spełnia JD *{R₁, R₂, ..., Rₙ} jeśli R = R₁ ⨝ R₂ ⨝ ... ⨝ Rₙ (bezstratna dekompozycja na n projekcji). Każda MVD implikuje JD, ale JD jest OGÓLNIEJSZA — obejmuje dekompozycje na 3+ tabele, których MVD nie wyraża. 5NF eliminuje takie „ukryte" redundancje.
 
-### Przykłady postaci normalnych
+### Pełny przykład: od 0NF do 5NF krok po kroku
 
-**Przykład naruszenia 2NF** — klucz złożony (StudentID, KursID):
+Używamy JEDNEJ tabeli „Rejestr" i normalizujemy ją przez WSZYSTKIE postacie normalne. W każdym kroku pokazujemy: (1) jaki problem istnieje, (2) jaką regułę łamie, (3) jak go naprawić dekompozycją.
 
-    | StudentID | KursID | NazwaKursu  | Ocena |
-    |-----------|--------|-------------|-------|
-    | 1         | K10    | Bazy danych | 5     |
-    | 2         | K10    | Bazy danych | 4     |
-
-    NazwaKursu zależy TYLKO od KursID, nie od pełnego klucza (StudentID, KursID).
-    To „częściowa zależność" → łamie 2NF.
-    Naprawa: wydziel Kursy(KursID, NazwaKursu) osobno.
-
-**Przykład naruszenia 3NF** — klucz StudentID:
-
-    | StudentID | Imię  | WydziałID | NazwaWydziału |
-    |-----------|-------|-----------|---------------|
-    | 1         | Anna  | W4        | EiTI          |
-    | 2         | Jan   | W4        | EiTI          |  ← „EiTI" powtórzone!
-
-    StudentID → WydziałID → NazwaWydziału (zależność przechodnia!).
-    NazwaWydziału zależy od WydziałID, a nie bezpośrednio od klucza.
-    Naprawa: wydziel Wydziały(WydziałID, NazwaWydziału).
-
-**Przykład naruszenia BCNF:**
-
-    Przedmioty prowadzone — klucz: (Student, Przedmiot)
-    | Student | Przedmiot | Prowadzący |
-    |---------|-----------|------------|
-    | Anna    | BD        | Kowalski   |
-    | Jan     | BD        | Kowalski   |
-    | Anna    | Algo      | Nowak      |
-
-    FD: Prowadzący → Przedmiot (jeden prowadzący = jeden przedmiot).
-    Prowadzący NIE jest nadkluczem → łamie BCNF.
-    (Spełnia 3NF, bo Przedmiot jest atrybutem pierwszym — wyjątek 3NF.)
-    Naprawa: StudentProwadzący(Student, Prowadzący) + ProwadzącyPrzedmiot(Prowadzący, Przedmiot).
-
-**Przykład naruszenia 4NF:**
-
-    | Student | Hobby    | Kurs      |
-    |---------|----------|-----------|
-    | Anna    | Szachy   | BD        |
-    | Anna    | Szachy   | Algorytmy |
-    | Anna    | Bieganie | BD        |
-    | Anna    | Bieganie | Algorytmy |
-
-    Student →→ Hobby i Student →→ Kurs (niezależne wielowartościowe zależności).
-    Hobby i Kursy nie mają ze sobą nic wspólnego, ale tworzą iloczyn kartezjański.
-    Naprawa: StudentHobby(Student, Hobby) + StudentKurs(Student, Kurs).
+**Zależności funkcyjne w tabeli Rejestr:**
+- StID → Imię, WydziałID (jeden student = jedno imię, jeden wydział)
+- WydziałID → NazwaWydziału (jeden wydział = jedna nazwa)
+- KursID → NazwaKursu (jeden kurs = jedna nazwa)
+- (StID, KursID) → Prowadzący (student na kursie ma jednego prowadzącego)
+- Prowadzący → KursID (jeden prowadzący uczy dokładnie jednego kursu)
+- StID →→ Telefon (wielowartościowa — student ma ZBIÓR telefonów)
 
 ---
 
-### Redundancja — powtarzanie danych
+### KROK 1: 0NF → 1NF (atomowość wartości)
 
-Prowadzi do trzech **anomalii**:
-1. **Wstawiania** — nie można dodać danych bez zbędnych powiązań
-2. **Usuwania** — usunięcie rekordu kasuje niezwiązane informacje
-3. **Modyfikacji** — zmiana jednej informacji wymaga wielu aktualizacji
+**Problem:** Kolumna „Telefony" zawiera listy wartości (np. „111-222, 333-444") — to NIE jest atomowe.
 
-### Normalizacja — eliminacja redundancji przez dekompozycję
+**Reguła 1NF:** Każda komórka = JEDNA niepodzielna wartość + istnieje klucz główny.
 
-**Zależność funkcyjna:** X → Y — wartość X jednoznacznie określa Y.
+**Naprawa:** Wydziel wielowartościowy atrybut do osobnej tabeli.
 
-### Postacie normalne (5NF ⊂ 4NF ⊂ BCNF ⊂ 3NF ⊂ 2NF ⊂ 1NF)
+![Tabele po normalizacji do 1NF](img/nf_1nf_tables.png)
 
-**1NF:** Atomowe wartości, brak list/tablic w komórkach, istnieje klucz główny.
+**Wynik:** Dwie tabele — Rejestr1NF (klucz: StID, KursID) i Telefony (klucz: StID, Telefon). Wszystkie komórki atomowe ✓.
 
-**2NF:** 1NF + każdy atrybut wtórny zależy od CAŁEGO klucza (dotyczy kluczy złożonych).
-- Naruszenie: NazwaKursu zależy tylko od KursID, nie od (StudentID, KursID).
+---
 
-**3NF:** 2NF + brak zależności przechodnich (atrybut wtórny nie zależy od innego wtórnego).
-- Naruszenie: StudentID → WydziałID → NazwaWydziału.
+### KROK 2: 1NF → 2NF (pełna zależność od klucza)
 
-**BCNF:** Dla każdej nietrywialnej FD X→A, X jest nadkluczem. Silniejsza niż 3NF.
+**Problem:** Klucz złożony (StID, KursID), ale wiele atrybutów zależy tylko od CZĘŚCI klucza:
+- StID → Imię, WydziałID, NazwaWydziału — zależy TYLKO od StID (częściowa zależność!)
+- KursID → NazwaKursu — zależy TYLKO od KursID (częściowa zależność!)
+- (StID, KursID) → Prowadzący — zależy od PEŁNEGO klucza ✓
 
-**4NF:** BCNF + brak wielowartościowych zależności nietrywialnych.
+**Reguła 2NF:** Każdy atrybut wtórny (non-prime) zależy od CAŁEGO klucza, nie od jego części.
+
+**Naprawa:** Wydziel atrybuty częściowo zależne do osobnych tabel.
+
+![Tabele po normalizacji do 2NF](img/nf_2nf_tables.png)
+
+**Wynik:** Studenci (StID → Imię, WydziałID, NazwaWydziału), Kursy (KursID → NazwaKursu), Zapisy (StID, KursID → Prowadzący), Telefony.
+
+**Dlaczego to ważne:** Bez 2NF: dodanie nowego kursu wymaga podania studenta. Z 2NF: dodajesz kurs do tabeli Kursy niezależnie.
+
+---
+
+### KROK 3: 2NF → 3NF (brak zależności przechodnich)
+
+**Problem w tabeli Studenci:** StID → WydziałID → NazwaWydziału — zależność PRZECHODNIA!
+- NazwaWydziału nie zależy bezpośrednio od klucza (StID) — zależy od WydziałID, który sam zależy od StID.
+- WydziałID NIE jest kluczem tabeli Studenci → NazwaWydziału zależy od nie-klucza → redundancja „EiTI" powtórzone.
+
+**Reguła 3NF:** 2NF + żaden atrybut wtórny nie zależy od innego atrybutu wtórnego (brak zależności przechodnich). Formalnie: dla każdej nietrywialnej FD X → A, albo X jest nadkluczem, ALBO A jest atrybutem pierwszym (prime).
+
+**Naprawa:** Wydziel WydziałID → NazwaWydziału do osobnej tabeli Wydziały.
+
+![Tabele po normalizacji do 3NF](img/nf_3nf_tables.png)
+
+**Wynik:** Studenci (StID → Imię, WydziałID), Wydziały (WydziałID → NazwaWydziału), Kursy, Zapisy, Telefony.
+
+**Dlaczego to ważne:** Bez 3NF: zmiana nazwy wydziału wymaga aktualizacji WIELU wierszy w Studenci. Z 3NF: zmiana nazwy = 1 wiersz w tabeli Wydziały.
+
+---
+
+### KROK 4: 3NF → BCNF (każdy determinant = nadklucz)
+
+**Problem w tabeli Zapisy(StID, KursID, Prowadzący):**
+- Klucz: (StID, KursID)
+- FD: Prowadzący → KursID (jeden prowadzący uczy jednego kursu)
+- Prowadzący NIE jest nadkluczem tabeli Zapisy → **NARUSZENIE BCNF!**
+- ALE: KursID JEST atrybutem pierwszym (prime — część klucza) → wyjątek 3NF → **3NF jest spełnione!**
+
+**Reguła 3NF vs BCNF — kluczowa różnica:**
+- **3NF:** Dla FD X → A: X jest nadkluczem **LUB** A jest prime. (Wyjątek dla atrybutów pierwszych!)
+- **BCNF:** Dla FD X → A: X **MUSI** być nadkluczem. Kropka. (Bez wyjątków!)
+- Dlatego BCNF jest SILNIEJSZA — eliminuje anomalie, które 3NF dopuszcza.
+
+**Kiedy 3NF ≠ BCNF?** Dokładnie wtedy, gdy istnieje nietrywialna FD, w której lewa strona nie jest nadkluczem, ale prawa strona jest atrybutem pierwszym. To się zdarza tylko przy kluczach złożonych z nakładającymi się zależnościami.
+
+**Naprawa:** Rozbij Zapisy na dwie tabele wg FD Prowadzący → KursID.
+
+![Tabele po normalizacji do BCNF](img/nf_bcnf_tables.png)
+
+**Wynik:** ProwadzącyKurs (Prowadzący → KursID), StudentProwadzący (StID, Prowadzący).
+
+**Rekonstrukcja:** StudentProwadzący ⨝ ProwadzącyKurs ON Prowadzący = oryginalne Zapisy (bezstratnie!).
+
+**Uwaga:** Dekompozycja BCNF może utracić pewne FD (tu: (StID, KursID) → Prowadzący nie jest wymuszona przez żadną z dwóch tabel z osobna). To cena za eliminację anomalii — czasem 3NF jest „wystarczająco dobra" w praktyce.
+
+---
+
+### KROK 5: BCNF → 4NF (brak wielowartościowych zależności)
+
+**Nowy scenariusz:** Chcemy przechowywać hobby i umiejętności studentów. Tworzymy tabelę:
+StudentAktywności(StID, Hobby, Umiejętność) — klucz: (StID, Hobby, Umiejętność).
+
+**Problem:** Student 1 (Anna) ma 2 hobby (Szachy, Bieganie) i 2 umiejętności (Python, SQL). Te zbiory są NIEZALEŻNE od siebie, ale w jednej tabeli tworzą **iloczyn kartezjański** → 2 × 2 = 4 wiersze!
+
+**MVD:** StID →→ Hobby i StID →→ Umiejętność — dwie niezależne wielowartościowe zależności.
+
+**Reguła 4NF:** BCNF + dla każdej nietrywialnej MVD X →→ Y, X jest nadkluczem. Niezależne zbiory wartości nie mogą być w jednej tabeli.
+
+**Naprawa:** Rozdziel do: StudentHobby(StID, Hobby) + StudentUmiejętność(StID, Umiejętność).
+
+![Przykład naruszenia i naprawy 4NF](img/nf_4nf_example.png)
+
+**Dlaczego to ważne:** Bez 4NF: dodanie nowego hobby Anny wymaga dodania TYLE wierszy, ile ma umiejętności (i odwrotnie). Z 4NF: dodanie hobby = 1 wiersz.
+
+**Jak rozpoznać naruszenie 4NF:**
+1. Czy tabela ma klucz złożony z 3+ kolumn? (StID, Hobby, Umiejętność)
+2. Czy istnieją dwa niezależne zbiory wartości dla tego samego klucza? (Hobby niezależne od Umiejętności)
+3. Czy widać „iloczyn kartezjański" w danych? (każde hobby × każda umiejętność)
+→ Jeśli TAK na wszystkie → naruszenie 4NF.
+
+---
+
+### KROK 6: 4NF → 5NF (brak zależności złączenia)
+
+**Nowy scenariusz:** Tabela Dostawy(Dostawca, Część, Projekt) — rejestr kto dostarcza co do którego projektu. Klucz: (Dostawca, Część, Projekt) — cała krotka.
+
+**Problem:** Tabela jest w 4NF (brak nietrywialnych MVD), ale może zawierać ukrytą redundancję wynikającą z **zależności złączenia** (JD — Join Dependency).
+
+**Reguła cykliczna:** Jeśli zachodzi ograniczenie biznesowe:
+- Dostawca dostarcza Część, I
+- Dostawca dostarcza do Projektu, I
+- Część jest używana w Projekcie
+- → TO Dostawca dostarcza tę Część do tego Projektu
+
+...to tabela Dostawy jest redundantna — można ją bezstratnie rozłożyć na TRZY tabele binarne.
+
+**Reguła 5NF (PJNF — Project-Join Normal Form):** Każda zależność złączenia jest implikowana przez klucze kandydujące. Innymi słowy: tabela NIE DA SIĘ dalej rozłożyć bezstratnie (bez utraty informacji) na mniejsze tabele.
+
+**Naprawa:** Dekomponuj na trzy tabele: DostawcaCzęść, DostawcaProjekt, CzęśćProjekt.
+
+![Przykład naruszenia i naprawy 5NF](img/nf_5nf_example.png)
+
+**Rekonstrukcja:** DostawcaCzęść ⨝ DostawcaProjekt ⨝ CzęśćProjekt = oryginalna tabela Dostawy.
+
+**UWAGA:** Dekompozycja 5NF jest poprawna TYLKO jeśli reguła cykliczna rzeczywiście zachodzi w domenie biznesowej! Jeśli nie zachodzi, JOIN wygeneruje fałszywe krotki (spurious tuples).
+
+**Kiedy 5NF ma znaczenie praktyczne?**
+- Rzadko w typowych aplikacjach (większość zatrzymuje się na 3NF/BCNF)
+- Głównie w złożonych relacjach ternary/n-ary z ograniczeniami cyklicznymi
+- Np. systemy logistyczne, harmonogramowanie, konfiguracje produktów
+
+**Jak rozpoznać naruszenie 5NF:**
+1. Tabela ma klucz = cała krotka (brak atrybutów nie-kluczowych)
+2. Tabela jest w 4NF (brak MVD)
+3. ALE da się ją rozłożyć na 3+ mniejszych tabel i bezstratnie złożyć JOINem
+4. To rozkładalność wynika z ograniczenia biznesowego (reguły cyklicznej), nie z MVD
+
+---
+
+### Podsumowanie normalizacji 0NF → 5NF
+
+![Schemat postaci normalnych — przejście od 0NF do 5NF](img/nf_summary_flow.png)
+
+| Postać | Co eliminuje | Kluczowa reguła | Typ zależności |
+|--------|-------------|-----------------|----------------|
+| **1NF** | Nieatomowe wartości | Każda komórka = 1 wartość, jest klucz | — |
+| **2NF** | Częściowe zależności | Atrybut wtórny zależy od CAŁEGO klucza | FD częściowa |
+| **3NF** | Zależności przechodnie | Atrybut wtórny nie zależy od nie-klucza (z wyjątkiem prime) | FD przechodnia |
+| **BCNF** | Determinanty nie-nadkluczowe | Lewa strona KAŻDEJ FD = nadklucz (bez wyjątków) | FD nietrywialna |
+| **4NF** | Wielowartościowe zależności | Lewa strona każdej MVD = nadklucz | MVD |
+| **5NF** | Zależności złączenia | Każda JD implikowana przez klucze | JD |
 
 ### Denormalizacja
 
@@ -527,13 +931,18 @@ Prowadzi do trzech **anomalii**:
 
 ### Etymologia
 
-**Redundancja** — łac. „redundantia" = nadmiar/przelewanie się. **Normalizacja** — Edgar F. Codd (IBM, 1970, „A Relational Model of Data"); 1NF–3NF w oryginalnej pracy. **BCNF** — Raymond Boyce + Codd (1974). **Anomalia** — grec. „anomalia" = nieregularność. **„Klucz, cały klucz i tylko klucz"** — parafraza przysięgi sądowej; przypisywana Coddowi. **Zależność funkcyjna** — jak funkcja mat.: X jednoznacznie wyznacza Y.
+**Redundancja** — łac. „redundantia" = nadmiar/przelewanie się. **Normalizacja** — Edgar F. Codd (IBM, 1970, „A Relational Model of Data"); 1NF–3NF w oryginalnej pracy. **BCNF** — Raymond Boyce + Codd (1974). **4NF** — Ronald Fagin (1977). **5NF (PJNF)** — Ronald Fagin (1979); PJNF = Project-Join Normal Form. **Anomalia** — grec. „anomalia" = nieregularność. **„Klucz, cały klucz i tylko klucz"** — parafraza przysięgi sądowej; przypisywana Coddowi. **Zależność funkcyjna** — jak funkcja mat.: X jednoznacznie wyznacza Y. **MVD** — Multi-Valued Dependency; Fagin udowodnił, że 4NF eliminuje redundancje z MVD. **JD** — Join Dependency; Fagin udowodnił, że 5NF jest „ostateczną" postacią normalną dla relacyjnych baz danych.
 
 ### Jak zapamiętać
 
 - **„Klucz, cały klucz i tylko klucz — tak mi dopomóż Codd"** — 1NF (klucz), 2NF (cały klucz), 3NF (tylko klucz)
 - **3 anomalie:** Wstawianie, Usuwanie, Modyfikacja — „WUM"
+- **3NF vs BCNF:** 3NF pozwala determinantowi nie-nadkluczowemu JEŚLI zależny jest prime; BCNF nie pozwala w ogóle
 - **BCNF:** jak 3NF, ale lewa strona FD zawsze nadklucz (bez wyjątku dla atrybutów pierwszych)
+- **4NF:** Czy widzisz iloczyn kartezjański? Niezależne zbiory w jednej tabeli? → rozdziel!
+- **5NF:** Czy tabela „rozpadalna" na 3+ części bezstratnie? Reguła cykliczna? → dekomponuj!
+- **Hierarchia typów zależności:** FD (jedna wartość) → MVD (zbiór wartości) → JD (złączenie n tabel)
+- **Praktyka:** 90% systemów normalizuje do 3NF/BCNF. 4NF/5NF = egzotyka, ale egzamin wymaga
 
 \newpage
 
@@ -1646,17 +2055,309 @@ Przełączanie kontekstu (benchmarki):
 | Awaria          | Nie zabija innych | Może zabić cały proces|
 | Zastosowanie    | Izolacja, bezpieczeństwo | Wydajność, współdzielenie |
 
-### Komunikacja międzyprocesowa (IPC)
-Pipe, Named Pipe (FIFO), Message Queue, Shared Memory, Sockets, Signals, Memory-mapped files.
+### Problemy komunikacji
 
-### Synchronizacja — problemy
-- **Wyścig (race condition)** — wynik zależy od kolejności operacji
-- **Sekcja krytyczna** — fragment kodu wymagający wyłącznego dostępu
-- **Zakleszczenie (deadlock)** — wzajemne oczekiwanie (warunki Coffmana: mutual exclusion, hold & wait, no preemption, circular wait)
-- **Zagłodzenie (starvation)** — wątek nigdy nie dostaje zasobu
+Procesy mają **izolowane** przestrzenie adresowe — nie mogą bezpośrednio czytać/pisać wzajemnej pamięci. Komunikacja wymaga pośrednictwa jądra OS (IPC). Wątki mają odwrotny problem: współdzielą pamięć, więc komunikacja jest trywialna, ale wymaga synchronizacji.
 
-### Mechanizmy synchronizacji
-Mutex, Semaphore, Monitor, Condition Variable, Spinlock, Read-Write Lock, Barrier.
+![Mechanizmy IPC — porównanie wizualny](img/ipc_mechanisms.png)
+
+**Problem 1 — Overhead kopiowania (procesy).** Większość mechanizmów IPC wymaga kopiowania danych: proces A → jądro → proces B (2 kopie!). Przy dużych danych (np. klatki wideo 4K = 24 MB) to kosztowne.
+
+**Problem 2 — Synchronizacja dostępu (wątki).** Wątki komunikują się przez wspólny heap, ale muszą pilnować, by nie pisać jednocześnie w to samo miejsce (race condition).
+
+**Problem 3 — Blokowanie.** IPC może być synchroniczne (blokujące — nadawca czeka aż odbiorca przeczyta) lub asynchroniczne (nieblokujące — nadawca idzie dalej). Wybór wpływa na wydajność i złożoność kodu.
+
+#### Mechanizmy IPC z przykładami
+
+**Pipe (potok anonimowy)** — jednokierunkowy strumień bajtów w pamięci jądra. Tylko między procesem-rodzicem a potomkiem (fork). Klasyczny przykład Unix:
+
+    $ ls -la | grep ".txt" | wc -l
+
+    Jak to działa wewnętrznie:
+    ┌────────┐  write()  ┌─────────────┐  read()  ┌────────┐
+    │  ls    │──────────→│ bufor jądra │──────────→│  grep  │
+    │ stdout │  fd[1]    │  (4 KB)     │  fd[0]    │ stdin  │
+    └────────┘           └─────────────┘           └────────┘
+    Proces A pisze do fd[1], Proces B czyta z fd[0].
+    Jądro buforuje dane. Gdy bufor pełny → write() blokuje.
+
+    Kod C:
+    int fd[2];
+    pipe(fd);               // tworzy potok: fd[0]=read, fd[1]=write
+    if (fork() == 0) {      // potomek
+        close(fd[1]);        // zamknij pisanie
+        read(fd[0], buf, n); // czytaj od rodzica
+    } else {                // rodzic
+        close(fd[0]);        // zamknij czytanie
+        write(fd[1], "hello", 5); // pisz do potomka
+    }
+
+**Named Pipe (FIFO)** — jak pipe, ale ma nazwę w systemie plików. Niespokrewnione procesy mogą go używać:
+
+    $ mkfifo /tmp/moj_potok                   # stwórz FIFO
+    $ echo "dane" > /tmp/moj_potok &          # proces A pisze
+    $ cat /tmp/moj_potok                       # proces B czyta → "dane"
+
+**Shared Memory (pamięć współdzielona)** — najszybszy IPC. OS mapuje ten sam region pamięci fizycznej do obu procesów. Zero kopiowania — oba procesy czytają/piszą bezpośrednio. ALE: wymaga synchronizacji (semafor/mutex).
+
+    ┌───────────┐           ┌───────────┐
+    │ Proces A  │           │ Proces B  │
+    │           │           │           │
+    │ strona 7 ─┼──→ RAM ←─┼─ strona 3 │  ← ta sama ramka fizyczna!
+    │           │  ramka 42 │           │
+    └───────────┘           └───────────┘
+    Bez kopiowania — A pisze, B widzi od razu.
+
+    Kod C (POSIX):
+    int fd = shm_open("/my_shm", O_CREAT|O_RDWR, 0666);
+    ftruncate(fd, 4096);
+    char *ptr = mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
+    sprintf(ptr, "dane z procesu A"); // Proces A pisze
+    // Proces B: shm_open + mmap → czyta ptr → "dane z procesu A"
+
+**Message Queue (kolejka wiadomości)** — strukturalne wiadomości w jądrze. Asynchroniczna: nadawca wrzuca, odbiorca pobiera z kolejki kiedy chce. Typ wiadomości pozwala filtrować.
+
+    Proces A: msgsnd(qid, &msg, size, 0)    // wyślij wiadomość
+    Proces B: msgrcv(qid, &msg, size, typ, 0) // odbierz (filtruj typ)
+
+    Przewaga nad pipe: wiele nadawców/odbiorców, filtrowanie typów,
+    wiadomość ma granice (pipe to surowy strumień bajtów).
+
+**Socket** — dwukierunkowa komunikacja, działa lokalnie (Unix domain) i przez sieć (TCP/UDP). Najbardziej uniwersalny mechanizm IPC.
+
+    ┌──────────┐  TCP/IP  ┌──────────┐
+    │ Klient   │←────────→│ Serwer   │    sieciowy (różne maszyny)
+    └──────────┘          └──────────┘
+
+    ┌──────────┐  Unix    ┌──────────┐
+    │ Proces A │←────────→│ Proces B │    lokalny (ten sam host)
+    └──────────┘  socket  └──────────┘    /tmp/app.sock
+
+**Signal (sygnał)** — asynchroniczne powiadomienie od jądra/procesu. Przesyła TYLKO numer (nie dane). Użycie: obsługa Ctrl+C (SIGINT), zabijanie procesów (SIGKILL), powiadomienie o zdarzeniu.
+
+    kill(pid, SIGUSR1);    // wyślij sygnał SIGUSR1 do procesu
+    $ kill -9 1234         // wyślij SIGKILL (nie do przechwycenia)
+    signal(SIGINT, handler); // zarejestruj handler dla Ctrl+C
+
+#### Porównanie mechanizmów IPC
+
+    Mechanizm        Kierunek     Szybkość       Zastosowanie
+    ──────────────────────────────────────────────────────────
+    Pipe             jednokier.   średnia        ls | grep
+    Named Pipe       jednokier.   średnia        demon → klient
+    Shared Memory    dwukier.     najszybsza     video, bazy danych
+    Message Queue    dwukier.     średnia        wieloproducentowe
+    Socket           dwukier.     wolna (sieć)   klient-serwer
+    Signal           jednokier.   natychmiast.   powiadomienia
+
+---
+
+### Problemy synchronizacji
+
+Gdy wątki (lub procesy z shared memory) współdzielą dane, pojawiają się 4 fundamentalne problemy:
+
+![Ilustracja zakleszczenia — cykl oczekiwania](img/deadlock_illustration.png)
+
+#### Problem 1 — Wyścig (Race Condition)
+
+Wynik programu zależy od losowej kolejności operacji wątków. Źródło: operacja „czytaj-modyfikuj-zapisz" nie jest atomowa.
+
+    Przykład: konto bankowe, saldo = 1000 zł
+    Wątek A: wpłata 500 zł          Wątek B: wypłata 200 zł
+
+    BEZ synchronizacji (błąd!):
+    ─────────────────────────────────────────────────────────
+    Czas  Wątek A                   Wątek B
+    ─────────────────────────────────────────────────────────
+    t1    czytaj saldo → 1000
+    t2                              czytaj saldo → 1000
+    t3    saldo = 1000 + 500 = 1500
+    t4                              saldo = 1000 - 200 = 800
+    t5    zapisz saldo ← 1500
+    t6                              zapisz saldo ← 800
+    ─────────────────────────────────────────────────────────
+    Wynik: 800 zł (powinno być 1300!)  ← wypłata nadpisała wpłatę!
+
+    Poprawka — mutex:
+    lock(mutex);
+    saldo = saldo + kwota;  // sekcja krytyczna
+    unlock(mutex);
+
+    Z mutex: A blokuje → czyta 1000 → pisze 1500 → B blokuje → czyta 1500 → pisze 1300. ✓
+
+#### Problem 2 — Zakleszczenie (Deadlock)
+
+Dwa lub więcej wątków czekają na siebie nawzajem — żaden nie może kontynuować. System „zamiera".
+
+    Klasyczny scenariusz: 2 wątki, 2 mutexy
+    ─────────────────────────────────────────────────────────
+    Wątek A:                      Wątek B:
+      lock(mutex1) ✓  ←trzyma       lock(mutex2) ✓  ←trzyma
+      lock(mutex2) ⏳ ←czeka!       lock(mutex1) ⏳ ←czeka!
+    ─────────────────────────────────────────────────────────
+    A czeka na mutex2 (B go trzyma), B czeka na mutex1 (A go trzyma).
+    → DEADLOCK — żaden nie odpuści!
+
+    Diagram cyklu:
+          ┌──────────┐  czeka na  ┌──────────┐
+          │ Wątek A  │───────────→│ Mutex 2  │
+          │ trzyma   │            │ trzyma   │
+          │ Mutex 1  │←───────────│ Wątek B  │
+          └──────────┘  czeka na  └──────────┘
+
+**Warunki Coffmana** — 4 warunki konieczne deadlocka (WSZYSTKIE muszą zachodzić):
+
+    1. Mutual Exclusion  — zasób wyłączny (tylko 1 wątek)
+    2. Hold and Wait     — trzymaj zasób, czekaj na kolejny
+    3. No Preemption     — nie można zabrać zasobu siłą
+    4. Circular Wait     — cykliczne oczekiwanie (A→B→...→A)
+
+    Strategie zapobiegania (złam jeden warunek):
+    ────────────────────────────────────────────────────
+    Warunek            Jak złamać                  Przykład
+    ────────────────────────────────────────────────────
+    Mutual Exclusion   Zrób zasób współdzielony    Read-write lock
+    Hold and Wait      Bierz WSZYSTKIE naraz       lock(m1, m2) atomowo
+    No Preemption      Pozwól na timeout/trylock   pthread_mutex_trylock()
+    Circular Wait      Porządek liniowy zamków     Zawsze m1 przed m2
+    ────────────────────────────────────────────────────
+
+    Najczęstsza strategia: PORZĄDEK LINIOWY (Circular Wait).
+    Zasada: numeruj mutexy, zawsze blokuj w rosnącej kolejności.
+    Jeśli mutex1 < mutex2 → ZAWSZE lock(mutex1) przed lock(mutex2).
+
+#### Problem 3 — Zagłodzenie (Starvation)
+
+Wątek nigdy nie dostaje zasobu, bo inni ciągle go wyprzedzają. Nie jest deadlockiem (inni się wykonują). Przykład: 10 wątków, wątek niskopriorytetowy nigdy nie dostaje CPU bo wysoko priorytetowe ciągle dominują.
+
+    Rozwiązanie: aging (starzenie) — priorytet rośnie z czasem oczekiwania.
+    Po 100 ms bez CPU: priorytet +1, po 200 ms: +2, itd.
+    W końcu nawet najniższy wątek dostanie CPU.
+
+#### Problem 4 — Inwersja priorytetów (Priority Inversion)
+
+Wątek wysokopriorytetowy (H) czeka na mutex trzymany przez niskopriorytetowy (L), a średniopriorytetowy (M) blokuje L. Efekt: H czeka na M (mimo wyższego priorytetu!).
+
+    Priorytet: H > M > L
+    ─────────────────────────────────────────────────
+    Czas   L             M           H
+    ─────────────────────────────────────────────────
+    t1     lock(mutex)
+    t2                   (gotowy, wypycha L!)
+    t3                   pracuje...     (czeka na mutex!)
+    t4                   pracuje...     (CZEKA — bo M blokuje L)
+    t5                   gotowy
+    t6     unlock(mutex)                (wreszcie!)
+    ─────────────────────────────────────────────────
+    H czekał, dopóki M nie skończył, mimo że H > M!
+
+    Rozwiązanie: Priority Inheritance Protocol.
+    L dziedziczy priorytet H (tymczasowo L=H), więc M nie może wypchać L.
+    Mars Pathfinder (1997) — klasyczny bug priority inversion w kosmosie!
+
+---
+
+### Klasyczne problemy synchronizacji
+
+![Producent-konsument z buforem cyklicznym](img/producer_consumer.png)
+
+#### Producent-Konsument (Bounded Buffer)
+
+n producentów wrzuca elementy do bufora o ograniczonej pojemności, m konsumentów pobiera. Bufor pełny → producent czeka. Bufor pusty → konsument czeka.
+
+    Rozwiązanie z semaforami:
+    ─────────────────────────────────────────────────
+    semaphore mutex = 1;       // wyłączny dostęp do bufora
+    semaphore empty = N;       // ile wolnych slotów (początkowo N)
+    semaphore full  = 0;       // ile pełnych slotów (początkowo 0)
+
+    Producent:                  Konsument:
+      P(empty)  // czekaj na   P(full)   // czekaj na
+                // wolny slot            // pełny slot
+      P(mutex)  // wejdź do    P(mutex)  // wejdź do
+                // sek. kryt.            // sek. kryt.
+      wstaw(elem)              elem = pobierz()
+      V(mutex)  // wyjdź       V(mutex)  // wyjdź
+      V(full)   // +1 pełny    V(empty)  // +1 wolny
+    ─────────────────────────────────────────────────
+
+    Bufor (N=4):
+    ┌────┬────┬────┬────┐
+    │ A  │ B  │    │    │  ← full=2, empty=2
+    └────┴────┴────┴────┘
+      ↑                 ↑
+    konsument        producent
+
+    BŁĄD jeśli zamienimy kolejność P(empty) i P(mutex) w producencie:
+    Producent: P(mutex) → P(empty) ← bufor pełny → czeka z mutexem!
+    Konsument: P(full) → P(mutex) ← mutex zajęty → DEADLOCK!
+
+#### Czytelnicy-Pisarze (Readers-Writers)
+
+Wielu czytelników może czytać jednocześnie. Pisarz wymaga wyłącznego dostępu (ani czytelnicy, ani inni pisarze).
+
+    Rozwiązanie (first readers-writers):
+    ─────────────────────────────────────────────────
+    int readers = 0;
+    mutex rw_mutex;    // pisarz LUB pierwszy/ostatni czytelnik
+    mutex count_mutex; // ochrona zmiennej readers
+
+    Czytelnik:                    Pisarz:
+      lock(count_mutex)             lock(rw_mutex)
+      readers++                     // PISZ (wyłączny)
+      if (readers == 1)             unlock(rw_mutex)
+        lock(rw_mutex)  // 1. czytelnik blokuje pisarzy
+      unlock(count_mutex)
+      // CZYTAJ (wielu jednocześnie!)
+      lock(count_mutex)
+      readers--
+      if (readers == 0)
+        unlock(rw_mutex) // ostatni odblokowuje pisarzy
+      unlock(count_mutex)
+    ─────────────────────────────────────────────────
+
+    Problem: pisarze mogą głodować (readers=0 nigdy nie zachodzi).
+    Rozwiązanie: fairness — kolejka FIFO czytelników i pisarzy.
+
+#### Ucztujący filozofowie (Dining Philosophers)
+
+5 filozofów siedzi przy okrągłym stole, między każdą parą 1 widelec. Filozofowie myślą lub jedzą. Jedzenie wymaga 2 widelców (lewego i prawego). Naiwne rozwiązanie: każdy bierze lewy → prawy → deadlock (wszyscy trzymają lewy, czekają na prawy).
+
+    Rozwiązanie — złamanie cyklu:
+    Filozofowie 0-3: bierz lewy, potem prawy.
+    Filozof 4: bierz PRAWY, potem lewy. ← łamie circular wait!
+
+    Alternatywa: semafor(4) — max 4 filozofów próbuje jeść naraz
+    → jeden widelec zawsze wolny → brak deadlocka.
+
+---
+
+### Mechanizmy synchronizacji — porównanie
+
+    Mechanizm         Opis                           Kiedy używać
+    ──────────────────────────────────────────────────────────────────
+    Mutex             Zamek: 1 wątek w sekcji        Sekcja krytyczna
+    Semafor(n)        Licznik: max n wątków          Ograniczone zasoby
+    Monitor           Obiekt z wbudowanym mutex      Java synchronized
+    Cond. Variable    wait()/signal() na warunek     Producent-konsument
+    Spinlock          Aktywne czekanie (busy-wait)   Bardzo krótkie sekcje
+    RW Lock           Wielu czytelników LUB 1 pisarz Bazy danych, cache
+    Barrier           Czekaj aż wszyscy dotrą        Obliczenia równoległe
+
+    Mutex vs Semafor:
+    ┌────────────────────────────────────────────────────────────┐
+    │  Mutex = klucz do łazienki (1 osoba)                      │
+    │  Semafor(3) = parking na 3 miejsca (3 samochody naraz)    │
+    │  Semafor(1) = mutex (szczególny przypadek)                │
+    └────────────────────────────────────────────────────────────┘
+
+    Mutex vs Spinlock:
+    ┌────────────────────────────────────────────────────────────┐
+    │  Mutex: wątek ZASYPIA gdy czeka → OS go obudzi (koszt ~μs)│
+    │  Spinlock: wątek KRĘCI się w pętli → marnuje CPU          │
+    │  Spinlock lepszy gdy sekcja < 1 μs (koszt uśpienia > spin)│
+    │  Mutex lepszy gdy sekcja > 1 μs (nie marnuje CPU)         │
+    └────────────────────────────────────────────────────────────┘
 
 ### Etymologia
 

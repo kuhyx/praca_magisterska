@@ -1046,13 +1046,46 @@ Bez ortogonalności: M kontenerów × N algorytmów = **M×N** implementacji (so
 
 ---
 
-**Dziedziczenie (inheritance)** — mechanizm, w którym klasa pochodna (child) przejmuje pola i metody klasy bazowej (parent). Relacja „jest" (is-a): Dog **jest** Animal.
+### Cztery filary OOP
+
+**1. Enkapsulacja (encapsulation)** — ukrywanie szczegółów implementacji za interfejsem publicznym. Obiekt kontroluje dostęp do swoich danych przez modyfikatory dostępu: `private` (tylko klasa), `protected` (klasa + pochodne), `public` (wszyscy).
+
+    class BankAccount {
+    private:
+        double balance;          // ukryte — nikt z zewnątrz nie zmieni bezpośrednio
+    public:
+        void deposit(double amt) { if (amt > 0) balance += amt; }  // kontrolowany dostęp
+        double getBalance() const { return balance; }
+    };
+
+**Jak enkapsulacja wspiera reużywalność?** Klasa z dobrze zdefiniowanym publicznym interfejsem jest jak „czarna skrzynka" — można ją użyć w DOWOLNYM projekcie bez znajomości implementacji. Zmiana wewnętrznej implementacji (np. zmiana struktury danych z tablicy na drzewo) NIE łamie kodu, który tej klasy używa. Dzięki temu klasa jest bezpiecznie reużywalna — użytkownik zależy od interfejsu, nie od szczegółów.
+
+**2. Abstrakcja (abstraction)** — wyodrębnianie ISTOTNYCH cech obiektu i pomijanie szczegółów nieistotnych z perspektywy użytkownika. Abstrakcja odpowiada na pytanie „CO obiekt robi?", nie „JAK to robi?".
+
+    // Abstrakcja: "kształt ma pole powierzchni" — szczegóły ukryte
+    class Shape {
+    public:
+        virtual double area() = 0;  // CO: oblicz pole. JAK? — to zależy od kształtu
+    };
+    class Circle : public Shape {
+        double r;
+    public:
+        double area() override { return 3.14159 * r * r; }  // JAK: π·r²
+    };
+
+**Jak abstrakcja wspiera reużywalność?** Kod operujący na abstrakcji (np. `void printArea(Shape& s)`) działa z KAŻDYM kształtem — kołem, prostokątem, trójkątem — bez modyfikacji. Nowy kształt = nowa klasa implementująca `Shape`, zero zmian w istniejącym kodzie. Abstrakcja tworzy stabilne „punkty podłączenia" (extension points), do których można dołączać nowe implementacje.
+
+**Różnica enkapsulacja vs abstrakcja:** Enkapsulacja = UKRYWANIE wnętrza (mechanizm ochrony). Abstrakcja = UPRASZCZANIE interfejsu (mechanizm projektowania). Enkapsulacja chroni dane, abstrakcja modeluje pojęcia. Często współdziałają: klasa abstrakcyjna (abstrakcja) z polami prywatnymi (enkapsulacja).
+
+**3. Dziedziczenie (inheritance)** — mechanizm, w którym klasa pochodna (child) przejmuje pola i metody klasy bazowej (parent). Relacja „jest" (is-a): Dog **jest** Animal.
 
     class Animal { void eat(); };
     class Dog : public Animal { void bark(); };
     // Dog ma eat() + bark()
 
 **Klasa bazowa / pochodna (base class / derived class)** — bazowa = rodzic, pochodna = dziecko. Pochodna dziedziczy interfejs i implementację bazowej, może dodawać własne lub nadpisywać istniejące metody.
+
+**Jak dziedziczenie wspiera reużywalność?** Klasa pochodna otrzymuje CAŁY kod bazowej „za darmo" — wystarczy napisać to, co się różni. Hierarchia klas pozwala współdzielić wspólną logikę w jednym miejscu zamiast kopiować ją do wielu klas.
 
 **Dziedziczenie wielokrotne (multiple inheritance)** — klasa dziedziczy po więcej niż jednym rodzicu. Dostępne w C++, ale nie w Java/C# (tam tylko interfejsy). Powoduje ryzyko konfliktu nazw i problem diamentu.
 
@@ -1066,13 +1099,15 @@ Bez ortogonalności: M kontenerów × N algorytmów = **M×N** implementacji (so
 
 Rozwiązanie w C++: dziedziczenie wirtualne (`class B : virtual public A`), dzięki czemu istnieje jedna kopia A.
 
-**Polimorfizm (polymorphism)** — grec. „wiele form". Możliwość traktowania obiektów różnych klas przez wspólny interfejs. Kluczowy dla reużywalności — piszesz kod raz, działa z wieloma typami.
+**4. Polimorfizm (polymorphism)** — grec. „wiele form". Możliwość traktowania obiektów różnych klas przez wspólny interfejs. Kluczowy dla reużywalności — piszesz kod raz, działa z wieloma typami.
 
     Animal* a = new Dog();
     a->speak();  // woła Dog::speak(), nie Animal::speak()
     // To samo wywołanie, różne zachowanie — polimorfizm
 
 Realizacja: funkcje wirtualne (`virtual` + `override`) — tablica vtable wskazuje na właściwą implementację.
+
+**Jak polimorfizm wspiera reużywalność?** Funkcja `void feed(Animal& a)` działa z Dog, Cat, Parrot — KAŻDĄ klasą pochodną. Nowy typ zwierzęcia NIE wymaga zmiany funkcji `feed`. Kod wywołujący jest reużywalny, bo operuje na abstrakcji (bazowa klasa/interfejs), nie na konkretnym typie.
 
 ---
 
@@ -1086,8 +1121,6 @@ Realizacja: funkcje wirtualne (`virtual` + `override`) — tablica vtable wskazu
 **„Favor composition over inheritance"** — zasada GoF: preferuj kompozycję nad dziedziczenie. Dziedziczenie tworzy silne wiązanie (zmiana bazowej łamie pochodne). Kompozycja pozwala wymieniać części w runtime.
 
 **Agregacja (aggregation)** — słabsza forma kompozycji: obiekt „używa" innego, ale go nie posiada. Samochód ma kierowcę, ale kierowca istnieje niezależnie. W UML: pusty romb (◇).
-
-**Enkapsulacja (encapsulation)** — ukrywanie szczegółów implementacji za interfejsem publicznym. Zapewnia, że obiekt kontroluje dostęp do swoich danych (private, protected, public).
 
 **Luźne wiązanie (loose coupling)** — komponenty mają minimum zależności między sobą. Zmiana jednego nie wymusza zmian w drugim. Kompozycja daje luźniejsze wiązanie niż dziedziczenie.
 
@@ -1164,13 +1197,15 @@ Realizacja: funkcje wirtualne (`virtual` + `override`) — tablica vtable wskazu
 
 ### Etymologia
 
-**OOP** — Alan Kay (Smalltalk, 1970s), sam ukuł termin „object-oriented". **GoF** — Gang of Four: Gamma, Helm, Johnson, Vlissides (1994). **Polimorfizm** — grec. „poly" (wiele) + „morphē" (forma) = wiele postaci. **Enkapsulacja** — łac. „capsula" = pudełeczko. **Design Pattern** — z architektury: Christopher Alexander „A Pattern Language" (1977); GoF zaadaptowali do IT. **Kompozycja > Dziedziczenie** — zasada z GoF: „favor object composition over class inheritance".
+**OOP** — Alan Kay (Smalltalk, 1970s), sam ukuł termin „object-oriented". **GoF** — Gang of Four: Gamma, Helm, Johnson, Vlissides (1994). **Polimorfizm** — grec. „poly" (wiele) + „morphē" (forma) = wiele postaci. **Enkapsulacja** — łac. „capsula" = pudełeczko. **Abstrakcja** — łac. „abstrahere" = odciągać, oddzielać (oddzielanie istoty od szczegółów). **Design Pattern** — z architektury: Christopher Alexander „A Pattern Language" (1977); GoF zaadaptowali do IT. **Kompozycja > Dziedziczenie** — zasada z GoF: „favor object composition over class inheritance".
 
 ### Jak zapamiętać
 
+- **4 filary OOP:** Enkapsulacja (ukrywanie) → Abstrakcja (upraszczanie) → Dziedziczenie (przejmowanie) → Polimorfizm (wielopostaciowość)
+- Enkapsulacja = czarna skrzynka → bezpieczna reużywalność. Abstrakcja = punkty rozszerzenia → otwarta reużywalność
 - **„Kompozycja > Dziedziczenie"** — najważniejsza zasada
 - Dziedziczenie: silne wiązanie, krucha klasa bazowa, diamond problem
-- Kompozycja: elastyczna, testowalna, preferowan
+- Kompozycja: elastyczna, testowalna, preferowana
 - Granica: dziedziczenie dla prawdziwego „is-a" z polimorfizmem; kompozycja dla reszty
 
 \newpage
@@ -1314,6 +1349,26 @@ Realizacja: funkcje wirtualne (`virtual` + `override`) — tablica vtable wskazu
 2. **Unikanie kolizji** — gdyby ISN=0, segmenty z poprzedniego połączenia między tymi samymi portami mogłyby zostać błędnie zaakceptowane.
 3. RFC 793 (oryg.): ISN = timer inkrementowany co 4μs mod 2³².
 4. RFC 6528 (współcz.): ISN = M + F(adresy, porty, secret_key) — kryptograficznie losowy.
+
+**Rozbicie formuły RFC 6528:**
+
+    ISN = M + F(srcIP, dstIP, srcPort, dstPort, secret_key)
+
+- **M** — globalny timer (zegar). Licznik inkrementowany co ~4 μs przez jądro OS, niezależnie od połączeń. Zapewnia, że ISN „płyną do przodu" w czasie — dwa połączenia otwarte w odstępie 1 sekundy dostaną M różniące się o ~250 000.
+- **F** — funkcja kryptograficzna (np. MD5, SHA-256, SipHash). Bierze dane połączenia i zwraca pseudolosowy offset. Atakujący nie może odgadnąć wyniku F, bo nie zna klucza.
+- **srcIP, dstIP (adresy)** — adres IP źródłowy i docelowy (np. 192.168.1.5, 93.184.216.34). Dzięki nim ISN jest różny DLA KAŻDEJ PARY hostów.
+- **srcPort, dstPort (porty)** — port źródłowy i docelowy (np. 49152, 443). Ten sam klient łączący się z tym samym serwerem, ale na inny port, dostanie inny ISN.
+- **secret_key** — losowy klucz znany TYLKO jądru OS. Generowany przy starcie systemu, nigdy nie ujawniony na zewnątrz. Bez niego atakujący musi zgadywać F — co przy 2³² możliwych wartości jest praktycznie niemożliwe.
+
+Przykład liczbowy:
+
+    M = 1 000 000 (wartość timera w danej chwili)
+    F(192.168.1.5, 93.184.216.34, 49152, 443, 0xDEAD...) = 2 738 491 203
+    ISN = 1 000 000 + 2 738 491 203 = 2 739 491 203
+
+    Inna para (srcIP, dstIP) → F daje zupełnie inną wartość → inny ISN
+
+**Dlaczego to bezpieczne?** Atakujący widzi ISN (bo jest w nagłówku SYN), ale nie może z niego wyliczyć secret_key ani przewidzieć ISN innego połączenia, bo F jest jednokierunkowa (one-way function).
 
 **MSS (Maximum Segment Size)** — maksymalny rozmiar danych w jednym segmencie TCP. Uzgadniana w handshake (zwykle 1460 bajtów dla Ethernetu = MTU 1500 − 20 IP − 20 TCP).
 
@@ -1481,18 +1536,105 @@ Złam jeden = brak deadlocka.
 
 ---
 
-### Proces — program w trakcie wykonania
+### Budowa procesu
 
-Pamięć: TEXT (kod) | DATA | BSS | HEAP | STACK — oddzielna przestrzeń adresowa.
-PCB: PID, stan, rejestry CPU, tablice stron, otwarte pliki.
-Stany: NEW → READY ↔ RUNNING → BLOCKED, TERMINATED.
+Proces = program w trakcie wykonania + cały jego kontekst. Składa się z:
 
-### Wątek — lekka jednostka wykonania
+**Pamięć (oddzielna przestrzeń adresowa):**
 
-**Współdzielone** z procesem: kod, dane globalne, heap, pliki.
-**Prywatne:** stos, rejestry CPU, PC, TID.
+    ┌──────────┐ wysoki adres
+    │  STACK ↓ │  zmienne lokalne, adresy powrotu (każdy wątek ma WŁASNY)
+    │   ...    │
+    │  HEAP  ↑ │  malloc/new — dynamiczna alokacja (współdzielony między wątkami)
+    │  BSS     │  zmienne globalne niezainicjalizowane (zerowane)
+    │  DATA    │  zmienne globalne zainicjalizowane
+    │  TEXT    │  kod maszynowy (read-only, współdzielony)
+    └──────────┘ niski adres
 
-### Porównanie
+**PCB (Process Control Block)** — struktura w jądrze OS opisująca proces:
+
+    PCB = { PID, stan (READY/RUNNING/BLOCKED), rejestry CPU,
+            tablice stron, otwarte pliki, priorytety, statystyki }
+
+Przełączenie kontekstu = zapisanie PCB starego procesu → wczytanie PCB nowego.
+
+**Stany procesu:** NEW → READY ↔ RUNNING → BLOCKED → TERMINATED.
+Scheduler decyduje, który READY staje się RUNNING.
+
+### Budowa wątku
+
+Wątek = lekka jednostka wykonania WEWNĄTRZ procesu.
+
+**Współdzielone** z innymi wątkami procesu: TEXT, DATA, BSS, HEAP, otwarte pliki, PID.
+**Prywatne** (każdy wątek ma własne): stos (stack), rejestry CPU, program counter (PC), TID.
+
+    Proces P (PID=42)
+    ┌────────────────────────────────────────┐
+    │  TEXT  │  DATA  │  BSS  │  HEAP        │  ← współdzielone
+    ├────────┴────────┴───────┴──────────────┤
+    │  Wątek 1: [stos₁] [rejestry₁] [PC₁]   │  ← prywatne
+    │  Wątek 2: [stos₂] [rejestry₂] [PC₂]   │
+    │  Wątek 3: [stos₃] [rejestry₃] [PC₃]   │
+    └────────────────────────────────────────┘
+
+Kluczowa różnica: proces ma CAŁĄ przestrzeń adresową, wątek to tylko kontekst wykonania (stos + rejestry) w ramach tej przestrzeni.
+
+### Szybkość — porównanie ilościowe
+
+| Operacja          | Proces           | Wątek              | Dlaczego różnica?                    |
+|-------------------|------------------|---------------------|--------------------------------------|
+| Tworzenie         | ~1–10 ms         | ~10–100 μs (100x)  | Proces: nowa przestrzeń adresowa, tablice stron, kopiowanie struktur jądra. Wątek: tylko nowy stos + wpis w schedulerze. |
+| Przełączanie      | ~1000–5000 ns    | ~100–500 ns (10x)  | Proces: TLB flush (unieważnienie cache adresów). Wątek: te same tablice stron, TLB zostaje. |
+| Komunikacja       | ~μs (IPC)        | ~ns (pamięć)        | Proces: kopiowanie przez jądro (pipe/socket). Wątek: bezpośredni zapis/odczyt heapu. |
+| Zakończenie       | wolne            | szybkie             | Proces: zwolnienie przestrzeni adresowej, zamknięcie plików. Wątek: zwolnienie stosu. |
+
+Konkretny przykład tworzenia (Linux):
+
+    fork() (nowy proces):   ~1-5 ms  → kopiowanie tablic stron (copy-on-write)
+    pthread_create() (wątek): ~50 μs → alokacja stosu (~8 MB) + wpis w schedulerze
+
+Przełączanie kontekstu (benchmarki):
+
+    Proces → Proces:  ~3000 ns (TLB flush + cache cold)
+    Wątek  → Wątek:   ~300 ns  (TLB ciepły, ta sama pamięć)
+    Zysk: ~10x szybciej
+
+### Zastosowanie — kiedy proces, kiedy wątek?
+
+**Procesy — stosuj gdy:**
+- **Izolacja jest krytyczna** — awaria jednego nie zabija reszty
+  - Przeglądarka Chrome: każda karta = osobny proces. Crash Flash w jednej karcie nie zabija reszty.
+  - Serwer: każde połączenie = fork() → klient nie może uszkodzić serwera (Apache pre-fork MPM)
+- **Bezpieczeństwo** — procesy nie widzą nawzajem pamięci
+  - Sandboxing: proces renderujący PDFa nie ma dostępu do pamięci procesu z hasłami
+- **Wieloprogramowość** — różne programy (edytor + kompilator + przeglądarka)
+- **Fork-exec** — klasyczny model Unix: fork() + exec() → nowy program
+
+**Wątki — stosuj gdy:**
+- **Współdzielenie danych** — wątki czytają/piszą ten sam heap bez kopiowania
+  - Serwer WWW: wątki obsługujące requesty współdzielą cache w pamięci (nginx worker threads)
+  - Gra: wątek renderujący i wątek fizyki czytają ten sam świat gry
+- **Szybkość tworzenia/przełączania** — potrzeba wielu lekkich zadań
+  - Thread pool: 8 wątków obsługuje tysiące zadań (zamiast tysiąca procesów)
+- **Obliczenia równoległe** — podział pracy na rdzenie CPU
+  - Mnożenie macierzy: każdy wątek liczy fragment wyniku
+  - Rendering: każdy wątek renderuje część klatki
+- **Responsywność UI** — wątek główny obsługuje interfejs, wątek tła liczy/pobiera dane
+
+**Typowe scenariusze w praktyce:**
+
+    Scenariusz                    Proces czy wątek?    Dlaczego?
+    ──────────────────────────────────────────────────────────────
+    Serwer WWW (Apache pre-fork)  Proces               izolacja klientów
+    Serwer WWW (nginx)            Wątek/async           szybkość, cooperacja
+    Przeglądarka (karty)          Proces               crash isolation
+    Przeglądarka (JS + rendering) Wątek                współdzielony DOM
+    Gra (fizyka + rendering)      Wątek                współdzielony świat
+    Kompilacja wieloplikowa       Proces (make -j8)    izolacja, prostota
+    Baza danych (zapytania)       Wątek                współdzielony cache
+    Microservices                 Proces (kontener)    izolacja, deployment
+
+### Porównanie zbiorcze
 
 | Cecha           | Proces           | Wątek               |
 |-----------------|------------------|----------------------|
@@ -1501,6 +1643,8 @@ Stany: NEW → READY ↔ RUNNING → BLOCKED, TERMINATED.
 | Przełączanie    | Wolne (TLB flush)| Szybkie (rejestry)   |
 | Komunikacja     | IPC (pipe, shm)  | Współdzielona pamięć |
 | Izolacja        | Pełna            | Brak                 |
+| Awaria          | Nie zabija innych | Może zabić cały proces|
+| Zastosowanie    | Izolacja, bezpieczeństwo | Wydajność, współdzielenie |
 
 ### Komunikacja międzyprocesowa (IPC)
 Pipe, Named Pipe (FIFO), Message Queue, Shared Memory, Sockets, Signals, Memory-mapped files.
@@ -1541,6 +1685,16 @@ Mutex, Semaphore, Monitor, Condition Variable, Spinlock, Read-Write Lock, Barrie
     Program widzi:    [0x0000 ... 0xFFFF]  ← wirtualne, ciągłe
     RAM fizyczny:     [ramka 5][ramka 12][ramka 3]  ← rozproszone
 
+**MMU (Memory Management Unit)** — dedykowany układ sprzętowy (część procesora) odpowiedzialny za translację adresów wirtualnych na fizyczne. Każdy dostęp do pamięci przechodzi przez MMU — program podaje adres wirtualny, MMU sprawdza tablicę stron (lub TLB) i przekształca go na adres fizyczny.
+
+    CPU: "chcę bajt pod adresem wirtualnym 0x1234"
+      ↓
+    MMU: sprawdza tablicę stron → strona 1 → ramka 7
+      ↓
+    Magistrala: odczyt z adresu fizycznego 0x7234
+
+MMU sprawdza też uprawnienia (bity R/W/X) — jeśli proces próbuje pisać do strony read-only, MMU generuje wyjątek (page fault / segmentation fault). Bez MMU nie ma pamięci wirtualnej — każdy program musiałby zarządzać fizycznymi adresami ręcznie (tak było w MS-DOS).
+
 ---
 
 **Fragmentacja (fragmentation)** — marnowanie pamięci z powodu sposobu alokacji.
@@ -1554,9 +1708,134 @@ Mutex, Semaphore, Monitor, Condition Variable, Spinlock, Read-Write Lock, Barrie
 
 **Ochrona pamięci (memory protection)** — mechanizm uniemożliwiający procesowi dostęp do pamięci innego procesu. Realizowana przez tablice stron (bity R/W/X) i MMU. Bez ochrony: crash jednego procesu mógłby zepsuć cały system.
 
+**Dlaczego crash bez ochrony zabija cały system?** Bez ochrony pamięci wszystkie procesy widzą tę samą, płaską przestrzeń fizyczną. Wadliwy program może nadpisać dowolny adres — w tym:
+- **Kod jądra OS** — nadpisanie instrukcji jądra = kernel crash = restart.
+- **Dane innego procesu** — np. baza danych traci spójność.
+- **Tablice systemowe** — np. tablica przerwań (IDT) — procesor nie wie, co robić przy przerwaniu → zawieszenie.
+
+    Bez ochrony (MS-DOS, lata 80.):
+    [jądro OS | program A | program B | wolne]
+    0x0000     0x1000      0x5000      0x8000
+
+    Program A ma bug → pisze pod adres 0x0500 (pamięć jądra!)
+    → nadpisuje tablicę przerwań → system się zawiesza
+
+    Z ochroną (Windows/Linux):
+    Program A widzi:  [0x0000 ... 0xFFFF]  ← wirtualne
+    Program B widzi:  [0x0000 ... 0xFFFF]  ← wirtualne, ALE inne ramki!
+    Program A pisze pod 0x0500 → trafia do SWOJEJ ramki, nie jądra.
+    Próba dostępu do cudzej pamięci → MMU: Segmentation Fault → OS zabija TYLKO ten proces.
+
+**Bity R/W/X (Read / Write / eXecute)** — flagi ochrony w każdym wpisie tablicy stron, określające co wolno robić ze stroną:
+- **R (Read)** — można czytać dane ze strony.
+- **W (Write)** — można zapisywać dane na stronę. Bez W próba zapisu → page fault.
+- **X (eXecute)** — procesor może wykonywać kod ze strony. Bez X próba skoku → fault.
+
+Przykłady zastosowań:
+
+    Rodzaj pamięci    R  W  X   Wyjaśnienie
+    ──────────────────────────────────────────
+    Kod programu      ✓  ✗  ✓   czytaj i wykonuj, nie modyfikuj
+    Dane globalne     ✓  ✓  ✗   czytaj/pisz, nie wykonuj (DEP)
+    Stos              ✓  ✓  ✗   zmienne lokalne, brak wykonania
+    Stałe (const)     ✓  ✗  ✗   tylko do odczytu
+    Guard page        ✗  ✗  ✗   brak dostępu → wykrywanie przepełnienia stosu
+
+**DEP (Data Execution Prevention)** — mechanizm bezpieczeństwa: strony z danymi nie mają bitu X. Atakujący wstrzykuje kod do bufora (dane), ale procesor odmawia wykonania → ochrona przed atakami buffer overflow.
+
 **Relokacja (relocation)** — program musi działać pod różnymi adresami fizycznymi (nie wie z góry, gdzie zostanie załadowany). Pamięć wirtualna rozwiązuje to automatycznie — program zawsze widzi te same adresy wirtualne.
 
+**Dlaczego program nie wie, pod jakim adresem fizycznym będzie?** Przy uruchamianiu OS decyduje, które ramki RAM są wolne. To zależy od tego, co innego aktualnie działa.
+
+    Scenariusz 1: uruchom program A jako jedyny
+    RAM: [jądro][....A....][wolne...........]
+    Program A fizycznie pod adresem 0x1000
+
+    Scenariusz 2: uruchom A gdy B i C już działają
+    RAM: [jądro][..B..][..C..][..A..][wolne]
+    Program A fizycznie pod adresem 0x5000
+
+    Problem: program ma instrukcję "skocz do adresu 0x2000" (swojej funkcji)
+    W scenariuszu 1: 0x2000 to poprawne miejsce w A
+    W scenariuszu 2: 0x2000 to fragment B → CRASH!
+
+    Rozwiązanie — pamięć wirtualna:
+    A ZAWSZE widzi siebie pod adresami 0x0000–0xFFFF (wirtualne)
+    MMU tłumaczy: wirtualne 0x2000 → fizyczne 0x6000 (scenariusz 2)
+    Program nie musi wiedzieć, gdzie fizycznie leży — abstrahuje od tego.
+
 **COW (Copy-on-Write)** — optymalizacja: przy fork() (tworzenie procesu) dziecko współdzieli strony z rodzicem. Kopia fizyczna następuje dopiero gdy któryś pisze. Oszczędność: jeśli procesy tylko czytają, nie kopiujemy nic.
+
+    fork()
+    Rodzic: strona 7 → ramka 42 [R-only]  ─┐
+                                             ├─ ta sama ramka fizyczna!
+    Dziecko: strona 7 → ramka 42 [R-only] ─┘
+
+    Dziecko pisze do strony 7:
+    → page fault (ochrona zapisu) → OS kopiuje ramkę 42 → nowa ramka 58
+    Rodzic: strona 7 → ramka 42 [R/W]
+    Dziecko: strona 7 → ramka 58 [R/W]   ← kopia powstała dopiero teraz
+
+Zysk w praktyce: `fork()` + `exec()` (typowy wzorzec Unix) — dziecko natychmiast zastępuje obraz procesu, więc żadna strona nie jest kopiowana. Bez COW: fork() kopiowałby setki MB niepotrzebnie.
+
+---
+
+**Współdzielenie pamięci (memory sharing)** — mechanizm pozwalający wielu procesom korzystać z tych samych ramek fizycznych. To jeden z kluczowych problemów zarządzania pamięcią — bez współdzielenia każdy proces musiałby mieć własną kopię wszystkiego, co drastycznie zwiększyłoby zużycie RAM.
+
+**Formy współdzielenia:**
+
+1. **Biblioteki współdzielone (shared libraries / .so / .dll)** — kod biblioteki (np. libc) jest ładowany do RAM raz i mapowany do przestrzeni adresowej wielu procesów. Każdy proces widzi tę samą ramkę fizyczną z kodem, ale pod własnym adresem wirtualnym.
+
+        RAM fizyczny:
+        [ramka 100: kod libc] ← załadowana RAZ
+
+        Proces A: strona 50 → ramka 100 (read-only)
+        Proces B: strona 80 → ramka 100 (read-only)
+        Proces C: strona 30 → ramka 100 (read-only)
+
+        Bez współdzielenia: 3 kopie × 2 MB = 6 MB
+        Ze współdzieleniem: 1 kopia × 2 MB = 2 MB
+        Przy 100 procesach: 200 MB vs 2 MB — oszczędność 99%!
+
+    Sekcje biblioteki: TEXT (kod, read-only) — współdzielona; DATA (zmienne globalne) — każdy proces ma własną kopię (COW).
+
+2. **COW (Copy-on-Write)** — opisany wyżej. Współdzielenie stron po fork() do momentu zapisu.
+
+3. **Shared Memory (pamięć współdzielona IPC)** — region RAM jawnie współdzielony między procesami (np. `shmget()`/`shmat()` w POSIX, `mmap()` z `MAP_SHARED`). Najszybszy mechanizm IPC — brak kopiowania, bezpośredni dostęp. Wymaga synchronizacji (semafory, muteksy).
+
+        Proces A                 Proces B
+        strona 20 ──┐       ┌── strona 45
+                     ↓       ↓
+                  [ramka 200: wspólne dane]
+        A pisze „hello" → B natychmiast widzi „hello"
+
+4. **Memory-mapped files (pliki mapowane w pamięci)** — plik z dysku mapowany do przestrzeni adresowej procesu (`mmap()`). Wiele procesów może mapować ten sam plik — zmiany jednego są widoczne dla innych.
+
+**Realizacja sprzętowa:** Współdzielenie działa dzięki tablicom stron — wiele procesów ma wpisy wskazujące na tę samą ramkę fizyczną. Bity ochrony (R/W/X) kontrolują, kto może czytać, pisać, wykonywać.
+
+    Tablica stron procesu A:  strona 50 → ramka 100 [R--]
+    Tablica stron procesu B:  strona 80 → ramka 100 [R--]
+    Tablica stron procesu C:  strona 30 → ramka 100 [R--]
+    → 3 procesy, 1 ramka fizyczna, różne adresy wirtualne
+
+**Dlaczego to ważne dla zarządzania pamięcią?** Typowy system Linux ma dziesiątki procesów korzystających z tych samych bibliotek (libc, libpthread, libm…). Bez współdzielenia zapotrzebowanie na RAM byłoby wielokrotnie większe. Współdzielenie to kluczowa optymalizacja pozwalająca uruchamiać wiele procesów jednocześnie.
+
+**Czy ochrona pamięci i współdzielenie nie są sprzeczne?** Nie — one współpracują dzięki tablicom stron. Ochrona to **domyślna odmowa** — tablica stron procesu A po prostu nie zawiera wpisów wskazujących na ramki procesu B, więc A nie może nawet zaadresować pamięci B (MMU blokuje). Współdzielenie to **jawny, kontrolowany wyjątek** — OS celowo mapuje tę samą ramkę fizyczną w tablicach stron obu procesów, ustawiając bity ochrony (R/W/X) niezależnie dla każdego.
+
+    Bez współdzielenia (domyślnie — ochrona):
+    Proces A: strona 5 → ramka 10 [R/W]
+    Proces B: strona 5 → ramka 77 [R/W]   ← inna ramka, A nie widzi B
+
+    Ze współdzieleniem (jawna decyzja OS):
+    Proces A: strona 5 → ramka 10 [R]     ← ta sama ramka!
+    Proces B: strona 8 → ramka 10 [R]     ← ale może read-only
+
+Kluczowy punkt: tylko jądro OS może modyfikować tablice stron. Proces nie może sam sobie dodać mapowania do cudzej ramki. Dlatego:
+- **libc**: OS mapuje tę samą ramkę z kodem jako read-only do 50 procesów. Bezpieczne, bo nikt nie pisze.
+- **shmget/mmap**: proces prosi OS „daj mi i procesowi B wspólny region." OS tworzy mapowanie. To opt-in, nie luka.
+- **COW**: OS mapuje strony rodzica do dziecka jako read-only. Przy zapisie → page fault → OS kopiuje → dopiero wtedy zapis.
+
+Analogia: blok mieszkalny z ochroną — każde mieszkanie ma własny zamek (ochrona), ale dwóch lokatorów może wybrać współdzielenie sali konferencyjnej (współdzielenie) — administrator budynku (OS) daje im obu klucz. To nie znaczy, że mogą wchodzić do swoich mieszkań nawzajem.
 
 ---
 
@@ -1564,18 +1843,111 @@ Mutex, Semaphore, Monitor, Condition Variable, Spinlock, Read-Write Lock, Barrie
 
 **Ramka (frame)** — jednostka pamięci fizycznej o tym samym rozmiarze co strona. Strona wirtualna mapowana jest na ramkę fizyczną.
 
-**Tablica stron (page table)** — struktura danych tłumacząca numer strony → numer ramki. Każdy proces ma własną tablicę stron. Wpis zawiera: numer ramki, bity present/dirty/R/W/X.
+**Tablica stron (page table)** — struktura danych tłumacząca numer strony → numer ramki. Każdy proces ma własną tablicę stron.
 
     Adres wirtualny = [numer strony | offset]
     Tablica stron:    strona 5 → ramka 12
     Adres fizyczny  = [12 | offset]
 
-**Wielopoziomowe tablice stron** — oszczędność pamięci. Zamiast jednej ogromnej tablicy (32-bit: 4 MB per proces!), drzewo tablic. Nieużywane gałęzie nie istnieją.
+**Wpis tablicy stron (page table entry, PTE)** — każdy wpis opisuje jedną stronę i zawiera:
+- **Numer ramki (frame number)** — wskazuje, w której ramce fizycznej leży ta strona.
+- **Bit Present (P)** — czy strona jest aktualnie w RAM? P=1 → w RAM, P=0 → na dysku (swap) lub nieprzydzielona. Dostęp do strony z P=0 → page fault → OS ładuje stronę z dysku.
+- **Bit Dirty (D)** — czy strona była modyfikowana od załadowania? D=1 → przy wymianie trzeba zapisać ją na dysk (bo dane się zmieniły). D=0 → można po prostu wyrzucić (kopia na dysku jest aktualna). Oszczędza czas I/O.
+- **Bit R (Read)** — pozwala na odczyt strony.
+- **Bit W (Write)** — pozwala na zapis. W=0 → strona read-only (próba zapisu = fault). Używane przez COW i ochronę kodu.
+- **Bit X (eXecute)** — pozwala na wykonanie kodu ze strony (NX bit). X=0 → strona z danymi, próba wykonania = fault (DEP).
+- **Bit User/Supervisor (U/S)** — U=1 → dostępna dla kodu użytkownika; U=0 → tylko jądro OS.
 
-    32-bit: 2-level (1024 × 1024 wpisów)
-    64-bit: 4-level (x86-64: PML4 → PDPT → PD → PT)
+Przykład wpisu:
+
+    Strona 5: [ramka=12 | P=1 | D=0 | R=1 | W=0 | X=1 | U=1]
+    → strona w RAM, nienaruszona, read+execute, dostępna dla usera
+    → to wygląda jak segment TEXT (kod programu)
+
+    Strona 8: [ramka=-- | P=0 | D=- | R=- | W=- | X=- | U=-]
+    → strona NIE w RAM (P=0), dostęp = page fault
+
+**Wielopoziomowe tablice stron** — oszczędność pamięci. Zamiast jednej ogromnej tablicy, drzewo tablic. Nieużywane gałęzie nie istnieją.
+
+**Problem jednopoziomowej tablicy:** W 32-bitowym systemie z 4KB stronami: 2³² / 4096 = 1 048 576 wpisów × 4 bajty = **4 MB tablicy per proces**. Przy 100 procesach = 400 MB samych tablic! A większość stron jest nieużywana (typowy proces używa ułamek przestrzeni adresowej).
+
+**Rozwiązanie — drzewo tablic:** Dzielimy tablicę na poziomy. Tylko gałęzie odpowiadające faktycznie używanym stronom muszą istnieć w pamięci.
+
+**32-bit: 2 poziomy (x86)**
+
+    Adres wirtualny (32 bity):
+    [10 bitów: nr w Page Directory | 10 bitów: nr w Page Table | 12 bitów: offset]
+
+    Page Directory (1024 wpisy) → każdy wskazuje na Page Table (1024 wpisy) → ramka
+
+    Jeśli proces używa tylko 4 MB pamięci (1024 stron):
+    - 1 Page Directory = 4 KB
+    - 1 Page Table = 4 KB
+    - Razem: 8 KB zamiast 4 MB! (oszczędność 500x)
+    Pozostałe 1023 wpisy Page Directory = NULL (Page Table nie istnieje)
+
+**64-bit: 4 poziomy (x86-64)** — każdy poziom to tablica 512 wpisów:
+
+    PML4 → PDPT → PD → PT → ramka fizyczna
+
+- **PML4 (Page Map Level 4)** — najwyższy poziom, 512 wpisów. Każdy wpis wskazuje na jedną tablicę PDPT. Pokrywa 512 × 512 GB = 256 TB przestrzeni.
+- **PDPT (Page Directory Pointer Table)** — 512 wpisów, każdy wskazuje na PD. Jeden wpis PDPT pokrywa 1 GB.
+- **PD (Page Directory)** — 512 wpisów, każdy wskazuje na PT. Jeden wpis PD pokrywa 2 MB.
+- **PT (Page Table)** — 512 wpisów, każdy wskazuje na ramkę fizyczną 4 KB.
+
+Schemat:
+
+    Adres wirtualny (48 bitów używanych z 64):
+    [9b PML4 | 9b PDPT | 9b PD | 9b PT | 12b offset]
+
+    Translacja: CPU bierze adres wirtualny i „schodzi" po 4 tablicach:
+    rejestr CR3 → PML4[idx1] → PDPT[idx2] → PD[idx3] → PT[idx4] → ramka
+
+**Dlaczego nieużywane gałęzie nie istnieją?** W drzewie wielopoziomowym tablicę niższego poziomu tworzymy TYLKO gdy proces faktycznie odwołuje się do adresów z tego zakresu. Jeśli wpis w PML4 ma P=0 (present=0), to odpowiadające mu PDPT, PD i PT w ogóle nie zajmują pamięci.
+
+    Typowy proces 64-bit (100 MB kodu + danych):
+    - 1 PML4                          = 4 KB
+    - 1-2 PDPT (max 2 GB zakresy)     = 4-8 KB
+    - ~50 PD                          = ~200 KB
+    - ~25600 PT (100 MB / 4 KB)       = ~100 KB
+    Razem: ~310 KB zamiast pełnych tablic pokrywających 256 TB
+
+    Puste regiony (np. 99.99% przestrzeni 256 TB):
+    PML4[5] = NULL → żadna PDPT, PD ani PT nie istnieje
+    → 0 bajtów kosztu za nieużywany region 512 GB!
+
+---
+
+**Cache (pamięć podręczna)** — mała, bardzo szybka pamięć przechowująca kopie często używanych danych z wolniejszej pamięci. Zasada: jeśli dane są w cache (hit), odczyt jest szybki; jeśli nie (miss), trzeba sięgnąć do wolniejszej pamięci i skopiować dane do cache na przyszłość.
+
+**Hierarchia pamięci i czasy dostępu:**
+
+    Poziom         Rozmiar     Czas dostępu    Przykład
+    ──────────────────────────────────────────────────────
+    Rejestry CPU   ~1 KB       ~0.3 ns         RAX, RBX
+    L1 cache       32-64 KB    ~1 ns           per rdzeń
+    L2 cache       256 KB-1MB  ~3-5 ns         per rdzeń
+    L3 cache       8-64 MB     ~10-20 ns       współdzielony
+    RAM            8-64 GB     ~50-100 ns      DDR4/DDR5
+    SSD            256GB-4TB   ~50-100 μs      NVMe
+    HDD            1-16 TB     ~5-10 ms        mechaniczny
+
+    Różnica RAM vs HDD: ~100 000x wolniej!
+    Dlatego swap (pamięć wirtualna na dysku) jest ostatecznością.
+
+**Cache translacji adresów = TLB.** Translacja adresu wirtualnego wymaga przejścia 4 poziomów tablic stron (4 odczyty RAM × 100 ns = 400 ns). TLB przechowuje wynik translacji (strona→ramka) — trafienie w TLB skraca to do ~1 ns. Bez TLB każdy dostęp do pamięci byłby 4-5x wolniejszy.
 
 **TLB (Translation Lookaside Buffer)** — sprzętowy cache translacji adresów. Przechowuje ostatnio używane mapowania strona→ramka. Trafienie w TLB: ~1 ns; pudło: ~10-100 ns (trzeba chodzić po tablicy stron). Hit rate: typowo >99%.
+
+    Dostęp do pamięci wirtualnej adres 0x12345:
+    1. CPU pyta TLB: "masz stronę 0x12?"
+       → TLB hit: od razu ramka 42, koszt ~1 ns
+       → TLB miss: przejdź PML4→PDPT→PD→PT, koszt ~400 ns
+    2. Wynik miss zapisywany w TLB na przyszłość
+
+    TLB ma ~64-1024 wpisów (mały, ale wystarczający)
+    99% trafień × 1 ns + 1% pudło × 400 ns = śr. ~5 ns
+    Bez TLB: zawsze 400 ns = 80x wolniej!
 
 **Page fault (brak strony)** — wyjątek sprzętowy gdy strona nie jest aktualnie w RAM. OS ładuje ją z dysku (swap). Nie jest „błędem" programisty — to normalna część zarządzania pamięcią wirtualną.
 
@@ -1585,23 +1957,120 @@ Mutex, Semaphore, Monitor, Condition Variable, Spinlock, Read-Write Lock, Barrie
 ---
 
 **Algorytmy wymiany stron (page replacement):**
-- **FIFO** — usuń najstarszą stronę. Prosty, ale anomalia Bélády'ego (więcej ramek → więcej page faults!).
-- **LRU (Least Recently Used)** — usuń najdawniej używaną. Dobry, ale kosztowna implementacja (trzeba śledzić czas użycia).
-- **Clock (Second Chance)** — przybliżenie LRU. Wskazówka zegara + bit odwołania. Jeśli bit=1, daj drugą szansę (zeruj i idź dalej). Jeśli bit=0, wymień.
-- **Optimal** — usuń stronę, która nie będzie potrzebna najdłużej. Idealny, ale nierealizowalny (wymaga znajomości przyszłości). Benchmark dla porównania.
+- **FIFO** — usuń najstarszą stronę (tę, która weszła do RAM jako pierwsza). Prosty, ale podatny na anomalię Bélády'ego.
+- **LRU (Least Recently Used)** — usuń najdawniej używaną. Dobry, ale kosztowna implementacja (trzeba śledzić czas użycia każdej strony).
+- **Clock (Second Chance)** — przybliżenie LRU. Wskazówka zegara + bit odwołania. Jeśli bit=1, daj drugą szansę (zeruj bit i idź dalej). Jeśli bit=0, wymień.
+- **Optimal** — usuń stronę, która nie będzie potrzebna najdłużej. Idealny, ale nierealizowalny (wymaga znajomości przyszłości). Benchmark do porównań.
+
+**Anomalia Bélády'ego** — paradoks specyficzny dla FIFO: zwiększenie liczby ramek (więcej pamięci!) może ZWIĘKSZYĆ liczbę page faults. Jest to kontraintuicyjne — więcej pamięci powinno pomóc, ale FIFO nie bierze pod uwagę tego, jak często strona jest używana.
+
+Klasyczny przykład (ciąg odwołań: 1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5):
+
+    3 ramki → 9 page faults:
+    Odw.: 1  2  3  4  1  2  5  1  2  3  4  5
+    R1:   1  1  1  4  4  4  5  5  5  5  5  5
+    R2:   -  2  2  2  1  1  1  1  1  3  3  3
+    R3:   -  -  3  3  3  2  2  2  2  2  4  4
+    Fault: F  F  F  F  F  F  F  -  -  F  F  -  = 9 faults
+
+    4 ramki → 10 page faults (WIĘCEJ!):
+    Odw.: 1  2  3  4  1  2  5  1  2  3  4  5
+    R1:   1  1  1  1  1  1  5  5  5  5  4  4
+    R2:   -  2  2  2  2  2  2  1  1  1  1  5
+    R3:   -  -  3  3  3  3  3  3  2  2  2  2
+    R4:   -  -  -  4  4  4  4  4  4  3  3  3
+    Fault: F  F  F  F  -  -  F  F  F  F  F  F  = 10 faults
+
+    3 ramki: 9 faults
+    4 ramki: 10 faults ← ANOMALIA! więcej pamięci = gorzej!
+
+**Dlaczego FIFO to powoduje?** FIFO wybiera ofiarę wyłącznie na podstawie czasu wejścia do RAM, ignorując czy strona jest wciąż potrzebna. Dodanie ramki zmienia kolejność wyrzucania tak nieszczęśliwie, że strony potrzebne w przyszłości są wyrzucane wcześniej niż przy mniejszej liczbie ramek.
+
+**LRU i Optimal NIE mają tej anomalii** — należą do tzw. algorytmów stosowych (stack algorithms): zbiór stron w pamięci przy n ramkach jest ZAWSZE podzbiorem stron przy n+1 ramkach. FIFO nie ma tej własności.
 
 ---
 
-**Segmentacja (segmentation)** — podział pamięci na segmenty logiczne o zmiennych rozmiarach (kod, dane, stos). Adres = (numer segmentu, offset). Każdy segment ma bazę i limit.
+**Segment logiczny (logical segment)** — fragment programu o spójnym, logicznym znaczeniu. Programista (i kompilator) myśli o programie jako o kilku częściach, z których każda ma inną rolę i inne reguły dostępu.
+
+**Typowe segmenty programu:**
+
+- **Segment kodu (TEXT / Code Segment)** — skompilowane instrukcje maszynowe programu. Read-only + Execute. Współdzielony między procesami uruchamiającymi ten sam program (po co trzymać 10 kopii tego samego kodu?).
+
+        int main() { return add(2, 3); }  // ← po kompilacji to segment TEXT
+        Rozmiar: zależy od programu (np. 50 KB prosty, 100+ MB gra)
+        Ochrona: R-X (czytaj + wykonuj, NIE pisz)
+
+- **Segment danych (DATA Segment)** — zainicjalizowane zmienne globalne i statyczne. Read + Write.
+
+        int counter = 42;          // ← DATA (zainicjalizowana)
+        static char name[] = "Jan"; // ← DATA
+        Ochrona: RW- (czytaj + pisz, NIE wykonuj)
+
+- **Segment BSS (Block Started by Symbol)** — niezainicjalizowane zmienne globalne. OS zeruje ten segment przy starcie. Nie zajmuje miejsca w pliku wykonywalnym (wiadomo, że będą same zera).
+
+        int table[10000];  // ← BSS, 40 KB, ale w pliku .exe: 0 bajtów
+        // OS alokuje 40 KB i zeruje przy starcie
+
+- **Segment stosu (Stack Segment)** — zmienne lokalne, adresy powrotu z funkcji, parametry. Rośnie w dół (od wysokich adresów). Każdy wątek ma własny stos.
+
+        void foo() {
+            int x = 5;    // ← na stosie
+            int arr[100];  // ← na stosie (400 bajtów)
+        }  // ← po powrocie z funkcji: zwolnione automatycznie
+        Typowy rozmiar: 1-8 MB per wątek
+
+- **Segment sterty (Heap Segment)** — pamięć alokowana dynamicznie (malloc/new). Rośnie w górę. Programista zarządza ręcznie (lub garbage collector).
+
+        int* p = malloc(1000);  // ← na stercie
+        free(p);                // ← ręczne zwolnienie
+
+Układ w pamięci:
+
+    Wysoki adres
+    ┌──────────┐
+    │  STOS ↓  │ zmienne lokalne, rośnie w dół
+    │    ...   │
+    │  HEAP ↑  │ malloc/new, rośnie w górę
+    │   BSS    │ niezainicjalizowane globalne (zerowane)
+    │   DATA   │ zainicjalizowane globalne
+    │   TEXT   │ kod maszynowy (read-only)
+    └──────────┘
+    Niski adres
+
+---
+
+**Segmentacja (segmentation)** — model zarządzania pamięcią, w którym przestrzeń adresowa procesu jest podzielona na segmenty logiczne o **zmiennych** rozmiarach. Każdy segment odpowiada jednej logicznej części programu (kod, dane, stos).
+
+**Adresowanie w segmentacji:** Adres = (numer segmentu, offset). CPU szuka wpisu w **tablicy segmentów** i sprawdza bazę + limit.
+
+**Baza (base)** — adres fizyczny początku segmentu w RAM. Mówi: „ten segment zaczyna się pod adresem fizycznym X".
+
+**Limit** — maksymalny offset (rozmiar segmentu). Mówi: „ten segment ma Y bajtów". Jeśli offset ≥ limit → wyjątek (Segmentation Fault) → próba wyjścia poza segment.
+
+    Tablica segmentów:
+    Segment   Baza      Limit     Ochrona
+    ──────────────────────────────────────
+    0 (TEXT)  0x4000    8 KB      R-X
+    1 (DATA)  0x6000    4 KB      RW-
+    2 (STOS)  0xA000    2 KB      RW-
+
+    Adres logiczny: (segment=1, offset=500)
+    Sprawdź: 500 < limit(4096)? TAK
+    Adres fizyczny: baza(0x6000) + offset(500) = 0x61F4
+
+    Adres logiczny: (segment=1, offset=5000)
+    Sprawdź: 5000 < limit(4096)? NIE → Segmentation Fault!
 
     Cecha              Stronicowanie         Segmentacja
     ─────────────────────────────────────────────────────
     Jednostka          strona (stały, 4KB)   segment (zmienny)
     Fragmentacja       wewnętrzna            zewnętrzna
     Widok programisty  niewidoczne           logiczne (kod, dane)
+    Adresowanie        (strona, offset)      (segment, offset)
+    Co definiuje rozmiar  sprzęt (4KB)       program (dowolny)
     Współczesne OS     dominuje (x86-64)     prawie zniknęła
 
-**Dlaczego stronicowanie wygrało?** Stałe rozmiary stron = brak fragmentacji zewnętrznej, prostsze zarządzanie, łatwiejsze w sprzęcie. Intel porzucił pełną segmentację w x86-64 (flat segments + paging).
+**Dlaczego stronicowanie wygrało?** Stałe rozmiary stron = brak fragmentacji zewnętrznej, prostsze zarządzanie, łatwiejsze w sprzęcie. Zmienne rozmiary segmentów powodują fragmentację zewnętrzną (trzeba kompaktować pamięć, co jest kosztowne). Intel porzucił pełną segmentację w x86-64 (flat segments + paging).
 
 **Swap** — przestrzeń na dysku używana gdy RAM się wyczerpie. OS przenosi rzadko używane strony na swap (swap out) i wczytuje je z powrotem gdy potrzebne (swap in). Wolne (dysk!), ale pozwala uruchamiać więcej niż RAM.
 
@@ -1720,6 +2189,28 @@ Mutex, Semaphore, Monitor, Condition Variable, Spinlock, Read-Write Lock, Barrie
 
 ---
 
+### Porównanie notacji — diagramy tego samego procesu
+
+Poniżej ten sam proces „Obsługa reklamacji" zamodelowany w 4 różnych notacjach. Wszystkie diagramy znajdują się w katalogu `pytania/img/`.
+
+**BPMN 2.0** — z poolem, lane'ami (BOK, Jakość, Magazyn), bramkami XOR, zdarzeniami start/end:
+
+![BPMN 2.0 — Obsługa reklamacji](img/bpmn_reklamacja.png)
+
+**UML Activity Diagram** — z węzłami decyzji, merge, initial/final nodes:
+
+![UML Activity Diagram — Obsługa reklamacji](img/uml_activity_reklamacja.png)
+
+**EPC (Event-driven Process Chain)** — naprzemienne zdarzenia (szare) i funkcje (białe), łączniki XOR:
+
+![EPC — Obsługa reklamacji](img/epc_reklamacja.png)
+
+**Schemat blokowy (Flowchart)** — prostokąty (procesy), romby (decyzje), równoległoboki (we/wy):
+
+![Flowchart — Obsługa reklamacji](img/flowchart_reklamacja.png)
+
+---
+
 ### Główne standardy
 
 ### BPMN 2.0 (Business Process Model and Notation) — OMG
@@ -1749,8 +2240,48 @@ Mutex, Semaphore, Monitor, Condition Variable, Spinlock, Read-Write Lock, Barrie
 | Komunikacja  | Pools + Message Flow| Partitions          |
 | Automatyzacja| Tak (BPMN 2.0 XML) | Ograniczona         |
 
-### Narzędzia
-Bizagi Modeler, Camunda, Signavio, Lucidchart, draw.io, Enterprise Architect
+### Narzędzia do modelowania procesów biznesowych
+
+**Bizagi Modeler** — darmowe narzędzie desktopowe (Windows) do modelowania BPMN 2.0. Intuicyjny interfejs drag-and-drop, walidacja poprawności diagramów, eksport do PDF/Word/PNG. Wersja płatna (Bizagi Automation Server) pozwala na automatyzację i wykonywanie procesów. Popularny w edukacji i małych firmach — zerowa bariera wejścia.
+
+**Camunda** — platforma open-source do automatyzacji procesów BPMN 2.0 i DMN (Decision Model and Notation). Składa się z:
+- **Camunda Modeler** — desktopowy edytor diagramów BPMN/DMN
+- **Camunda Engine** — silnik wykonawczy (Java) — interpretuje XML BPMN i realizuje proces krok po kroku
+- **Camunda Cockpit** — panel monitoringu uruchomionych instancji procesów
+Stosowany w bankach, ubezpieczeniach, e-commerce. Unikalna cecha: diagram BPMN = kod wykonywalny (nie tylko dokumentacja).
+
+**Signavio (SAP Signavio)** — chmurowe narzędzie do modelowania i analizy procesów. Przejęte przez SAP w 2021. Obsługuje BPMN 2.0, EPC, DMN. Wyróżnik: **Process Intelligence** — automatyczne odkrywanie procesów z logów systemów IT (process mining). Integracja z SAP ERP. Stosowane w dużych korporacjach.
+
+**ARIS (Software AG)** — zaawansowany framework i narzędzie do modelowania architektury przedsiębiorstwa. Bazuje na EPC, ale obsługuje też BPMN 2.0. Pięć widoków architektury (organizacja, dane, funkcje, procesy, produkty/usługi). Dominuje w środowiskach SAP. Główni odbiorcy: duże organizacje z rozbudowanymi strukturami.
+
+**Enterprise Architect (Sparx Systems)** — komercyjne narzędzie do modelowania UML, BPMN, ArchiMate, SysML i wielu innych notacji. Jednolite środowisko dla architektów IT i analityków. Silne wsparcie dla generowania kodu z modeli i inżynierii odwrotnej (reverse engineering). Stosowane głównie w projektach software'owych.
+
+**Lucidchart** — chmurowe narzędzie do tworzenia diagramów (BPMN, UML, flowcharty, ERD). Współpraca w czasie rzeczywistym (jak Google Docs). Prostsze niż Camunda/ARIS — raczej do dokumentacji i komunikacji niż automatyzacji. Integracje z Google Workspace, Atlassian, Microsoft.
+
+**draw.io (diagrams.net)** — w pełni darmowe narzędzie open-source do diagramów. Działa w przeglądarce lub jako aplikacja desktopowa. Obsługuje szablony BPMN, UML, flowcharty. Brak automatyzacji procesów — wyłącznie modelowanie wizualne. Popularny wśród indywidualnych użytkowników i małych zespołów.
+
+**jBPM (Red Hat)** — open-source silnik procesów BPMN 2.0 w ekosystemie Java/Red Hat. Podobny do Camundy — wykonuje procesy z diagramów BPMN. Część platformy Red Hat Process Automation Manager.
+
+**Microsoft Visio** — klasyczne narzędzie desktopowe Microsoftu do diagramów biznesowych. Obsługuje szablony BPMN, flowcharty, organigramy. Integracja z ekosystemem Microsoft 365. Brak silnika wykonawczego — tylko modelowanie.
+
+### Porównanie narzędzi
+
+| Narzędzie         | Typ              | Notacje          | Automatyzacja | Koszt         |
+|-------------------|------------------|------------------|---------------|---------------|
+| Bizagi Modeler    | Desktop          | BPMN 2.0         | Płatna wersja | Darmowy       |
+| Camunda           | Platforma        | BPMN, DMN        | Tak (silnik)  | Open-source   |
+| Signavio (SAP)    | Chmura           | BPMN, EPC, DMN   | Process mining| Komercyjny    |
+| ARIS              | Desktop/Chmura   | EPC, BPMN        | Symulacja     | Komercyjny    |
+| Enterprise Arch.  | Desktop          | UML, BPMN, inne  | Code-gen      | Komercyjny    |
+| Lucidchart        | Chmura           | BPMN, UML, inne  | Nie           | Freemium      |
+| draw.io           | Przeglądarka     | BPMN, UML, inne  | Nie           | Darmowy       |
+| jBPM              | Platforma        | BPMN 2.0         | Tak (silnik)  | Open-source   |
+| MS Visio          | Desktop          | BPMN, flowcharty | Nie           | Komercyjny    |
+
+**Podział funkcjonalny:**
+- **Tylko modelowanie (dokumentacja):** draw.io, Lucidchart, Visio, Bizagi (free)
+- **Modelowanie + automatyzacja (BPMS):** Camunda, jBPM, Bizagi (płatna), Signavio
+- **Modelowanie + architektura przedsiębiorstwa:** ARIS, Enterprise Architect
 
 ### Etymologia
 
@@ -1843,6 +2374,55 @@ Bizagi Modeler, Camunda, Signavio, Lucidchart, draw.io, Enterprise Architect
 ### 6. CPM/PERT — harmonogramowanie projektów, ścieżka krytyczna
 ### 7. MST (drzewo rozpinające) — połącz wszystkie węzły minimalnym kosztem (Kruskal, Prim)
 
+---
+
+![Sieciowe modele optymalizacji — schemat mnemoniczny](img/network_models_mnemonic.png)
+
+### MNEMONIK: „**Nasz Mały Mikołaj Przydzielił Trasy Ciężarówkom Mapując**" (NMMPTyCM)
+
+Wyobraź sobie firmę kurierską „Nasz Mały Mikołaj" — Mikołaj musi:
+
+| # | Litera | Model | Analogia Mikołaja | Pytanie, które rozwiązuje |
+|---|--------|-------|--------------------|--------------------------|
+| 1 | **N**asz | **N**ajkrótsza ścieżka | Mikołaj szuka najkrótszej drogi do domu Janka | „Jak dojechać NAJSZYBCIEJ z A do B?" |
+| 2 | **M**ały | **M**aksymalny przepływ | W rurkach do fabryki może płynąć max X czekolady/h | „Ile max mogę przesłać od źródła do ujścia?" |
+| 3 | **M**ikołaj | **M**inimalny koszt przepływu | Muszę wysłać 1000 paczek — NAJTANIEJ | „Jak przesłać X jednostek najtaniej?" |
+| 4 | **P**rzydzielił | **P**rzydział (assignment) | Przydziel 5 elfów do 5 stanowisk (każdy 1 zadanie) | „Kto robi co? (n:n, min koszt)" |
+| 5 | **T**rasy | **T**SP (komiwojażer) | Mikołaj musi odwiedzić WSZYSTKIE domy w jedną noc | „Objazd WSZYSTKICH punktów — najkrótsza trasa?" |
+| 6 | **C**iężarówkom | **C**PM/PERT | Harmonogram budowy nowej fabryki zabawek | „Ile MIN trwa projekt? Co jest krytyczne?" |
+| 7 | **M**apując | **M**ST (min spanning tree) | Połącz WSZYSTKIE wioski drogami za MIN koszt | „Jak połączyć WSZYSTKO najnajtaniej?" |
+
+**Wizualna historia do zapamiętania (wyobraź sobie sceny jak komiks):**
+
+    Scena 1  (N) — Mikołaj w GPS → najkrótsza ścieżka
+    Scena 2  (M) — Rury z czekoladą → max flow
+    Scena 3  (M) — Paczki z ceną → min cost flow
+    Scena 4  (P) — Tablica z elfami → assignment
+    Scena 5  (T) — Sanie oblatujące glob → TSP
+    Scena 6  (C) — Kalendarz budowy → CPM/PERT
+    Scena 7  (M) — Mapa z drogami → MST
+
+**Alternatywna pamięciówka — pytania (do szybkiego mappowania):**
+
+Dostałeś pytanie → które to pytanie → który model?
+1. „Jak dojechać z A do B?" → **Najkrótsza ścieżka** (Dijkstra)
+2. „Ile max przesłać?" → **Max flow** (Ford-Fulkerson)
+3. „Jak najtaniej przesłać X?" → **Min cost flow**
+4. „Kto robi co? (1:1)" → **Przydział** (węgierski)
+5. „Objazd wszystkiego" → **TSP** (heurystyki)
+6. „Ile trwa projekt?" → **CPM/PERT**
+7. „Połącz wszystko najtaniej" → **MST** (Kruskal/Prim)
+
+**Trik: 2 i 3 to warianty PRZEPŁYWU** (max flow vs min-cost flow). Pamiętaj: „PRZEPŁYW ma 2 wersje: max ilość vs min cena". Więc naprawdę musisz zapamiętać 6 UNIKALNYCH modeli + 1 wariant.
+
+**Trik: paruj modele w 3 pary + 1:**
+- DROGI: Najkrótsza ścieżka + MST (oba dotyczą krawędzi grafu)
+- PRZEPŁYW: Max flow + Min cost flow (oba o przepustowości)
+- ZARZĄDZANIE: Przydział + CPM/PERT (oba o organizacji pracy)
+- SAM: TSP (jedyny NP-trudny, „komiwojażer")
+
+---
+
 | Model               | Złożoność       | Zastosowanie              |
 |----------------------|-----------------|---------------------------|
 | Najkrótsza ścieżka  | O(E log V)      | Logistyka, routing        |
@@ -1858,8 +2438,11 @@ Bizagi Modeler, Camunda, Signavio, Lucidchart, draw.io, Enterprise Architect
 
 ### Jak zapamiętać
 
-- **6 modeli na grafach:** Ścieżka, Przepływ, Min-koszt-przepływ, Przydział, TSP, Harmonogram, MST
-- Wszystko sprowadza się do: „węzły + krawędzie + wagi → optymalizuj"
+- **Mnemonik: „Nasz Mały Mikołaj Przydzielił Trasy Ciężarówkom Mapując"**
+  - **N**ajkrótsza ścieżka, **M**ax flow, **M**in cost flow, **P**rzydział, **T**SP, **C**PM, **M**ST
+- **3 pary + 1:** DROGI (ścieżka+MST), PRZEPŁYW (max+min cost), ZARZĄDZANIE (przydział+CPM) + TSP sam
+- **6 modeli na grafach + 1 wariant:** Wszystko = „węzły + krawędzie + wagi → optymalizuj"
+- **Pytanie-klucz:** „Jak dojechać?"=ścieżka, „ile max?"=flow, „kto co?"=przydział, „objazd?"=TSP, „ile trwa?"=CPM, „połącz?"=MST
 
 \newpage
 
@@ -1921,6 +2504,32 @@ Zaleta: prosty, zrozumiały dla nie-architektów. Zaczynasz od „big picture" i
 **ATAM (Architecture Tradeoff Analysis Method)** — metoda oceny architektury przez scenariusze jakościowe. Identyfikuje tradeoffs: „ta decyzja poprawia wydajność kosztem modyfikowalności". Opracowana przez SEI (Carnegie Mellon).
 
 **Quality Attributes (atrybuty jakości, ISO 25010)** — mierzalne cechy systemu: Performance, Security, Scalability, Maintainability, Reliability, Usability, Portability, Compatibility. Architektura determinuje osiągalne atrybuty jakości.
+
+---
+
+### Diagramy — wizualizacja modeli architektonicznych
+
+Poniższe diagramy ilustrują kluczowe frameworki i modele omówione w pytaniu. Wszystkie modelują architekturę systemu, ale z różnych perspektyw i na różnych poziomach abstrakcji.
+
+**TOGAF ADM — cykl iteracyjny:**
+
+![TOGAF ADM — cykl Architecture Development Method](img/togaf_adm.png)
+
+**4+1 View Model (Kruchten) — 5 perspektyw:**
+
+![4+1 View Model — 4 widoki + Scenarios](img/4plus1_view_model.png)
+
+**C4 Model — 4 poziomy zoomu (Context → Container → Component → Code):**
+
+![C4 Model — 4 poziomy zoomu](img/c4_model.png)
+
+**Zachman Framework — taksonomia 6×6 (pytania × perspektywy):**
+
+![Zachman Framework — siatka taksonomii](img/zachman_framework.png)
+
+**ArchiMate — 3 warstwy × 3 aspekty:**
+
+![ArchiMate — warstwy i aspekty](img/archimate_layers.png)
 
 ---
 
@@ -2355,30 +2964,152 @@ Cykl: **Percepcja → Deliberacja → Akcja** (See-Think-Act)
 
 ---
 
-### Notacja Grahama: **α | β | γ**
+### Część 1 — Cechy klasyfikacji problemów szeregowania
 
-- **α** — środowisko maszynowe: 1 (jedna), Pm (m równoległych), F (flow shop), J (job shop)
-- **β** — charakterystyki zadań: rⱼ (release dates), dⱼ (due dates), pmtn (preemption), prec (precedencje)
-- **γ** — kryterium: Cmax (makespan), ΣCⱼ, Lmax, ΣTⱼ, ΣUⱼ
+Problemy szeregowania klasyfikuje się za pomocą **notacji Grahama α | β | γ** (trzy pola opisujące problem) oraz ortogonalnych cech dodatkowych.
 
-### Klasyczne reguły optymalne
+#### Notacja Grahama: **α | β | γ**
 
-| Reguła   | Problem      | Opis                          |
-|----------|-------------|-------------------------------|
-| **SPT**  | 1 \|\| ΣCⱼ   | Najkrótsze najpierw           |
-| **EDD**  | 1 \|\| Lmax  | Najwcześniejszy termin        |
-| **Johnson** | F2 \|\| Cmax | Optymalny dla 2-maszynowego flow shop |
+**α — środowisko maszynowe** (ile i jakie maszyny):
 
-### Przykład: 1 || ΣCⱼ z regułą SPT
+| Symbol | Nazwa | Opis |
+|--------|-------|------|
+| **1** | jedna maszyna | najprostsze problemy |
+| **Pm** | identyczne równoległe | m maszyn, ten sam czas pⱼ na każdej |
+| **Qm** | jednorodne (uniform) | maszyna i ma prędkość sᵢ; czas = pⱼ/sᵢ |
+| **Rm** | niespokrewnione (unrelated) | czas pᵢⱼ zależy od pary (zadanie, maszyna) |
+| **Fm** | flow shop | wszystkie zadania w tej samej kolejności maszyn |
+| **Jm** | job shop | każde zadanie ma indywidualną trasę |
+| **Om** | open shop | kolejność maszyn dowolna per zadanie |
 
-Zadania: J1(5), J2(3), J3(8), J4(2), J5(6)
-Posortowane SPT: J4(2), J2(3), J1(5), J5(6), J3(8)
-Czasy zakończenia: 2, 5, 10, 16, 24
-**ΣCⱼ = 57** (optymalne!)
+    Flow shop: każde zadanie → M1 → M2 → M3  (ta sama kolejność)
+    Job shop:  J1 → M2→M1→M3;  J2 → M1→M3→M2  (indywidualne trasy)
+    Open shop: dowolna permutacja maszyn per zadanie
 
-**Dowód:** zamiana sąsiednich i,j gdzie pᵢ > pⱼ zawsze zwiększa ΣC.
+**β — charakterystyki zadań** (ograniczenia i cechy):
 
-### Złożoność: Większość problemów **NP-trudna** (Job shop, Pm||Cmax dla m≥2)
+| Symbol | Nazwa | Znaczenie |
+|--------|-------|-----------|
+| **rⱼ** | release dates | zadanie j dostępne od czasu rⱼ |
+| **dⱼ** | due dates | termin ukończenia (soft — opóźnienie jest kosztem) |
+| **d̄ⱼ** | deadlines | termin bezwzględny (hard — musi być dotrzymany) |
+| **pmtn** | preemption | można przerwać i wznowić zadanie |
+| **prec** | precedencje | DAG zależności: A musi się skończyć przed B |
+| **pⱼ=1** | unit processing | wszystkie zadania mają czas = 1 |
+| **sⱼₖ** | setup times | czas przezbrojenia między zadaniami j i k |
+
+**γ — kryterium optymalizacji** (co minimalizujemy):
+
+| Kryterium | Wzór | Interpretacja |
+|-----------|------|---------------|
+| **Cmax** | max(Cⱼ) | makespan — czas ukończenia WSZYSTKIEGO |
+| **ΣCⱼ** | Σ Cⱼ | suma czasów ukończenia (~ średni czas) |
+| **ΣwⱼCⱼ** | Σ wⱼCⱼ | ważona suma (priorytety zadań) |
+| **Lmax** | max(Cⱼ - dⱼ) | maksymalne opóźnienie |
+| **ΣTⱼ** | Σ max(0, Cⱼ-dⱼ) | suma spóźnień |
+| **ΣUⱼ** | Σ 𝟙(Cⱼ>dⱼ) | liczba spóźnionych zadań |
+
+    Przykład zapisu: F2 || Cmax
+    Znaczenie: flow shop, 2 maszyny, brak ograniczeń na zadania, minimalizuj makespan
+
+#### Cechy dodatkowe (ortogonalne do α|β|γ)
+
+| Cecha | Warianty | Wpływ |
+|-------|----------|-------|
+| **Determinizm** | deterministyczne vs stochastyczne | czy czasy pⱼ są znane z góry czy losowe? |
+| **Dynamika** | statyczne vs dynamiczne | czy wszystkie zadania znane na starcie? |
+| **Wywłaszczanie** | preemptive vs non-preemptive | czy można przerwać zadanie? |
+| **Online/offline** | online vs offline | czy decyzje podejmowane bez wiedzy o przyszłości? |
+
+#### Złożoność obliczeniowa
+
+| Problem | Złożoność | Metoda rozwiązania |
+|---------|-----------|-------------------|
+| 1 \|\| ΣCⱼ | **O(n log n)** | SPT — sortowanie |
+| 1 \|\| Lmax | **O(n log n)** | EDD — sortowanie |
+| F2 \|\| Cmax | **O(n log n)** | Algorytm Johnsona |
+| Pm \|\| Cmax (m≥2) | **NP-trudny** | heurystyki (LPT), metaheurystyki |
+| Jm \|\| Cmax (m≥3) | **silnie NP-trudny** | branch & bound, GA, symulowane wyżarzanie |
+
+---
+
+### Część 2 — Przykładowa metoda: Algorytm Johnsona (F2 || Cmax)
+
+#### Problem
+
+Flow shop z **2 maszynami** (M1, M2), **n zadań**. Każde zadanie musi najpierw przejść przez M1 (czas aⱼ), potem M2 (czas bⱼ). Kolejność zadań na obu maszynach **taka sama** (permutacyjny flow shop). Cel: minimalizacja **Cmax** (makespanu).
+
+#### Algorytm (Selmer Johnson, 1954)
+
+1. Dla każdego zadania j wyznacz min(aⱼ, bⱼ).
+2. Jeśli minimum jest na M1 (aⱼ ≤ bⱼ) → zadanie na **POCZĄTEK** kolejki (od lewej).
+3. Jeśli minimum jest na M2 (bⱼ < aⱼ) → zadanie na **KONIEC** kolejki (od prawej).
+4. W obrębie grupy „na początek" — rosnąco wg aⱼ; „na koniec" — malejąco wg bⱼ.
+
+#### Przykład liczbowy
+
+5 zadań z czasami:
+
+    Zadanie:  J1   J2   J3   J4   J5
+    M1 (aⱼ):  4    2    6    1    3
+    M2 (bⱼ):  5    3    2    7    4
+
+**Krok 1 — Znajdź minima i przydziel:**
+
+    J1: min(4,5) = 4 na M1 → POCZĄTEK
+    J2: min(2,3) = 2 na M1 → POCZĄTEK
+    J3: min(6,2) = 2 na M2 → KONIEC
+    J4: min(1,7) = 1 na M1 → POCZĄTEK
+    J5: min(3,4) = 3 na M1 → POCZĄTEK
+
+**Krok 2 — Posortuj w grupach:**
+
+    POCZĄTEK (rosnąco wg aⱼ): J4(1), J2(2), J5(3), J1(4)
+    KONIEC (malejąco wg bⱼ):  J3(2)
+
+**Optymalna kolejność: J4 → J2 → J5 → J1 → J3**
+
+**Krok 3 — Oblicz czasy (diagram Gantta):**
+
+    M1: |J4:1|J2:2 |J5:3  |J1:4   |J3:6       |
+    t:  0   1    3     6      10       16
+
+    M2:      |J4:7      |J2:3|J5:4   |J1:5      |J3:2|
+    t:  0   1          8   11     15       20   22
+
+    Szczegółowe obliczenie:
+    J4: M1=[0,1],   M2=[1,8]     (start M2 = max(1, 0) = 1)
+    J2: M1=[1,3],   M2=[8,11]    (start M2 = max(3, 8) = 8)
+    J5: M1=[3,6],   M2=[11,15]   (start M2 = max(6, 11) = 11)
+    J1: M1=[6,10],  M2=[15,20]   (start M2 = max(10, 15) = 15)
+    J3: M1=[10,16], M2=[20,22]   (start M2 = max(16, 20) = 20)
+
+    Cmax = 22
+
+**Dlaczego optymalny?** Johnson udowodnił (1954), że zamiana dowolnych dwóch sąsiednich zadań w tej kolejności nie zmniejszy Cmax. Algorytm minimalizuje „idle time" na M2 — krótkie zadania na M1 na początku szybko „karmią" M2, a krótkie na M2 na końcu kończą się szybko po M1.
+
+#### Klasyczne reguły optymalne (inne metody)
+
+| Reguła | Problem | Opis | Złożoność |
+|--------|---------|------|-----------|
+| **SPT** | 1 \|\| ΣCⱼ | najkrótsze najpierw | O(n log n) |
+| **WSPT** | 1 \|\| ΣwⱼCⱼ | sortuj wg pⱼ/wⱼ rosnąco | O(n log n) |
+| **EDD** | 1 \|\| Lmax | najwcześniejszy termin | O(n log n) |
+| **Johnson** | F2 \|\| Cmax | algorytm powyżej | O(n log n) |
+
+#### Przykład SPT: 1 || ΣCⱼ
+
+    Zadania: J1(5), J2(3), J3(8), J4(2), J5(6)
+    SPT → J4(2), J2(3), J1(5), J5(6), J3(8)
+    Czasy ukończenia:  2,  5,  10,  16,  24
+    ΣCⱼ = 2+5+10+16+24 = 57  ← OPTYMALNE
+
+    Gdyby LPT (odwrotnie): J3(8), J5(6), J1(5), J2(3), J4(2)
+    Czasy ukończenia:         8,  14,  19,  22,  24
+    ΣCⱼ = 8+14+19+22+24 = 87  ← 53% gorsze!
+
+    Dowód optymalności SPT: zamiana sąsiednich i,j gdzie pᵢ > pⱼ
+    zwiększa ΣCⱼ o (n-k)(pᵢ - pⱼ) > 0. Więc SPT = minimum.
 
 ### Etymologia
 
@@ -2721,33 +3452,146 @@ Wady: debugging trudniejsze, ordering challenges, broker = SPOF.
 
 ---
 
-### Charakterystyka strumieni
-- Nieograniczone (unbounded), ciągłe, niska latencja wymagana
-- Event Time vs Processing Time — mogą się różnić, out-of-order
+### Rozwiązania analityczne — przegląd
 
-### Okna czasowe (Windowing)
+Rozwiązanie analityczne na strumieniu = odpowiedź na pytanie biznesowe w czasie rzeczywistym, gdy dane przychodzą ciągle i nie można ich wszystkich zapamiętać. Trzy filary: **windowing** (jak grupować), **platformy** (gdzie przetwarzać), **algorytmy probabilistyczne** (jak liczyć w O(1) pamięci).
 
-1. **Tumbling** — rozłączne, stały rozmiar
-2. **Sliding** — nakładające się (size + slide)
-3. **Session** — oparte na aktywności (gap between events)
-4. **Global** — jedno okno, trigger decyduje emisję
+---
 
-### Platformy
+### Rozwiązanie 1 — Analityka okienna (Windowing)
 
-| Cecha          | Kafka Streams      | Flink            | Spark Streaming  |
-|----------------|--------------------|------------------|------------------|
-| Model          | True streaming     | True streaming   | Micro-batch      |
-| Deployment     | Library            | Cluster          | Cluster          |
-| Latency        | Niska              | Bardzo niska     | Średnia (~100ms) |
-| Exactly-once   | Tak                | Tak              | Tak              |
+Problem: strumień jest nieskończony, a analiza wymaga skończonej porcji danych. Okno wyodrębnia fragment strumienia do obliczenia agregatu (count, sum, avg, max).
 
-### Algorytmy strumieniowe
+**4 typy okien:**
 
-- **HyperLogLog** — zliczanie unikalnych, O(1) space, ~2% error
-- **Count-Min Sketch** — estymacja częstości, overestimates
-- **Reservoir Sampling** — równomierne próbkowanie k z n nieznanego
+| Okno | Rozmiar | Nakładanie | Kiedy użyć |
+|------|---------|------------|------------|
+| **Tumbling** | stały | rozłączne | raporty okresowe: „kliknięcia co 5 min" |
+| **Sliding** | stały + krok | nakładające | średnie kroczące: „avg(10 min) co 1 min" |
+| **Session** | dynamiczny (gap) | rozłączne per klucz | sesje użytkowników: „aktywność do 30 min przerwy" |
+| **Global** | cały strumień | — | trigger-based: „emituj po N zdarzeniach" |
 
-### Obsługa opóźnień: Watermarks + late data strategies (drop, recompute, side output, allowed lateness)
+**Przykład — Tumbling window (fraud detection):**
+
+    Strumień transakcji bankowych, okno = 1 minuta:
+    [14:00–14:01] → 3 transakcje z karty X → OK
+    [14:01–14:02] → 47 transakcji z karty X → ALERT! (>10 = podejrzane)
+
+**Przykład — Sliding window (monitoring SLA):**
+
+    Okno = 5 min, krok = 1 min (nakładanie):
+    t=14:05 → avg latency [14:00–14:05] = 120ms ✓
+    t=14:06 → avg latency [14:01–14:06] = 340ms ✗ → alert
+
+**Event Time vs Processing Time:**
+- Okna na **event time** = poprawne biznesowo (kiedy zdarzenie faktycznie nastąpiło)
+- Okna na **processing time** = prostsze, ale podatne na out-of-order delivery
+- **Watermark** rozwiązuje problem: „z prawdopodobieństwem ~100% nie przyjdą zdarzenia z event time < W"
+
+---
+
+### Rozwiązanie 2 — Platformy przetwarzania strumieniowego
+
+| Cecha | Kafka Streams | Apache Flink | Spark Streaming |
+|-------|---------------|--------------|-----------------|
+| **Model** | event-by-event | event-by-event | micro-batch (~100ms) |
+| **Deployment** | library (w JVM) | klaster | klaster |
+| **Latencja** | ~1–10 ms | < 10 ms | 100 ms – sekundy |
+| **Exactly-once** | tak (Kafka TXN) | tak (checkpointing) | tak (WAL) |
+| **State management** | RocksDB local | RocksDB + checkpoints | in-memory/external |
+| **Okna** | tumbling, sliding, session | wszystkie + custom | tumbling, sliding |
+| **Use case** | transformacja Kafka → Kafka | złożona analityka real-time | ETL z ekosystemem Spark |
+
+**True streaming vs Micro-batch — co wybrać?**
+
+    True streaming (Flink, Kafka Streams):
+      Latencja:  < 10 ms    ← trade fraud, click tracking
+      Semantyka: event-by-event
+      Złożoność: wyższa (watermarks, state, exactly-once)
+
+    Micro-batch (Spark Streaming):
+      Latencja:  ~100 ms – sekundy
+      Semantyka: mini-batch (prostsza, batch-like API)
+      Ekosystem: Spark SQL, MLlib → łatwa integracja z ML
+
+**Architektura Lambda vs Kappa:**
+
+    Lambda: [batch layer (Spark)] + [speed layer (Flink)] → merge
+            Dwa systemy, dwa kody — skomplikowane ale pewne
+
+    Kappa:  [streaming only (Flink/Kafka)] → replay z Kafka
+            Jeden system — prostsze, ale replay = I/O koszt
+
+---
+
+### Rozwiązanie 3 — Algorytmy probabilistyczne (Sketches)
+
+Problem: na strumieniu nie zmieścisz WSZYSTKICH danych w pamięci. Algorytmy probabilistyczne dają przybliżone odpowiedzi w **O(1) pamięci** z gwarantowanym błędem.
+
+| Algorytm | Pytanie | Pamięć | Błąd | Przykład |
+|----------|---------|--------|------|----------|
+| **HyperLogLog** | „Ile unikalnych?" | ~1.5 KB | ~2% | unique visitors na stronie |
+| **Count-Min Sketch** | „Ile razy element X?" | d×w counters | ε·N (overestimate) | częstość IP w logach |
+| **Bloom Filter** | „Czy element X był?" | m bitów | false positives, 0 false neg | cache: „czy URL widziany?" |
+| **Reservoir Sampling** | „Losowa próbka k z n?" | O(k) | dokładna (nie przybliżona) | próbka logów do debugowania |
+| **T-Digest** | „Jaki percentyl?" | O(δ) | <1% na ogonach | p99 latency monitorowanie |
+
+**Dlaczego HyperLogLog zużywa O(1)?**
+
+    Idea: hashuj każdy element, licz pozycję pierwszego bitu 1.
+    Jeśli widzisz dużo zer na początku → prawdopodobnie dużo unikalnych.
+
+    100 mln unikalnych URL-i:
+    - HashSet: ~800 MB pamięci (8 bajtów × 10⁸)
+    - HyperLogLog: 1.5 KB pamięci, odpowiedź ~100 mln ± 2%
+    - Oszczędność: 500 000× mniej pamięci!
+
+**Count-Min Sketch — jak działa:**
+
+    Macierz d wierszy × w kolumn (np. 5 × 2048), d funkcji hashowych.
+    Insert("X"): dla każdego hash h_i, zwiększ cell[i][h_i("X")]++
+    Query("X"):  min over i of cell[i][h_i("X")]
+    Gwarancja: nigdy nie ZANIŻY (overestimate, no underestimate)
+
+---
+
+### Rozwiązanie 4 — Obsługa opóźnień i spójność
+
+**Problem late data:** zdarzenie z event time 14:00:01 przychodzi o 14:00:30, gdy okno [14:00–14:05] już zamknięte.
+
+| Strategia | Opis | Trade-off |
+|-----------|------|-----------|
+| **Drop** | odrzuć spóźnione | proste, ale utrata danych |
+| **Allowed lateness** | czekaj dodatkowy czas (np. +5 min) | wyższe zużycie pamięci |
+| **Recompute** | przelicz okno z nowym zdarzeniem | poprawne ale kosztowne |
+| **Side output** | przekieruj late events do osobnego strumienia | elastyczne, ręczna analiza |
+
+**Exactly-once semantics** — gwarancja, że każde zdarzenie wpływa na wynik dokładnie raz, mimo awarii:
+- **At-most-once** — mogą zginąć (szybkie, proste)
+- **At-least-once** — mogą się zduplikować (retry)
+- **Exactly-once** — żadnych duplikatów ani strat (checkpoint + transakcje, kosztowne)
+
+    Flink: distributed snapshots (algorytm Chandy-Lamport) → checkpoint co N ms
+    Kafka Streams: transakcje Kafka (idempotent producer + TX coordinator)
+    Spark: WAL (Write-Ahead Log) + idempotent sinks
+
+---
+
+### Rozwiązanie 5 — CEP (Complex Event Processing)
+
+Wykrywanie złożonych wzorców w strumieniach zdarzeń. Reguły definiowane deklaratywnie.
+
+    Pattern: "Jeśli 3 nieudane logowania z tego samego IP w ciągu 5 minut,
+             a potem udane logowanie z INNEGO IP → alert: konto przejęte"
+
+    Flink CEP:
+    Pattern.<LoginEvent>begin("fails")
+        .where(event -> !event.isSuccess())
+        .times(3).within(Time.minutes(5))
+        .next("success")
+        .where(event -> event.isSuccess())
+
+Zastosowania: fraud detection, cybersecurity, monitoring IoT, trading algorytmiczny.
 
 ### Etymologia
 
@@ -2768,6 +3612,45 @@ Wady: debugging trudniejsze, ordering challenges, broker = SPOF.
 ---
 
 ### Tło pojęciowe — słowniczek
+
+**Zegar (clock)** — urządzenie (lub mechanizm) mierzące upływ czasu. W informatyce rozróżniamy:
+- **Zegar fizyczny (physical clock)** — kwarc, zegar atomowy, `System.currentTimeMillis()`. Mierzy czas rzeczywisty (sekundy), ale w systemie rozproszonym każdy węzeł ma WŁASNY zegar fizyczny i driftują (rozbieżność ~10–100 μs/s). Nie można na nich polegać do ustalenia kolejności zdarzeń.
+- **Zegar logiczny (logical clock)** — abstrakcyjny licznik, który NIE mierzy czasu fizycznego, lecz **porządek zdarzeń** (co było wcześniej, co później). Nie odpowiada na „która godzina?", lecz na „czy A było przed B?".
+
+    Zegar fizyczny:  "14:00:01.003"  → mówi KIEDY (ale niedokładnie!)
+    Zegar logiczny:  "7"             → mówi CO KTÓRY RAZ (porządek)
+
+**Zegar logiczny (logical clock)** — mechanizm przypisujący zdarzeniom wartości (stemple) tak, aby zachować porządek przyczynowy. Dwa warianty:
+- **Zegar Lamporta** — każdy proces trzyma jeden licznik (skalar). Gwarantuje: a→b ⟹ C(a)<C(b). Ale NIE odwrotnie — nie wykrywa współbieżności.
+- **Zegar wektorowy** — każdy z N procesów trzyma wektor N liczników. Gwarantuje: a→b **⟺** V(a)<V(b). Pełna informacja o porządku.
+
+---
+
+**Stempel czasowy (timestamp)** — wartość przypisana zdarzeniu przez zegar. W kontekście zegarów logicznych to NIE czas w sekundach, lecz wartość logiczna (liczba lub wektor liczb):
+
+    Stempel fizyczny:  "2026-02-14T14:00:01.003Z"    (data/godzina)
+    Stempel Lamporta:  7                               (jeden int)
+    Stempel wektorowy: [3, 1, 5]                       (wektor intów)
+
+**Wektor (vector)** — uporządkowana lista N liczb, po jednej per proces w systemie. W kontekście zegarów: V[i] oznacza „ile zdarzeń procesu i jest mi znanych".
+
+    System z 3 procesami (P1, P2, P3):
+    Wektor P1 = [3, 1, 0]
+    Znaczenie: P1 wie o 3 swoich zdarzeniach, 1 zdarzeniu P2, 0 zdarzeniach P3
+
+**Wektor stempli czasowych (vector timestamp / vector clock)** — stempel czasowy będący wektorem N wartości. Każde zdarzenie dostaje taki wektor. Porównując dwa wektory, możemy ustalić:
+- **V(a) < V(b)** — każdy element V(a) ≤ odpowiedni V(b), i przynajmniej jeden <. Oznacza: **a → b** (a przyczynowo przed b).
+- **V(a) || V(b)** — ani V(a)≤V(b), ani V(b)≤V(a). Oznacza: **współbieżne** (brak związku przyczynowego).
+
+    Zdarzenie A: V(A) = [2, 0]
+    Zdarzenie B: V(B) = [0, 1]
+    Porównanie: 2>0 ale 0<1 → nieporównywalne → A || B (współbieżne!)
+
+    Zdarzenie C: V(C) = [2, 1]
+    Zdarzenie D: V(D) = [3, 2]
+    Porównanie: 2≤3 i 1≤2, przynajmniej jeden < → V(C) < V(D) → C → D
+
+---
 
 **System rozproszony (distributed system)** — system, w którym wiele komputerów (węzłów) współpracuje przez sieć, ale nie współdzielą pamięci ani zegara. Przykłady: Cassandra, Dynamo, blockchain. Fundamentalny problem: jak ustalić kolejność zdarzeń, skoro nie ma wspólnego zegara?
 
@@ -2796,28 +3679,119 @@ Wady: debugging trudniejsze, ordering challenges, broker = SPOF.
 2. Przy wysyłaniu: dołącz timestamp C_i
 3. Przy odbieraniu (timestamp t): C_i = max(C_i, t) + 1
 
-Właściwość: a → b ⟹ C(a) < C(b) (TAK). Ale: C(a) < C(b) **NIE** implikuje a → b! Nie wykrywa współbieżności.
+**Co oznacza C_i?** C to nazwa „zegar" (Clock), a _i to indeks procesu. C_i to po prostu **lokalny licznik (integer) procesu i-tego**. Każdy proces P_i ma swój własny licznik C_i, startujący od 0. C(a) oznacza „wartość zegara Lamporta przypisana zdarzeniu a". Nie jest to czas w sekundach — to rosnąca liczba porządkowa.
 
-    P1: [A:1]──msg──→[C:2]                P1 events: A(1), C(2)
-    P2:          [B:1]──────[D:3]          P2 events: B(1), D(3)
-    C(A)=1, C(B)=1 → Lamport nie wie czy A||B czy A→B!
+    Proces P₁ ma zegar C₁ (startuje od 0)
+    Proces P₂ ma zegar C₂ (startuje od 0)
+    Zdarzenie a w procesie P₁ → C₁++ → C(a) = wartość C₁ w momencie zdarzenia a
+    Zdarzenie b w procesie P₂ → C₂++ → C(b) = wartość C₂ w momencie zdarzenia b
+
+**Krok po kroku — pełny przykład z 2 procesami:**
+
+    Czas → → → → → → → → → → → → → → → → → →
+    P₁:  C₁=0  [A: C₁=1] ─── wysyła msg(ts=1) ──→  [C: C₁=max(1,?)=1, C₁++=2]
+                                                 ↗
+    P₂:  C₂=0       [B: C₂=1] ──── [D: odbiera msg(ts=1), C₂=max(1,1)+1=2]
+
+    Krok 1: P₁ robi zdarzenie A → C₁++ → C₁=1, więc C(A)=1
+    Krok 2: P₂ robi zdarzenie B → C₂++ → C₂=1, więc C(B)=1
+    Krok 3: P₁ wysyła msg do P₂, dołącza ts=C₁=1
+    Krok 4: P₂ odbiera msg → C₂ = max(C₂=1, ts=1) + 1 = 2 → C(D)=2
+
+    Wyniki: C(A)=1, C(B)=1, C(C)=2, C(D)=2
+
+**Właściwość:**
+
+a → b ⟹ C(a) < C(b) — **TAK**. Ale: C(a) < C(b) **NIE** implikuje a → b! Nie wykrywa współbieżności.
+
+**DLACZEGO a → b ⟹ C(a) < C(b) (implikacja w przód DZIAŁA)?**
+
+Dowód jest prosty — wynika wprost z algorytmu:
+- Jeśli a i b są w TYM SAMYM procesie i a jest przed b → między a i b był co najmniej jeden C_i++ → C(a) < C(b). ✓
+- Jeśli a = wysłanie msg i b = odbiór → C(b) = max(C_j, C(a)) + 1 ≥ C(a) + 1 > C(a). ✓
+- Przechodniość: a→b→c ⟹ C(a) < C(b) < C(c). ✓
+
+Innymi słowy: algorytm jest ZAPROJEKTOWANY tak, żeby każda kolejność przyczynowa była odzwierciedlona w wartościach zegarów.
+
+**DLACZEGO C(a) < C(b) NIE implikuje a → b (implikacja w TYŁ NIE DZIAŁA)?**
+
+Ponieważ Lamport to JEDEN licznik per proces — nie wie, co robią inne procesy. Dwa niezależne procesy mogą mieć te same wartości zegarów:
+
+    P₁:  [A: C₁=1]     (P₁ zrobił swoje pierwsze zdarzenie)
+    P₂:  [B: C₂=1]     (P₂ zrobił swoje pierwsze zdarzenie, niezależnie!)
+
+    C(A)=1, C(B)=1 → C(A) = C(B)
+    Ale nawet gdyby C(A)=1, C(B)=2, to nadal NIE WIEMY czy A→B!
+    Bo B MOGŁO dostać C₂=2 z własnych wewnętrznych zdarzeń, niezwiązanych z A.
+
+    Lamport widzi: C(A)=1, C(B)=1 → nie wie czy A||B, A→B, czy B→A
+    → BRAK INFORMACJI o współbieżności — stracona!
 
 ---
 
-**Zegar wektorowy (vector clock)** — każdy z N procesów utrzymuje wektor V[1..N]. V_i[j] = „ile zdarzeń procesu j jest mi znanych". Algorytm:
-1. Przed własnym zdarzeniem: V_i[i]++
-2. Przy wysyłaniu: dołącz cały wektor V_i
-3. Przy odbieraniu (wektor T): V_i[j] = max(V_i[j], T[j]) ∀j, potem V_i[i]++
+**Zegar wektorowy (vector clock)** — każdy z N procesów utrzymuje wektor V[1..N]. Co to znaczy? Wyobraź sobie, że każdy proces ma **tablicę z N komórkami** — jedną per proces w systemie. V_i[j] = „ile zdarzeń procesu j jest mi (procesowi i) znanych".
 
-Właściwość: a → b **⟺** V(a) < V(b). Pełna charakteryzacja! Wykrywa współbieżność.
+**V_i** = wektor procesu i. **V_i[j]** = komórka j-ta w tym wektorze = „ile wiem o procesie j".
 
-    V(a) < V(b) ⟺ ∀i: V(a)[i] ≤ V(b)[i] i ∃j: V(a)[j] < V(b)[j]
+Algorytm (3 proste reguły):
+1. **Własne zdarzenie:** V_i[i]++ — „zrobiłem coś, więc mój własny licznik rośnie"
+2. **Wysyłanie msg:** dołącz CAŁY wektor V_i do wiadomości — „wysyłam swoją wiedzę o świecie"
+3. **Odbieranie msg (wektor T):** V_i[j] = max(V_i[j], T[j]) dla KAŻDEGO j, potem V_i[i]++ — „aktualizuję swoją wiedzę na podstawie tego, co wie nadawca, a potem notuję, że sam coś zrobiłem (odbiór)"
+
+![Zegary wektorowe — przykład z 3 procesami](img/vector_clock_timeline.png)
+
+**Krok po kroku — pełna symulacja z 3 procesami (P₁, P₂, P₃):**
+
+    Początek: V₁=[0,0,0], V₂=[0,0,0], V₃=[0,0,0]
+
+    Krok 1: P₁ robi zdarzenie A
+            V₁[1]++ → V₁=[1,0,0] → V(A) = [1,0,0]
+            „P₁ wie o 1 swoim zdarzeniu, o P₂ i P₃ nic nie wie"
+
+    Krok 2: P₂ robi zdarzenie B
+            V₂[2]++ → V₂=[0,1,0] → V(B) = [0,1,0]
+            „P₂ wie o 1 swoim zdarzeniu, o P₁ i P₃ nic nie wie"
+
+    Krok 3: P₁ wysyła msg do P₂ (dołącza V₁=[1,0,0])
+            P₂ odbiera: V₂ = max([0,1,0], [1,0,0]) = [1,1,0], potem V₂[2]++ = [1,2,0]
+            Zdarzenie C (odbiór) → V(C) = [1,2,0]
+            „P₂ teraz wie o 1 zdarzeniu P₁ (z msg), 2 swoich zdarzeniach, 0 o P₃"
+
+    Krok 4: P₃ robi zdarzenie D
+            V₃[3]++ → V₃=[0,0,1] → V(D) = [0,0,1]
+
+**Teraz porównajmy — kto jest przed kim?**
+
+    V(A)=[1,0,0] vs V(B)=[0,1,0]:
+      Pozycja 1: 1 > 0 (A wygrywa)
+      Pozycja 2: 0 < 1 (B wygrywa)
+      → NIEPORÓWNYWALNE → A || B  (współbieżne!) ✓ (bo A i B były niezależne)
+
+    V(A)=[1,0,0] vs V(C)=[1,2,0]:
+      Pozycja 1: 1 ≤ 1 ✓
+      Pozycja 2: 0 ≤ 2 ✓
+      Przynajmniej jeden <: pozycja 2 → V(A) < V(C) → A → C ✓
+      (bo C to odbiór msg od P₁, więc A przyczynowo wpłynęło na C)
+
+    V(D)=[0,0,1] vs V(C)=[1,2,0]:
+      Pozycja 1: 0 < 1 (C wygrywa), ale pozycja 3: 1 > 0 (D wygrywa)
+      → NIEPORÓWNYWALNE → C || D ✓ (P₃ nie komunikował się z P₁/P₂)
+
+**Formalne zasady porównywania wektorów:**
+
+    V(a) < V(b) ⟺ ∀i: V(a)[i] ≤ V(b)[i]  AND  ∃j: V(a)[j] < V(b)[j]
+    → Oznacza: a → b (a przyczynowo przed b)
+
     V(a) || V(b) ⟺ ¬(V(a) ≤ V(b)) ∧ ¬(V(b) ≤ V(a))
+    → Oznacza: współbieżne (żaden nie „wie" wystarczająco o drugim)
 
-    Przykład (2 procesy):
-    P1: A=[1,0] → wysyła msg → C=[2,1]
-    P2: B=[0,1] → odbiera msg → D=[2,2]
-    A||B? V(A)=[1,0], V(B)=[0,1] → 1>0 ale 0<1 → TAK, współbieżne!
+**DLACZEGO V(a) < V(b) ⟺ a → b (równoważność DZIAŁA w obie strony)?**
+
+Wektor niesie PEŁNĄ WIEDZĘ procesu o stanie systemu. Jeśli V(b) „wie" o wszystkim, co wie V(a), plus coś więcej — to znaczy, że informacja z a DOTARŁA do b (bezpośrednio lub pośrednio przez łańcuch wiadomości). Odwrotny kierunek: jeśli informacja z a NIE dotarła do b, to V(b) NIE będzie „wiedzieć" o a, więc będzie element, w którym V(b) < V(a) → wektory nieporównywalne → współbieżne.
+
+Innymi słowy: wektor to „historia przyczynowa" — koduje WSZYSTKO, co dany proces widział. Dlatego porównanie wektorów daje PEŁNĄ informację o relacji między zdarzeniami.
+
+Lamport tego nie potrafi, bo JEDNA liczba nie może zakodować N niezależnych historii.
 
 ---
 
@@ -2830,7 +3804,32 @@ Właściwość: a → b **⟺** V(a) < V(b). Pełna charakteryzacja! Wykrywa wsp
     C(a)<C(b) ⟹ a→b       NIE            TAK
     Wykrywa współbieżność  NIE            TAK
 
-**Dlaczego O(N) to problem?** W systemie z 1000 węzłów każda wiadomość niesie wektor 1000 liczb. Dla milionów wiadomości = duży overhead. W praktyce: version vectors (kompresja), Dynamo używa wektorów wersji.
+**Dlaczego Lamport NIE wykrywa współbieżności?**
+
+Lamport kompresuje CAŁĄ historię do jednej liczby. To jak „kolejka w sklepie" — masz numerek 7, ktoś inny ma 8, ale nie wiesz, czy on przyszedł PO tobie, czy z innego wejścia (niezależnie). Jedna liczba nie koduje ŹRÓDŁA zdarzenia, tylko pewien porządek, który może być przypadkowy.
+
+    P₁: A(C=1), B(C=2)     ← wewnętrzne zdarzenia P₁
+    P₂: C(C=1), D(C=2)     ← wewnętrzne zdarzenia P₂ (niezależne od P₁!)
+
+    Lamport widzi: C(A)=1 < C(D)=2 → „A przed D?"
+    Ale NIE! A i D są WSPÓŁBIEŻNE — procesy działały niezależnie.
+    Lamport zgubił tę informację, bo 1 < 2 nie implikuje związku przyczynowego.
+
+**Dlaczego Vector Clock WSZYSTKO wykrywa?**
+
+Vector przechowuje N liczb — osobną dla KAŻDEGO procesu. To jak „notatnik, w którym zapisujesz historię KAŻDEGO kolegi":
+
+    V(A)=[1,0] → „wiem o 1 zdarzeniu P₁, 0 zdarzeniach P₂"
+    V(D)=[0,2] → „wiem o 0 zdarzeniach P₁, 2 zdarzeniach P₂"
+
+    Porównanie: pozycja 1 → 1>0 (A „wie więcej" o P₁)
+                pozycja 2 → 0<2 (D „wie więcej" o P₂)
+    → NIEPORÓWNYWALNE → A || D → WSPÓŁBIEŻNE! ✓
+
+    Gdyby A wpłynęło na D (przez msg), to D wiedziałoby o zdarzeniach P₁
+    → V(D)[1] ≥ 1 → ale V(D)[1]=0 → A NIE wpłynęło na D → współbieżne.
+
+**Analogia: Lamport = jednokanałowe radio (słyszysz dźwięk, ale nie wiesz skąd). Vector = system GPS z N satelitami (dokładna pozycja przyczynowa w N-wymiarowej przestrzeni).**
 
 ---
 
@@ -2897,6 +3896,50 @@ Porównanie: V ≤ W ⟺ ∀i: V[i] ≤ W[i]; V || W gdy ¬(V≤W) ∧ ¬(W≤V)
 
 ### Tło pojęciowe — słowniczek
 
+**Model (w informatyce)** — uproszczony, formalny opis zachowania systemu. Model definiuje REGUŁY: co system gwarantuje, a czego nie. Jak umowa/kontrakt — mówi programiście „na to możesz liczyć". W kontekście spójności: model opisuje jakie wyniki odczytów są dopuszczalne po zapisie.
+
+    Model = kontrakt:
+    "Jeśli zapiszesz x=5, to odczyt zwróci..."
+    ...5 natychmiast?  (silny model)
+    ...5 kiedyś?       (słaby model)
+    ...3 albo 5?       (bardzo słaby model)
+
+**Model spójności (consistency model)** — kontrakt między systemem rozproszonym a programistą, definiujący jakie GWARANCJE daje system dotyczące kolejności i widoczności operacji na danych. Każdy model odpowiada na pytanie: „Gdy węzeł A zapisze x=5, co i kiedy zobaczy węzeł B?"
+
+Modele tworzą **spektrum** od silnych do słabych:
+
+    Silne ←───────────────────────────────→ Słabe
+    Linearizability → Sequential → Causal → Eventual
+
+**Silny model spójności (strong consistency)** — system zachowuje się tak, jakby istniała JEDNA kopia danych. Każdy odczyt po zapisie zwraca najnowszą wartość. Gwarancja: programista nie musi myśleć o replikacji. Cena: wysoka latencja (węzły muszą się komunikować/uzgadniać przed odpowiedzią), niska dostępność przy partycjach sieciowych.
+
+    Silny model:
+    Klient A pisze x=5  →  [consensus: 3 węzły potwierdzają]  → OK
+    Klient B czyta x    →  GWARANTOWANE: x=5 (natychmiast!)
+    Koszt: ~10-100ms latencji na zapis (czeka na consensus)
+
+**Słaby model spójności (weak consistency)** — system NIE gwarantuje, że odczyt po zapisie zwróci najnowszą wartość. Repliki mogą być chwilowo rozbieżne (stale data). Zaleta: niska latencja (odpowiedź natychmiast z lokalnej repliki), wysoka dostępność. Programista musi obsłużyć niespójności.
+
+    Słaby model:
+    Klient A pisze x=5  →  [zapis lokalny]  → OK (natychmiast!)
+    Klient B czyta x    →  x=3 (stara wartość! replika nie zdążyła)
+    ...po kilku sekundach...
+    Klient B czyta x    →  x=5 (w końcu zsynchronizowane)
+    Koszt: programista musi tolerować stale data
+
+**Trade-off silny vs słaby:**
+
+    Cecha              Silny (Linearizable)     Słaby (Eventual)
+    ─────────────────────────────────────────────────────────────
+    Latencja zapisu    wysoka (~10-100ms)        niska (~1ms)
+    Latencja odczytu   wysoka (quorum read)      niska (lokalna replika)
+    Dostępność         niska (wymaga quorum)     wysoka (lokalna odpowiedź)
+    Poprawność         gwarantowana              programista musi obsłużyć
+    Skalowanie         trudne (consensus)        łatwe (dodaj repliki)
+    Przykłady          Spanner, Zookeeper        Cassandra, DNS, DynamoDB
+
+---
+
 **Spójność danych (consistency)** — gwarancja, że wszystkie węzły systemu rozproszonego widzą te same dane w przewidywalny sposób. Pytanie: gdy zapisuję na węzeł A, co odczyta węzeł B? Odpowiedź zależy od modelu spójności.
 
 **Replikacja (replication)** — przechowywanie kopii danych na wielu węzłach. Cel: dostępność (awaria jednego → dane na innym), wydajność (odczyt z najbliższego). Problem: aktualizujesz jedną kopię — kiedy reszta się zsynchronizuje?
@@ -2922,6 +3965,34 @@ Przykład: Google Spanner (zegary atomowe TrueTime).
 
 ---
 
+![Linearizability vs Sequential Consistency](img/linearizability_vs_sequential.png)
+
+**KLUCZOWA RÓŻNICA: Linearizability vs Sequential Consistency — przykład:**
+
+Wyobraź sobie rejestr x, dwa klienty A i B, i oś REALNEGO CZASU:
+
+    Czas:     t₁────t₂────t₃────t₄────t₅────t₆
+    Klient A: [──write(x,1)──]                     (start t₁, OK t₃)
+    Klient B:            [──read(x)──]              (start t₂, odpowiedź t₄)
+    Klient A:                          [──write(x,2)──]  (start t₅, OK t₆)
+
+**Linearizability mówi:** Operacja read(x) klienta B ZACZĘŁA SIĘ (t₂) PO ROZPOCZĘCIU write(x,1) klienta A (t₁), i SKOŃCZYŁA SIĘ (t₄) PO ZAKOŃCZENIU write(x,1) (t₃). Więc operacje NIE nakładają się — read musi OBOWIĄZKOWO zwrócić x=1. Gdyby zwróciła coś innego (np. starą wartość x=0), naruszałoby to linearizability, bo w czasie rzeczywistym zapis już się zakończył.
+
+**Sequential consistency mówi:** Musi istnieć JAKIŚ globalny porządek operacji, który jest zgodny z kolejnością programu klienta A (write(x,1) przed write(x,2)) i klienta B (read(x) w jego kolejności). ALE ten porządek NIE MUSI odpowiadać temu, co dzieje się w czasie rzeczywistym.
+
+    Linearizability: read(x) o t₂-t₄ MUSI zobaczyć wynik write z t₁-t₃ → x=1 ✓
+    Sequential:      system MOŻE ułożyć operacje jako: read(x)→0, write(x,1), write(x,2)
+                     → read(x) zwraca 0 (starą wartość) → DOPUSZCZALNE!
+                     Bo ten porządek jest „sekwencyjnie spójny" — po prostu read
+                     jest w globalnej kolejności PRZED write, mimo że w zegarku ściennym
+                     nakładały się czasowo.
+
+**Jeszcze prościej — analogia kina:**
+- **Linearizability** = film NA ŻYWO: jeśli gol padł o 14:00, to widzowie w tym momencie MUSZĄ go zobaczyć.
+- **Sequential consistency** = film NAGRANY i emitowany z opóźnieniem: kolejność scen jest zachowana, ale nie odpowiada czasowi rzeczywistemu. Widzisz gol, potem korner — w poprawnej kolejności, ale nie wiesz KIEDY naprawdę się wydarzyły.
+
+---
+
 **Causal consistency (spójność przyczynowa)** — operacje przyczynowo zależne widziane w tej samej kolejności przez wszystkich. Operacje współbieżne (niezależne) mogą być widziane w różnej kolejności. Wymaga vector clocks.
 
     A pisze x=1 → B czyta x(=1) → B pisze y=2
@@ -2939,6 +4010,28 @@ Przykład: Google Spanner (zegary atomowe TrueTime).
     Zapis x=5 na replice A
     Replika B: jeszcze x=3... x=3... [replikacja]... x=5 ← w końcu!
 
+**Dlaczego DNS to przykład eventual consistency?**
+
+DNS (Domain Name System) tłumaczy nazwy domen (np. google.com) na adresy IP. Jest MASYWNIE rozproszony — tysiące serwerów DNS na świecie, każdy z własną kopią (cache). Gdy zmienisz rekord DNS (np. google.com → nowy IP), co się dzieje:
+
+    Krok 1: Admin zmienia rekord na AUTHORITATIVE server: google.com → 142.250.80.46
+    Krok 2: Authoritative server ma nową wartość NATYCHMIAST
+    Krok 3: Ale tysiące serwerów DNS na świecie mają STARY cache!
+            → ISP DNS w Warszawie: google.com → 142.250.80.14 (stary, z cache)
+            → ISP DNS w Tokio: google.com → 142.250.80.14 (stary)
+            → Google Public DNS: google.com → 142.250.80.14 (stary)
+    Krok 4: Cache ma TTL (Time To Live), np. 300 sekund = 5 minut
+            Po upływie TTL, serwer DNS pyta authoritative → dostaje nowy IP
+    Krok 5: STOPNIOWO, jeden po drugim, serwery DNS aktualizują cache
+            Po ~24-48h → WSZYSTKIE serwery mają nową wartość
+
+    To jest EVENTUAL CONSISTENCY:
+    - Brak silnej gwarancji: w t=0 różni klienci widzą RÓŻNE IP
+    - „Kiedyś" się zsynchronizuje: po TTL + propagacja
+    - Kompromis: SZYBKOŚĆ (cache, brak czekania na consensus) vs NIESPÓJNOŚĆ (stale data)
+    - Gdyby DNS był linearizable, każde zapytanie DNS musiałoby pytać
+      authoritative server → 100-300ms latencji zamiast <1ms z cache → internet byłby WOLNY
+
 ---
 
 **CAP Theorem (twierdzenie Brewera)** — w systemie rozproszonym przy partycji sieciowej (P) musisz wybrać między Consistency (C) a Availability (A):
@@ -2953,6 +4046,36 @@ Przykład: Google Spanner (zegary atomowe TrueTime).
 ---
 
 **Consensus (uzgadnianie)** — protokół, w którym rozproszone węzły zgadzają się na jedną wartość pomimo awarii. Kluczowy dla linearyzowalności. Algorytmy: Paxos (Lamport), Raft (prostszy), Zab (Zookeeper).
+
+![Paxos — uproszczony przebieg](img/paxos_flow.png)
+
+**Jak działa Paxos — uproszczony walkthrough (dlaczego daje linearyzowalność):**
+
+Paxos ma 3 role: **Proposer** (proponuje wartość), **Acceptor** (głosuje), **Learner** (dowiaduje się wyniku). Typowo 3-5 acceptorów (nieparzyste). Protokół ma 2 fazy:
+
+    FAZA 1: PREPARE — „Czy mogę zaproponować?"
+    Proposer → wysyła Prepare(n) do WSZYSTKICH acceptorów (n = numer propozycji, rosnący)
+    Acceptor → jeśli n > każdy wcześniejszy n, odpowiada Promise(n) + ewentualnie wcześniej
+               zaakceptowaną wartość. Jeśli n mniejszy — ignoruje.
+
+    FAZA 2: ACCEPT — „Zaakceptujcie tę wartość!"
+    Proposer → jeśli dostał Promise od MAJORITY (np. 2 z 3), wysyła Accept(n, wartość)
+    Acceptor → jeśli nie obiecał wyższego n, akceptuje → wartość UZGODNIONA
+
+    Przykład: 3 acceptory (A₁, A₂, A₃), proposer chce zapisać x=5
+
+    Proposer  ──Prepare(1)──→  A₁: Promise(1) ✓
+                               A₂: Promise(1) ✓  ← majority (2/3)!
+                               A₃: (wolny, nie odpowiedział)
+
+    Proposer  ──Accept(1, x=5)──→  A₁: Accepted ✓
+                                    A₂: Accepted ✓  ← majority!
+    → x=5 jest UZGODNIONE. Każdy przyszły odczyt MUSI zwrócić 5.
+
+**Dlaczego to daje linearyzowalność?** Bo zapis x=5 jest „zacommitowany" dopiero gdy MAJORITY potwierdzi. Odczyt też musi odpytać majority → co najmniej 1 acceptor wie o x=5 (bo majority zapisu i majority odczytu OVERLAPują się — kworum). Dlatego odczyt ZAWSZE widzi najnowszą wartość.
+
+    W + R > N → overlap gwarantowany
+    W=2, R=2, N=3: zapis potwierdza 2, odczyt pyta 2 → min. 1 wspólny acceptor
 
 **Quorum** — minimalna liczba węzłów, które muszą potwierdzić operację.
 
@@ -3015,6 +4138,38 @@ Przykład: Google Spanner (zegary atomowe TrueTime).
 
 **Segmentacja obrazu (image segmentation)** — podział obrazu na regiony, gdzie każdy piksel dostaje etykietę klasy (np. „samochód", „droga", „niebo"). Różni się od klasyfikacji (cały obraz → 1 etykieta) i detekcji (bounding box + etykieta).
 
+**Czy naprawdę KAŻDY piksel?** Tak, w semantic segmentation wynik to mapa o IDENTYCZNYM rozmiarze jak obraz wejściowy. Obraz 640×480 → mapa 640×480, w której KAŻDY z 307 200 pikseli ma etykietę klasy. Żaden piksel nie jest pominięty. Nawet piksele „tła" dostają etykietę (np. klasa „background" lub „void"). W instance segmentation dodatkowo piksele tego samego obiektu dostają ten sam ID instancji.
+
+    Obraz wejściowy:        640 × 480 pikseli (RGB, 3 kanały)
+    Mapa segmentacji:       640 × 480 pikseli (1 kanał — numer klasy)
+    Piksel (100, 200):      RGB=(134, 178, 210) → klasa 3 ("niebo")
+    Piksel (320, 400):      RGB=(82, 79, 73)    → klasa 7 ("droga")
+    KAŻDY piksel ma etykietę — nawet ten "nudny" fragment tła.
+
+---
+
+**Over-segmentation (nad-segmentacja)** — sytuacja, gdy algorytm segmentacji generuje ZBYT WIELE regionów — więcej niż jest obiektów/klas na obrazie. Jeden obiekt zostaje podzielony na kilka-kilkadziesiąt fragmentów. Problem typowy dla metod klasycznych (watershed, region growing).
+
+    Obraz: jeden kubek na stole
+    Idealna segmentacja: 2 regiony (kubek, tło)
+    Over-segmentation:  47 regionów! (kubek podzielony na 12 kawałków,
+                        stół na 20, tło na 15)
+
+    Dlaczego to się dzieje?
+    - Watershed: każde lokalne minimum jasności → osobny region → setki regionów
+    - Region Growing: drobne różnice w intensywności → osobne regiony
+    - Szum (noise) w obrazie → fałszywe granice
+
+    Jak sobie z tym radzić?
+    - **Markers/seeds:** zamiast automatycznych minimów → podaj ręczne punkty startowe
+    - **Superpixels:** celowa nad-segmentacja na ~100-500 jednorodnych "superpikseli"
+      (np. SLIC), potem GRUPOWANIE superpikseli w klasy → szybsze i stabilniejsze
+    - **Hierarchiczne:** wielopoziomowa segmentacja → scalanie regionów bottom-up
+    - **Deep learning:** sieci neuronowe uczą się "co jest obiektem" z danych → nie mają
+      problemu z over-segmentation (bo wiedzą, że kubek to jeden obiekt)
+
+**Under-segmentation (pod-segmentacja)** — przeciwieństwo: zbyt mało regionów, różne obiekty zlane w jeden region. Mniej typowy problem.
+
 ---
 
 **Typy segmentacji:**
@@ -3030,47 +4185,137 @@ Przykład: Google Spanner (zegary atomowe TrueTime).
 
 ---
 
-**Thresholding (progowanie)** — najprostsza metoda: piksel > próg → klasa 1, inaczej → klasa 0. Otsu: automatyczny dobór progu minimalizujący wariancję wewnątrzklasową. Działa tylko dla 2 klas i prostych scen.
+**Thresholding (progowanie)** — najprostsza metoda segmentacji. Pomysł: każdy piksel ma wartość jasności (0=czarny, 255=biały). Wybierz PRÓG T: piksel > T → klasa 1 (obiekt), piksel ≤ T → klasa 0 (tło). Działa lepiej niż się wydaje na prostych obrazach (tekst na kartce, RTG, dokumenty).
 
-    Obraz: [50][200][180][30][220][190]
-    Próg=128: [ 0 ][ 1 ][ 1 ][ 0][ 1 ][ 1 ]
+    Obraz (jasność pikseli): [50][200][180][30][220][190]
+    Próg T=128:
+    50 ≤ 128 → 0 (tło)
+    200 > 128 → 1 (obiekt)
+    180 > 128 → 1
+    30 ≤ 128 → 0
+    Wynik:                   [ 0 ][ 1 ][ 1 ][ 0][ 1 ][ 1 ]
 
-**Region Growing (rozrastanie regionu)** — zacznij od punktu „ziarna" (seed), dodawaj sąsiednie piksele o podobnej wartości. Wrażliwa na wybór ziarna; tendencja do over-segmentation.
+    Problem: JAK wybrać T? Ręcznie → subiektywne. Rozwiązanie → Otsu.
 
-**Watershed (metoda zlewiska)** — traktuje obraz jak mapę topograficzną (jasność = wysokość). „Zalewaj" od minimów; granice regionów to „granie". Over-segmentation → wymaga markers (pre-processing).
+**Otsu** — automatyczny dobór progu. Algorytm: przetestuj WSZYSTKIE progi T=0..255, dla każdego oblicz wariancję wewnątrzklasową (jak „różnorodne" są piksele w klasie 0 i klasie 1). Wybierz T minimalizujące tę wariancję = klasy jak najbardziej jednorodne. Złożoność: O(n·L) gdzie n=piksele, L=poziomy jasności (256). Ograniczenie: działa TYLKO dla 2 klas i zakłada bimodalny histogram jasności (dwa „garby").
 
-**Mean Shift** — iteracyjne przesuwanie jądra do maksimum gęstości w przestrzeni cech. Grupuje piksele zbiegające do tego samego maksimum. Wolny, O(n²).
+**Region Growing (rozrastanie regionu)** — zaczynasz od jednego piksela „ziarna" (seed) wybranego ręcznie lub automatycznie. Sprawdzasz sąsiadów: jeśli sąsiad jest PODOBNY (np. |jasność_sąsiada - jasność_regionu| < próg), dodaj go do regionu. Powtarzaj aż nie ma więcej podobnych sąsiadów. Następnie nowy seed → nowy region.
 
-**Normalized Cuts** — modeluje obraz jako graf (piksele = węzły, podobieństwo = wagi krawędzi). Minimalizuje cut (rozdzielenie) znormalizowany do wielkości regionów. O(n³) — kosztowny.
+    Seed piksel (100,100) ma jasność 150
+    Sąsiad (101,100) ma jasność 153 → |153-150|=3 < próg 10 → DODAJ
+    Sąsiad (100,101) ma jasność 200 → |200-150|=50 > próg 10 → ODRZUĆ (granica!)
+    Region rośnie jak „plama" od seeda
+
+    Pseudokod:
+    region = {seed}
+    queue = [seed]
+    while queue not empty:
+        pixel = queue.pop()
+        for neighbor in pixel.neighbors():  # 4 lub 8 sąsiadów
+            if neighbor not visited AND similar(neighbor, region):
+                region.add(neighbor)
+                queue.append(neighbor)
+
+    Problem: over-segmentation — drobne szumy → małe regiony
+
+**Watershed (metoda zlewiska)** — traktuje obraz jak mapę topograficzną: wartość jasności piksela = wysokość terenu. Ciemne piksele = doliny, jasne = szczyty. Algorytm „zalewa" mapę wodą od najniższych punktów (minimów). Gdy woda z dwóch dolin się spotyka — tam jest GRANICA segmentu (grań).
+
+    Obraz jako mapa wysokości:
+        ████████
+       ██      ██          ← jasne piksele = szczyty (granice)
+      █   dolina  █
+     █   (obiekt)  █
+      █            █
+       ██  dolina ██        ← kolejna dolina (inny segment)
+        ████████
+
+    Algorytm: zalewamy od dołu → woda spotyka się na graniach → SEGMENTY
+
+    Problem: MASYWNA over-segmentation — każde lokalne minimum (nawet szum) → osobna dolina
+    Rozwiązanie: marker-controlled watershed — ręcznie podaj „ziarna" (markers)
+    zamiast zalewać od KAŻDEGO minimum
+
+**Mean Shift** — iteracyjne przesuwanie okna (jądra) do punktu o najwyższej gęstości pikseli w przestrzeni cech. Cechy to np. (jasność, x, y) lub (R, G, B, x, y). Piksele, które zbiegają do tego samego maksimum gęstości, tworzą jeden segment. Wolny: O(n²), ale nie wymaga podania liczby segmentów.
+
+    Wyobraź sobie rozsypane kulki na stole (= piksele w przestrzeni cech)
+    Każda kulka „toczy się" w kierunku najbliższej „góry kulek" (max gęstości)
+    Kulki, które dotoczyły się do tej samej góry → jeden segment
+
+**Normalized Cuts** — modeluje obraz jako graf: piksele = węzły, krawędzie łączą sąsiednie piksele z wagą = PODOBIEŃSTWO (im bardziej podobne, tym wyższa waga). Szukamy CIĘCIA grafu (podział na grupy) minimalizującego stosunek ciętych krawędzi do rozmiaru grup. „Znormalizowane" → unika tworzenia malutkich segmentów. O(n³) — bardzo kosztowny: obraz 100×100 = 10 000 węzłów → 10¹² operacji!
 
 ---
 
-**Sieć neuronowa (neural network)** — model uczenia maszynowego złożony z warstw neuronów. W segmentacji: sieci konwolucyjne (CNN) uczą się rozpoznawać cechy obrazu automatycznie.
+**Sieć neuronowa (neural network)** — model uczenia maszynowego inspirowany biologicznymi neuronami. Składa się z warstw „neuronów" — każdy neuron oblicza ważoną sumę wejść + bias, przepuszcza przez funkcję aktywacji (np. ReLU = max(0,x)), i przekazuje wynik dalej. Sieć uczy się automatycznie z danych: dostaje pary (obraz, poprawna mapa segmentacji), dostosowuje wagi by minimalizować błąd.
 
-**CNN (Convolutional Neural Network)** — sieć ze splotowymi warstwami (convolution): filtr przesuwany po obrazie wyodrębnia cechy (krawędzie, tekstury, kształty). Hierarchia: niskie warstwy → krawędzie, wysokie → obiekty.
+    Neuron: output = ReLU(w₁·x₁ + w₂·x₂ + ... + wₙ·xₙ + bias)
+    ReLU(x) = max(0, x)  — prosta, ale bardzo skuteczna funkcja aktywacji
+    Uczenie: porównaj predykcję sieci z poprawną mapą (label) → oblicz błąd (loss)
+             → backpropagation → aktualizuj wagi → powtórz miliony razy
 
-**Encoder-Decoder** — architektura: encoder zmniejsza rozdzielczość (downsampling), wyodrębnia cechy. Decoder zwiększa rozdzielczość (upsampling), odtwarzając przestrzenną mapę segmentacji. Typowa struktura dla sieci segmentacyjnych.
+**CNN (Convolutional Neural Network)** — sieć, której kluczowym elementem jest warstwa konwolucyjna (splotowa). Zamiast łączyć KAŻDY piksel z KAŻDYM neuronem (co byłoby niewykonalne — obraz 640×480 = 307 200 neuronów wejściowych!), CNN przesuwany mały filtr (np. 3×3 pikseli) po obrazie, obliczając w każdym miejscu iloczyn skalarny filtra z fragmentem obrazu.
 
-    Encoder:  [224×224] → [112] → [56] → [28] → [14]  (cechy)
-    Decoder:  [14] → [28] → [56] → [112] → [224×224]  (mapa segm.)
+    Co robi konwolucja? Filtr 3×3 „jedzie" po obrazie jak wycieraczka:
 
-**Skip connections** — połączenia „na skróty" łączące warstwy encodera z decodera. Przenoszą drobne detale przestrzenne, które encoder utracił. Kluczowe w U-Net i FCN.
+    Filtr (edge detector):    Fragment obrazu:    Wynik konwolucji:
+    [-1  0  1]                [50  50 200]        (-1·50 + 0·50 + 1·200 +
+    [-1  0  1]      *         [50  50 200]    =    -1·50 + 0·50 + 1·200 +
+    [-1  0  1]                [50  50 200]         -1·50 + 0·50 + 1·200) = 450
 
-**FCN (Fully Convolutional Network, 2015)** — pierwsza sieć w pełni konwolucyjna do segmentacji. Zastępuje warstwy fully-connected konwolucjami → wejście dowolnego rozmiaru. Decoder: upsampling + skip connections.
+    Duża wartość → tu jest KRAWĘDŹ (przejście ciemne→jasne)
 
-**U-Net (2015)** — encoder-decoder w kształcie „U" ze skip connections (concatenation). Świetna przy małych zbiorach danych (data augmentation). Dominuje w segmentacji medycznej.
+    Hierarchia cech w CNN (wyuczona automatycznie!):
+    Warstwa 1: krawędzie (|, —, /, \)
+    Warstwa 2: tekstury (paski, siatki, plamy)
+    Warstwa 3: części (koła, oczy, krawędź dachu)
+    Warstwa 4+: obiekty (twarz, samochód, drzewo)
 
-    Encoder ──skip──→ Decoder
-      ↓     ──skip──→   ↑
-      ↓     ──skip──→   ↑
-    bottleneck
+**Encoder-Decoder** — architektura segmentacji: encoder ZMNIEJSZA rozdzielczość obrazu (downsampling — pooling), wydobywając coraz bardziej abstrakcyjne cechy (krawędzie → tekstury → obiekty). Decoder ZWIĘKSZA rozdzielczość (upsampling — dekonwolucja lub interpolacja), odtwarzając mapę segmentacji o pełnej rozdzielczości.
 
-**DeepLab v3+** — Google. Kluczowe: **atrous (dilated) convolutions** — konwolucje z „dziurami" (fr. à trous = z dziurami). Większe receptive field bez dodatkowych parametrów. **ASPP (Atrous Spatial Pyramid Pooling)** — wieloskalowe cechy równolegle.
+    Encoder (zmniejsza):  [224×224] →pool→ [112×112] →pool→ [56×56] →pool→ [28×28] →pool→ [14×14]
+    Decoder (zwiększa):   [14×14] →up→ [28×28] →up→ [56×56] →up→ [112×112] →up→ [224×224]
 
-    Zwykła konwolucja 3×3:   [x][x][x]
-    Dilated (rate=2):        [x][ ][x][ ][x]   ← większy zasięg
+    Dlaczego nie sklasyfikować od razu KAŻDEGO piksela osobno?
+    Bo pojedynczy piksel nie ma kontekstu — nie wiesz, czy piksel o wartości 150
+    to fragment nieba czy samochodu. Encoder-decoder widzi KONTEKST (cały obiekt)
+    i jednocześnie tworzy wynik o PEŁNEJ ROZDZIELCZOŚCI.
 
-**Transformer-based (SegFormer, Mask2Former)** — najnowsze podejście. Transformery (self-attention) zastępują CNN. Self-attention widzi globalne zależności (CNN widzi tylko lokalne). SOTA na benchmarkach.
+**Skip connections (połączenia skrótowe)** — połączenia „na skróty" łączące warstwy encodera z odpowiadającymi warstwami decodera. Problem: encoder traci detale przestrzenne (GDZIE dokładnie jest krawędź) podczas poolingu. Skip connections PRZENOSZĄ te detale z encodera wprost do decodera, umożliwiając precyzyjne granice segmentów.
+
+    Bez skip connections: decoder „wie" ŻE tu jest samochód, ale granice są rozmyte
+    Ze skip connections: decoder „wie" ŻE tu jest samochód AND DOKŁADNIE GDZIE jest krawędź
+
+**FCN (Fully Convolutional Network, 2015)** — pierwsza sieć w pełni konwolucyjna do segmentacji. Kluczowa innowacja: **zastąpienie warstw fully-connected** (FC → stały rozmiar wejścia) **konwolucjami** (→ dowolny rozmiar wejścia). Klasyczny CNN (np. VGG, AlexNet) kończy się warstwami FC, które wymagają stałego rozmiaru (np. 224×224). FCN zamienia FC na Conv 1×1, co pozwala przetwarzać obraz o DOWOLNYM rozmiarze i zwracać mapę segmentacji.
+
+    Klasyczny CNN:  Conv → Conv → Pool → ... → FC(4096) → FC(1000) → "kot"
+    FCN:            Conv → Conv → Pool → ... → Conv1×1   → Upsample → mapa [H×W×C]
+                                                  ↑ skip connections z encodera
+
+**U-Net (2015)** — encoder-decoder w kształcie litery „U" ze skip connections realizowanymi przez **concatenation** (złączenie) — cechy z encodera są DOKLEJANE do cech decodera w odpowiedniej warstwie. Zaprojektowany dla segmentacji medycznej, gdzie zbiory danych są MAŁE (np. 30 zdjęć RTG), więc U-Net intensywnie używa data augmentation (obroty, odbicia, elastyczne deformacje).
+
+    Encoder ──skip (concat)──→ Decoder
+      ↓       ──skip (concat)──→   ↑
+      ↓       ──skip (concat)──→   ↑
+    bottleneck (najgłębsza warstwa)
+
+    Dlaczego „U"? Bo wizualnie encoder schodzi w dół (↓), bottleneck na dole,
+    decoder wraca do góry (↑) — tworząc kształt litery U.
+    Dlaczego concat a nie dodawanie? Więcej informacji — encoder features + decoder features
+    → sieć sama decyduje, które informacje wykorzystać.
+
+**DeepLab v3+** — Google. Kluczowe innowacje:
+
+**Atrous (dilated) convolutions** — konwolucje z „dziurami" (fr. à trous = z dziurami). Standardowy filtr 3×3 patrzy na 3×3 = 9 sąsiednich pikseli. Atrous convolution z rate=2 patrzy na piksele z odstępem 2 — efektywnie widzi 5×5 obszar, ALE używa TYCH SAMYCH 9 parametrów (wag). Większe receptive field (pole widzenia) za darmo!
+
+    Zwykła konwolucja 3×3:   [x][x][x]         receptive field = 3×3
+    Dilated (rate=2):        [x][ ][x][ ][x]   receptive field = 5×5, 9 parametrów!
+    Dilated (rate=3):        [x][ ][ ][x][ ][ ][x]  receptive field = 7×7, 9 parametrów!
+
+    Dlaczego to ważne? Segmentacja wymaga KONTEKSTU — żeby wiedzieć, że piksel to
+    „droga", musisz zobaczyć otaczające budynki i niebo. Większe receptive field = więcej kontekstu.
+
+**ASPP (Atrous Spatial Pyramid Pooling)** — równoległe zastosowanie atrous convolutions z WIELOMA rate (np. 6, 12, 18) + global average pooling, potem połączenie wyników. Każdy rate widzi kontekst w INNEJ skali → multi-scale features.
+
+**Transformer-based (SegFormer, Mask2Former)** — najnowsze podejście zastępujące CNN transformerami. Kluczowy mechanizm: **self-attention** — każdy piksel „pyta" WSZYSTKIE inne piksele: „jak bardzo jesteś ze mną powiązany?" CNN widzi tylko lokalne okno (3×3, 5×5), a self-attention widzi CAŁY obraz naraz → lepsze rozumienie globalnych zależności (np. „ten piksel jest częścią tego samego samochodu co piksel 500 pikseli dalej"). Cena: O(n²) pamięci (n = liczba pikseli), ale jakość SOTA na benchmarkach.
 
 ---
 
@@ -3087,29 +4332,127 @@ Przykład: Google Spanner (zegary atomowe TrueTime).
 
 ---
 
-### Definicja: Przypisać każdemu pikselowi etykietę klasy/regionu.
+### Problem: czym jest segmentacja obrazu?
 
-Typy: **Semantic** (klasa per piksel), **Instance** (rozróżnia instancje), **Panoptic** (unified)
+Segmentacja obrazu to **przypisanie etykiety klasy KAŻDEMU pikselowi** obrazu. Wynik: mapa segmentacji o tym samym rozmiarze co obraz wejściowy, gdzie każdy piksel ma etykietę (np. „samochód", „droga", „niebo").
 
-### Metody klasyczne
+    Wejście:   obraz 640×480 (RGB)                    = 307 200 pikseli
+    Wynik:     mapa 640×480, każdy piksel → etykieta   = 307 200 etykiet
 
-| Metoda          | Idea                                      | Wada                  |
-|-----------------|-------------------------------------------|-----------------------|
-| Thresholding    | Próg intensywności (Otsu = automat.)      | Tylko 2 klasy         |
-| Region Growing  | Rozszerzaj od seeda wg podobieństwa       | Over-segmentation     |
-| Watershed       | „Zalewanie" topografii obrazu             | Over-segmentation     |
-| Mean Shift      | Przesuń do max gęstości, grupuj zbieżne  | Wolny                 |
-| Normalized Cuts | Graf: min-cut z normalizacją              | O(n³)                 |
+    Obraz:           [niebo niebo niebo niebo]
+                     [niebo drzewo drzewo niebo]
+                     [droga droga samochód droga]
+                     [droga droga droga   droga]
 
-### Metody deep learning
+**Czym segmentacja NIE jest:**
 
-**FCN (2015):** Pierwsza sieć fully-convolutional; encoder → upsampling; skip connections.
-**U-Net (2015):** Encoder-decoder w kształcie U; skip connections (concat); popularne w medycynie.
-**DeepLab v3+ :** Atrous/dilated convolutions (większe receptive field bez parametrów); ASPP (multi-scale).
-**SegFormer, Mask2Former:** Transformer-based; SOTA.
+    Zadanie              Wynik                          Granulacja
+    ──────────────────────────────────────────────────────────────
+    Klasyfikacja         1 etykieta na cały obraz       obraz
+    Detekcja             bounding box + klasa            prostokąt
+    Segmentacja          etykieta per piksel             piksel
 
-### Metryki: **mIoU** (mean Intersection over Union) — standard; Dice, Pixel Accuracy.
-### Loss: Cross-Entropy, Dice Loss, Focal Loss (class imbalance).
+**3 warianty segmentacji:**
+
+![Typy segmentacji obrazu](img/segmentation_types.png)
+
+| Wariant | Co robi | Przykład |
+|---------|---------|----------|
+| **Semantic** | klasa per piksel, bez rozróżniania instancji | wszystkie samochody = „samochód" |
+| **Instance** | rozróżnia instancje tego samego obiektu | samochód#1, samochód#2 |
+| **Panoptic** | semantic + instance razem | „stuff" (niebo) + „things" (samochód#1, #2) |
+
+---
+
+### Strategie klasyczne
+
+Metody niewymagające uczenia maszynowego — oparte na ręcznie zdefiniowanych regułach (próg, podobieństwo, struktura grafu).
+
+| Metoda | Idea | Wada | Złożoność |
+|--------|------|------|-----------|
+| **Thresholding** | piksel > T → klasa 1, else → klasa 0 | tylko 2 klasy, proste sceny | O(n) |
+| **Otsu** | automatyczny próg (min wariancja wewnątrzklasowa) | j.w. ale dobiera T sam | O(n·L) |
+| **Region Growing** | dodawaj sąsiednie piksele o podobnej wartości | over-segmentation, zależy od seeda | O(n) |
+| **Watershed** | obraz = mapa wysokości, granice = granie gór | over-segmentation | O(n log n) |
+| **Mean Shift** | iteracyjnie przesuwaj jądro do max gęstości | wolny | O(n²) |
+| **Normalized Cuts** | piksele = węzły grafu, minimalizuj znormalizowane cięcie | bardzo wolny | O(n³) |
+
+**Przykład — Thresholding (Otsu):**
+
+    Obraz grayscale: [30][200][180][45][210][190]
+    Otsu automatycznie dobiera próg T=128:
+    Wynik:           [ 0 ][ 1 ][ 1 ][ 0][ 1 ][ 1 ]
+    Zastosowanie: oddzielenie tekstu od tła (OCR), analiza zdjęć RTG
+
+**Przykład — Watershed:**
+
+    Obraz traktowany jako mapa topograficzna:
+    Jasne piksele = szczyty,  ciemne = doliny
+    "Zalewamy" od minimów → woda spotyka się na graniach → GRANICE segmentów
+    Problem: za wiele minimów → over-segmentation → potrzeba markers
+
+**Wspólna wada klasycznych metod:** wymagają ręcznego doboru parametrów (próg, seed, kernel), nie uczą się cech z danych, słabe na złożonych obrazach naturalnych.
+
+---
+
+### Sieci neuronowe (deep learning)
+
+Metody uczące się automatycznie rozpoznawać cechy z danych treningowych. Wszystkie oparte na architekturze **encoder-decoder** z wariacjami.
+
+**Wspólna idea encoder-decoder:**
+
+    Encoder: obraz [224×224] → [112] → [56] → [28] → [14]   (wyciąga CECHY)
+    Decoder: cechy [14] → [28] → [56] → [112] → [224×224]   (odtwarza MAPĘ)
+                                   bottleneck
+
+| Sieć | Rok | Kluczowa innowacja | Use case |
+|------|-----|-------------------|----------|
+| **FCN** | 2015 | w pełni konwolucyjna + skip connections | pierwsza end-to-end |
+| **U-Net** | 2015 | U-shape + skip concat + data augmentation | segmentacja medyczna |
+| **DeepLab v3+** | 2018 | atrous (dilated) conv + ASPP | general-purpose |
+| **SegFormer** | 2021 | transformer encoder (self-attention) | SOTA lightweight |
+| **Mask2Former** | 2022 | masked attention + unified architecture | SOTA universal |
+
+**FCN (Fully Convolutional Network):**
+
+    Zwykły CNN:  Conv → Conv → Pool → ... → FC → FC → "kot"
+    FCN:         Conv → Conv → Pool → ... → Conv → Upsample → mapa pikseli
+    Innowacja: zamiana FC na Conv → wejście dowolnego rozmiaru
+    Skip connections: łączą cechy z encodera → zachowują detale przestrzenne
+
+**U-Net:**
+
+    Encoder (↓)         Decoder (↑)
+    [64]────skip────→[64]        ← skip connections = concatenation
+    [128]───skip───→[128]           (przenosi detale z encodera do decodera)
+    [256]──skip──→[256]
+    [512]─skip─→[512]
+         [1024]                  ← bottleneck
+    Dlaczego medycyna? Działa dobrze z MAŁYMI zbiorami danych (data augmentation)
+
+**DeepLab v3+:**
+
+    Zwykła konwolucja 3×3:   [x][x][x]         receptive field = 3
+    Dilated (rate=2):        [x][ ][x][ ][x]   receptive field = 5, te same parametry!
+    ASPP: równolegle rate=6,12,18 → multi-scale features → łączenie
+    Efekt: widzi kontekst globalny BEZ zwiększania parametrów
+
+**Transformery (SegFormer, Mask2Former):**
+
+    CNN: filtr 3×3 widzi LOKALNY kontekst (sąsiadów)
+    Transformer: self-attention widzi CAŁY obraz naraz
+    Cena: O(n²) pamięci (n = piksele), ale lepsze wyniki
+
+---
+
+### Metryki i funkcje kosztu
+
+| Metryka/Loss | Wzór | Kiedy użyć |
+|-------------|------|------------|
+| **mIoU** | mean(IoU per klasa) | standardowy benchmark |
+| **Pixel Accuracy** | poprawne / wszystkie | prosta, ale zła przy class imbalance |
+| **Dice Loss** | 1 - 2·\|A∩B\| / (\|A\|+\|B\|) | segmentacja medyczna |
+| **Focal Loss** | -α(1-p)^γ · log(p) | class imbalance (99% tła) |
 
 ### Etymologia
 
@@ -3152,9 +4495,96 @@ Typy: **Semantic** (klasa per piksel), **Instance** (rozróżnia instancje), **P
 
 ---
 
-**HOG (Histogram of Oriented Gradients)** — klasyczny deskryptor cech: oblicza histogramy kierunków gradientów (krawędzi) w komórkach obrazu. Dobrze opisuje kształt obiektów (sylwetki ludzi). Dalal & Triggs (2005, detekcja pieszych).
+**HOG (Histogram of Oriented Gradients)** — klasyczny deskryptor cech wizualnych. Rozbijmy nazwę:
 
-**SVM (Support Vector Machine)** — klasyczny klasyfikator: znajduje hiperpłaszczyznę maksymalnie separującą klasy. HOG+SVM = klasyczny pipeline detekcji pieszych.
+- **Gradient** — w kontekście obrazu to „kierunek i siła zmiany jasności" w danym pikselu. Oblicza się go jako różnicę jasności sąsiednich pikseli. Gradient wskazuje KRAWĘDZIE — tam, gdzie jasność zmienia się szybko.
+
+      Piksel:           [50] [50] [200]       ← nagły skok jasności
+      Gradient w x:      0    150              ← duży gradient = KRAWĘDŹ!
+      Gradient w y:      obliczany analogicznie (góra/dół)
+      Kierunek krawędzi: arctan(gy/gx) ← np. 0° = pionowa, 90° = pozioma
+
+- **Orientacja (Oriented)** — kierunek gradientu. Gradient ma KĄTP (0°–180°): krawędź pionowa = ~0°, pozioma = ~90°, ukośna = ~45°.
+
+- **Histogram** — zliczenie „ile pikseli ma gradient w danym kierunku". Dla komórki 8×8 pikseli liczymy histogram 9 binów (co 20°: 0°, 20°, 40°, ..., 160°).
+
+- **HOG pipeline krok po kroku:**
+
+      Krok 1: Oblicz gradient KAŻDEGO piksela (Gx, Gy → magnitude + direction)
+                Gx = pixel[x+1] - pixel[x-1]
+                Gy = pixel[y+1] - pixel[y-1]
+                magnitude = √(Gx² + Gy²)
+                direction = arctan(Gy / Gx)
+
+      Krok 2: Podziel obraz na komórki (cells) 8×8 pikseli
+                Okno 64×128 → 8×16 komórek
+
+      Krok 3: Dla każdej komórki stwórz histogram 9 binów (0°-180°, co 20°)
+                Każdy piksel w komórce „głosuje" na bin odpowiadający jego kierunkowi
+                z wagą = magnitude (silniejsze krawędzie głosują mocniej)
+
+      Krok 4: Normalizuj histogramy w blokach 2×2 komórek (16×16 px)
+                → odporność na zmiany oświetlenia
+
+      Krok 5: Połącz wszystkie histogramy w jeden wektor cech
+                Okno 64×128: (8-1)×(16-1) = 7×15 = 105 bloków × 4 komórki × 9 binów = 3780 cech
+
+      Wynik: wektor 3780 liczb = „odcisk palca" kształtu w oknie
+      Sylwetka człowieka → charakterystyczny wzorzec kierunków krawędzi
+
+**Pseudokod HOG:**
+
+      def compute_hog(window_64x128):
+          gradients = compute_gradients(window)     # Gx, Gy per pixel
+          magnitudes = sqrt(Gx**2 + Gy**2)
+          directions = arctan2(Gy, Gx) * 180 / pi   # kąt w stopniach
+
+          hog_vector = []
+          for block in sliding_blocks_2x2(cells_8x8):
+              block_hist = []
+              for cell in block.four_cells():
+                  hist = zeros(9)                    # 9 binów
+                  for pixel in cell.pixels():
+                      bin_idx = int(directions[pixel] / 20)
+                      hist[bin_idx] += magnitudes[pixel]
+                  block_hist.append(hist)
+              block_hist = normalize(concatenate(block_hist))  # L2-norm
+              hog_vector.extend(block_hist)
+
+          return hog_vector   # 3780-dim vector
+
+**SVM (Support Vector Machine)** — klasyczny klasyfikator binarny (2 klasy: „tak/nie", „pieszy/nie-pieszy"). Pomysł:
+
+- Dane treningowe to punkty w przestrzeni wielowymiarowej (np. wektory HOG 3780-dim)
+- Każdy punkt ma etykietę: +1 (pozytywna klasa) lub -1 (negatywna)
+- SVM szuka **hiperpłaszczyzny** (w 2D to linia, w 3D to płaszczyzna) najlepiej SEPARUJĄCEJ dwie klasy
+
+**Czym jest hiperpłaszczyzna?** W 2D: linia dzieląca punkty na dwie grupy. W 3D: płaszczyzna. W N wymiarach: (N-1)-wymiarowa „ściana".
+
+**Margines (margin)** — odległość od hiperpłaszczyzny do najbliższego punktu danych. SVM MAKSYMALIZUJE margines → najlepsza generalizacja.
+
+**Support Vectors** — punkty danych NAJBLIŻSZE hiperpłaszczyźnie. To one „podpierają" (support) margines i definiują pozycję hiperpłaszczyzny. Reszta punktów jest nieistotna! Nazwa: „wektory nośne" — bo to wektory cech, które „niosą" decyzję.
+
+      Przestrzeń 2D:          O = klasa "pie szy"   X = klasa "nie-pieszy"
+                              O     O
+                               O   O
+      hiperpłaszczyzna →  ─ ─ ─ ─ ─ ─ ─ ─  ← margines ↕
+                              X    X
+                               X  X    X
+
+      Support vectors: O i X najbliższe linii (zaznaczone pogrubione)
+      SVM: przesuń linię tak, żeby margines ↕ był MAKSYMALNY
+
+**HOG+SVM — klasyczny pipeline detekcji pieszych:**
+
+![HOG + SVM pipeline detekcji pieszych](img/hog_svm_pipeline.png)
+
+      1. Sliding window (okno 64×128) przesuwa się po obrazie
+      2. Dla każdej pozycji okna:
+         a) Oblicz HOG → wektor 3780 cech
+         b) SVM klasyfikuje: „pieszy" (+1) lub „nie-pieszy" (-1)
+      3. NMS (Non-Maximum Suppression) → usuń duplikaty
+      4. Wynik: lista bounding boxów z detekcjami pieszych
 
 **Viola-Jones (2001)** — przełomowy detektor twarzy real-time. Kluczowe innowacje:
 - **Haar features** — proste cechy prostokątne (jasne/ciemne regiony)
@@ -3163,31 +4593,74 @@ Typy: **Semantic** (klasa per piksel), **Instance** (rozróżnia instancje), **P
 
 ---
 
+![Ewolucja detektorów: R-CNN → Faster R-CNN → YOLO](img/rcnn_evolution.png)
+
 **R-CNN family (two-stage detectors)** — dwuetapowe: najpierw generuj propozycje regionów, potem klasyfikuj każdy region.
 
-**R-CNN (2014)** — Selective Search → ~2000 regionów → CNN per region → SVM. 50 sekund/obraz! Wolne, bo CNN odpalane 2000 razy.
+**Czym jest „region proposal" (propozycja regionu)?** — prostokąt, w którym MOŻE BYĆ obiekt. Zamiast sprawdzać miliony pozycji okna (sliding window), algorytm propozycji generuje ~2000 „obiecujących" prostokątów. Jak? Metoda Selective Search analizuje kolory, tekstury i rozmiary → łączy podobne regiony → generuje kandydatów.
 
-**Fast R-CNN** — CNN raz na całym obrazie, ROI Pooling wycinająca cechy regionów. ~2 sekundy/obraz.
+**R-CNN (2014, Ross Girshick)** — pierwszy detektor oparty na CNN. Pipeline:
 
-**Faster R-CNN** — zastępuje Selective Search siecią RPN (Region Proposal Network). RPN generuje propozycje w sieci, nie oddzielnym algorytmem. ~5 fps. Najpopularniejszy two-stage detektor.
+    Krok 1: Selective Search → ~2000 regionów-kandydatów (prostokątów)
+    Krok 2: Dla KAŻDEGO z 2000 regionów:
+            a) Wytnij prostokąt z obrazu, przeskaluj do 224×224
+            b) Przepuść przez CNN (np. AlexNet) → wektor cech 4096-dim
+            c) SVM klasyfikuje: „samochód? kot? tło?"
+    Krok 3: Bbox regression — doprecyzuj pozycję prostokąta
+    Krok 4: NMS — usuń duplikaty
 
-    Faster R-CNN:
-    Obraz → CNN backbone → Feature Map → RPN (proposals) → ROI Pool → Classification + BBox regression
+    Problem: 2000 × CNN forward pass = 50 SEKUND na obraz! (2000 razy odpalasz CNN)
+    Dlaczego tak wolno? Bo CNN liczy cechy na KAŻDYM wyciętym regionie OSOBNO,
+    choć regiony się częściowo nakładają → redundantne obliczenia
+
+**Fast R-CNN (2015)** — kluczowa optymalizacja: przepuść cały obraz przez CNN RAZ, uzyskaj „mapę cech" (feature map). Potem wytnij cechy regionów z tej mapy (ROI Pooling), zamiast odpalać CNN 2000 razy.
+
+    Dlaczego „ROI Pooling"? ROI = Region of Interest. Regiony mają RÓŻNE rozmiary,
+    ale warstwa FC wymaga stałego. ROI Pooling dzieli region na siatkę np. 7×7
+    i w każdej komórce bierze MAX → stały rozmiar wyjścia niezależnie od wejścia.
+
+    CNN raz na obraz → feature map → ROI Pool 2000 regionów → FC → klasy + bbox
+    Przyspieszenie: ~2 sec/obraz (vs 50 sec w R-CNN)
+
+**Faster R-CNN (2015)** — ostatni krok: zastąp Selective Search (osobny algorytm) siecią neuronową! **RPN (Region Proposal Network)** — mała sieć przesuwana po feature mapie, która w KAŻDEJ pozycji predykuje: „czy tu jest obiekt?" + proponuje bbox. Wszystko w jednej sieci, end-to-end.
+
+    Obraz → CNN backbone (np. ResNet) → Feature Map → RPN (proposals) → ROI Pool → FC → klasy + bbox
+
+    RPN szczegóły:
+    - W każdym punkcie feature mapy rozważ k=9 „anchor boxes" (3 rozmiary × 3 proporcje)
+    - Dla każdego anchora: P(obiekt) + przesunięcie bbox (Δx, Δy, Δw, Δh)
+    - Zachowaj ~300 propozycji z najwyższym P(obiekt) → do ROI Pool
+
+    Faster R-CNN: ~5 fps (~0.2 sec/obraz) — 250× szybciej niż R-CNN!
 
 ---
 
 **One-stage detectors** — klasyfikacja i lokalizacja w jednym przejściu (bez osobnego etapu propozycji). Szybsze, ale historycznie mniej precyzyjne.
 
-**YOLO (You Only Look Once, 2016)** — dzieli obraz na siatkę S×S. Każda komórka predykuje B bounding boxów + C klas. Jedno przejście przez sieć → wynik. 45-155 fps! Rewolucja w real-time detection.
+**YOLO (You Only Look Once, 2016)** — rewolucyjny pomysł: „po co robić 2 etapy, skoro można w JEDNYM?" Obraz dzielony jest na siatkę S×S (np. 13×13 = 169 komórek). Każda komórka odpowiada za wykrycie obiektu, którego ŚRODEK wpada w tę komórkę. Każda komórka predykuje:
+- B bounding boxów × (x, y, w, h, confidence) = lokalizacja + „pewność, że tu jest obiekt"
+- C prawdopodobieństw klas = „jaki to obiekt?"
+Jedno przejście przez sieć → WSZYSTKIE detekcje naraz. 45-155 fps!
 
-    Obraz [416×416] → siatka 13×13 → każda komórka: 5 bbox + 80 klas
-    Jedno forward pass → wszystkie detekcje na raz
+    Jak to działa wizualnie (S=7, B=2, C=20 klas jak w Pascal VOC):
 
-**SSD (Single Shot MultiBox Detector, 2016)** — multi-scale feature maps + anchor boxes. Łączy szybkość YOLO z multi-scale (lepszy na małych obiektach).
+    Obraz [448×448] → CNN (24 warstwy konwolucyjne + 2 FC) → tensor 7×7×30
+                                                                ↑
+                                                    30 = 2×(4+1) + 20
+                                                    2 bbox × (x,y,w,h,conf) + 20 klas
 
-**Anchor box** — predefiniowany prostokąt o określonym kształcie/proporcji. Sieć przewiduje przesunięcie (offset) od anchora. Wiele anchorów → pokrycie różnych kształtów obiektów.
+    Komórka (3,4) predykuje: bbox1=(0.3, 0.7, 0.4, 0.6, 0.92), klasa="samochód" (p=0.88)
+    → „środek samochodu jest w komórce (3,4), bbox ma takie wymiary, pewność 92%"
 
-**Anchor-free** — nowoczesne podejście (FCOS, YOLOv8): bezpośrednia predykcja środka i wymiarów, bez predefiniowanych anchorów. Prostsza architektura.
+    Potem NMS: usuwa duplikaty (wiele komórek może wykryć ten sam obiekt)
+
+**SSD (Single Shot MultiBox Detector, 2016)** — ulepsza YOLO przez multi-scale feature maps: predykcje z WIELU warstw CNN, każda o innej rozdzielczości. Wczesne warstwy (wysoka rozdzielczość) wykrywają MAŁE obiekty; późne warstwy (niska rozdzielczość) wykrywają DUŻE. Anchor boxes predefiniowane na każdej skali.
+
+**Anchor box (kotwica)** — predefiniowany prostokąt o określonym kształcie/proporcji (np. 1:1, 1:2, 2:1). Sieć NIE predykuje bbox od zera — predykuje PRZESUNIĘCIE (offset) od najbliższego anchora. Łatwiejsze zadanie! Wiele anchorów → pokrycie różnych kształtów obiektów (osoby = wysoki prostokąt, samochód = szeroki).
+
+**Anchor-free** — nowoczesne podejście (FCOS, YOLOv8): bezpośrednia predykcja środka i wymiarów, bez predefiniowanych anchorów. Prostsza architektura, mniej hyperparametrów.
+
+**DETR (DEtection TRansformer, 2020)** — Facebook AI. Zamiast CNN + anchor + NMS, używa **transformera** z mechanizmem self-attention. Predykuje bezpośrednio ZESTAW obiektów (set prediction, nie grid). NIE potrzebuje NMS (unik duplikatów rozwiązany przez Hungarian matching w treningu). Najprostsza architektura w detekcji, ale wolniejsza w treningu.
 
 ---
 
@@ -3211,33 +4684,141 @@ Typy: **Semantic** (klasa per piksel), **Instance** (rozróżnia instancje), **P
 
 ---
 
-### Definicja: Lokalizacja (bounding box) + klasyfikacja obiektów. Wynik: (class, bbox, confidence).
+### Problem: czym jest detekcja obiektów?
+
+Detekcja obiektów to **lokalizacja** (gdzie?) i **klasyfikacja** (co?) obiektów na obrazie. Wynik: lista krotek **(klasa, bounding box, confidence)**.
+
+    Wejście:   zdjęcie ulicy
+    Wynik:     [("samochód", [50,30,200,180], 0.95),
+                ("pieszy",   [300,100,350,250], 0.88),
+                ("rower",    [400,150,480,300], 0.72)]
+
+**Porównanie z innymi zadaniami:**
+
+    Zadanie           Wynik                        Przykład
+    ─────────────────────────────────────────────────────────
+    Klasyfikacja      "kot" (1 etykieta)           cały obraz → 1 klasa
+    Detekcja          bbox + klasa (N obiektów)    prostokąty wokół obiektów
+    Segmentacja       etykieta per piksel          maska pikseli
+
+---
 
 ### Metody klasyczne
 
-**Sliding Window + HOG/SVM:** Przesuwaj okno, wyekstrahuj cechy HOG, klasyfikuj SVM. Wolne!
-**Viola-Jones (2001):** Haar features + Integral Image + AdaBoost cascade. Face detection real-time.
+Metody sprzed deep learningu — ręcznie projektowane cechy (features) + klasyczny klasyfikator.
 
-### Deep Learning
+| Metoda | Rok | Cechy | Klasyfikator | Szybkość | Use case |
+|--------|-----|-------|-------------|----------|----------|
+| **HOG + SVM** | 2005 | Histogram of Oriented Gradients | SVM | wolna (~1 fps) | detekcja pieszych |
+| **Viola-Jones** | 2001 | Haar features + Integral Image | AdaBoost cascade | real-time (30+ fps) | detekcja twarzy |
 
-**Two-stage (R-CNN family):**
-- R-CNN: Selective Search → 2000 regionów → CNN per region → SVM. 50 sec/image.
-- Fast R-CNN: CNN raz, ROI Pooling. ~2 sec.
-- **Faster R-CNN:** RPN (Region Proposal Network) zamiast Selective Search. ~5 fps.
+**HOG + SVM (Dalal & Triggs, 2005):**
 
-**One-stage:**
-- **YOLO:** Grid S×S, każda cell predykuje B bbox + C klas. 45-155 fps! Gorszy dla małych obiektów.
-- **SSD:** Multi-scale feature maps + anchors. Łączy szybkość YOLO z multi-scale.
+    Pipeline:  Obraz → Sliding window → HOG (histogramy gradientów) → SVM → detekcja/brak
+    HOG: dzieli okno na komórki (8×8 px), liczy histogramy kierunków krawędzi
+    SVM: "czy ten wzorzec krawędzi to człowiek?"
+    Wada: ręczne cechy, wolny sliding window, działa dobrze TYLKO na pieszych
 
-**Nowoczesne:** YOLOv8 (anchor-free), DETR (transformer, no NMS), RT-DETR.
+**Viola-Jones (2001) — 3 innowacje:**
+
+    1. Haar features:    [ jasne | ciemne ]  → prosta różnica intensywności
+    2. Integral Image:   suma prostokąta w O(1), niezależnie od rozmiaru!
+    3. Cascade:          Etap 1 (2 cechy): odrzuca 50% okien w 1 μs
+                         Etap 2 (10 cech): odrzuca 80% reszty
+                         ...Etap 25 (200 cech): szczegółowa analiza TYLKO 0.01% okien
+    Efekt: ~95% detections = szybkie odrzucenia → real-time!
+
+---
+
+### Deep learning
+
+**Two-stage detectors (dwuetapowe)** — najpierw generuj propozycje regionów, potem klasyfikuj.
+
+| Model | Rok | Propozycje | Szybkość | Innowacja |
+|-------|-----|-----------|----------|----------|
+| **R-CNN** | 2014 | Selective Search (~2000) | 50 sec/img (!) | CNN per region |
+| **Fast R-CNN** | 2015 | Selective Search | ~2 sec/img | CNN raz + ROI Pooling |
+| **Faster R-CNN** | 2015 | RPN (w sieci!) | ~5 fps | Region Proposal Network |
+
+    Ewolucja R-CNN:
+    R-CNN:       [Selective Search] → 2000 × [CNN] → 2000 × [SVM]    = 50s WOLNE!
+    Fast R-CNN:  [CNN raz] → [ROI Pool 2000 regionów] → [FC]          = 2s lepiej
+    Faster R-CNN:[CNN] → [RPN generuje propozycje] → [ROI Pool] → [FC] = 0.2s!
+
+**One-stage detectors (jednoetapowe)** — klasyfikacja i lokalizacja w JEDNYM przejściu.
+
+| Model | Rok | Szybkość | Innowacja |
+|-------|-----|----------|----------|
+| **YOLO** | 2016 | 45-155 fps | siatka S×S, jedno przejście |
+| **SSD** | 2016 | 46-59 fps | multi-scale feature maps |
+| **YOLOv8** | 2023 | 100+ fps | anchor-free, SOTA |
+| **DETR** | 2020 | ~40 fps | transformer, bez NMS |
+
+    YOLO:
+    Obraz [416×416] → siatka 13×13 → każda komórka predykuje:
+      - B bounding boxów (pozycja + rozmiar + confidence)
+      - C klas (prawdopodobieństwa)
+    Jedno forward pass → WSZYSTKIE detekcje naraz → NMS → wynik
+
+**Two-stage vs One-stage:**
+
+    Cecha              Two-stage (Faster R-CNN)    One-stage (YOLO)
+    ─────────────────────────────────────────────────────────────────
+    Szybkość           ~5 fps                      45-155 fps
+    Dokładność (mAP)   wyższa (historycznie)        dorównuje (YOLOv8)
+    Małe obiekty       lepszy                       gorszy (ale SSD/FPN pomaga)
+    Architektura       2 etapy + NMS                1 etap + NMS (DETR: bez NMS)
+    Real-time?         nie                          TAK
+
+---
 
 ### Jak zbudować detektor z klasyfikatora?
 
-1. **Sliding Window:** crop → classify → NMS. Bardzo wolne.
-2. **Region Proposals + Classifier:** Selective Search → crop → classify → NMS. Szybsze.
-3. **Fine-tune na detekcję:** Pretrained classifier jako backbone + detection head (bbox regression + cls). **Najlepsza jakość!**
+Masz wytrenowany klasyfikator (np. ResNet na ImageNet: obraz → „kot"). Jak go użyć do **lokalizacji** obiektów?
 
-### NMS (Non-Maximum Suppression): Sortuj po confidence; weź najlepszą; usuń overlapping (IoU > threshold); powtórz.
+**Podejście 1 — Sliding Window (najwolniejsze):**
+
+    Wytnij okno → klasyfikuj → przesuń → powtórz → NMS
+    Obraz 640×480, okno 64×64, krok 8px, 5 skal:
+    ~240 000 pozycji × 5 skal = ~1 200 000 klasyfikacji!
+    Przy 100 cls/sec → 3.3 godziny na 1 obraz → NIEPRAKTYCZNE
+
+**Podejście 2 — Region Proposals + Klasyfikator (szybsze):**
+
+    Selective Search → ~2000 regionów (zamiast milionów)
+    Każdy region → resize → klasyfikator → wynik + NMS
+    Przy 100 cls/sec → 20 sec/obraz → lepiej, ale wciąż wolno
+    To jest dokładnie R-CNN (2014)
+
+**Podejście 3 — Fine-tune backbone + detection head (najlepsze):**
+
+    Pretrained classifier (ResNet):  obraz → cechy → FC → "kot"
+    Zamień FC na detection head:
+      obraz → cechy (backbone) → [cls head: P(klasa)]
+                                → [bbox head: Δx, Δy, Δw, Δh]
+    Dotrenuj na danych z bounding boxami (COCO, VOC)
+    = Transfer learning → NAJLEPSZA jakość + szybkość
+    To jest Faster R-CNN, YOLO, SSD — wszystkie używają pretrained backbone!
+
+    Podsumowanie:
+    Sliding Window:    ~milion klasyfikacji → NIEPRAKTYCZNE
+    Region Proposals:  ~2000 klasyfikacji  → wolne ale działa (R-CNN)
+    Fine-tune:         1 przejście sieci   → szybkie i dokładne (Faster R-CNN, YOLO)
+
+---
+
+### NMS (Non-Maximum Suppression) — post-processing
+
+    Detektor generuje WIELE nakładających się bbox dla jednego obiektu:
+    [bbox1, 0.95], [bbox2, 0.90], [bbox3, 0.85] — wszystkie na tym samym kocie
+
+    Algorytm NMS:
+    1. Sortuj po confidence: [0.95, 0.90, 0.85]
+    2. Weź najlepszą (0.95) → ZACHOWAJ
+    3. Oblicz IoU z resztą: IoU(bbox1,bbox2)=0.82, IoU(bbox1,bbox3)=0.75
+    4. Usuń te z IoU > próg (0.5): usuń bbox2 i bbox3
+    5. Powtórz dla następnej najlepszej
+    Wynik: 1 bbox per obiekt
 
 ### Etymologia
 
@@ -3445,21 +5026,113 @@ Dla p=90%, n=100: Gustafson → S = 1 - 0.9 + 0.9×100 = 90.1x (vs Amdahl: ~10x!
     Proc 1: Send(to=0); Recv(from=0);   ← czeka na recv z proc 0
     → Oba czekają, nikt nie odbiera → DEADLOCK!
 
-**Metoda Jacobiego** — iteracyjna metoda rozwiązywania układów równań liniowych. W wersji równoległej: każdy proces oblicza swoją część i wymienia wartości graniczne z sąsiadami. Symetryczny kod (wszyscy robią to samo) → podatny na deadlock Send-Send.
+**Metoda Jacobiego (Jacobi iteration)** — iteracyjna metoda rozwiązywania układów równań liniowych $Ax = b$. W każdej iteracji nowa wartość $x_i$ jest obliczana WYŁĄCZNIE na podstawie wartości z poprzedniej iteracji (w przeciwieństwie do metody Gaussa-Seidla, która używa już obliczonych nowych wartości).
 
-**Rozwiązania deadlocka w symetrycznym kodzie:**
-1. **Asymetria kolejności** — Proc 0: Send→Recv; Proc 1: Recv→Send. Działa, ale asymetrycne.
-2. **Nieblokujące** — Irecv + Isend + Waitall. Oba procesy inicjują odbiór ZANIM wyślą.
-3. **MPI_Sendrecv** — jedna funkcja wykonująca Send i Recv atomowo. Bezpieczna, symetryczna. Rekomendowana.
-4. **Bsend** — buforowane wysyłanie: kopiuje do bufora i wraca. Recv nie musi być gotowy.
+Konkretny przykład — układ 3 równań:
 
-    // Rozwiązanie 2 (nieblokujące):
-    MPI_Irecv(from=neighbor, &req_r);   // inicjuj odbiór
-    MPI_Isend(to=neighbor, &req_s);     // inicjuj wysyłanie
-    MPI_Waitall(2, [req_r, req_s]);     // czekaj na oba
+    10x₁ + 2x₂ + x₃  = 27        Przekształcenie:
+     x₁ + 5x₂ + x₃   = 14.5      x₁ = (27  - 2x₂ - x₃) / 10
+     2x₁ + 3x₂ + 10x₃ = 29       x₂ = (14.5 - x₁ - x₃) / 5
+                                    x₃ = (29  - 2x₁ - 3x₂) / 10
 
-    // Rozwiązanie 3 (Sendrecv):
-    MPI_Sendrecv(send_buf, dest, recv_buf, source);  // jedna funkcja, 0 deadlock
+    Start: x = [0, 0, 0]
+    Iter 1: x₁ = (27 - 0 - 0)/10 = 2.70
+            x₂ = (14.5 - 0 - 0)/5 = 2.90
+            x₃ = (29 - 0 - 0)/10 = 2.90
+    Iter 2: x₁ = (27 - 2·2.90 - 2.90)/10 = 1.83
+            x₂ = (14.5 - 2.70 - 2.90)/5 = 1.78
+            x₃ = (29 - 2·2.70 - 3·2.90)/10 = 1.49
+    ... → zbieżność do x = [2, 1.5, 2]
+
+**Wersja równoległa metody Jacobiego** — w obliczeniach naukowych (np. symulacja ciepła, dynamika płynów) macierz $A$ jest ogromna (miliony zmiennych). Dzielimy wektor $x$ na bloki — każdy proces MPI oblicza swój fragment. Ale na granicy bloków proces potrzebuje wartości od sąsiada → wymiana komunikatami Send/Recv.
+
+    Domena 1D podzielona na 4 procesy:
+    Proc 0         Proc 1         Proc 2         Proc 3
+    [x₀ x₁ x₂]   [x₃ x₄ x₅]   [x₆ x₇ x₈]   [x₉ x₁₀ x₁₁]
+              ↑↓             ↑↓             ↑↓
+         wymiana x₂↔x₃  wymiana x₅↔x₆  wymiana x₈↔x₉
+
+    Każdy proces potrzebuje "ghost cells" (komórek-duchów) od sąsiada,
+    by obliczyć nowe wartości na swojej granicy.
+
+**Kod SPMD (Single Program, Multiple Data)** — model programowania, gdzie WSZYSTKIE procesy uruchamiają TEN SAM program. Każdy rozróżnia się tylko numerem (rankiem). To jest właśnie „symetryczny kod" — i tu leży problem z deadlockiem.
+
+**Dlaczego Jacobi jest podatny na deadlock?** — Symetryczny kod oznacza, że każdy proces wykonuje identyczną sekwencję: najpierw Send do sąsiada, potem Recv od sąsiada. Przy blokującym, synchronicznym Send (np. MPI_Ssend) KAŻDY proces czeka, aż sąsiad wywoła Recv. Ale sąsiad też jest w Send i też czeka!
+
+    // Deadlock w symetrycznym Jacobi — KAŻDY proces uruchamia ten sam kod:
+    for (iter = 0; iter < max_iter; iter++) {
+        oblicz_nowe_wartości(x_local);
+        MPI_Ssend(x_boundary, neighbor);  ← BLOKUJE, czeka na Recv sąsiada
+        MPI_Recv(ghost_cells, neighbor);  ← nigdy nie dotrze tutaj!
+    }
+
+    Proc 0: Ssend(to=1) → czeka na Recv(from=0) w Proc 1
+    Proc 1: Ssend(to=0) → czeka na Recv(from=0) w Proc 0
+    → OBA CZEKAJĄ → DEADLOCK!
+
+---
+
+**Rozwiązania deadlocka w symetrycznym kodzie** — istnieją 4 główne strategie. Każda ma inne kompromisy między prostotą kodu, wydajnością i bezpieczeństwem.
+
+**1. Asymetria kolejności (odd-even trick)** — łamiemy symetrię ręcznie: procesy o parzystym ranku robią Send→Recv, a o nieparzystym Recv→Send. Wymaga ręcznego podziału logiki (kod staje się mniej czytelny), ale gwarantuje brak deadlocka, bo zawsze jest para Send↔Recv gotowa do dopasowania.
+
+    // Proc 0 (parzysty):       // Proc 1 (nieparzysty):
+    Send(to=1);                  Recv(from=0);
+    Recv(from=1);                Send(to=0);
+
+    Proc 0: Send(to=1) ──→ Proc 1: Recv(from=0)  ✓ dopasowanie!
+    Proc 0: Recv(from=1) ←── Proc 1: Send(to=0)  ✓ dopasowanie!
+
+    Wada: asymetryczny kod — trzeba pisać if (rank % 2 == 0) {...} else {...}
+    Zaleta: zero buforowania, pełna kontrola, brak dodatkowej pamięci.
+
+**2. Komunikacja nieblokująca (Irecv + Isend + Waitall)** — każdy proces NAJPIERW inicjuje odbiór (Irecv — non-blocking), POTEM inicjuje wysłanie (Isend — non-blocking), a na końcu czeka na zakończenie obu (Waitall). Ponieważ Irecv/Isend wracają natychmiast, nie ma momentu, w którym oba procesy blokowałyby się nawzajem.
+
+    // Identyczny kod na KAŻDYM procesie (symetryczny!):
+    MPI_Request reqs[2];
+    MPI_Irecv(ghost_cells, neighbor, &reqs[0]);  // inicjuj odbiór — wraca natychmiast
+    MPI_Isend(x_boundary, neighbor, &reqs[1]);   // inicjuj wysyłanie — wraca natychmiast
+    // tutaj można robić obliczenia wewnętrzne (overlap computation & communication)
+    MPI_Waitall(2, reqs, MPI_STATUSES_IGNORE);   // czekaj na zakończenie obu
+
+    Zalety: symetryczny kod, możliwość overlappingu obliczeń z komunikacją.
+    Wady: trzeba zarządzać obiektami MPI_Request, nieco bardziej złożony kod.
+
+**3. MPI_Sendrecv — jedna funkcja, zero deadlocków** — MPI dostarcza funkcję, która JEDNOCZEŚNIE wysyła do jednego procesu i odbiera od innego. Implementacja MPI wewnętrznie dba o brak deadlocka (np. przez buforowanie lub asynchroniczny transport). To najbezpieczniejsze i najczystsze rozwiązanie.
+
+    // Identyczny kod na KAŻDYM procesie:
+    MPI_Sendrecv(
+        x_boundary, count, MPI_DOUBLE, neighbor, tag_send,  // co wysyłam i komu
+        ghost_cells, count, MPI_DOUBLE, neighbor, tag_recv,  // co odbieram i od kogo
+        MPI_COMM_WORLD, &status
+    );
+
+    Zalety: najprostszy kod, symetryczny, gwarantuje brak deadlocka.
+    Wady: brak overlappingu (blokujące — wraca dopiero po zakończeniu obu operacji).
+    → REKOMENDOWANE rozwiązanie w większości zastosowań Jacobi.
+
+**4. Buforowane wysyłanie (MPI_Bsend)** — nadawca kopiuje dane do bufora użytkownika i wraca natychmiast (nie czeka na Recv odbiorcy). Bufor musi być wcześniej zaalokowany przez MPI_Buffer_attach. Recv nie musi być gotowy — dane czekają w buforze.
+
+    // Przygotowanie bufora:
+    char buffer[BUF_SIZE];
+    MPI_Buffer_attach(buffer, BUF_SIZE);
+
+    // Identyczny kod na KAŻDYM procesie:
+    MPI_Bsend(x_boundary, count, MPI_DOUBLE, neighbor, tag);  // kopiuje do bufora → wraca
+    MPI_Recv(ghost_cells, count, MPI_DOUBLE, neighbor, tag, ...);  // normalny Recv
+
+    Zalety: symetryczny kod, Send nie blokuje.
+    Wady: wymaga zarządzania buforem (alokacja, rozmiar), dodatkowa pamięć.
+    Ryzyko: jeśli bufor się przepełni → MPI_ERR_BUFFER → crash.
+
+**Porównanie rozwiązań:**
+
+    Rozwiązanie       Symetryczny?  Overlap?   Dodatkowa pamięć?  Prostota
+    ─────────────────────────────────────────────────────────────────────────
+    Odd-even           Nie          Nie        Nie                Średnia
+    Irecv+Isend+Wait   Tak          Tak        MPI_Request        Średnia
+    MPI_Sendrecv       Tak          Nie        Nie                Najlepsza
+    Bsend              Tak          Nie        Bufor użytkownika  Średnia
 
 ---
 
@@ -3482,19 +5155,165 @@ Dla p=90%, n=100: Gustafson → S = 1 - 0.9 + 0.9×100 = 90.1x (vs Amdahl: ~10x!
 | MPI_Recv   | Blok  | -         |
 | MPI_Irecv  | Nie   | -         |
 
-### Problem: Zakleszczenie w symetrycznym kodzie
+### Problem: Zakleszczenie w symetrycznym kodzie (Jacobi)
 
-    // DEADLOCK!
-    Proc 0: Send(to=1); Recv(from=1);
-    Proc 1: Send(to=0); Recv(from=0);
-    // Oba czekają aż partner odbierze, nikt nie robi Recv!
+**Kontekst — równoległy Jacobi:** Rozpatrzmy symulację ciepła w 1D (równanie Poissona). Domena podzielona na $P$ procesów. W każdej iteracji:
+1. Oblicz nowe wartości wewnętrznych punktów na podstawie starego $x$
+2. Wyślij wartość graniczną sąsiadowi (Send)
+3. Odbierz wartość graniczną od sąsiada (Recv)
+4. Powtórz
 
-### Rozwiązania
+Ponieważ używamy modelu SPMD (Single Program, Multiple Data), KAŻDY proces uruchamia IDENTYCZNY kod:
 
-1. **Zmiana kolejności:** Proc 0: Send→Recv; Proc 1: Recv→Send (asymetria)
-2. **Nieblokujące:** Irecv + Isend + Wait (oba procesy symetrycznie)
-3. **MPI_Sendrecv** — jedna funkcja, automatycznie bezpieczna
-4. **Bsend** — buforowane wysyłanie (kopiuje do bufora i wraca)
+    // Symetryczny kod Jacobi — DEADLOCK!
+    for (iter = 0; iter < 1000; iter++) {
+        // Oblicz nowe wartości wewnętrzne
+        for (i = 1; i < local_n-1; i++)
+            x_new[i] = 0.5 * (x[i-1] + x[i+1]);
+
+        // Wymiana granic z sąsiadami — TU JEST PROBLEM:
+        MPI_Ssend(&x_new[local_n-1], 1, MPI_DOUBLE, right, tag, comm);  // ← BLOKUJE
+        MPI_Ssend(&x_new[0],         1, MPI_DOUBLE, left,  tag, comm);  // ← BLOKUJE
+        MPI_Recv(&ghost_right, 1, MPI_DOUBLE, right, tag, comm, &st);   // nigdy tu nie dotrze
+        MPI_Recv(&ghost_left,  1, MPI_DOUBLE, left,  tag, comm, &st);   // nigdy tu nie dotrze
+    }
+
+**Dlaczego deadlock?** Każdy z $P$ procesów wisi na pierwszym Ssend, czekając aż sąsiad wywoła Recv. Ale sąsiad TEŻ wisi na swoim Ssend. Nikt nigdy nie dochodzi do Recv → klasyczny cykliczny deadlock.
+
+    Proc 0: Ssend(to=1) ──CZEKA──→ potrzebuje Recv(from=0) w Proc 1
+    Proc 1: Ssend(to=0) ──CZEKA──→ potrzebuje Recv(from=0) w Proc 0
+    Proc 1: Ssend(to=2) ──CZEKA──→ potrzebuje Recv(from=1) w Proc 2
+    Proc 2: Ssend(to=1) ──CZEKA──→ potrzebuje Recv(from=2) w Proc 1
+    → CYKL ZALEŻNOŚCI → DEADLOCK dla WSZYSTKICH procesów!
+
+### Rozwiązania zakleszczenia — szczegółowo
+
+#### 1. Asymetria kolejności (odd-even trick)
+
+Łamiemy symetrię ręcznie: procesy o **parzystym** ranku wykonują Send→Recv, a o **nieparzystym** Recv→Send. Gwarantuje to, że w każdym momencie istnieje dopasowana para Send↔Recv.
+
+    // Pełny kod Jacobi z odd-even:
+    for (iter = 0; iter < 1000; iter++) {
+        oblicz_wnetrze(x, x_new, local_n);
+
+        if (rank % 2 == 0) {
+            // PARZYSTY: najpierw wyślij w prawo, potem odbierz z prawa
+            MPI_Send(&x_new[local_n-1], 1, MPI_DOUBLE, right, 0, comm);
+            MPI_Recv(&ghost_right,      1, MPI_DOUBLE, right, 0, comm, &st);
+            // potem wyślij w lewo, odbierz z lewa
+            MPI_Send(&x_new[0],         1, MPI_DOUBLE, left,  0, comm);
+            MPI_Recv(&ghost_left,       1, MPI_DOUBLE, left,  0, comm, &st);
+        } else {
+            // NIEPARZYSTY: najpierw odbierz z lewa, potem wyślij w lewo
+            MPI_Recv(&ghost_left,       1, MPI_DOUBLE, left,  0, comm, &st);
+            MPI_Send(&x_new[0],         1, MPI_DOUBLE, left,  0, comm);
+            // potem odbierz z prawa, wyślij w prawo
+            MPI_Recv(&ghost_right,      1, MPI_DOUBLE, right, 0, comm, &st);
+            MPI_Send(&x_new[local_n-1], 1, MPI_DOUBLE, right, 0, comm);
+        }
+    }
+
+    Proc 0 (parzysty): Send(→1) ──→ Proc 1 (nieparzysty): Recv(←0)  ✓
+    Proc 1 (nieparzysty): Send(→0) ──→ Proc 0 (parzysty): Recv(←1)  ✓
+
+**Zalety:** brak dodatkowej pamięci, pełna kontrola nad kolejnością, brak narzutu buforowania.
+**Wady:** kod asymetryczny (if/else), łatwo o błąd, trudniejszy w utrzymaniu.
+
+#### 2. Komunikacja nieblokująca (Irecv + Isend + Waitall)
+
+Każdy proces NAJPIERW inicjuje odbiór (Irecv), POTEM inicjuje wysłanie (Isend), a na końcu czeka na zakończenie obu (Waitall). Kluczowa zasada: **zawsze inicjuj Irecv PRZED Isend** — wtedy gdy dane dotrą, odbiór jest już gotowy na nie.
+
+    // Pełny kod Jacobi z non-blocking — symetryczny!
+    MPI_Request reqs[4];
+    for (iter = 0; iter < 1000; iter++) {
+        // 1. Inicjuj odbiory (wraca natychmiast)
+        MPI_Irecv(&ghost_right, 1, MPI_DOUBLE, right, 0, comm, &reqs[0]);
+        MPI_Irecv(&ghost_left,  1, MPI_DOUBLE, left,  0, comm, &reqs[1]);
+
+        // 2. Inicjuj wysyłanie (wraca natychmiast)
+        MPI_Isend(&x_new[local_n-1], 1, MPI_DOUBLE, right, 0, comm, &reqs[2]);
+        MPI_Isend(&x_new[0],         1, MPI_DOUBLE, left,  0, comm, &reqs[3]);
+
+        // 3. W MIĘDZYCZASIE: oblicz wartości wewnętrzne (overlap!)
+        oblicz_wnetrze(x, x_new, local_n);
+
+        // 4. Czekaj na zakończenie WSZYSTKICH komunikacji
+        MPI_Waitall(4, reqs, MPI_STATUSES_IGNORE);
+
+        // 5. Teraz ghost_left i ghost_right są gotowe — oblicz granice
+        oblicz_granice(x, x_new, ghost_left, ghost_right);
+    }
+
+**Zalety:** kod symetryczny (identyczny na każdym procesie), możliwość **overlappingu** — obliczenia wewnętrznych punktów odbywają się RÓWNOCZEŚNIE z komunikacją, co może znacznie przyspieszyć program.
+**Wady:** trzeba zarządzać tablicą MPI_Request, nieco bardziej złożony kod, obliczenia muszą być podzielone na „wewnętrzne" (bez ghost cells) i „graniczne" (z ghost cells).
+
+#### 3. MPI_Sendrecv — atomowa wymiana (REKOMENDOWANE)
+
+MPI dostarcza funkcję, która JEDNOCZEŚNIE wysyła i odbiera. Implementacja MPI wewnętrznie gwarantuje brak deadlocka (np. przez wewnętrzne buforowanie lub scheduling). Najbezpieczniejsze i najczystsze rozwiązanie.
+
+    // Pełny kod Jacobi z Sendrecv — symetryczny, prosty, bezpieczny!
+    for (iter = 0; iter < 1000; iter++) {
+        oblicz_wnetrze(x, x_new, local_n);
+
+        // Wymiana z prawym sąsiadem (wysyłam swoją prawą granicę, odbieram jego lewą):
+        MPI_Sendrecv(
+            &x_new[local_n-1], 1, MPI_DOUBLE, right, 0,   // wysyłam
+            &ghost_right,      1, MPI_DOUBLE, right, 0,   // odbieram
+            comm, &status
+        );
+
+        // Wymiana z lewym sąsiadem:
+        MPI_Sendrecv(
+            &x_new[0],    1, MPI_DOUBLE, left,  0,        // wysyłam
+            &ghost_left,  1, MPI_DOUBLE, left,  0,        // odbieram
+            comm, &status
+        );
+
+        oblicz_granice(x, x_new, ghost_left, ghost_right);
+    }
+
+**Zalety:** najprostszy kod, symetryczny, zero ryzyka deadlocka, brak zarządzania Request/Buffer.
+**Wady:** blokujące — wraca dopiero po zakończeniu obu operacji, więc NIE pozwala na overlapping obliczeń z komunikacją. Dla większości zastosowań Jacobi to **nie problem**, bo komunikacja jest krótka.
+
+#### 4. Buforowane wysyłanie (MPI_Bsend)
+
+Nadawca kopiuje dane do wcześniej zaalokowanego bufora i wraca natychmiast. Recv nie musi być jeszcze wywołany — dane czekają w buforze. Wymaga ręcznego zarządzania buforem.
+
+    // Pełny kod Jacobi z Bsend:
+    // SETUP (jednorazowo):
+    int buf_size = 2 * (sizeof(double) + MPI_BSEND_OVERHEAD);
+    char* buffer = malloc(buf_size);
+    MPI_Buffer_attach(buffer, buf_size);
+
+    for (iter = 0; iter < 1000; iter++) {
+        oblicz_wnetrze(x, x_new, local_n);
+
+        // Bsend kopiuje do bufora i WRACA NATYCHMIAST:
+        MPI_Bsend(&x_new[local_n-1], 1, MPI_DOUBLE, right, 0, comm);
+        MPI_Bsend(&x_new[0],         1, MPI_DOUBLE, left,  0, comm);
+
+        // Recv normalnie blokuje, ale dane już czekają w buforze sąsiada:
+        MPI_Recv(&ghost_right, 1, MPI_DOUBLE, right, 0, comm, &st);
+        MPI_Recv(&ghost_left,  1, MPI_DOUBLE, left,  0, comm, &st);
+
+        oblicz_granice(x, x_new, ghost_left, ghost_right);
+    }
+
+    // CLEANUP:
+    MPI_Buffer_detach(&buffer, &buf_size);
+    free(buffer);
+
+**Zalety:** kod symetryczny, Send nie blokuje, proste użycie.
+**Wady:** wymaga zarządzania buforem (alokacja, rozmiar MPI_BSEND_OVERHEAD), dodatkowa pamięć. Jeśli bufor się przepełni (np. wiele Bsend bez matchujących Recv) → **MPI_ERR_BUFFER** → crash programu.
+
+#### Porównanie wszystkich rozwiązań
+
+    Rozwiązanie       Symetryczny?  Overlap?   Ekstra pamięć?     Prostota
+    ─────────────────────────────────────────────────────────────────────────
+    Odd-even           Nie          Nie        Nie                Średnia
+    Irecv+Isend+Wait   Tak          TAK        MPI_Request        Średnia
+    MPI_Sendrecv       Tak          Nie        Nie                ★ Najlepsza
+    Bsend              Tak          Nie        Bufor użytkownika  Średnia
 
 ### Etymologia
 
@@ -3516,6 +5335,73 @@ Dla p=90%, n=100: Gustafson → S = 1 - 0.9 + 0.9×100 = 90.1x (vs Amdahl: ~10x!
 ---
 
 ### Tło pojęciowe — słowniczek
+
+**Decyzja (decision)** — wybór jednej opcji spośród co najmniej dwóch dostępnych alternatyw. W teorii decyzji to pojęcie formalne: mamy zbiór alternatyw $A = \{a_1, a_2, \dots, a_n\}$ i musimy wybrać „najlepszą" według pewnego kryterium.
+
+    Przykład: „Kupić mieszkanie A za 400k, mieszkanie B za 350k, czy wynajmować?"
+    3 alternatywy → 1 decyzja.
+
+**Wspomaganie decyzji (decision support)** — dziedzina nauki o dostarczaniu decydentowi narzędzi, metod i modeli matematycznych, które pomagają mu podjąć lepszą (bardziej uzasadnioną) decyzję. NIE podejmujemy decyzji za niego — pomagamy mu zrozumieć problem, porównać alternatywy i ocenić ryzyko. Efekt: decydent podejmuje decyzję ŚWIADOMIE, znając konsekwencje.
+
+    Bez wspomagania: „Czuję, że auto A jest lepsze" (intuicja)
+    Ze wspomaganiem: „Auto A wygrywa 4 z 5 kryteriów, ale przegrywa ceną o 30%" (analiza)
+
+**Warunki (conditions)** — w teorii decyzji „warunki" oznaczają POZIOM WIEDZY decydenta o konsekwencjach swoich wyborów. Nie chodzi o warunki atmosferyczne — chodzi o to, ile wiemy o przyszłości w momencie podejmowania decyzji.
+
+**Ryzyko (risk)** — w potocznym języku „ryzyko" = zagrożenie. W teorii decyzji ma PRECYZYJNE znaczenie: sytuacja, w której znamy WSZYSTKIE możliwe wyniki każdej alternatywy ORAZ znamy ich PRAWDOPODOBIEŃSTWA. To kluczowe — ryzyko ≠ niepewność!
+
+    Ryzyko: „Rzut kostką — wiem, że P(6) = 1/6, P(nie 6) = 5/6"
+    Niepewność: „Nowy produkt na rynku — nie wiem nawet jakie są możliwe wyniki"
+
+**Warunki ryzyka (conditions of risk)** — kontekst decyzyjny, w którym decydent zna możliwe scenariusze (stany natury) i ich prawdopodobieństwa, ale NIE wie, który scenariusz się zrealizuje. To środek spektrum między pewnością a niepewnością.
+
+    Stan natury S₁ (p=0.6)    Stan natury S₂ (p=0.4)
+    ──────────────────────────────────────────────────
+    Alternatywa A:  +100 zł        −50 zł
+    Alternatywa B:   +30 zł        +20 zł
+
+    E[A] = 0.6×100 + 0.4×(−50) = 40 zł   ← wyższa średnia, ale ryzyko straty
+    E[B] = 0.6×30  + 0.4×20    = 26 zł   ← niższa średnia, ale bezpieczna
+    → Który wybrać? Zależy od PREFERENCJI decydenta wobec ryzyka!
+
+**Metoda (method)** — w kontekście wspomagania decyzji: sformalizowany, powtarzalny algorytm (procedura krok po kroku), który prowadzi od danych wejściowych (alternatywy, kryteria, preferencje) do wyniku (ranking, wybór, klasyfikacja). Metoda musi być obiektywna i odtwarzalna — dwóch analityków z tymi samymi danymi dostaje ten sam wynik.
+
+**Interaktywność (interactivity)** — cecha metody polegająca na DIALOGU z decydentem w trakcie procesu. Zamiast wymagać od decydenta podania WSZYSTKICH preferencji z góry (co jest trudne — ludzie nie znają swoich preferencji precyzyjnie), metoda interaktywna zadaje pytania krok po kroku i uczy się preferencji stopniowo.
+
+    Metoda NIEinteraktywna (a priori):
+    1. Decydent podaje wszystkie wagi/preferencje → [CZARNA SKRZYNKA] → wynik
+    Problem: „Skąd mam wiedzieć, że cena jest 3× ważniejsza od komfortu?"
+
+    Metoda interaktywna:
+    1. System: „Wolisz A czy B?" → Decydent: „A"
+    2. System: „A jest tańsze, ale mniej komfortowe. Ile komfortu poświęcisz za cenę?"
+    3. Decydent: „Hmm, dużo" → System aktualizuje model preferencji
+    4. System: „To może C? Tanie i w miarę komfortowe" → ...
+    → Iteracyjne dochodzenie do najlepszej decyzji
+
+**Interaktywne wspomaganie decyzji (interactive decision support)** — połączenie obu pojęć: pomagamy decydentowi wybrać najlepszą alternatywę przez DIALOG — zadajemy mu pytania o preferencje (np. „Wolisz X na pewno czy loterię Y?"), aktualizujemy model matematyczny, i proponujemy rozwiązanie. Proces powtarza się aż decydent jest usatysfakcjonowany.
+
+    Cykl interaktywnego wspomagania:
+    ┌──────────────────────────────────────────┐
+    │  1. System proponuje pytanie/loterię     │
+    │  2. Decydent odpowiada (preferencja)     │
+    │  3. System aktualizuje model U(x)        │
+    │  4. System proponuje rozwiązanie         │
+    │  5. Decydent akceptuje? → TAK → KONIEC   │
+    │                         → NIE → wróć do 1│
+    └──────────────────────────────────────────┘
+
+**Metody interaktywne (interactive methods)** — konkretne algorytmy realizujące interaktywne wspomaganie decyzji. W kontekście tego pytania są to: metoda loterii (wyznaczanie funkcji użyteczności U(x) przez pytania o loterie), metoda certainty equivalent (wyznaczanie ekwiwalentu pewności), AHP (porównania parami), PROMETHEE i ELECTRE (metody outranking). Każda z nich wymaga od decydenta ODPOWIEDZI na pytania — to czyni je interaktywnymi.
+
+    Metoda            Jakie pytania zadaje decydentowi?
+    ──────────────────────────────────────────────────────────────────
+    Loteria           „Wolisz X na pewno, czy loterię (p: best, 1-p: worst)?"
+    CE                „Ile na pewno = ta loteria?"
+    AHP               „Ile razy kryterium A ważniejsze od B?" (skala 1-9)
+    PROMETHEE         „Jak ważne jest każde kryterium?" (wagi)
+    ELECTRE           „Jaki próg zgody/sprzeciwu?"
+
+---
 
 **Warunki decyzyjne** — trzy poziomy wiedzy o przyszłości, w których podejmujemy decyzje:
 
@@ -3663,13 +5549,118 @@ Przykład ryzyka: „Z 60% szansą zysk 100 zł, z 40% strata 50 zł." Przykład
 
 ### Tło pojęciowe — słowniczek
 
-**Dominacja stochastyczna (stochastic dominance)** — metoda porównywania rozkładów prawdopodobieństwa (np. dwóch inwestycji) BEZ konieczności znajomości dokładnej funkcji użyteczności decydenta. Jeśli rozkład A „dominuje" B, to cała klasa racjonalnych decydentów wybierze A.
+**Rozkład (distribution)** — opis WSZYSTKICH możliwych wartości, jakie może przyjąć zmienna losowa, wraz z informacją jak prawdopodobne jest każda z nich. To „mapa" losowości — mówi nam: „co może się zdarzyć i z jakim prawdopodobieństwem".
 
-    Idea kluczowa:
-    Nie wiem jaka DOKŁADNIE jest Twoja U(x),
-    ale wiem, że preferujesz „więcej" (FSD)
-    lub dodatkowo „mniej ryzyka" (SSD).
-    To wystarczy, żeby A > B.
+    Rzut kostką — rozkład dyskretny:
+    Wartość:          1     2     3     4     5     6
+    Prawdopodobieństwo: 1/6   1/6   1/6   1/6   1/6   1/6
+
+    Wzrost ludzi — rozkład ciągły (normalny):
+    Średnia μ = 175 cm, odchylenie σ = 7 cm
+    → większość ludzi 168–182 cm, mało kto >195 cm
+
+**Prawdopodobieństwo (probability)** — liczba z przedziału [0, 1] wyrażająca szansę zajścia zdarzenia. P=0 → niemożliwe, P=1 → pewne, P=0.5 → „rzut monetą".
+
+    P(orzeł) = 0.5 = 50%
+    P(6 na kostce) = 1/6 ≈ 0.167 = 16.7%
+    P(deszcz jutro) = 0.3 = 30%   ← subiektywne, ale nadal p ∈ [0,1]
+
+**Rozkład prawdopodobieństwa (probability distribution)** — kompletny opis zmiennej losowej: jakie wartości może przyjąć + jakie jest prawdopodobieństwo każdej z nich. Dwa sposoby opisu:
+
+    1. PDF (gęstość) — dla rozkładów ciągłych: f(x), pole pod krzywą = prawdopodobieństwo
+    2. CDF (dystrybuanta) — F(x) = P(X ≤ x), rośnie od 0 do 1
+
+    Przykład: inwestycja A ma rozkład zwrotów:
+    -10% z p=0.2,  +5% z p=0.5,  +15% z p=0.3
+    → To jest rozkład prawdopodobieństwa inwestycji A
+
+---
+
+**Decydent (decision maker)** — osoba lub podmiot, który MUSI wybrać jedną z dostępnych alternatyw. W praktyce: inwestor wybierający portfel, menedżer wybierający projekt, pacjent wybierający leczenie. Kluczowe: decydent ma PREFERENCJE (np. boi się ryzyka lub je lubi), których my nie znamy dokładnie.
+
+**Funkcja użyteczności U(x) (utility function)** — matematyczna funkcja przypisująca każdemu wynikowi $x$ (np. kwocie pieniędzy) liczbę $U(x)$ odzwierciedlającą SUBIEKTYWNĄ wartość tego wyniku dla decydenta. Wyższa U(x) = lepiej. Kluczowe: kształt U(x) koduje stosunek do ryzyka.
+
+    U(x) = √x  (typowa risk-averse):
+    U(0) = 0,  U(100) = 10,  U(400) = 20,  U(900) = 30
+
+    Osoba A (risk-averse):  U(x) = √x    → wklęsła ∩
+    Osoba B (risk-neutral): U(x) = x     → liniowa /
+    Osoba C (risk-seeking): U(x) = x²    → wypukła ∪
+
+    U(x)
+    │    ╭── risk-averse (√x) — wolni wzrost, „nasycenie"
+    │  ╱─── risk-neutral (x)  — stały wzrost
+    │╱ ╱─── risk-seeking (x²) — przyspieszający wzrost
+    └──────── x
+
+**Dokładna funkcja użyteczności decydenta** — w idealnym świecie znalibyśmy DOKŁADNY wzór U(x) konkretnego decydenta (np. U(x) = ln(x+1) z parametrami). Wtedy wystarczy policzyć E[U(A)] i E[U(B)] i wybrać wyższe. Problem: w praktyce NIGDY nie znamy dokładnej U(x) — ludzie nie potrafią podać precyzyjnego wzoru swoich preferencji. Dlatego dominacja stochastyczna jest tak cenna — działa BEZ znajomości dokładnej U!
+
+---
+
+**Metoda (method)** — sformalizowany algorytm prowadzący od danych do wyniku. W tym kontekście: algorytm porównywania dwóch alternatyw (inwestycji, portfeli, decyzji).
+
+**Metoda porównywania rozkładów (method of comparing distributions)** — sposób na odpowiedź „czy rozkład A jest lepszy od B?". Proste metody porównują JEDNĄ liczbę (np. średnią E[X] lub wariancję Var[X]) — ale to za mało, bo gubią informację o kształcie rozkładu. Dominacja stochastyczna porównuje CAŁY kształt dystrybuanty — dlatego daje silniejsze wnioski.
+
+    Porównanie po średniej: E[A]=10%, E[B]=8% → A lepsza? Ale może A ma ogromny rozrzut!
+    Porównanie po wariancji: Var[A]<Var[B] → A bezpieczniejsza? Ale może E[A] ≪ E[B]!
+    Dominacja stochastyczna: porównuje CAŁY rozkład → wniosek jest uniwersalny
+
+---
+
+**Dominacja (dominance)** — relacja „A jest co najmniej tak dobre jak B" (a w pewnych aspektach lepsze). Pochodzi od łac. „dominari" = panować. Gdy A dominuje B, to A „panuje" nad B — nie ma powodu, żeby wybrać B. W teorii decyzji dominacja oznacza: ŻADEN racjonalny decydent (z danej klasy) nie wybrałby B, skoro A jest dostępne.
+
+**Stochastyczna (stochastic)** — znaczy „losowa, probabilistyczna" (grec. „stochastos" = zdolny do celowania/zgadywania). Mówmy „stochastyczna" zamiast „losowa" w kontekście formalnym. Dominacja stochastyczna = dominacja między rozkładami losowymi (a nie między pojedynczymi liczbami).
+
+    Dominacja „zwykła" (deterministyczna): A=100, B=80 → A > B (oczywiste)
+    Dominacja stochastyczna: A ~ N(10%, 15%), B ~ N(8%, 20%) → A > B?
+    → Nie jest oczywiste! Trzeba porównać CAŁE rozkłady, nie tylko średnie.
+
+**Co znaczy „rozkład A dominuje rozkład B"?** — że dla KAŻDEGO racjonalnego decydenta (z odpowiedniej klasy) oczekiwana użyteczność z A jest ≥ niż z B:
+
+    A ≥ B  ⟺  E[U(A)] ≥ E[U(B)]  dla KAŻDEGO U z danej klasy
+
+    Nie muszę znać Twojej dokładnej U(x).
+    Wystarczy, że wiem DO JAKIEJ KLASY należysz:
+    - FSD: klasa U' ≥ 0 (preferujesz więcej) → WSZYSCY racjonalni
+    - SSD: klasa U' ≥ 0, U'' ≤ 0 (więcej + mniej ryzyka) → risk-averse
+
+---
+
+**Klasa decydentów (class of decision makers)** — zbiór WSZYSTKICH decydentów, których funkcje użyteczności spełniają pewne warunki. To nie jest grupa konkretnych osób — to matematyczny zbiór WSZYSTKICH MOŻLIWYCH funkcji U(x) z danymi własnościami.
+
+**Racjonalny decydent (rational decision maker)** — decydent, którego preferencje są SPÓJNE (np. jeśli woli A od B i B od C, to woli A od C) i który preferuje więcej niż mniej ($U'(x) \geq 0$ — monotoniczność). To minimalne założenie — prawie każdy człowiek je spełnia.
+
+**Klasa racjonalnych decydentów** — zbiór WSZYSTKICH funkcji U(x) takich, że $U'(x) \geq 0$. Jest ich NIESKOŃCZENIE wiele (√x, ln(x), x, x², 2x+7, ...). FSD mówi: jeśli A dominuje B, to DLA KAŻDEJ z tych nieskończenie wielu funkcji E[U(A)] ≥ E[U(B)]. Dlatego dominacja jest tak silnym twierdzeniem!
+
+**Dlaczego cała klasa wybierze A?** — Twierdzenie (Hardy-Littlewood-Polya): A ≥_FSD B ⟺ E[U(A)] ≥ E[U(B)] dla KAŻDEGO monotonicznie rosnącego U. To nie jest opinia — to dowiedzione matematyczne twierdzenie. Jeśli dystrybuanta A leży pod B, to nie istnieje żadna rosnąca funkcja U, dla której B byłoby lepsze.
+
+---
+
+**U(x) — notacja** — $U$ to nazwa funkcji (od ang. „utility" = użyteczność), $x$ to argument (wynik, np. kwota pieniędzy). $U(x)$ to wartość użyteczności wyniku $x$ dla danego decydenta.
+
+    U(x) = √x
+    U(100) = √100 = 10   ← „100 zł daje mi 10 jednostek użyteczności"
+    U(400) = √400 = 20   ← „400 zł daje 20 — tylko 2× więcej, choć to 4× pieniędzy"
+
+**Dlaczego „preferujesz więcej" = FSD?** — FSD wymaga TYLKO $U'(x) \geq 0$, czyli że funkcja użyteczności jest niemalejąca. To jedyne założenie: „wolisz 101 zł niż 100 zł". Nie mówi NIC o ryzyku — to mogą być osoby kochające ryzyko, neutralne, czy z awersją. Dlatego FSD to najszersza klasa: WSZYSCY, którzy wolą „więcej".
+
+**Dlaczego „mniej ryzyka" = SSD?** — SSD dodaje warunek $U''(x) \leq 0$ (wklęsłość). To oznacza malejącą użyteczność krańcową: „każda kolejna złotówka daje mi coraz mniej radości". Konsekwencja: taki decydent PREFERUJE pewność od loterii o tej samej średniej → jest risk-averse. Dlatego SSD obejmuje węższą klasę: tylko tych, co preferują więcej I mniej ryzyka.
+
+    FSD: U'≥0              → „więcej = lepiej" (szeroka klasa, wszyscy racjonalni)
+    SSD: U'≥0 i U''≤0      → „więcej = lepiej" + „ryzyko = złe" (węższa, risk-averse)
+
+    FSD: {√x, ln(x), x, x², 2x+7, ...}     ← KAŻDA rosnąca U
+    SSD: {√x, ln(x), ...}                    ← tylko wklęsłe rosnące U (bez x²!)
+
+**Co znaczy A > B (A dominuje B)?** — formalnie: „A jest co najmniej tak dobre jak B dla KAŻDEGO decydenta z danej klasy, i ŚCIŚLE lepsze dla co najmniej jednego". Praktyczne znaczenie: jeśli masz do wyboru A i B, i A dominuje B, to B jest IRRACJONALNE — nie ma żadnego powodu, by je wybrać. Można je bezpiecznie wyeliminować z rozważań.
+
+    A ≥_FSD B znaczy:
+    ∀ U : U'≥0 → E[U(A)] ≥ E[U(B)]
+    „Każdy kto woli więcej, wybierze A (lub jest mu obojętnie)"
+
+    A ≥_SSD B znaczy:
+    ∀ U : U'≥0, U''≤0 → E[U(A)] ≥ E[U(B)]
+    „Każdy risk-averse wybierze A (lub jest mu obojętnie)"
 
 ---
 
@@ -3780,6 +5771,8 @@ Jeśli A dominuje B w sensie FSD, to automatycznie dominuje w SSD. Ale SSD może
 
 ### Idea: Porównaj rozkłady BEZ znajomości dokładnej U. Jeśli A dominuje B → KAŻDY (z danej klasy) wybierze A.
 
+![FSD i SSD — porównanie dystrybuant](img/fsd_ssd_comparison.png)
+
 ### FSD (First-order Stochastic Dominance)
 
     A ≥_FSD B  ⟺  F_A(x) ≤ F_B(x) ∀x
@@ -3800,6 +5793,71 @@ Jeśli A dominuje B w sensie FSD, to automatycznie dominuje w SSD. Ale SSD może
 - Mean-Preserving Spread: B = A + ε (E[ε|A]=0) → A SSD B
 
 ### Relacja: FSD ⟹ SSD ⟹ TSD... (ale nie odwrotnie)
+
+### Jak FSD i SSD mogą być użyte w modelach wyboru?
+
+**Odpowiedź abstrakcyjna:** Dominacja stochastyczna służy jako **kryterium eliminacji** — pozwala odrzucić zdominowane alternatywy z puli rozważanych opcji, BEZ konieczności znania dokładnej funkcji użyteczności decydenta. Zamiast pytać „jaki jest Twój dokładny wzór preferencji?", wystarczy wiedzieć, czy decydent jest racjonalny (FSD) lub ma awersję do ryzyka (SSD).
+
+**Trzy sposoby użycia w modelach wyboru:**
+
+**1. Filtracja zbioru efektywnego (Efficient Set Screening)**
+
+W modelu wyboru portfela inwestor ma N portfeli. Zamiast analizować wszystkie N, eliminuj te zdominowane stochastycznie. TYLKO niezdominowane trafiają do dalszej analizy (np. optymalizacji Markowitza). To redukuje przestrzeń decyzyjną.
+
+    Portfele: {A, B, C, D, E, F}
+    FSD screening:  A ≥_FSD C,  D ≥_FSD F
+    → Eliminuj C i F → Efficient set = {A, B, D, E}
+    SSD screening:  A ≥_SSD B
+    → Eliminuj B → Efficient set = {A, D, E}
+    Inwestor wybiera spośród 3 zamiast 6 portfeli
+
+**2. Ranking alternatyw bez znajomości U(x)**
+
+Gdy znasz rozkłady zwrotów kilku inwestycji, możesz je CZĘŚCIOWO uszeregować:
+
+    Inwestycja A: N(12%, 10%)   (średnia 12%, odch. std. 10%)
+    Inwestycja B: N(12%, 15%)   (ta sama średnia, WIĘKSZY rozrzut)
+    Inwestycja C: N(8%, 10%)    (niższa średnia, ten sam rozrzut)
+
+    A ≥_SSD B:  Ta sama średnia, ale B to mean-preserving spread A
+                → Każdy risk-averse woli A (mniej ryzyka, ten sam zwrot)
+    A ≥_FSD C:  F_A(x) ≤ F_C(x) ∀x (bo A ma wyższą średnią, ten sam kształt)
+                → KAŻDY racjonalny woli A (więcej w każdym scenariuszu)
+    B vs C:     B ma wyższą średnię (12% vs 8%), ale większy rozrzut (15% vs 10%)
+                → SSD może NIE zachodzić → zależy od konkretnej U(x) decydenta
+
+    Ranking: A > B i A > C (pewne), ale B vs C → ZALEŻY OD DECYDENTA
+
+**3. Kryterium fair ubezpieczenia (insurance decision)**
+
+    Sytuacja: masz majątek 100 000 zł.
+    Ryzyko: 10% szans na stratę 80 000 zł.
+    Fair ubezpieczenie: składka = oczekiwana strata = 0.10 × 80 000 = 8 000 zł/rok
+
+    BEZ ubezpieczenia: {100 000 z p=0.9,  20 000 z p=0.1}  → E=92 000
+    Z ubezpieczeniem:  {92 000 z p=1.0}                      → E=92 000
+
+    Ta sama średnia (92k), ale ubezpieczenie = PEWNOŚĆ.
+    „Bez ubezpieczenia" to mean-preserving spread „z ubezpieczeniem"
+    → „Z ubezpieczeniem" ≥_SSD „bez ubezpieczenia"
+    → KAŻDY risk-averse kupi fair ubezpieczenie (nie musisz znać jego U!)
+
+**Konkretny przykład obliczeniowy — FSD w wyborze portfela:**
+
+    Portfel A: zwroty = {-5%, +10%, +15%} z prawdopodobieństwami {0.2, 0.5, 0.3}
+    Portfel B: zwroty = {-10%, +10%, +15%} z prawdopodobieństwami {0.2, 0.5, 0.3}
+
+    Dystrybuanty (CDF):
+    x       F_A(x)    F_B(x)    F_A ≤ F_B?
+    -10%    0.0       0.2       0.0 ≤ 0.2 ✓
+    -5%     0.2       0.2       0.2 ≤ 0.2 ✓ (równe)
+    +10%    0.7       0.7       0.7 ≤ 0.7 ✓ (równe)
+    +15%    1.0       1.0       1.0 ≤ 1.0 ✓ (równe)
+
+    F_A(x) ≤ F_B(x) ∀x, i F_A(-10%) < F_B(-10%) → A ≥_FSD B
+    → Portfel A dominuje B w sensie FSD
+    → ŻADEN racjonalny inwestor nie wybierze B, bo A jest ściśle lepszy w najgorszym scenariuszu
+    → Eliminuj B z dalszej analizy portfelowej
 
 ### Zastosowania
 

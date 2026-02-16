@@ -197,6 +197,7 @@ if [[ -z "$OUTPUT_PDF" ]]; then
         OUTPUT_PDF="/tmp/obrona_q${QUESTIONS[0]}.pdf"
     else
         joined=$(IFS=_; echo "${QUESTIONS[*]}")
+        joined="${joined//\//-}"  # Replace / with - for safe filenames
         OUTPUT_PDF="/tmp/obrona_q${joined}.pdf"
     fi
 fi

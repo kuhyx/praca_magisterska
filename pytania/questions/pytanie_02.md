@@ -128,197 +128,95 @@ Przykład — kluczowa różnica: decrease-key:
 
 ### Pseudokod (Python)
 
-**Dijkstra:**
+**Dijkstra** (graph = słownik sąsiedztwa, np. `{'A': [('B',2), ('C',4)]}`):
 
-    def dijkstra(graph, start):              # graph = słownik, klucz = wierzchołek,
-                                             #   wartość = lista par (sąsiad, waga)
-                                             #   np. graph = {'A': [('B',2), ('C',4)],
-                                             #                'B': [('D',3)], ...}
-                                             # start = wierzchołek startowy, np. 'A'
-
-        d = {v: float('inf') for v in graph} # d = słownik odległości (distance)
-                                             # Klucz: wierzchołek v
-                                             # Wartość: najkrótsza DOTYCHCZAS ZNANA
-                                             #   odległość od start do v
-                                             # Na początku: ∞ (nieskończoność) dla
-                                             #   wszystkich — bo jeszcze niczego
-                                             #   nie odkryliśmy
-                                             # float('inf') = Python-owa nieskończoność,
-                                             #   każda liczba jest od niej mniejsza
-
-        d[start] = 0                         # odległość od startu do samego siebie = 0
-
-        visited = set()                      # visited = zbiór ZAMKNIĘTYCH wierzchołków
-                                             # (już przetworzonych, nie wracamy do nich)
-                                             # set() = pusty zbiór Pythona — O(1) lookup
-
-        for _ in range(len(graph)):          # powtórz V razy (raz na każdy wierzchołek)
-                                             # W każdej iteracji wybieramy JEDEN
-                                             # wierzchołek o min d[v] i go przetwarzamy
-
-            # --- Szukanie minimum w tablicy d --- → O(V) na każde szukanie
-            u = None                         # u = wierzchołek o najmniejszej odległości
-                                             # (jeszcze nie odwiedzony)
-            for v in graph:                  # przejrzyj WSZYSTKIE wierzchołki
-                if v not in visited:         # pomiń już odwiedzone
-                    if u is None or d[v] < d[u]:  # jeśli v ma mniejszą odległość
-                        u = v                # zapamiętaj go jako kandydata
-            # Po tej pętli: u = wierzchołek z min d, spośród nieodwiedzonych
-            # To jest O(V) — przeszukujemy całą tablicę!
-
-            if d[u] == float('inf'):          # jeśli minimum to ∞, reszta jest
-                break                        # nieosiągalna — koniec
-
-            visited.add(u)                   # oznacz u jako odwiedzony (zamknięty)
-                                             # NIE WRACAMY do u — to jest ZACHŁANNOŚĆ
-                                             # Dijkstry (i dlatego ujemne wagi psują!)
-
-            for v, w in graph[u]:            # iteruj po sąsiadach wierzchołka u
-                                             # v = sąsiad (vertex), w = waga krawędzi u→v
-                                             # np. graph['A'] = [('B',2), ('C',4)]
-                                             #   → v='B', w=2, potem v='C', w=4
-
-                if d[u] + w < d[v]:          # RELAKSACJA: czy droga do v PRZEZ u
-                                             #   jest krótsza niż dotychczas znana?
-                                             #   d[u] = koszt dotarcia do u
-                                             #   w = koszt krawędzi u→v
-                                             #   d[u]+w = koszt drogi start→u→v
-                                             #   d[v] = dotychczasowy najlepszy koszt do v
-
-                    d[v] = d[u] + w          # TAK, jest krótsza → zaktualizuj!
-                                             # (tablica d pełni tu rolę kolejki
-                                             #  priorytetowej — po prostu szukamy
-                                             #  minimum w niej w każdej iteracji)
-
-        return d                             # zwróć słownik najkrótszych odległości
-                                             # np. {'A': 0, 'B': 2, 'C': 4, 'D': 5}
-                                             # Złożoność: O(V²) — V szukań min × O(V) każde
+    def dijkstra(graph, source):
+        dist = {v: float('inf') for v in graph}
+        dist[source] = 0
+        visited = set()
+        for _ in range(len(graph)):
+            current = None  # szukaj nieodwiedzonego wierzchołka o min dist — O(V)
+            for v in graph:
+                if v not in visited and (current is None or dist[v] < dist[current]):
+                    current = v
+            if dist[current] == float('inf'):
+                break  # reszta nieosiągalna
+            visited.add(current)  # zamknij — NIE wracamy (zachłanność)
+            for neighbor, weight in graph[current]:  # relaksacja sąsiadów
+                if dist[current] + weight < dist[neighbor]:
+                    dist[neighbor] = dist[current] + weight
+        return dist  # O(V²) z tablicą
 
 ![Przejście grafu algorytmem Dijkstry — krok po kroku](img/dijkstra_traversal.png)
 
-**Bellman-Ford:**
+**Bellman-Ford** (vertices = lista wierzchołków, edges = lista krotek (src, dst, weight)):
 
-    def bellman_ford(vertices, edges, start): # vertices = lista wierzchołków, np. ['A','B','C','D']
-                                              # edges = lista krawędzi, każda to (skąd, dokąd, waga)
-                                              #   np. [('A','B',2), ('A','C',4), ('B','D',3), ...]
-                                              # start = wierzchołek startowy
-                                              # UWAGA: format inny niż w Dijkstrze!
-                                              #   Dijkstra: graf jako słownik sąsiedztwa
-                                              #   B-F: explicite lista krawędzi
+    def bellman_ford(vertices, edges, source):
+        dist = {v: float('inf') for v in vertices}
+        dist[source] = 0
+        for _ in range(len(vertices) - 1):  # V−1 iteracji (najdłuższa ścieżka = V−1 krawędzi)
+            for src, dst, weight in edges:  # relaksuj WSZYSTKIE krawędzie
+                if dist[src] + weight < dist[dst]:
+                    dist[dst] = dist[src] + weight
+        for src, dst, weight in edges:  # V-ta iteracja: wykrywanie cyklu ujemnego
+            if dist[src] + weight < dist[dst]:
+                return None  # cykl ujemny!
+        return dist  # O(V·E)
 
-        d = {v: float('inf') for v in vertices}  # d = słownik odległości — identycznie
-                                              # jak w Dijkstrze. Klucz = wierzchołek,
-                                              # wartość = najkrótsza znana odległość.
-                                              # Na starcie: ∞ dla wszystkich.
+Przykład — graf z ujemnymi wagami (Dijkstra daje ZŁY wynik, B-F poprawny):
 
-        d[start] = 0                          # odległość do siebie = 0
+    Graf: S→A(2), A→C(3), S→B(5), B→A(−4)
 
-        for _ in range(len(vertices) - 1):    # powtórz V−1 razy (V = liczba wierzchołków)
-                                              # DLACZEGO V−1? Bo najdłuższa najkrótsza
-                                              # ścieżka (bez cykli) ma co najwyżej V−1
-                                              # krawędzi. Po k iteracjach mamy poprawne
-                                              # odległości dla ścieżek o ≤ k krawędziach.
-                                              # _ = zmienna, której nie używamy (konwencja)
+    Dijkstra:
+      1. S(0): dist[A]=2, dist[B]=5
+      2. A(2) zamknięty: dist[C]=5
+      3. B(5): B→A = 5−4 = 1 < 2, ALE A już zamknięty → POMIJA!
+      Wynik: A=2, C=5  ← BŁĄD (prawidłowe: A=1, C=4)
 
-            for u, v, w in edges:             # w KAŻDEJ iteracji przejrzyj WSZYSTKIE krawędzie
-                                              # u = początek krawędzi, v = koniec, w = waga
-                                              # To jest brute-force — stąd O(V·E)
+    Bellman-Ford — relaksuje WSZYSTKIE krawędzie, V−1 = 3 razy:
+      Start: dist = [S:0, A:∞, B:∞, C:∞]
 
-                if d[u] + w < d[v]:           # RELAKSACJA — identyczna jak w Dijkstrze:
-                                              # czy droga start→u→v jest krótsza niż d[v]?
+      Iteracja 1:
+        S→A: 0+2=2  < ∞ → A=2
+        A→C: 2+3=5  < ∞ → C=5
+        S→B: 0+5=5  < ∞ → B=5
+        B→A: 5−4=1  < 2 → A=1  ← ujemna waga poprawia!
 
-                    d[v] = d[u] + w           # TAK → zaktualizuj
+      Iteracja 2:
+        A→C: 1+3=4 < 5 → C=4  ← propagacja poprawionego A
 
-        # --- Wykrywanie cyklu ujemnego ---
-        for u, v, w in edges:                 # dodatkowe (V-te) przejście po krawędziach
-                                              # Jeśli NADAL da się poprawić odległość,
-                                              # to znaczy, że istnieje cykl ujemny!
-                                              # (po V−1 iteracjach powinno być stabilne)
+      Iteracja 3: brak zmian → stabilne.
+      Wynik: [S:0, A:1, B:5, C:4]  ← POPRAWNE
 
-            if d[u] + w < d[v]:               # nadal można polepszyć? → cykl ujemny!
-                return None                   # zwróć None = sygnał "cykl ujemny wykryty"
-
-        return d                              # zwróć słownik odległości (jak Dijkstra)
+    Wykrywanie cyklu ujemnego — dodaj krawędź C→B(−3):
+      Cykl B→A→C→B = −4 + 3 + (−3) = −4 < 0.
+      Po V−1 iteracjach dist nadal maleje → V-ta iteracja:
+        dist[src] + weight < dist[dst] → return None
 
 ![Przejście grafu algorytmem Bellmana-Forda — krok po kroku](img/bellman_ford_traversal.png)
 
-**A*:**
+**A\*** (graph jak Dijkstra; heuristic = h(v) → oszacowanie odl. do celu):
 
-    def a_star(graph, start, goal, h):        # graph = słownik sąsiedztwa (jak Dijkstra)
-                                              # start = wierzchołek startowy
-                                              # goal = wierzchołek DOCELOWY (cel)
-                                              #   → to jedyna różnica od Dijkstry:
-                                              #     szukamy ścieżki do JEDNEGO celu
-                                              # h = FUNKCJA heurystyczna: h(v) zwraca
-                                              #   oszacowanie odległości od v do goal
-                                              #   np. h = lambda v: odl_euklidesowa(v, goal)
-
-        d = {start: 0}                        # d = słownik g(n) = faktyczny koszt
-                                              #   dotarcia od start do n
-                                              # Tu trzymamy TYLKO odkryte wierzchołki
-                                              # (nie inicjalizujemy ∞ dla reszty)
-
-        f = {start: h(start)}                 # f = słownik f(n) = g(n) + h(n)
-                                              # f to szacunkowy ŁĄCZNY koszt ścieżki:
-                                              #   dotychczasowy koszt g + heurystyka h
-                                              # Sortujemy po f (nie po g!) — to kieruje
-                                              #   przeszukiwanie W STRONĘ CELU
-                                              # Na starcie: f(start) = 0 + h(start)
-
-        came_from = {}                        # came_from = słownik "skąd przyszliśmy"
-                                              # Klucz: wierzchołek v
-                                              # Wartość: wierzchołek, z którego dotarliśmy do v
-                                              # Służy do ODTWORZENIA ścieżki po znalezieniu celu
-                                              # np. came_from = {'B':'A', 'D':'B'}
-                                              #   → ścieżka: A → B → D
-
-        visited = set()                       # visited = zbiór zamkniętych wierzchołków
-                                              # (już przetworzonych)
-
-        while f:                              # dopóki są odkryte, nieprzetworzone wierzchołki
-                                              # (f zawiera tylko te, do których dotarliśmy)
-
-            # --- Szukanie minimum f w tablicy --- → O(V)
-            u = min(f, key=f.get)             # u = wierzchołek o najniższym f(n)
-                                              # min() przeszukuje WSZYSTKIE klucze w f
-                                              # key=f.get → porównuj po wartościach f[v]
-                                              # Równoważne: for v in f: if f[v] < f[best]...
-            del f[u]                          # usuń u z open set (przetwarzamy go teraz)
-
-            if u == goal: break               # ZNALEZIONO CEL! → przerwij
-                                              # Kluczowa optymalizacja A*:
-                                              # Dijkstra przetwarza WSZYSTKIE wierzchołki,
-                                              # A* KOŃCZY gdy dotrze do celu
-
-            visited.add(u)                    # oznacz u jako przetworzony
-
-            for v, w in graph[u]:             # iteruj po sąsiadach u
-                                              # v = sąsiad, w = waga krawędzi u→v
-
-                if v in visited:              # jeśli v już przetworzony → pomiń
+    def a_star(graph, source, goal, heuristic):
+        cost_so_far = {source: 0}  # g(n) — faktyczny koszt dotarcia
+        priority = {source: heuristic(source)}  # f(n) = g(n) + h(n)
+        came_from = {}  # do odtworzenia ścieżki
+        visited = set()
+        while priority:
+            current = min(priority, key=priority.get)  # wierzchołek o min f(n)
+            del priority[current]
+            if current == goal:
+                break  # dotarliśmy — A* kończy (Dijkstra przetworzyłby wszystko)
+            visited.add(current)
+            for neighbor, weight in graph[current]:
+                if neighbor in visited:
                     continue
-
-                g_new = d[u] + w              # g_new = potencjalny nowy koszt dotarcia do v
-                                              # (koszt do u + krawędź u→v)
-
-                if v not in d or g_new < d[v]:  # jeśli v jeszcze nie odkryty
-                                              # LUB znaleźliśmy krótszą drogę
-
-                    d[v] = g_new              # zaktualizuj g(v) = faktyczny koszt do v
-
-                    f[v] = g_new + h(v)       # zaktualizuj f(v) = g(v) + h(v)
-                                              # f kieruje przeszukiwanie:
-                                              #   niskie f = „obiecujący" wierzchołek
-                                              #   (blisko celu wg heurystyki)
-
-                    came_from[v] = u          # zapamiętaj: do v dotarliśmy z u
-                                              # (do odtworzenia ścieżki)
-
-        return came_from, d.get(goal)         # came_from = mapa do odtworzenia ścieżki
-                                              # d.get(goal) = koszt najkrótszej ścieżki
-                                              #   do celu (None jeśli nieosiągalny)
-                                              # Złożoność: O(V²) z tablicą, ale w praktyce
-                                              #   dużo szybciej dzięki heurystyce
+                new_cost = cost_so_far[current] + weight
+                if neighbor not in cost_so_far or new_cost < cost_so_far[neighbor]:
+                    cost_so_far[neighbor] = new_cost
+                    priority[neighbor] = new_cost + heuristic(neighbor)
+                    came_from[neighbor] = current
+        return came_from, cost_so_far.get(goal)  # ścieżka + koszt
 
 ![Przejście grafu algorytmem A* — krok po kroku](img/astar_traversal.png)
 

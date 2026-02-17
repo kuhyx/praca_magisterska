@@ -111,7 +111,236 @@ Poniższe diagramy ilustrują kluczowe frameworki i modele omówione w pytaniu. 
 
 ### Jak zapamiętać
 
-- **TOGAF = JAK** budować architekturę; **Zachman = CO** dokumentować
-- **C4 = 4 poziomy zoomu** (Context → Container → Component → Code)
-- **4+1 = LDPP+S** (Logical, Development, Process, Physical + Scenarios)
+---
+
+#### 0. LISTA WSZYSTKICH 5 FRAMEWORKÓW
+
+TOGAF, Zachman, C4, 4+1, ArchiMate
+
+Mnemonic: **„Tomek Zachował Cztery Ciastka Archimedesowi"**
+
+    T  → TOGAF          (metodyka — JAK budować)
+    Z  → Zachman        (taksonomia — CO dokumentować)
+    C4 → C4 Model       (4 poziomy zoomu diagramów)
+    C  → Cztery+1 (4+1) (5 perspektyw Kruchtena)
+    A  → ArchiMate      (język/notacja modelowania)
+
+Podział ról — kto robi co:
+
+    TOGAF    = PROCES (jak budować architekturę krok po kroku)
+    Zachman  = TAKSONOMIA (co dokumentować — siatka pytań)
+    4+1      = PERSPEKTYWY (kto patrzy na system — 5 widoków)
+    C4       = ZOOM (jak głęboko patrzysz — 4 poziomy)
+    ArchiMate = JĘZYK (jakim językiem rysujesz diagramy)
+
+Mnemonic ról: **„PTZJZ"** — **„Proces, Taksonomia, Zoom, Jakby-pięć-oczu, Żargon"**
+
+---
+
+#### 1. TOGAF — 4 domeny: Business, Data, Application, Technology
+
+Mnemonic: **„BDAT"** → **„Buduj Domy Ale Tanio"**
+
+    B → Business    (procesy organizacji — CO firma robi)
+    D → Data        (struktury danych — JAKIE dane)
+    A → Application (aplikacje — CZYM realizujemy)
+    T → Technology  (infrastruktura — NA CZYM to stoi)
+
+Kolejność = od abstrakcji do konkretu:
+firma → dane → apki → serwery
+
+---
+
+#### 2. TOGAF ADM — 8 faz cyklu
+
+Preliminary → Vision → Business → IS → Technology → Opportunities → Migration → Governance
+
+Mnemonic: **„PVB-IT-OMG!"**
+
+    P → Preliminary      (przygotowanie)
+    V → Vision           (wizja architektury)
+    B → Business Arch    (architektura biznesowa)
+    I → IS Arch          (Information Systems — dane + aplikacje)
+    T → Technology Arch  (infrastruktura)
+    O → Opportunities    (szanse i rozwiązania)
+    M → Migration        (plan migracji)
+    G → Governance       (nadzór/zarządzanie)
+
+Wyobraź sobie: Planujesz wizję biznesu, IT daje możliwości, migrujesz i zarządzasz — **„PVB-IT-OMG!"** (jakbyś krzyknął „OMG!" na koniec projektu)
+
+---
+
+#### 3. 4+1 View Model (Kruchten) — 5 widoków
+
+Logical, Development, Process, Physical + Scenarios
+
+Mnemonic: **„LoDeProFi + Scenariusz"** albo **„LDPP+S"**
+
+    L → Logical     (klasy, moduły — CO system robi)
+    D → Development (pakiety, warstwy — JAK kod zorganizowany)
+    P → Process     (współbieżność — JAK przepływają dane)
+    P → Physical    (serwery, kontenery — GDZIE wdrożony)
+    S → Scenarios   (+1 — use cases łączące wszystko)
+
+Mnemonic-historia: **„Logik Deweloper Procesuje Fizycznie Scenę"**
+
+Kto patrzy na który widok — mnemonic par:
+
+    Architekt   → Logical     „Architekt LOGICZNIE myśli"
+    Programista → Development „Programista DEVELOPUJE"
+    Integrator  → Process     „Integrator scala PROCESY"
+    Admin       → Physical    „Admin zarządza FIZYCZNYMI serwerami"
+    Użytkownik  → Scenarios   „Użytkownik ma SCENARIUSZ użycia"
+
+---
+
+#### 4. Zachman — 6 pytań
+
+What, How, Where, Who, When, Why
+
+Mnemonic: **„Co Jak Gdzie Kto Kiedy Dlaczego"** → **„CJGKKD"**
+
+→ **„Co Jan Gotuje? Kurczaka, Kiełbasę i Dynię"**
+
+    Co      → What  (dane, encje)
+    Jak     → How   (procesy, funkcje)
+    Gdzie   → Where (lokalizacje, sieci)
+    Kto     → Who   (ludzie, role)
+    Kiedy   → When  (zdarzenia, cykl)
+    Dlaczego → Why  (cele, motywacje)
+
+Zachman vs TOGAF — klucz: **„Zachman = MAPA (co dokumentować), TOGAF = GPS (jak dojść)"**
+
+---
+
+#### 5. C4 Model — 4 poziomy zoomu
+
+Context → Container → Component → Code
+
+Mnemonic: **„4 × C = Coraz Ciekawsze Części Codu"**
+
+    C1 → Context    (cały system z lotu ptaka — KTO go używa)
+    C2 → Container  (zoom: kontenery techniczne — API, DB, SPA)
+    C3 → Component  (zoom: moduły wewnątrz kontenera)
+    C4 → Code       (zoom: klasy, interfejsy — opcjonalny)
+
+Wyobraź sobie Google Maps:
+
+    Context   = widok kontynentu (cały system w otoczeniu)
+    Container = widok miasta (budynki = kontenery techniczne)
+    Component = widok ulicy (pokoje wewnątrz budynku)
+    Code      = widok mebli (detale — klasy, metody)
+
+---
+
+#### 6. ArchiMate — 3 warstwy × 3 aspekty
+
+Warstwy: Business, Application, Technology → **BAT** → **„BATman jest architektem"**
+
+    B → Business     (procesy biznesowe)
+    A → Application  (aplikacje)
+    T → Technology   (infrastruktura)
+
+Aspekty: Active Structure, Behavior, Passive Structure → **ABP** → **„Aktor Biega Pasywnie"**
+
+    A → Active Structure   (KTO działa — aktorzy, komponenty)
+    B → Behavior           (CO robi — procesy, usługi)
+    P → Passive Structure  (NA CZYM — obiekty danych, artefakty)
+
+Siatka 3×3 — wyobraź sobie tabelkę:
+
+    Aspekt →     Active (KTO)    Behavior (CO)    Passive (NA CZYM)
+    ───────────────────────────────────────────────────────────────
+    Business     aktor bizn.     proces bizn.     obiekt bizn.
+    Application  komponent       usługa           obiekt danych
+    Technology   węzeł/serwer    infrastruktura   artefakt
+
+---
+
+#### 7. UML — 3 diagramy architektoniczne
+
+Component, Deployment, Sequence → **CDS** → **„Co Dzień Sekwencja"**
+
+    C → Component   (moduły i zależności między nimi)
+    D → Deployment   (mapowanie modułów → serwery/sprzęt)
+    S → Sequence     (kto do kogo wysyła komunikaty w czasie)
+
+Mnemonic-historia: **„Komponent Deploy'ujesz i Sekwencyjnie testujesz"**
+
+---
+
+#### 8. Quality Attributes (ISO 25010) — 8 atrybutów
+
+Performance, Security, Scalability, Maintainability, Reliability, Usability, Portability, Compatibility
+
+Mnemonic: **„PS SM RUPC"** → **„Pan Stefan Spotkał Małą Rudą Uczącą Polskiego Codziennie"**
+
+    P → Performance      (wydajność — jak szybko)
+    S → Security         (bezpieczeństwo — jak chroniony)
+    S → Scalability      (skalowalność — jak rośnie)
+    M → Maintainability  (utrzymywalność — jak łatwo zmienić)
+    R → Reliability      (niezawodność — jak rzadko pada)
+    U → Usability        (użyteczność — jak łatwy w użyciu)
+    P → Portability      (przenośność — jak łatwo przenieść)
+    C → Compatibility    (kompatybilność — jak współpracuje)
+
+Alternatywny podział na pary:
+
+    „Szybki i Bezpieczny" → Performance + Security
+    „Rośnie i Zmienia się" → Scalability + Maintainability
+    „Niezawodny i Łatwy"  → Reliability + Usability
+    „Przenośny i Zgodny"  → Portability + Compatibility
+
+---
+
+#### 9. Cele modelowania — 5 celów
+
+Komunikacja, Dokumentacja, Analiza jakości, Planowanie, Zarządzanie złożonością
+
+Mnemonic: **„KDAPZ"** → **„Każdy Dobry Architekt Planuje Złożoność"**
+
+    K → Komunikacja            (zespół się rozumie)
+    D → Dokumentacja           (wiedza nie ginie)
+    A → Analiza jakości        (czy będzie wydajne?)
+    P → Planowanie             (co budować dalej)
+    Z → Zarządzanie złożonością (okiełznać chaos)
+
+---
+
+#### 10. ADR — struktura
+
+Kontekst → Decyzja → Konsekwencje → **KDK**
+
+Mnemonic: **„Kanapka: Kromka – Dżem – Kromka"**
+
+    K → Kontekst       (DLACZEGO decydujemy — sytuacja)
+    D → Decyzja        (CO zdecydowaliśmy)
+    K → Konsekwencje   (CO z tego wynika — plusy i minusy)
+
+---
+
+#### 11. ATAM — co robi
+
+**„ATAM = ATakuj Architekturę Metodycznie"**
+
+→ Szukasz tradeoffs: „ta decyzja poprawia X kosztem Y"
+→ Metoda scenariuszowa: wymyślasz scenariusze jakościowe i sprawdzasz, jak architektura sobie z nimi radzi
+
+---
+
+#### 12. MASTER MNEMONIC — cały pytanie w jednym zdaniu
+
+**„Tomek (TOGAF) Zachował (Zachman) Cztery Ciastka (C4) i 4+1 Archimedesowi (ArchiMate), rysując UML-em ADR-y, a ATAM sprawdził jakość ISO."**
+
+Rozbicie:
+
+    Tomek         → TOGAF (proces ADM: PVB-IT-OMG!, domeny BDAT)
+    Zachował      → Zachman (siatka 6×6: CJGKKD × abstrakcje)
+    Cztery Ciastka → C4 (4×C: Context→Container→Component→Code)
+    4+1           → Kruchten (LDPP+S: Logical, Dev, Process, Physical + Scenarios)
+    Archimedesowi → ArchiMate (BAT × ABP)
+    UML           → 3 diagramy: CDS (Component, Deployment, Sequence)
+    ADR           → KDK (Kontekst, Decyzja, Konsekwencje)
+    ATAM          → ATakuj Architekturę Metodycznie
+    ISO 25010     → 8 atrybutów: PS SM RUPC
 

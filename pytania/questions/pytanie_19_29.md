@@ -86,7 +86,21 @@ Publishers → **Broker** (router/message bus) → Subscribers
 
 ### Typy subskrypcji: topic-based, content-based, type-based, hierarchical (wildcards)
 
+![Topic-based](img/pubsub_sub_topic.png)
+
+![Content-based](img/pubsub_sub_content.png)
+
+![Type-based](img/pubsub_sub_type.png)
+
+![Hierarchical (wildcards)](img/pubsub_sub_hierarchical.png)
+
 ### Gwarancje dostarczenia (QoS): At-most-once, At-least-once, Exactly-once
+
+![At-most-once](img/pubsub_qos_at_most_once.png)
+
+![At-least-once](img/pubsub_qos_at_least_once.png)
+
+![Exactly-once](img/pubsub_qos_exactly_once.png)
 
 ### Rozwiązania techniczne
 

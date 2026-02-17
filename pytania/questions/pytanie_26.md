@@ -36,6 +36,31 @@
     // ... rób inne obliczenia ...
     MPI_Wait(&request)              ← czekaj na zakończenie
 
+**Prefiks „I" w MPI_Isend / MPI_Irecv** — oznacza **Immediate** (natychmiastowy). Funkcja wraca natychmiast, bez czekania na zakończenie operacji. Konwencja nazewnicza MPI: prefiks „I" = wersja nieblokująca danej operacji (np. MPI_Send → MPI_**I**send, MPI_Recv → MPI_**I**recv). Analogicznie „S" = Synchronous (MPI_**S**send), „B" = Buffered (MPI_**B**send).
+
+**Dlaczego Isend/Irecv mogą wrócić natychmiast, skoro dane nie zostały jeszcze przesłane?** — Bo te funkcje NIE wykonują transferu danych. One jedynie **rejestrują żądanie** w bibliotece MPI i wracają. Konkretnie:
+
+- **MPI_Isend** mówi bibliotece MPI: „chcę wysłać te dane z tego adresu pamięci". MPI zapisuje sobie wskaźnik na bufor, rozmiar, odbiorcę i tag w wewnętrznej strukturze (request object). Transfer nastąpi PÓŹNIEJ — w tle (np. przez osobny wątek komunikacyjny, DMA, lub sprzęt sieciowy RDMA), albo dopiero gdy programista wywoła MPI_Wait/MPI_Test.
+- **MPI_Irecv** mówi bibliotece MPI: „przygotuj miejsce — gdy dane nadejdą, wpisz je pod ten adres". MPI rejestruje „oczekiwanie na wiadomość" i wraca. Dane mogą jeszcze nie istnieć — to nie problem, bo odbiór nastąpi gdy nadawca faktycznie wyśle.
+
+Analogia: Isend/Irecv to jak złożenie zamówienia w restauracji — kelner zapisuje zamówienie (wraca natychmiast), ale jedzenie pojawi się dopiero później. MPI_Wait to moment, gdy czekasz na talerz.
+
+    MPI_Isend(buf, n, type, dest, tag, comm, &req)
+        ↓
+    [Wewnątrz MPI: zapisz {buf, n, type, dest, tag} w req]
+        ↓
+    return;  ← NATYCHMIAST — żaden bajt nie został jeszcze wysłany!
+        ↓
+    ... aplikacja robi obliczenia ...
+        ↓
+    MPI_Wait(&req)
+        ↓
+    [MPI teraz FAKTYCZNIE przesyła dane / czeka na zakończenie transferu]
+        ↓
+    return;  ← TERAZ dane są bezpiecznie wysłane, bufor można ponownie użyć
+
+**UWAGA:** Między Isend a Wait programista NIE MOŻE modyfikować bufora wysyłkowego (buf) — MPI może w dowolnym momencie rozpocząć kopiowanie z tego adresu. Między Irecv a Wait programista NIE MOŻE czytać bufora odbiorczego — dane mogą być jeszcze niekompletne.
+
 **Kluczowe: synchroniczność ≠ blokowanie!**
 
     Cecha              Synchroniczna          Asynchroniczna

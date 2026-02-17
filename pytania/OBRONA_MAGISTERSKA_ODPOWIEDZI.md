@@ -3331,11 +3331,53 @@ Poniższe diagramy ilustrują kluczowe frameworki i modele omówione w pytaniu. 
 
 ---
 
+**Christopher Alexander** — architekt budynków (nie programista!), ojciec idei wzorców w inżynierii. W książce „A Pattern Language" (1977) opisał 253 wzorców architektonicznych — budowlanych. GoF zaadaptowali jego format do oprogramowania. Kluczowa idea: wzorzec to nie luźna rada, ale skodyfikowane rozwiązanie z ustandaryzowanym opisem.
+
+**Forma opisu wzorca (pattern template)** — standardowy szablon, w jakim kataloguje się każdy wzorzec. To serce odpowiedzi na „JAK są katalogowane?" — każdy wzorzec opisany jest według ustalonej struktury, dzięki czemu można je porównywać, przeszukiwać i komponować. Pola szablonu: Nazwa → Kontekst/Problem → Siły (forces) → Rozwiązanie → Konsekwencje → Powiązane wzorce → Znane zastosowania. Różne katalogi mają różne warianty szablonu (GoF ma 13 pól, forma Aleksandryjska jest bardziej narracyjna), ale rdzeń jest wspólny.
+
+**Siły (forces)** — konkurencyjne wymagania, które wzorzec próbuje pogodzić. Np. wzorzec Layered godzi testowalność vs wydajność: warstwy ułatwiają testowanie, ale dodają overhead. Siły to serce wzorca — wyjaśniają DLACZEGO dane rozwiązanie jest kompromisem, a nie „idealnym rozwiązaniem na wszystko".
+
+**Klasyfikacja wzorców (pattern classification)** — sposób organizacji wzorców wewnątrz katalogu. Główne osie klasyfikacji:
+- **Skala/zasięg**: architektoniczny (cały system) → projektowy (klasa/obiekt) → idiomatyczny (linia kodu)
+- **Domena problemu**: np. GoF dzieli 23 wzorce na kreacyjne (5), strukturalne (7), behawioralne (11)
+- **Atrybut jakościowy**: wydajność, skalowalność, dostępność, testowalność
+- **Domena zastosowania**: enterprise, chmura, integracja, embedded
+
+**Język wzorców (pattern language)** — zbiór wzorców, które wzajemnie się referują, tworząc nawigacyjną sieć. Wzorzec „Microservices" referuje „API Gateway", „Service Discovery", „Circuit Breaker". Można „czytać" język wzorców jak przepis: „zacznij od X → jeśli problem Y → zastosuj Z". To trzeci filar katalogowania obok szablonu opisu i klasyfikacji.
+
+---
+
 ### Cel: reużywalne rozwiązania typowych problemów, wspólne słownictwo, dokumentacja wiedzy
 
 ### Powstawanie: Problem powtarzalny → Podobne rozwiązania → Uogólnienie → Dokumentacja → Walidacja → Katalogowanie
 
-### Katalogi: POSA (wzorce architektoniczne), GoF (projektowe), EIP (integracja), PoEAA (Fowler), Cloud Patterns
+### Katalogowanie — trzy filary metodologii
+
+**1. Ustandaryzowany szablon opisu** — każdy wzorzec opisany wg tego samego formatu:
+- **Nazwa** — jedno słowo/fraza: „Layered", „Observer"
+- **Problem/Kontekst** — kiedy stosować
+- **Siły (forces)** — konkurencyjne wymagania do pogodzenia
+- **Rozwiązanie** — struktura, diagram, zachowanie
+- **Konsekwencje** — tradeoffs: co zyskujemy, co tracimy
+- **Powiązane wzorce** — jakie wzorce współgrają lub konkurują
+- **Znane zastosowania** — real-world examples
+
+**2. Klasyfikacja wieloosiowa** — wzorce organizowane wzdłuż kilku osi jednocześnie:
+- **Skala**: architektoniczny (cały system) → projektowy (klasa) → idiomatyczny (linia kodu)
+- **Domena problemu**: kreacyjne / strukturalne / behawioralne (GoF) albo warstwy / komunikacja / dekompozycja (POSA)
+- **Atrybut jakościowy**: wydajność, skalowalność, testowalność, dostępność
+
+**3. Język wzorców (pattern language)** — wzorce referują się wzajemnie, tworząc graf:
+- Microservices → wymaga → API Gateway, Service Discovery, Circuit Breaker
+- Observer → wariant architektoniczny → Event-Driven Architecture
+- Nawigacja: „mam problem X → wzorzec A → prowadzi do problemu Y → wzorzec B"
+
+**Konkretne katalogi:**
+- **POSA** (1996) — wzorce architektoniczne: Layers, Pipes & Filters, Broker, MVC, Microkernel
+- **GoF** (1994) — 23 wzorce projektowe: kreacyjne (5), strukturalne (7), behawioralne (11)
+- **EIP** (2003) — wzorce integracji: Message Channel, Router, Aggregator
+- **PoEAA** (2002) — enterprise: Repository, Unit of Work, Domain Model, Active Record
+- **Cloud Patterns** (~2015) — chmurowe: Circuit Breaker, Sidecar, Saga, Strangler Fig
 
 ### Przykładowe wzorce
 
@@ -3362,9 +3404,18 @@ Poniższe diagramy ilustrują kluczowe frameworki i modele omówione w pytaniu. 
 
 ### Jak zapamiętać
 
+- **Mnemonik katalogów „PGEP+C"**: **P**OSA → **G**oF → **E**IP → **P**oEAA + **C**loud
+  - Historia: „**P**aweł **G**rał **E**fektownie **P**od **C**hmurami"
+  - Chronologicznie: GoF '94 → POSA '96 → PoEAA '02 → EIP '03 → Cloud ~'15
+- **Szablon wzorca „NaPSiRoKo"**: **Na**zwa, **P**roblem, **Si**ły, **Ro**związanie, **Ko**nsekwencje
+  - Wyobraź sobie kartonowe pudełko: etykieta (Nazwa) → co nie działa (Problem) → wagi na szalce (Siły) → instrukcja montażu (Rozwiązanie) → lista „+" i „−" na boku (Konsekwencje)
+- **3 filary katalogowania**: Szablon + Klasyfikacja + Język wzorców
+  - Analogia do encyklopedii: każde hasło ma ten sam format (szablon), jest w kategorii z innymi hasłami tego typu (klasyfikacja), i ma „zobacz też" (język wzorców)
 - **„Monolith first"** — rozdzielaj gdy znasz granice domen
-- **Wzorzec = Nazwa + Problem + Rozwiązanie + Konsekwencje**
-- Katalogi: POSA = architektura, GoF = klasy/obiekty, EIP = messaging
+- **Wzorzec = Nazwa + Problem + Rozwiązanie + Konsekwencje** (minimum do zapamiętania z dowolnego katalogu)
+- Katalogi wg skali: POSA = systemy, GoF = obiekty, EIP = komunikacja międzysystemowa
+
+→ Diagramy do druku: `pytania/img/q14_pattern_template.png`, `pytania/img/q14_catalog_map.png`
 
 \newpage
 
@@ -3449,6 +3500,82 @@ Przykład: Robot-dostawca. Belief: „drzwi zamknięte". Desire: „dostarczyć 
 
 ---
 
+### Odpowiedź wprost: jak agent upostaciowiony specyfikuje sterownik robota
+
+**Definicja:** Agent upostaciowiony (embodied agent) to formalny model konceptualny robota — bytu posiadającego ciało fizyczne, sensory i efektory, działającego w rzeczywistym środowisku. Wykorzystanie tego modelu do specyfikacji sterowników polega na tym, że **architektura sterownika robota jest bezpośrednim odwzorowaniem struktury agenta**: cykl percepcja–deliberacja–akcja staje się pętlą sterowania, a formalne modele agenta (BDI, LTL) stają się specyfikacją wymagań dla oprogramowania robota.
+
+**Krótko: model agenta → architektura sterownika → implementacja na robocie.**
+
+#### Krok 1: Model agenta definiuje CO robot ma robić
+
+Robot traktujemy jako agenta upostaciowionego. To oznacza, że specyfikujemy:
+- **Sensory** — jakie dane wejściowe robot otrzymuje (LIDAR, kamera, IMU)
+- **Efektory** — jakie akcje fizyczne może wykonać (jedź, chwyć, obróć)
+- **Cel** — co agent ma osiągnąć (dostarczyć paczkę, unikać kolizji)
+- **Środowisko** — w jakim świecie działa (magazyn, szpital, droga)
+
+#### Krok 2: Cykl See-Think-Act definiuje JAK działa pętla sterowania
+
+Każdy sterownik robota realizuje wariant cyklu agenta:
+1. **See** — odczytaj sensory → zbuduj wewnętrzny model świata (np. mapę)
+2. **Think** — na podstawie modelu i celu wybierz akcję (planowanie)
+3. **Act** — wyślij komendy do silników/chwytaków
+
+Ten cykl powtarza się w pętli z częstotliwością zależną od warstwy (ms → min).
+
+![Cykl See-Think-Act agenta upostaciowionego](img/agent_see_think_act.png)
+
+#### Krok 3: Architektura 3T dzieli sterownik na warstwy odpowiedzialności
+
+Praktyczna realizacja agenta upostaciowionego to **architektura trójwarstwowa (3T)**:
+
+| Warstwa | Rola | Czas reakcji | Przykład |
+|---------|------|-------------|----------|
+| **Planner** | planowanie symboliczne (CEL → PLAN) | sekundy–minuty | "Jedź trasą A→B→C" |
+| **Sequencer** | koordynacja zachowań (PLAN → SEKWENCJA) | 100 ms–sekundy | FSM: IDLE→APPROACH→GRASP |
+| **Controller** | sterowanie sprzętem (SEKWENCJA → SYGNAŁY) | milisekundy | PID: prędkość = 0.5 m/s |
+
+Każda warstwa odpowiada innemu aspektowi agenta:
+- Planner = deliberacja (myślenie długoterminowe)
+- Sequencer = koordynacja intencji (BDI: Intentions)
+- Controller = reaktywność (natychmiastowe bezpieczeństwo)
+
+![Architektura 3T sterownika robota](img/agent_3t_architecture.png)
+
+#### Krok 4: Formalne modele agenta specyfikują wymagania
+
+**Model BDI** pozwala formalnie opisać stan wewnętrzny agenta i na tej podstawie generować/weryfikować sterownik:
+- Beliefs = wiedza robota → baza danych sensorycznych
+- Desires = cele → warunki sukcesu
+- Intentions = aktualny plan → sekwencer
+
+![Model BDI agenta](img/agent_bdi_model.png)
+
+**Logika temporalna LTL** pozwala specyfikować wymagania bezpieczeństwa i żywotności:
+- **Bezpieczeństwo:** □(obstacle → ¬move_forward) — "ZAWSZE: jeśli przeszkoda, NIE jedź naprzód"
+- **Żywotność:** ◇(at_goal) — "KIEDYŚ dotrzyj do celu"
+
+Formalna specyfikacja LTL → automatyczna synteza/weryfikacja sterownika (model checking).
+
+#### Krok 5: Behavior Trees implementują specyfikację zachowań
+
+Nowoczesna metoda implementacji warstwy Sequencer. Modularność, reużywalność, łatwe debugowanie:
+
+![Behavior Tree — robot przenoszący obiekt](img/agent_behavior_tree.png)
+
+#### Konkretny przykład: robot-dostawca w szpitalu
+
+1. **Model agenta:** sensory = LIDAR + kamera; efektory = koła + chwytak; cel = dostarcz lek do pokoju 5
+2. **BDI:** Belief = "drzwi pokoju 5 zamknięte"; Desire = "dostarczyć lek"; Intention = "jedź do drzwi bocznych"
+3. **LTL:** □(¬collision) ∧ ◇(at_room5) — "nigdy nie koliduj I w końcu dotrzyj do pokoju 5"
+4. **3T:**
+   - Planner: A* wyznacza trasę korytarz → winda → piętro 3 → pokój 5
+   - Sequencer: BT: [Jedź do windy → Wjedź → Jedź do pokoju → Otwórz drzwi → Podaj lek]
+   - Controller: PID utrzymuje prędkość 0.3 m/s, emergency stop przy przeszkodzie < 30 cm
+5. **ROS:** node `/lidar_scan` → topic → node `/path_planner` → topic → node `/motor_driver`
+
+---
+
 ### Agent upostaciowiony = ciało fizyczne + sensory + efektory + środowisko
 
 Cykl: **Percepcja → Deliberacja → Akcja** (See-Think-Act)
@@ -3481,9 +3608,14 @@ Cykl: **Percepcja → Deliberacja → Akcja** (See-Think-Act)
 
 ### Jak zapamiętać
 
-- **„See-Think-Act"** = Percepcja → Deliberacja → Akcja
-- **3T = Plan-Sequence-Control** (od abstrakcji do sprzętu)
-- BDI = Beliefs, Desires, Intentions
+- **"STA"** = **S**ee → **T**hink → **A**ct (jak STA-bilność — stabilny cykl sterowania)
+- **3T = "Plan-Seq-Con"** = od abstrakcji do sprzętu, jak w armii: generał (Plan) → oficer (Seq) → żołnierz (Con)
+- **BDI = "Wiem–Chcę–Robię"**: Beliefs = co Wiem, Desires = co Chcę, Intentions = co Robię
+- **LTL: □ = "zawsze" (kwadrat = solidny, niezmienny), ◇ = "kiedyś" (diament = cenny cel do zdobycia)**
+- **Agent→Sterownik w 5 krokach:** CO (model agenta) → JAK (STA) → WARSTWY (3T) → WYMAGANIA (BDI+LTL) → IMPLEMENTACJA (BT+ROS)
+- **Akronim SPECYFIKACJA:** **S**ensory → **P**ercepcja → **E**fekty → **C**ykl → **I**ntencje → **F**ormalność → **I**mplementacja → **K**ontroler → **A**kcja → **C**el → **J**akość → **A**rchitektura
+
+→ Diagramy do druku: `pytania/img/agent_see_think_act.png`, `pytania/img/agent_3t_architecture.png`, `pytania/img/agent_bdi_model.png`, `pytania/img/agent_behavior_tree.png`
 
 \newpage
 
@@ -3495,7 +3627,7 @@ Cykl: **Percepcja → Deliberacja → Akcja** (See-Think-Act)
 
 ### Tło pojęciowe — słowniczek
 
-**Robot** — cz. „robota" = ciężka praca; termin ukuty przez Karla Čapka (R.U.R., 1920). W przemyśle: programowalna maszyna wykonująca zadania (spawanie, paletyzacja, montaż). W kontekście pytania: głównie roboty przemysłowe (manipulatory).
+**Robot** — cz. „robota" = ciężka praca; termin ukuty przez Karla Čapka (R.U.R., 1920). W przemyśle: programowalna maszyna wykonująca zadania (spawanie, paletyzacja, montaż). W kontekście pytania: głównie roboty przemysłowe (manipulatory) — ramiona z 4–7 osiami obrotu, sterowane komputerowo.
 
 **Język programowania robotów** — język do definiowania zachowania robota: ruchy, logika, I/O. Może być specjalizowany (dedykowany producenta) lub ogólny (C++, Python z bibliotekami). Klasyfikacja wg poziomu abstrakcji — od zadań po sygnały silników.
 
@@ -3505,88 +3637,455 @@ Cykl: **Percepcja → Deliberacja → Akcja** (See-Think-Act)
 
 **Task-level (poziom zadania)** — najwyższy: opisujesz CO robot ma zrobić, nie JAK. „Podnieś A, połóż na B." Robot sam planuje ruchy. Przykłady: PDDL, Behavior Trees.
 
-    // Task-level:
+    // Task-level (pseudokod):
     pick(objectA);
     place(locationB);
     // Robot sam oblicza kinematykę, trajektorię, chwyt
 
-**Robot-level (poziom robota)** — komendy ruchu w przestrzeni kartezjańskiej lub konfiguracyjnej: move_to(x,y,z), grasp(). Programista mówi GDZIE jechać, robot oblicza JAK (kinematyka odwrotna). Przykłady: RAPID (ABB), KRL (KUKA), Karel (FANUC).
-
-    // RAPID (ABB):
-    MoveL p1, v500, fine, tool1;  // liniowo do p1, prędkość 500 mm/s
+**Robot-level (poziom robota)** — komendy ruchu w przestrzeni kartezjańskiej lub konfiguracyjnej: move_to(x,y,z), grasp(). Programista mówi GDZIE jechać, robot oblicza JAK (kinematyka odwrotna). Tu działają języki producentów: RAPID (ABB), KRL (KUKA), Karel (FANUC), PDL2 (Comau), URScript (Universal Robots).
 
 **Motion-level (poziom ruchu)** — planowanie trajektorii: generowanie ciągu punktów od startu do celu z unikaniem kolizji. Kinematyka odwrotna, interpolacja. Przykłady: MoveIt (ROS), OMPL.
 
-**Servo-level (poziom serwa)** — najniższy: bezpośrednie sterowanie silnikami/serwomechanizmami. Regulacja PID, sygnały PWM. Języki: C/C++, FPGA. Czas reakcji: mikro-milisekundy.
+**Servo-level (poziom serwa)** — najniższy: bezpośrednie sterowanie silnikami/serwomechanizmami. Regulacja PID, sygnały PWM. Języki: C/C++, FPGA/VHDL. Czas reakcji: mikro-milisekundy.
 
+    Przykład czasu reakcji na każdym poziomie:
     Task:    "Zamontuj śrubę"          (sekundy)
-    Robot:   MoveL do_pozycji           (100ms)
-    Motion:  Trajektoria 50 pkt/s       (20ms)
-    Servo:   PID: PWM silnika = 75%     (1ms)
+    Robot:   MoveL do_pozycji           (100 ms)
+    Motion:  Trajektoria 50 pkt/s       (20 ms)
+    Servo:   PID: PWM silnika = 75%     (1 ms)
+
+![Piramida T-R-M-S](img/robot_trms_pyramid.png)
 
 ---
 
-**Kinematyka odwrotna (inverse kinematics, IK)** — obliczenie kątów w stawach robota, aby efektor (np. chwytak) znalazł się w zadanej pozycji. Problem odwrotny: znasz cel, szukasz konfiguracji. Może mieć 0, 1 lub wiele rozwiązań.
+**Kinematyka odwrotna (inverse kinematics, IK)** — obliczenie kątów w stawach robota, aby efektor (np. chwytak) znalazł się w zadanej pozycji. Problem odwrotny: znasz cel (x,y,z + orientacja), szukasz konfiguracji (kąty q₁…qₙ). Może mieć 0, 1 lub wiele rozwiązań. Robot 6-osiowy: zazwyczaj do 8 rozwiązań dla jednej pozycji.
 
-**Trajektoria (trajectory)** — zaplanowana ścieżka ruchu w czasie: sekwencja pozycji + prędkości + przyspieszenia. Interpolacja: liniowa (LIN), kołowa (CIRC), punkt-do-punktu (PTP).
+    Przykład (robot 2-osiowy, ramiona L₁=L₂=1m, cel: x=1.0, y=1.0):
+    q₂ = arccos((x²+y²−L₁²−L₂²) / (2·L₁·L₂))
+       = arccos((1+1−1−1)/2) = arccos(0) = 90°
+    Dwa rozwiązania: „łokieć do góry" i „łokieć na dół"
 
----
+**Trajektoria (trajectory)** — zaplanowana ścieżka ruchu w czasie: sekwencja pozycji + prędkości + przyspieszenia. Trzy typy interpolacji:
+- **PTP (Point-to-Point)** — najszybsza, ale ścieżka w przestrzeni kartezjańskiej nieprzewidywalna (interpolacja w przestrzeni stawów)
+- **LIN (Linear)** — prosta linia TCP (Tool Center Point); wymaga obliczenia IK w każdym punkcie
+- **CIRC (Circular)** — łuk kołowy przez 3 punkty (start, pkt pomocniczy, cel)
 
-**Języki producentów (vendor-specific):**
-- **RAPID (ABB)** — Robotics Application Programming Interactive Dialogue. Ruchy: MoveJ (joint), MoveL (linear), MoveC (circular).
-- **KRL (KUKA Robot Language)** — PTP (point-to-point), LIN (linear), CIRC (circular). Pascal-like syntax.
-- **Karel (FANUC)** — od Karla Čapka. MOVE TO target. Pascal-like.
-- **PDL2 (Comau)** — MOVE LINEAR TO. Proceduralne.
-
-**Vendor lock-in** — każdy producent ma WŁASNY język. Program napisany w RAPID nie działa na robocie KUKA. To motywacja dla ROS i standardów.
-
-**Online vs Offline programming:**
-- **Online (teach-in)** — operator prowadzi robota „za rękę" (pendant/teach pendant), robot zapamiętuje punkty. Proste, ale wymaga zatrzymania produkcji.
-- **Offline** — programowanie w symulacji (CAD/CAM), bez zatrzymywania robota. Transferujesz gotowy program.
+![Typy ruchu robota](img/robot_movement_types.png)
 
 ---
 
-**ROS (Robot Operating System)** — middleware (nie OS!) do robotyki. Model pub/sub: węzły publikują/subskrybują tematy. Uniwersalny — działa z robotami różnych producentów. Głównie Python/C++. Wada: nie nadaje się do hard real-time (soft real-time OK; ROS 2 poprawia).
+**Vendor lock-in** — każdy producent ma WŁASNY język. Program napisany w RAPID nie działa na robocie KUKA. To motywacja dla ROS i standardów. Porównanie języków:
 
-**MoveIt** — biblioteka ROS do planowania ruchu manipulatorów. Obejmuje: IK, collision avoidance, trajectory planning. Open source.
+![Porównanie języków producentów](img/robot_vendor_comparison.png)
 
-**PDDL (Planning Domain Definition Language)** — język opisu problemów planowania. Definiujesz: stany, akcje, warunki, cel. Planner automatycznie znajduje sekwencję akcji. Task-level.
+---
 
-**FPGA (Field-Programmable Gate Array)** — programowalny układ logiczny. Dla servo-level: przetwarzanie sygnałów w nanosekundach. Szybszy niż mikrokontroler, ale trudniejszy w programowaniu.
+**TCP (Tool Center Point)** — punkt centralny narzędzia zamontowanego na końcu ramienia (np. czubek spawarki, środek chwytaka). Wszystkie komendy ruchu LIN i CIRC odnoszą się do TCP — robot steruje tak, żeby ten punkt poruszał się po żądanej ścieżce.
+
+    Definiowanie TCP w RAPID:
+    PERS tooldata tGripper := [TRUE, [[0,0,150],[1,0,0,0]],
+                                [2,[0,0,75],[1,0,0,0],0,0,0]];
+    // TCP jest 150mm nad kołnierzem, masa narzędzia 2kg
+
+**Strefa zbliżenia (zone)** — parametr określający, jak blisko celu robot musi dojechać zanim zacznie ruch do kolejnego punktu. `fine` = dojazd dokładnie do punktu (zatrzymanie), `z10` = robot zaczyna skręcać w stronę następnego punktu gdy jest 10mm od celu (ruch „na okrągło", płynniejszy i szybszy).
+
+    MoveL p1, v500, fine, tool1;   // zatrzymaj się dokładnie w p1
+    MoveL p1, v500, z50, tool1;    // zacznij skręcać 50mm przed p1
+    // z50 → szybszy cykl, ale mniejsza precyzja w punkcie
 
 ---
 
 ### Klasyfikacja wg poziomu abstrakcji: **T-R-M-S**
 
 1. **Task-level** — „Podnieś A, połóż na B" (PDDL, Behavior Trees)
-2. **Robot-level** — move_to(), grasp() (RAPID, KRL, Karel, ROS)
+2. **Robot-level** — move_to(), grasp() (RAPID, KRL, Karel, URScript)
 3. **Motion-level** — trajektorie, kinematyka odwrotna (MoveIt, OMPL)
 4. **Servo-level** — PID, sterowanie silnikami (C/C++, FPGA)
 
-### Klasyfikacja wg metody: Online (teach-in, pendant) vs Offline (symulacja, CAD)
+### Klasyfikacja wg metody programowania
 
-### Języki producentów
+![Online vs Offline](img/robot_online_offline.png)
 
-| Producent | Język | Ruchy              |
-|-----------|-------|--------------------|
-| ABB       | RAPID | MoveJ, MoveL, MoveC|
-| KUKA      | KRL   | PTP, LIN, CIRC     |
-| FANUC     | Karel | MOVE TO            |
-| Comau     | PDL2  | MOVE LINEAR TO     |
+- **Online (teach-in)** — operator z teach pendantem prowadzi robota i zapisuje punkty. Proste, intuicyjne, ale wymaga wyłączenia produkcji.
+- **Offline** — programowanie w symulatorze 3D (RobotStudio, KUKA.Sim, ROBOGUIDE), bez zatrzymywania robota. Wymaga kalibracji po transferze.
+- **Hybrid** — w praktyce łączy się oba podejścia: offline do wstępnego programu, online do korekcji punktów.
 
-### Uniwersalne: ROS + Python/C++, MoveIt (planowanie manipulatora), Orocos (real-time)
+### Języki producentów — szczegółowo
 
-### Graficzne: RobotStudio (ABB), ROBOGUIDE (FANUC), Blockly (edukacja)
+#### RAPID (ABB)
+
+**Producent:** ABB. **Rozwinięcie:** Robotics Application Programming Interactive Dialogue. **Składnia:** własny typ, strukturalna, wielozadaniowa (RAPID obsługuje wielowątkowość). **Symulator:** RobotStudio (darmowa wersja edukacyjna).
+
+**Kluczowe cechy:**
+- Typy danych: `num` (liczba), `string`, `bool`, `robtarget` (pozycja kartezjańska + orientacja + konfiguracja), `jointtarget` (kąty stawów), `tooldata`, `wobjdata` (układ współrzędnych obiektu)
+- Ruchy: `MoveJ` (joint — PTP), `MoveL` (linear), `MoveC` (circular), `MoveAbsJ` (absolutne kąty)
+- I/O: `SetDO` (digital output), `WaitDI` (czekaj na digital input), `SetAO` (analog out)
+- Kontrola przepływu: `IF/ELSEIF/ELSE/ENDIF`, `WHILE/ENDWHILE`, `FOR/ENDFOR`, `TEST/CASE/DEFAULT/ENDTEST`
+- Obsługa błędów: `TRAP` (przerwania), `ERROR` handler
+- Wielozadaniowość: wiele tasków wykonywanych równolegle — np. jeden task steruje ruchem, drugi monitoruje czujniki
+
+**Przykładowy program pick & place:**
+
+    MODULE MainModule
+        ! --- Dane ---
+        CONST robtarget pHome  := [[500,0,600],[1,0,0,0],[0,0,0,0],[9E9,9E9,9E9,9E9,9E9,9E9]];
+        CONST robtarget pPick  := [[400,200,100],[1,0,0,0],[0,0,0,0],[9E9,9E9,9E9,9E9,9E9,9E9]];
+        CONST robtarget pPlace := [[400,-200,100],[1,0,0,0],[0,0,0,0],[9E9,9E9,9E9,9E9,9E9,9E9]];
+        VAR num nCycles := 0;
+
+        ! --- Procedura główna ---
+        PROC main()
+            MoveJ pHome, v1000, z50, tGripper;     ! jedź do pozycji bazowej (joint)
+            WHILE TRUE DO
+                PickPart;
+                PlacePart;
+                Incr nCycles;
+                TPWrite "Cykl nr: " + ValToStr(nCycles);
+            ENDWHILE
+        ENDPROC
+
+        ! --- Podnoszenie ---
+        PROC PickPart()
+            MoveL Offs(pPick,0,0,50), v500, z10, tGripper;   ! 50mm nad celem
+            MoveL pPick, v100, fine, tGripper;                 ! precyzyjnie na cel
+            SetDO doGripper, 1;                                ! zamknij chwytak
+            WaitTime 0.3;                                      ! czekaj na zamknięcie
+            MoveL Offs(pPick,0,0,50), v500, z10, tGripper;   ! podnieś 50mm
+        ENDPROC
+
+        ! --- Odkładanie ---
+        PROC PlacePart()
+            MoveL Offs(pPlace,0,0,50), v500, z10, tGripper;  ! 50mm nad miejscem
+            MoveL pPlace, v100, fine, tGripper;                ! precyzyjnie na cel
+            SetDO doGripper, 0;                                ! otwórz chwytak
+            WaitTime 0.3;
+            MoveL Offs(pPlace,0,0,50), v500, z10, tGripper;  ! podnieś 50mm
+        ENDPROC
+    ENDMODULE
+
+**Objaśnienie parametrów MoveL:**
+
+    MoveL  pPick,  v500,   z10,    tGripper;
+    │      │       │       │       └── narzędzie (tooldata) — definiuje TCP
+    │      │       │       └── strefa zbliżenia: 10mm (nie zatrzymuj się, skręcaj)
+    │      │       └── prędkość TCP: 500 mm/s
+    │      └── cel: robtarget (pozycja + orientacja + konfiguracja)
+    └── typ ruchu: ruch liniowy (TCP jedzie po prostej)
+
+![Struktura programu RAPID](img/robot_rapid_example.png)
+
+---
+
+#### KRL (KUKA Robot Language)
+
+**Producent:** KUKA. **Rozwinięcie:** KUKA Robot Language. **Składnia:** Pascal-like (BEGIN/END, deklaracje na początku). **Symulator:** KUKA.Sim Pro, WorkVisual.
+
+**Kluczowe cechy:**
+- Program = dwa pliki: `.src` (kod) + `.dat` (dane punktów)
+- Typy: `INT`, `REAL`, `BOOL`, `CHAR`, `POS` (x,y,z,a,b,c), `E6POS` (+ osie dodatkowe), `AXIS` (kąty stawów)
+- Ruchy: `PTP` (point-to-point = joint), `LIN` (linear), `CIRC` (circular)
+- Approximation (odpowiednik zone w RAPID): `C_DIS` — robot nie zatrzymuje się w punkcie
+- Kontrola przepływu: `IF/ENDIF`, `WHILE/ENDWHILE`, `FOR/ENDFOR`, `SWITCH/CASE/ENDSWITCH`
+
+**Przykładowy program:**
+
+    DEF PickAndPlace()
+        ; --- Deklaracje ---
+        DECL E6POS XHome, XPick, XPlace
+        DECL INT nLoop
+
+        ; --- Inicjalizacja ---
+        BAS (#INITMOV, 0)         ; inicjalizacja ruchów
+        $VEL.CP = 0.5             ; prędkość kartezjańska 0.5 m/s
+        $APO.CDIS = 10            ; approximacja: 10mm
+
+        ; --- Ruch do domu ---
+        PTP XHome                 ; point-to-point (joint space)
+
+        FOR nLoop = 1 TO 100
+            ; Podjedź nad punkt pobrania
+            LIN XPick              ; ruch liniowy do punktu
+            ; Zamknij chwytak
+            OUT 1 TRUE             ; digital output 1 = ON
+            WAIT SEC 0.3
+            ; Jedź do miejsca odkładania
+            LIN XPlace
+            OUT 1 FALSE            ; otwórz chwytak
+            WAIT SEC 0.3
+        ENDFOR
+    END
+
+**KRL vs RAPID — kluczowe różnice:**
+- KRL rozdziela kod (`.src`) od danych (`.dat`); RAPID trzyma wszystko w MODULE
+- KRL: `$VEL.CP = 0.5` (zmienna systemowa); RAPID: `v500` (nazwany speeddata)
+- KRL: `C_DIS` approximation; RAPID: `z10` zone
+- KRL: `OUT 1 TRUE`; RAPID: `SetDO doGripper, 1`
+
+---
+
+#### Karel (FANUC)
+
+**Producent:** FANUC. **Nazwa:** od Karla Čapka. **Składnia:** Pascal-like (PROGRAM/BEGIN/END, VAR). **Symulator:** ROBOGUIDE.
+
+**Kluczowe cechy:**
+- Dwa tryby: Karel (tekstowy, pełny język) i TP (Teach Pendant — uproszczony, listowy)
+- Karel: kompilowany, typowany, procedury/funkcje
+- Typy: `INTEGER`, `REAL`, `BOOLEAN`, `STRING`, `POSITION`, `XYZWPR`
+- TP program jest częściej używany w praktyce (prostszy, operatorzy go rozumieją)
+
+**Przykład Karel:**
+
+    PROGRAM pick_place
+    VAR
+        home_pos : POSITION
+        pick_pos : POSITION
+        place_pos : POSITION
+        cycle_count : INTEGER
+    BEGIN
+        cycle_count = 0
+        -- Jedź do domu
+        MOVE TO home_pos
+        WHILE cycle_count < 100 DO
+            -- Podnoszenie
+            MOVE TO pick_pos
+            DOUT[1] = ON           -- zamknij chwytak
+            DELAY 300              -- czekaj 300ms
+            -- Odkładanie
+            MOVE TO place_pos
+            DOUT[1] = OFF          -- otwórz chwytak
+            DELAY 300
+            cycle_count = cycle_count + 1
+        ENDWHILE
+    END pick_place
+
+**Przykład TP (Teach Pendant) — to widzi operator:**
+
+       1: J P[1] 100% FINE          ; joint move do Home, 100% speed
+       2: L P[2] 500mm/sec FINE     ; linear do Pick
+       3: DO[1]=ON                  ; chwytak zamknij
+       4: WAIT 0.30(sec)
+       5: L P[3] 500mm/sec FINE     ; linear do Place
+       6: DO[1]=OFF                 ; chwytak otwórz
+       7: WAIT 0.30(sec)
+       8: JMP LBL[1]               ; skocz do linii 1
+
+**Uwaga:** W praktyce fabrycznej TP jest dominujący — operatorzy uczą się numerowanych linii, nie pełnego Karela.
+
+---
+
+#### URScript (Universal Robots)
+
+**Producent:** Universal Robots (coboty — collaborative robots). **Składnia:** Python-like (brak nawiasów klamrowych, wcięcia nie mają znaczenia, ale styl jest skryptowy). **Symulator:** URSim (darmowy, oparty na VM).
+
+**Kluczowe cechy:**
+- Skryptowy i prosty — niski próg wejścia (coboty = roboty współpracujące z ludźmi)
+- Wbudowane funkcje force control (sterowanie siłą) — unikalne dla cobotów
+- Typy: brak deklaracji typów (dynamiczne), `pose` = [x,y,z,rx,ry,rz]
+- Polyscope — graficzny interfejs do programowania (drag & drop + URScript)
+
+**Przykład URScript:**
+
+    def pick_and_place():
+        # Pozycje jako pose: [x, y, z, rx, ry, rz] w metrach i radianach
+        home  = p[0.5, 0.0, 0.4, 3.14, 0.0, 0.0]
+        pick  = p[0.4, 0.2, 0.1, 3.14, 0.0, 0.0]
+        place = p[0.4, -0.2, 0.1, 3.14, 0.0, 0.0]
+
+        movej(home, a=1.2, v=0.5)          # joint move, acc=1.2 rad/s², vel=0.5 rad/s
+
+        i = 0
+        while i < 100:
+            # Podnoszenie
+            movel(pick, a=0.5, v=0.3)      # linear move
+            set_digital_out(0, True)        # zamknij chwytak
+            sleep(0.3)
+
+            # Odkładanie
+            movel(place, a=0.5, v=0.3)
+            set_digital_out(0, False)       # otwórz chwytak
+            sleep(0.3)
+
+            i = i + 1
+        end
+    end
+
+**URScript — unikalne cechy cobotów:**
+
+    # Force mode — wkładanie kołka w otwór z kontrolą siły:
+    force_mode(p[0,0,0,0,0,0], [0,0,1,0,0,0], [0,0,-10,0,0,0], 2, [0.1,0.1,0.05,1,1,1])
+    # Robot naciska z siłą 10N w dół (oś Z), reszt osi blokuje
+
+    # Freedrive — operator prowadzi robota ręcznie:
+    freedrive_mode()
+    sleep(10)   # 10 sekund swobodnego prowadzenia
+    end_freedrive_mode()
+
+---
+
+#### PDL2 (Comau)
+
+**Producent:** Comau (Fiat/Stellantis). **Składnia:** proceduralna, C-like. **Symulator:** RoboSim.
+
+**Przykład:**
+
+    PROGRAM pick_place
+    VAR home_pos, pick_pos, place_pos : POSITION
+    BEGIN
+        MOVE TO home_pos
+        CYCLE
+            MOVE LINEAR TO pick_pos
+            $DOUT[1] := TRUE          -- chwytak
+            DELAY 300
+            MOVE LINEAR TO place_pos
+            $DOUT[1] := FALSE
+            DELAY 300
+        END CYCLE
+    END pick_place
+
+---
+
+### Porównanie składni — ten sam ruch w 5 językach
+
+    Zadanie: ruch liniowy do punktu pPick z prędkością ~500mm/s
+
+    RAPID (ABB):    MoveL pPick, v500, fine, tGripper;
+    KRL (KUKA):     LIN XPick
+    Karel (FANUC):  MOVE TO pick_pos                      ; z opcją LINEAR
+    TP (FANUC):     L P[2] 500mm/sec FINE
+    URScript (UR):  movel(pick, a=0.5, v=0.5)
+    PDL2 (Comau):   MOVE LINEAR TO pick_pos
+
+### Języki uniwersalne i middleware
+
+#### ROS / ROS 2 (Robot Operating System)
+
+**ROS** to middleware (NIE system operacyjny!) — warstwa komunikacji między modułami (węzłami). Programuje się w Python lub C++. Architektura publish/subscribe: węzły publikują wiadomości na tematy (topics), inne węzły subskrybują.
+
+![Architektura ROS](img/robot_ros_architecture.png)
+
+**ROS 1 vs ROS 2:**
+- ROS 1: roscore (centralny master), brak real-time, Python 2/3 + C++
+- ROS 2: DDS (bez centralnego mastera, peer-to-peer), real-time friendly, Python 3 + C++17
+- ROS 2 dodaje: lifecycle nodes, QoS (Quality of Service), lepsze multi-robot
+
+**Przykład ROS 2 (Python) — publisher prędkości:**
+
+    import rclpy
+    from geometry_msgs.msg import Twist
+
+    def main():
+        rclpy.init()
+        node = rclpy.create_node('velocity_publisher')
+        pub = node.create_publisher(Twist, '/cmd_vel', 10)
+
+        msg = Twist()
+        msg.linear.x = 0.5    # 0.5 m/s do przodu
+        msg.angular.z = 0.1   # obrót 0.1 rad/s
+
+        timer = node.create_timer(0.1, lambda: pub.publish(msg))  # co 100ms
+        rclpy.spin(node)
+
+**MoveIt** — biblioteka ROS do planowania ruchu manipulatorów. Obejmuje: IK, collision avoidance, trajectory planning. Wspiera roboty wielu producentów — klucz do przełamania vendor lock-in.
+
+    # MoveIt — planowanie ruchu w Pythonie:
+    move_group = MoveGroupCommander("arm")
+    move_group.set_pose_target(target_pose)     # cel w kartezjańskiej
+    plan = move_group.plan()                     # automatyczny plan trajektorii
+    move_group.execute(plan)                     # wykonaj
+
+#### Orocos (Open Robot Control Software)
+
+Framework C++ do **hard real-time** sterowania robotów. Tam gdzie ROS nie wystarczy (pętle regulacji < 1ms), Orocos wypełnia lukę. Często łączony z ROS: ROS do komunikacji + Orocos do sterowania.
+
+---
+
+### Task-level: PDDL i Behavior Trees
+
+#### PDDL (Planning Domain Definition Language)
+
+Język opisu problemów planowania. Definiujesz: stany, akcje z warunkami i efektami, cel. Planner (np. Fast Downward) automatycznie znajduje sekwencję akcji.
+
+    ; PDDL — domena: robot pick & place
+    (define (domain robot-world)
+        (:predicates
+            (on-table ?obj)
+            (holding ?obj)
+            (arm-empty))
+        (:action pick
+            :parameters (?obj)
+            :precondition (and (on-table ?obj) (arm-empty))
+            :effect (and (holding ?obj) (not (on-table ?obj)) (not (arm-empty))))
+        (:action place
+            :parameters (?obj)
+            :precondition (holding ?obj)
+            :effect (and (on-table ?obj) (arm-empty) (not (holding ?obj)))))
+
+    ; Problem: weź obiektA ze stołu
+    (define (problem pick-a)
+        (:domain robot-world)
+        (:init (on-table objectA) (arm-empty))
+        (:goal (holding objectA)))
+
+    ; Planner automatycznie znajdzie: pick(objectA)
+
+#### Behavior Trees (drzewa zachowań)
+
+Alternatywa dla maszyn stanów w sterowaniu robotów i postaci w grach. Drzewo składa się z:
+- **Sequence** (→) — wykonuj dzieci po kolei, przerwij jeśli któreś zawiedzie
+- **Selector** (?) — próbuj dzieci po kolei, przerwij po pierwszym sukcesie
+- **Action** — liść: wykonaj akcję
+- **Condition** — liść: sprawdź warunek
+
+    Behavior Tree: „Pick and Place"
+    [→ Sequence]
+        ├── [? Selector: FindObject]
+        │     ├── [Condition: ObjectVisible?]
+        │     └── [Action: SearchForObject]
+        ├── [Action: MoveToObject]
+        ├── [Action: Grasp]
+        ├── [Action: MoveToTarget]
+        └── [Action: Release]
+
+---
+
+### Środowiska graficzne
+
+| Narzędzie    | Producent | Typ                    | Koszt            |
+|-------------|-----------|------------------------|------------------|
+| RobotStudio | ABB       | Offline + symulacja 3D | Licencja / edu   |
+| KUKA.Sim    | KUKA      | Offline + symulacja 3D | Licencja         |
+| ROBOGUIDE   | FANUC     | Offline + symulacja 3D | Licencja         |
+| URSim       | UR        | Symulator kontrolera   | Darmowy          |
+| Polyscope   | UR        | GUI na teach pendancie | Wbudowany        |
+| Blockly     | Różni     | Graficzne (edukacja)   | Open source      |
+| Gazebo      | ROS/OSRF  | Symulacja fizyczna 3D  | Open source      |
+
+### Podsumowanie klasyfikacji
+
+| Kryterium           | Kategorie                                                |
+|--------------------|----------------------------------------------------------|
+| **Poziom abstrakcji** | Task → Robot → Motion → Servo (T-R-M-S)              |
+| **Metoda**           | Online (teach-in) vs Offline (symulacja) vs Hybrid    |
+| **Zakres**           | Vendor-specific (RAPID, KRL, Karel) vs Universal (ROS)|
+| **Interfejs**        | Tekstowy (RAPID, KRL) vs Graficzny (Polyscope, Blockly)|
+| **Real-time**        | Hard RT (Orocos, C/FPGA) vs Soft RT (ROS 2)          |
 
 ### Etymologia
 
-**RAPID** — Robotics Application Programming Interactive Dialogue (ABB). **KRL** — KUKA Robot Language. **Karel** — od Karla Čapka, czeskiego pisarza, który ukuł słowo „robot" (cz. „robota" = ciężka/przymusowa praca) w sztuce R.U.R. (1920). **PDDL** — Planning Domain Definition Language. **MoveIt** — open source do planowania ruchu manipulatora (Willow Garage/PickNik). **Robot** — cz. „robota" = pańszczyzna; Karel Čapek, R.U.R. (1920).
+**RAPID** — Robotics Application Programming Interactive Dialogue (ABB, 1994). **KRL** — KUKA Robot Language (KUKA, Augsburg). **Karel** — od Karla Čapka, czeskiego pisarza, który ukuł słowo „robot" (cz. „robota" = ciężka/przymusowa praca) w sztuce R.U.R. (Rossum's Universal Robots, 1920). **PDL2** — Programming and Data Language 2 (Comau). **URScript** — Universal Robots Script. **PDDL** — Planning Domain Definition Language (Drew McDermott et al., 1998). **MoveIt** — open source, Willow Garage → PickNik Robotics. **ROS** — Robot Operating System (Willow Garage, 2007 → Open Robotics). **Orocos** — Open Robot Control Software (KU Leuven, Belgia). **TCP** — Tool Center Point (nie mylić z Transmission Control Protocol!). **OMPL** — Open Motion Planning Library. **Cobot** — collaborative robot (termin 1996, Northwestern University).
 
 ### Jak zapamiętać
 
-- **„Od zadania do serwa: T-R-M-S"**
-- Każdy producent ma WŁASNY język (vendor lock-in)
-- ROS próbuje ujednolicić, ale nie dla hard real-time
+- **„Tomek Robi Mechaniczne Serwa" → T-R-M-S** (Task → Robot → Motion → Servo, od abstrakcji do sprzętu)
+- **„ABB RAPID jak rapier (szybki miecz)" → MoveL, MoveJ, MoveC** — trzy podstawowe ruchy
+- **„KUKA KRL = Pascal na sterydach"** — PTP, LIN, CIRC; dwa pliki (.src + .dat)
+- **„FANUC Karel = Čapek" → MOVE TO** — najprostszy składniowo
+- **„UR = Python robota" → movel(), movej()** — małe litery, skryptowy, coboty
+- **„ROS = WhatsApp robotów"** — węzły wysyłają wiadomości na tematy (topics), ale to NIE system operacyjny
+- **Vendor lock-in → „Program w RAPID na KUKA = jak wtyczka EU w gniazdku UK"** — nie pasuje
+- **Online = „trzymaj robota za rękę", Offline = „rysuj w symulatorze"**
+- **MoveIt = „GPS dla ramienia robota"** — planuje trasę z unikaniem przeszkód
+- **Zone/Approximation = „hamowanie przed zakrętem"** — fine = stop, z50 = przejeżdżaj płynnie
 
 \newpage
 

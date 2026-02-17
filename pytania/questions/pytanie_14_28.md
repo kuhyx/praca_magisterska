@@ -63,11 +63,53 @@
 
 ---
 
+**Christopher Alexander** — architekt budynków (nie programista!), ojciec idei wzorców w inżynierii. W książce „A Pattern Language" (1977) opisał 253 wzorców architektonicznych — budowlanych. GoF zaadaptowali jego format do oprogramowania. Kluczowa idea: wzorzec to nie luźna rada, ale skodyfikowane rozwiązanie z ustandaryzowanym opisem.
+
+**Forma opisu wzorca (pattern template)** — standardowy szablon, w jakim kataloguje się każdy wzorzec. To serce odpowiedzi na „JAK są katalogowane?" — każdy wzorzec opisany jest według ustalonej struktury, dzięki czemu można je porównywać, przeszukiwać i komponować. Pola szablonu: Nazwa → Kontekst/Problem → Siły (forces) → Rozwiązanie → Konsekwencje → Powiązane wzorce → Znane zastosowania. Różne katalogi mają różne warianty szablonu (GoF ma 13 pól, forma Aleksandryjska jest bardziej narracyjna), ale rdzeń jest wspólny.
+
+**Siły (forces)** — konkurencyjne wymagania, które wzorzec próbuje pogodzić. Np. wzorzec Layered godzi testowalność vs wydajność: warstwy ułatwiają testowanie, ale dodają overhead. Siły to serce wzorca — wyjaśniają DLACZEGO dane rozwiązanie jest kompromisem, a nie „idealnym rozwiązaniem na wszystko".
+
+**Klasyfikacja wzorców (pattern classification)** — sposób organizacji wzorców wewnątrz katalogu. Główne osie klasyfikacji:
+- **Skala/zasięg**: architektoniczny (cały system) → projektowy (klasa/obiekt) → idiomatyczny (linia kodu)
+- **Domena problemu**: np. GoF dzieli 23 wzorce na kreacyjne (5), strukturalne (7), behawioralne (11)
+- **Atrybut jakościowy**: wydajność, skalowalność, dostępność, testowalność
+- **Domena zastosowania**: enterprise, chmura, integracja, embedded
+
+**Język wzorców (pattern language)** — zbiór wzorców, które wzajemnie się referują, tworząc nawigacyjną sieć. Wzorzec „Microservices" referuje „API Gateway", „Service Discovery", „Circuit Breaker". Można „czytać" język wzorców jak przepis: „zacznij od X → jeśli problem Y → zastosuj Z". To trzeci filar katalogowania obok szablonu opisu i klasyfikacji.
+
+---
+
 ### Cel: reużywalne rozwiązania typowych problemów, wspólne słownictwo, dokumentacja wiedzy
 
 ### Powstawanie: Problem powtarzalny → Podobne rozwiązania → Uogólnienie → Dokumentacja → Walidacja → Katalogowanie
 
-### Katalogi: POSA (wzorce architektoniczne), GoF (projektowe), EIP (integracja), PoEAA (Fowler), Cloud Patterns
+### Katalogowanie — trzy filary metodologii
+
+**1. Ustandaryzowany szablon opisu** — każdy wzorzec opisany wg tego samego formatu:
+- **Nazwa** — jedno słowo/fraza: „Layered", „Observer"
+- **Problem/Kontekst** — kiedy stosować
+- **Siły (forces)** — konkurencyjne wymagania do pogodzenia
+- **Rozwiązanie** — struktura, diagram, zachowanie
+- **Konsekwencje** — tradeoffs: co zyskujemy, co tracimy
+- **Powiązane wzorce** — jakie wzorce współgrają lub konkurują
+- **Znane zastosowania** — real-world examples
+
+**2. Klasyfikacja wieloosiowa** — wzorce organizowane wzdłuż kilku osi jednocześnie:
+- **Skala**: architektoniczny (cały system) → projektowy (klasa) → idiomatyczny (linia kodu)
+- **Domena problemu**: kreacyjne / strukturalne / behawioralne (GoF) albo warstwy / komunikacja / dekompozycja (POSA)
+- **Atrybut jakościowy**: wydajność, skalowalność, testowalność, dostępność
+
+**3. Język wzorców (pattern language)** — wzorce referują się wzajemnie, tworząc graf:
+- Microservices → wymaga → API Gateway, Service Discovery, Circuit Breaker
+- Observer → wariant architektoniczny → Event-Driven Architecture
+- Nawigacja: „mam problem X → wzorzec A → prowadzi do problemu Y → wzorzec B"
+
+**Konkretne katalogi:**
+- **POSA** (1996) — wzorce architektoniczne: Layers, Pipes & Filters, Broker, MVC, Microkernel
+- **GoF** (1994) — 23 wzorce projektowe: kreacyjne (5), strukturalne (7), behawioralne (11)
+- **EIP** (2003) — wzorce integracji: Message Channel, Router, Aggregator
+- **PoEAA** (2002) — enterprise: Repository, Unit of Work, Domain Model, Active Record
+- **Cloud Patterns** (~2015) — chmurowe: Circuit Breaker, Sidecar, Saga, Strangler Fig
 
 ### Przykładowe wzorce
 
@@ -94,7 +136,16 @@
 
 ### Jak zapamiętać
 
+- **Mnemonik katalogów „PGEP+C"**: **P**OSA → **G**oF → **E**IP → **P**oEAA + **C**loud
+  - Historia: „**P**aweł **G**rał **E**fektownie **P**od **C**hmurami"
+  - Chronologicznie: GoF '94 → POSA '96 → PoEAA '02 → EIP '03 → Cloud ~'15
+- **Szablon wzorca „NaPSiRoKo"**: **Na**zwa, **P**roblem, **Si**ły, **Ro**związanie, **Ko**nsekwencje
+  - Wyobraź sobie kartonowe pudełko: etykieta (Nazwa) → co nie działa (Problem) → wagi na szalce (Siły) → instrukcja montażu (Rozwiązanie) → lista „+" i „−" na boku (Konsekwencje)
+- **3 filary katalogowania**: Szablon + Klasyfikacja + Język wzorców
+  - Analogia do encyklopedii: każde hasło ma ten sam format (szablon), jest w kategorii z innymi hasłami tego typu (klasyfikacja), i ma „zobacz też" (język wzorców)
 - **„Monolith first"** — rozdzielaj gdy znasz granice domen
-- **Wzorzec = Nazwa + Problem + Rozwiązanie + Konsekwencje**
-- Katalogi: POSA = architektura, GoF = klasy/obiekty, EIP = messaging
+- **Wzorzec = Nazwa + Problem + Rozwiązanie + Konsekwencje** (minimum do zapamiętania z dowolnego katalogu)
+- Katalogi wg skali: POSA = systemy, GoF = obiekty, EIP = komunikacja międzysystemowa
+
+→ Diagramy do druku: `pytania/img/q14_pattern_template.png`, `pytania/img/q14_catalog_map.png`
 

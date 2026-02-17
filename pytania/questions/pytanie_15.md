@@ -79,6 +79,82 @@ Przykład: Robot-dostawca. Belief: „drzwi zamknięte". Desire: „dostarczyć 
 
 ---
 
+### Odpowiedź wprost: jak agent upostaciowiony specyfikuje sterownik robota
+
+**Definicja:** Agent upostaciowiony (embodied agent) to formalny model konceptualny robota — bytu posiadającego ciało fizyczne, sensory i efektory, działającego w rzeczywistym środowisku. Wykorzystanie tego modelu do specyfikacji sterowników polega na tym, że **architektura sterownika robota jest bezpośrednim odwzorowaniem struktury agenta**: cykl percepcja–deliberacja–akcja staje się pętlą sterowania, a formalne modele agenta (BDI, LTL) stają się specyfikacją wymagań dla oprogramowania robota.
+
+**Krótko: model agenta → architektura sterownika → implementacja na robocie.**
+
+#### Krok 1: Model agenta definiuje CO robot ma robić
+
+Robot traktujemy jako agenta upostaciowionego. To oznacza, że specyfikujemy:
+- **Sensory** — jakie dane wejściowe robot otrzymuje (LIDAR, kamera, IMU)
+- **Efektory** — jakie akcje fizyczne może wykonać (jedź, chwyć, obróć)
+- **Cel** — co agent ma osiągnąć (dostarczyć paczkę, unikać kolizji)
+- **Środowisko** — w jakim świecie działa (magazyn, szpital, droga)
+
+#### Krok 2: Cykl See-Think-Act definiuje JAK działa pętla sterowania
+
+Każdy sterownik robota realizuje wariant cyklu agenta:
+1. **See** — odczytaj sensory → zbuduj wewnętrzny model świata (np. mapę)
+2. **Think** — na podstawie modelu i celu wybierz akcję (planowanie)
+3. **Act** — wyślij komendy do silników/chwytaków
+
+Ten cykl powtarza się w pętli z częstotliwością zależną od warstwy (ms → min).
+
+![Cykl See-Think-Act agenta upostaciowionego](img/agent_see_think_act.png)
+
+#### Krok 3: Architektura 3T dzieli sterownik na warstwy odpowiedzialności
+
+Praktyczna realizacja agenta upostaciowionego to **architektura trójwarstwowa (3T)**:
+
+| Warstwa | Rola | Czas reakcji | Przykład |
+|---------|------|-------------|----------|
+| **Planner** | planowanie symboliczne (CEL → PLAN) | sekundy–minuty | "Jedź trasą A→B→C" |
+| **Sequencer** | koordynacja zachowań (PLAN → SEKWENCJA) | 100 ms–sekundy | FSM: IDLE→APPROACH→GRASP |
+| **Controller** | sterowanie sprzętem (SEKWENCJA → SYGNAŁY) | milisekundy | PID: prędkość = 0.5 m/s |
+
+Każda warstwa odpowiada innemu aspektowi agenta:
+- Planner = deliberacja (myślenie długoterminowe)
+- Sequencer = koordynacja intencji (BDI: Intentions)
+- Controller = reaktywność (natychmiastowe bezpieczeństwo)
+
+![Architektura 3T sterownika robota](img/agent_3t_architecture.png)
+
+#### Krok 4: Formalne modele agenta specyfikują wymagania
+
+**Model BDI** pozwala formalnie opisać stan wewnętrzny agenta i na tej podstawie generować/weryfikować sterownik:
+- Beliefs = wiedza robota → baza danych sensorycznych
+- Desires = cele → warunki sukcesu
+- Intentions = aktualny plan → sekwencer
+
+![Model BDI agenta](img/agent_bdi_model.png)
+
+**Logika temporalna LTL** pozwala specyfikować wymagania bezpieczeństwa i żywotności:
+- **Bezpieczeństwo:** □(obstacle → ¬move_forward) — "ZAWSZE: jeśli przeszkoda, NIE jedź naprzód"
+- **Żywotność:** ◇(at_goal) — "KIEDYŚ dotrzyj do celu"
+
+Formalna specyfikacja LTL → automatyczna synteza/weryfikacja sterownika (model checking).
+
+#### Krok 5: Behavior Trees implementują specyfikację zachowań
+
+Nowoczesna metoda implementacji warstwy Sequencer. Modularność, reużywalność, łatwe debugowanie:
+
+![Behavior Tree — robot przenoszący obiekt](img/agent_behavior_tree.png)
+
+#### Konkretny przykład: robot-dostawca w szpitalu
+
+1. **Model agenta:** sensory = LIDAR + kamera; efektory = koła + chwytak; cel = dostarcz lek do pokoju 5
+2. **BDI:** Belief = "drzwi pokoju 5 zamknięte"; Desire = "dostarczyć lek"; Intention = "jedź do drzwi bocznych"
+3. **LTL:** □(¬collision) ∧ ◇(at_room5) — "nigdy nie koliduj I w końcu dotrzyj do pokoju 5"
+4. **3T:**
+   - Planner: A* wyznacza trasę korytarz → winda → piętro 3 → pokój 5
+   - Sequencer: BT: [Jedź do windy → Wjedź → Jedź do pokoju → Otwórz drzwi → Podaj lek]
+   - Controller: PID utrzymuje prędkość 0.3 m/s, emergency stop przy przeszkodzie < 30 cm
+5. **ROS:** node `/lidar_scan` → topic → node `/path_planner` → topic → node `/motor_driver`
+
+---
+
 ### Agent upostaciowiony = ciało fizyczne + sensory + efektory + środowisko
 
 Cykl: **Percepcja → Deliberacja → Akcja** (See-Think-Act)
@@ -111,7 +187,10 @@ Cykl: **Percepcja → Deliberacja → Akcja** (See-Think-Act)
 
 ### Jak zapamiętać
 
-- **„See-Think-Act"** = Percepcja → Deliberacja → Akcja
-- **3T = Plan-Sequence-Control** (od abstrakcji do sprzętu)
-- BDI = Beliefs, Desires, Intentions
+- **"STA"** = **S**ee → **T**hink → **A**ct (jak STA-bilność — stabilny cykl sterowania)
+- **3T = "Plan-Seq-Con"** = od abstrakcji do sprzętu, jak w armii: generał (Plan) → oficer (Seq) → żołnierz (Con)
+- **BDI = "Wiem–Chcę–Robię"**: Beliefs = co Wiem, Desires = co Chcę, Intentions = co Robię
+- **LTL: □ = "zawsze" (kwadrat = solidny, niezmienny), ◇ = "kiedyś" (diament = cenny cel do zdobycia)**
+- **Agent→Sterownik w 5 krokach:** CO (model agenta) → JAK (STA) → WARSTWY (3T) → WYMAGANIA (BDI+LTL) → IMPLEMENTACJA (BT+ROS)
+- **Akronim SPECYFIKACJA:** **S**ensory → **P**ercepcja → **E**fekty → **C**ykl → **I**ntencje → **F**ormalność → **I**mplementacja → **K**ontroler → **A**kcja → **C**el → **J**akość → **A**rchitektura
 

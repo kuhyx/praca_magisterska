@@ -181,6 +181,7 @@ Start with the most basic concepts, then build on them. Explain "graf" before "a
 - No fenced code blocks (4-space indented blocks only)
 - Polish language throughout (English in parentheses for standard terms)
 - Terms are ordered from foundational to advanced
+- Images are NOT ASCII, images should be actual images, monchrome black and white laser printer a4 friendly
 
 ### BATCH PROCESSING
 

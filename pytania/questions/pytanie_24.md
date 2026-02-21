@@ -135,17 +135,7 @@
 
 **Architektura CNN — pełny przykład (AlexNet, wygrał ImageNet 2012):**
 
-    Obraz [224×224×3]   ← 150 528 wartości (piksele RGB)
-      ↓ Conv1: 96 filtrów 11×11, stride 4
-    [55×55×96]          ← 96 map cech, każda 55×55
-      ↓ MaxPool 3×3, stride 2
-    [27×27×96]
-      ↓ Conv2: 256 filtrów 5×5
-    [27×27×256]
-      ↓ MaxPool → Conv3-5 → MaxPool
-    [6×6×256] = 9 216 liczb spłaszczonych
-      ↓ FC(4096) → FC(4096) → FC(1000) → Softmax
-    → "golden retriever" (klasa 207, pewność 0.89)
+![CNN — od obrazu do predykcji](img/q24_cnn_architecture.png)
 
     ROZMIARY MALEJĄ:  224 → 55 → 27 → 13 → 6  (kompresja przestrzenna)
     KANAŁY ROSNĄ:     3 → 96 → 256 → 384 → 256 (coraz więcej wyuczonych cech)
@@ -211,14 +201,7 @@
 
 **FPN (Feature Pyramid Network)** — technika łączenia feature map z RÓŻNYCH warstw backbone'u. Wczesne warstwy (wysoka rozdzielczość) → małe obiekty. Późne warstwy (niska rozdzielczość) → duże obiekty. FPN łączy obie → wykrywa obiekty WSZYSTKICH rozmiarów.
 
-    Backbone (ResNet):
-    Warstwa 1:  56×56  → dużo detali, dobre dla MAŁYCH obiektów
-    Warstwa 2:  28×28  → średnie obiekty
-    Warstwa 3:  14×14  → duże obiekty
-    Warstwa 4:   7×7   → bardzo duże obiekty
-
-    FPN: łączy top-down (7×7 → 14×14 → 28×28 → 56×56) + lateral connections
-    → predykcje na KAŻDYM poziomie → małe I duże obiekty!
+![FPN (Feature Pyramid Network)](img/q24_fpn.png)
 
 ---
 
@@ -301,15 +284,7 @@
 
 **Support Vectors** — punkty danych NAJBLIŻSZE hiperpłaszczyźnie. To one „podpierają" (support) margines i definiują pozycję hiperpłaszczyzny. Reszta punktów jest nieistotna! Nazwa: „wektory nośne" — bo to wektory cech, które „niosą" decyzję.
 
-      Przestrzeń 2D:          O = klasa "pie szy"   X = klasa "nie-pieszy"
-                              O     O
-                               O   O
-      hiperpłaszczyzna →  ─ ─ ─ ─ ─ ─ ─ ─  ← margines ↕
-                              X    X
-                               X  X    X
-
-      Support vectors: O i X najbliższe linii (zaznaczone pogrubione)
-      SVM: przesuń linię tak, żeby margines ↕ był MAKSYMALNY
+![SVM — hiperpłaszczyzna i margines](img/q24_svm_hyperplane.png)
 
 **HOG+SVM — klasyczny pipeline detekcji pieszych:**
 
@@ -326,15 +301,7 @@
 
 **Haar features (cechy Haarowe)** — najprostsze cechy obrazowe: prostokąty podzielone na jasną i ciemną część. Wartość cechy = (suma pikseli jasnych) − (suma pikseli ciemnych). Proste, ale skuteczne — wykrywają kontrasty typowe dla twarzy.
 
-    Przykłady cech Haar:
-    Krawędź pionowa:     Krawędź pozioma:     Linia (3 prostokąty):
-    ┌──────┬──────┐      ┌────────────┐       ┌────┬──────┬────┐
-    │JASNY │CIEMNY│      │   JASNY    │       │CIEM│JASNY │CIEM│
-    │ +Σ₁  │ -Σ₂  │      │    +Σ₁     │       │ -Σ₁│ +Σ₂  │ -Σ₃│
-    │      │      │      ├────────────┤       │    │      │    │
-    └──────┴──────┘      │   CIEMNY   │       └────┴──────┴────┘
-    wartość = Σ₁ − Σ₂    │    -Σ₂     │       wartość = Σ₂ − Σ₁ − Σ₃
-                         └────────────┘
+![Cechy Haar — typy i zastosowanie na twarzy](img/q24_haar_features.png)
 
     Dlaczego działa na TWARZACH?
     - Oczy CIEMNIEJSZE niż czoło → cecha "krawędź pozioma" daje dużą wartość
@@ -348,14 +315,7 @@
 
     Jak? Integral Image[x,y] = suma WSZYSTKICH pikseli od (0,0) do (x,y).
 
-    Obraz oryginalny:        Integral Image (sumy kumulatywne):
-    [1  2  3]                [ 1   3   6]
-    [4  5  6]                [ 5  12  21]
-    [7  8  9]                [12  27  45]
-
-    Chcemy sumę prostokąta (1,1)-(2,2) = piksele [5,6,8,9] = 28:
-    Z Integral Image: II[2,2] − II[0,2] − II[2,0] + II[0,0]
-                    =   45    −   6     −   12    +   1     = 28 ✓
+![Integral Image — suma prostokąta w O(1)](img/q24_integral_image.png)
 
     Zawsze 4 odczyty z tabeli → O(1)!
     Czy prostokąt ma 4 piksele czy 4 MILIONY — czas TEN SAM!
@@ -389,17 +349,7 @@
 
 **Cascade (kaskada klasyfikatorów)** — genialna optymalizacja szybkości: zamiast sprawdzać WSZYSTKIE 200 cech na każdym oknie, użyj KASKADY etapów. Każdy etap = prosty klasyfikator, który szybko ODRZUCA "na pewno nie-twarz".
 
-    Etap 1:   2 cechy  → odrzuca 50% okien      (czas: ~1 μs)
-    Etap 2:  10 cech   → odrzuca 80% reszty     (czas: ~5 μs)
-    Etap 3:  25 cech   → odrzuca 90% reszty
-    ...
-    Etap 25: 200 cech  → szczegółowa analiza     (czas: ~100 μs)
-
-    Sliding window: ~500 000 okien do sprawdzenia (różne pozycje × skale)
-    BEZ kaskady:  500 000 × 200 cech = WOLNO
-    Z kaskadą:    99% okien odrzuconych w etapach 1-3 (za ~5μs każde!)
-                  Tylko 0.01% dochodzi do etapu 25
-                  → CAŁY obraz w ~30ms = 30+ fps = REAL-TIME!
+![Viola-Jones — kaskada klasyfikatorów (SITO)](img/q24_viola_jones_cascade.png)
 
     Mnemonik: kaskada = "SITO" — coraz drobniejsze oczka,
     na początku odpada piach, na końcu zostaje ZŁOTO (twarz).
@@ -414,7 +364,7 @@
 
 ---
 
-![Ewolucja detektorów: R-CNN → Faster R-CNN → YOLO](img/rcnn_evolution.png)
+![Ewolucja detektorów: R-CNN → Faster R-CNN → YOLO](img/q24_rcnn_evolution.png)
 
 **R-CNN family (two-stage detectors)** — dwuetapowe: najpierw generuj propozycje regionów, potem klasyfikuj każdy region. Nazwa: Region-based CNN.
 
@@ -467,13 +417,7 @@
     3. W każdej komórce weź MAX (jak max pooling)
     4. Wynik: tensor 7×7 — STAŁY rozmiar niezależnie od oryginalnego ROI!
 
-    Przykład (ROI Pool 2×2 dla prostoty):
-    ROI na feature mapie [4×4]:         Po ROI Pool 2×2:
-    [1  3 | 2  1]                       [5  6]   ← max(1,3,0,5)=5  max(2,1,1,6)=6
-    [0  5 | 1  6]                       [7  9]   ← max(0,4,7,2)=7  max(1,0,9,1)=9
-    ─────────────
-    [0  4 | 1  0]
-    [7  2 | 9  1]
+![ROI Pooling](img/q24_roi_pooling.png)
 
     Kluczowa sztuczka Fast R-CNN:
     CNN raz na CAŁY obraz → JEDNA feature mapa → ROI Pool 2000 regionów z TEJ SAMEJ mapy
@@ -544,21 +488,13 @@
 - C prawdopodobieństw klas = „jaki to obiekt?"
 Jedno przejście przez sieć → WSZYSTKIE detekcje naraz. 45-155 fps!
 
-    Jak to działa wizualnie (S=7, B=2, C=20 klas jak w Pascal VOC):
-
-    Obraz [448×448] → CNN (24 warstwy konwolucyjne + 2 FC) → tensor 7×7×30
-                                                                ↑
-                                                    30 = 2×(4+1) + 20
-                                                    2 bbox × (x,y,w,h,conf) + 20 klas
-
-    Komórka (3,4) predykuje: bbox1=(0.3, 0.7, 0.4, 0.6, 0.92), klasa="samochód" (p=0.88)
-    → „środek samochodu jest w komórce (3,4), bbox ma takie wymiary, pewność 92%"
-
-    Potem NMS: usuwa duplikaty (wiele komórek może wykryć ten sam obiekt)
+![YOLO — detekcja jednoetapowa (siatka S×S)](img/q24_yolo_grid.png)
 
 **SSD (Single Shot MultiBox Detector, 2016)** — ulepsza YOLO przez multi-scale feature maps: predykcje z WIELU warstw CNN, każda o innej rozdzielczości. Wczesne warstwy (wysoka rozdzielczość) wykrywają MAŁE obiekty; późne warstwy (niska rozdzielczość) wykrywają DUŻE. Anchor boxes predefiniowane na każdej skali.
 
 **Anchor box (kotwica)** — predefiniowany prostokąt o określonym kształcie/proporcji (np. 1:1, 1:2, 2:1). Sieć NIE predykuje bbox od zera — predykuje PRZESUNIĘCIE (offset) od najbliższego anchora. Łatwiejsze zadanie! Wiele anchorów → pokrycie różnych kształtów obiektów (osoby = wysoki prostokąt, samochód = szeroki).
+
+![Anchor boxes — predefiniowane kształty](img/q24_anchor_boxes.png)
 
 **Anchor-free** — nowoczesne podejście (FCOS, YOLOv8): bezpośrednia predykcja środka i wymiarów, bez predefiniowanych anchorów. Prostsza architektura, mniej hyperparametrów.
 
@@ -587,10 +523,7 @@ Jedno przejście przez sieć → WSZYSTKIE detekcje naraz. 45-155 fps!
 
 **DETR (DEtection TRansformer, 2020)** — model Facebooka stosujący Transformer do detekcji. Radykalnie prostszy pipeline: BRAK anchorów, BRAK NMS! Sieć predykuje bezpośrednio ZESTAW N obiektów (np. N=100).
 
-    Pipeline DETR:
-    Obraz → CNN backbone → Feature mapa → Transformer Encoder (self-attention)
-          → Transformer Decoder (z N=100 "object queries")
-          → N predykcji: [(klasa₁, bbox₁), ..., (klasa₁₀₀, bbox₁₀₀)]
+![DETR — Transformer do detekcji](img/q24_detr_pipeline.png)
 
     "Object queries" = 100 wyuczonych wektorów, każdy "szuka" jednego obiektu.
     Obraz z 5 obiektami → 5 queries dopasuje się do obiektów,
@@ -655,13 +588,7 @@ Jedno przejście przez sieć → WSZYSTKIE detekcje naraz. 45-155 fps!
 
 **IoU (Intersection over Union)** — miara nakładania dwóch prostokątów. IoU = pole przecięcia / pole sumy. Wartości: 0.0 (nie nakładają się) do 1.0 (identyczne).
 
-    bbox A:             bbox B:              Przecięcie:
-    ┌──────────┐                             ┌────┐
-    │    A     │        ┌──────────┐         │ ∩  │
-    │      ┌───┼────────┼──┐      │         └────┘
-    │      │ ∩ │        │  │  B   │
-    └──────┼───┘        │  │      │
-           └────────────┴──┘
+![IoU (Intersection over Union)](img/q24_iou_diagram.png)
 
     IoU = pole(∩) / pole(A ∪ B)
         = pole(∩) / (pole(A) + pole(B) − pole(∩))
@@ -696,11 +623,7 @@ Detekcja obiektów to **lokalizacja** (gdzie?) i **klasyfikacja** (co?) obiektó
 
 **Porównanie z innymi zadaniami:**
 
-    Zadanie           Wynik                        Przykład
-    ─────────────────────────────────────────────────────────
-    Klasyfikacja      "kot" (1 etykieta)           cały obraz → 1 klasa
-    Detekcja          bbox + klasa (N obiektów)    prostokąty wokół obiektów
-    Segmentacja       etykieta per piksel          maska pikseli
+![Klasyfikacja vs Detekcja vs Segmentacja](img/q24_detection_tasks.png)
 
 ---
 
@@ -713,21 +636,134 @@ Metody sprzed deep learningu — ręcznie projektowane cechy (features) + klasyc
 | **HOG + SVM** | 2005 | Histogram of Oriented Gradients | SVM | wolna (~1 fps) | detekcja pieszych |
 | **Viola-Jones** | 2001 | Haar features + Integral Image | AdaBoost cascade | real-time (30+ fps) | detekcja twarzy |
 
-**HOG + SVM (Dalal & Triggs, 2005):**
+#### HOG + SVM (Dalal & Triggs, 2005) — krok po kroku
 
-    Pipeline:  Obraz → Sliding window → HOG (histogramy gradientów) → SVM → detekcja/brak
-    HOG: dzieli okno na komórki (8×8 px), liczy histogramy kierunków krawędzi
-    SVM: "czy ten wzorzec krawędzi to człowiek?"
-    Wada: ręczne cechy, wolny sliding window, działa dobrze TYLKO na pieszych
+**Mnemonik kroków HOG: „GÓRA KOCHA BOGATYCH NARCIARZY" → Gradienty → Orientacja → Komórki → Bloki → Normalizacja**
 
-**Viola-Jones (2001) — 3 innowacje:**
+![HOG + SVM pipeline detekcji pieszych](img/q24_hog_svm_pipeline.png)
 
-    1. Haar features:    [ jasne | ciemne ]  → prosta różnica intensywności
-    2. Integral Image:   suma prostokąta w O(1), niezależnie od rozmiaru!
-    3. Cascade:          Etap 1 (2 cechy): odrzuca 50% okien w 1 μs
-                         Etap 2 (10 cech): odrzuca 80% reszty
-                         ...Etap 25 (200 cech): szczegółowa analiza TYLKO 0.01% okien
-    Efekt: ~95% detections = szybkie odrzucenia → real-time!
+**Krok 1 — Gradienty (G jak GÓRA):** Oblicz gradient KAŻDEGO piksela. Gradient = „siła i kierunek zmiany jasności". Tam, gdzie jasność skacze (np. 50→200), jest krawędź.
+
+    Przykład liczbowy:
+    Piksele w wierszu: [50, 50, 200]
+    Gx = pixel[x+1] − pixel[x−1] = 200 − 50 = 150  ← silna krawędź pionowa!
+    Gy = analogicznie w pionie
+    Siła: magnitude = √(Gx² + Gy²) = √(150² + 0²) = 150
+    Kierunek: direction = arctan(Gy/Gx) = arctan(0/150) = 0° (krawędź pionowa)
+
+**Krok 2 — Orientacja (O jak KOCHA):** Każdy piksel głosuje na kierunek swojej krawędzi. 9 „koszyków" (binów) co 20°: 0°, 20°, 40°, …, 160°. Głos ważony SIŁĄ gradientu (silniejsza krawędź = mocniejszy głos).
+
+    Piksel z magnitude=150, direction=10°:
+    Głosuje na bin 0° (z wagą proporcjonalną do bliskości) i bin 20°
+    Piksel z magnitude=30, direction=85°:
+    Głosuje na bin 80° i bin 100° (słabsza krawędź = słabszy głos)
+
+**Krok 3 — Komórki (K jak BOGATYCH):** Podziel okno (64×128 px) na komórki 8×8 pikseli = 8×16 = 128 komórek. Dla KAŻDEJ komórki stwórz histogram 9 binów — to jej „odcisk palca kierunkowości krawędzi".
+
+![HOG — kroki obliczania cech](img/q24_hog_gradient_steps.png)
+
+**Krok 4 — Bloki (B jak NARCIARZY):** Grupuj komórki w bloki 2×2 (= 16×16 px). Przesuwaj blok z krokiem 1 komórki. Okno 64×128 → (8−1)×(16−1) = 7×15 = 105 bloków.
+
+**Krok 5 — Normalizacja (N):** Dla KAŻDEGO bloku (4 komórki × 9 binów = 36 wartości) wykonaj normalizację L2 → odporność na zmiany oświetlenia. 105 bloków × 36 = **3780 cech** → wektor HOG.
+
+    Pseudokod:
+    def compute_hog(window_64x128):
+        Gx = pixel[x+1] - pixel[x-1]          # gradient poziomy
+        Gy = pixel[y+1] - pixel[y-1]          # gradient pionowy
+        mag = sqrt(Gx**2 + Gy**2)             # siła
+        dir = arctan2(Gy, Gx) * 180 / pi     # kierunek 0°-180°
+
+        hog = []
+        for block_2x2 in sliding_blocks(cells_8x8):
+            block_hist = []
+            for cell in block_2x2:                 # 4 komórki
+                hist = [0]*9                       # 9 binów
+                for px in cell.pixels:             # 64 piksele
+                    bin = int(dir[px] / 20)        # który bin?
+                    hist[bin] += mag[px]           # ważone głosowanie
+                block_hist += hist
+            block_hist = L2_normalize(block_hist)  # normalizacja!
+            hog += block_hist
+        return hog  # wektor 3780 cech → do SVM
+
+**Krok 6 — SVM klasyfikuje:** Wektor 3780 cech → SVM odpowiada: „pieszy" (+1) lub „tło" (−1).
+
+![SVM — hiperpłaszczyzna i margines](img/q24_svm_hyperplane.png)
+
+    Mnemonik SVM: „LINIA MAKSYMALNEGO ODDECHU"
+    SVM = linia (hiperpłaszczyzna) z MAKSYMALNYM marginesem.
+    Jak MOST nad rzeką — im szerszy, tym bezpieczniejszy (lepiej generalizuje).
+
+**Krok 7 — NMS:** Usuń duplikaty (wiele okien wykryło tego samego pieszego → zachowaj najlepsze).
+
+    Mnemonik PEŁNEGO pipeline'u HOG+SVM: „GOKBN-SN"
+    → Gradienty → Orientacja → Komórki → Bloki → Normalizacja → SVM → NMS
+    = „Grasz Ostro, Kumplu? Bądź Naturalny, Szybko Nabierz (wprawy)!"
+
+---
+
+#### Viola-Jones (2001) — krok po kroku
+
+**Mnemonik 3 innowacji: „HIC" → Haar + Integral Image + Cascade**
+
+**Innowacja 1 — Haar features (H):** Prostokąty dzielone na jasną i ciemną część. Wartość = Σ(jasna) − Σ(ciemna). Proste, ale wykrywają kontrasty typowe dla twarzy.
+
+![Cechy Haar — typy i zastosowanie na twarzy](img/q24_haar_features.png)
+
+    Pseudokod cechy Haar:
+    def haar_edge_vertical(img, x, y, w, h):
+        left_sum  = sum_pixels(img, x, y, x+w//2, y+h)    # jasna połówka
+        right_sum = sum_pixels(img, x+w//2, y, x+w, y+h)  # ciemna połówka
+        return left_sum - right_sum   # duża wartość = silna krawędź
+
+    Mnemonik: Haar = „Hej, A tu jest Różnica?"
+    Cechy Haar pytają: „Czy lewa strona JAŚNIEJSZA niż prawa?"
+
+**Innowacja 2 — Integral Image (I):** Precomputed tabela: suma DOWOLNEGO prostokąta w O(1) — 4 odczyty z tabeli, niezależnie od rozmiaru!
+
+![Integral Image — suma prostokąta w O(1)](img/q24_integral_image.png)
+
+    Pseudokod:
+    def build_integral_image(img):
+        II = zeros(H, W)
+        for y in range(H):
+            for x in range(W):
+                II[y][x] = img[y][x] + II[y-1][x] + II[y][x-1] - II[y-1][x-1]
+        return II
+
+    def rect_sum(II, x1, y1, x2, y2):    # ZAWSZE O(1)!
+        return II[y2][x2] - II[y1-1][x2] - II[y2][x1-1] + II[y1-1][x1-1]
+
+    Mnemonik: Integral Image = „4 Odczyty I Gotowe!" = 4OIG
+    Jak czytanie z gotowej tabeli: nie liczymy, tylko odczytujemy!
+
+**Innowacja 3 — Cascade (C):** Kaskada etapów — szybkie odrzucanie „na pewno nie-twarz".
+
+![Viola-Jones — kaskada klasyfikatorów (SITO)](img/q24_viola_jones_cascade.png)
+
+    Pseudokod:
+    def cascade_classify(window):
+        for stage in [stage_1, stage_2, ..., stage_25]:
+            score = sum(stage.weights[i] * haar_feature[i](window)
+                        for i in stage.features)
+            if score < stage.threshold:
+                return "NIE-TWARZ"      # szybkie odrzucenie!
+        return "TWARZ"                  # przeszło WSZYSTKIE etapy
+
+    Mnemonik: Cascade = „SITO z coraz drobniejszymi oczkami"
+    Etap 1: sito o dużych oczkach → odpada piach (oczywiste nie-twarze)
+    Etap 25: sito najdrobniejsze → zostaje ZŁOTO (twarz)
+    99% okien odpada w pierwszych 3 etapach → REAL-TIME!
+
+**Pełny pipeline Viola-Jones:**
+
+    1. Sliding window (24×24) po obrazie w wielu skalach
+    2. Integral Image (preprocessing, O(n) — raz)
+    3. Dla każdego okna: kaskada (Haar + AdaBoost, najczęściej odrzuci w 1-3 etapie)
+    4. NMS na detekcjach → wynik
+
+    Mnemonik pipeline'u: „SIKN" = Sliding → Integral → Kaskada → NMS
+    = „Szybko Identyfikuj Kształty Niezwykłe!"
 
 ---
 
@@ -746,6 +782,8 @@ Metody sprzed deep learningu — ręcznie projektowane cechy (features) + klasyc
     Fast R-CNN:  [CNN raz] → [ROI Pool 2000 regionów] → [FC]          = 2s lepiej
     Faster R-CNN:[CNN] → [RPN generuje propozycje] → [ROI Pool] → [FC] = 0.2s!
 
+![Ewolucja detektorów: R-CNN → Faster R-CNN](img/q24_rcnn_evolution.png)
+
 **One-stage detectors (jednoetapowe)** — klasyfikacja i lokalizacja w JEDNYM przejściu.
 
 | Model | Rok | Szybkość | Innowacja |
@@ -763,13 +801,7 @@ Metody sprzed deep learningu — ręcznie projektowane cechy (features) + klasyc
 
 **Two-stage vs One-stage:**
 
-    Cecha              Two-stage (Faster R-CNN)    One-stage (YOLO)
-    ─────────────────────────────────────────────────────────────────
-    Szybkość           ~5 fps                      45-155 fps
-    Dokładność (mAP)   wyższa (historycznie)        dorównuje (YOLOv8)
-    Małe obiekty       lepszy                       gorszy (ale SSD/FPN pomaga)
-    Architektura       2 etapy + NMS                1 etap + NMS (DETR: bez NMS)
-    Real-time?         nie                          TAK
+![Two-stage vs One-stage — porównanie](img/q24_two_vs_one_stage.png)
 
 ---
 
@@ -777,49 +809,205 @@ Metody sprzed deep learningu — ręcznie projektowane cechy (features) + klasyc
 
 Masz wytrenowany klasyfikator (np. ResNet na ImageNet: obraz → „kot"). Jak go użyć do **lokalizacji** obiektów?
 
-**Podejście 1 — Sliding Window (najwolniejsze):**
+**Mnemonik 3 podejść: „SRF" = „Sliding → Region → Fine-tune" = „Szukaj Ręcznie, Finalnie optymalizuj!"**
 
-    Wytnij okno → klasyfikuj → przesuń → powtórz → NMS
-    Obraz 640×480, okno 64×64, krok 8px, 5 skal:
-    ~240 000 pozycji × 5 skal = ~1 200 000 klasyfikacji!
-    Przy 100 cls/sec → 3.3 godziny na 1 obraz → NIEPRAKTYCZNE
+![Jak zbudować detektor z klasyfikatora? — 3 podejścia](img/q24_detector_from_classifier.png)
 
-**Podejście 2 — Region Proposals + Klasyfikator (szybsze):**
+---
 
-    Selective Search → ~2000 regionów (zamiast milionów)
-    Każdy region → resize → klasyfikator → wynik + NMS
-    Przy 100 cls/sec → 20 sec/obraz → lepiej, ale wciąż wolno
-    To jest dokładnie R-CNN (2014)
+#### Podejście 1 — Sliding Window (najprostsze, NAJWOLNIEJSZE)
 
-**Podejście 3 — Fine-tune backbone + detection head (najlepsze):**
+**Idea:** Wycinaj prostokątne fragmenty obrazu, KAŻDY pokaż klasyfikatorowi, zbierz pozytywne.
 
-    Pretrained classifier (ResNet):  obraz → cechy → FC → "kot"
-    Zamień FC na detection head:
-      obraz → cechy (backbone) → [cls head: P(klasa)]
-                                → [bbox head: Δx, Δy, Δw, Δh]
-    Dotrenuj na danych z bounding boxami (COCO, VOC)
-    = Transfer learning → NAJLEPSZA jakość + szybkość
-    To jest Faster R-CNN, YOLO, SSD — wszystkie używają pretrained backbone!
+**Mnemonik: „WYCINAJ i PYTAJ" — jak wycinanie ciasteczek: koło po kole, aż cały obraz pokryty.**
 
-    Podsumowanie:
-    Sliding Window:    ~milion klasyfikacji → NIEPRAKTYCZNE
-    Region Proposals:  ~2000 klasyfikacji  → wolne ale działa (R-CNN)
-    Fine-tune:         1 przejście sieci   → szybkie i dokładne (Faster R-CNN, YOLO)
+![Sliding Window — najprostsze podejście](img/q24_sliding_window.png)
+
+    Pseudokod:
+    def sliding_window_detect(image, classifier, window_size=64, step=8):
+        detections = []
+        for scale in [0.5, 0.75, 1.0, 1.5, 2.0]:        # 5 skal
+            resized = resize(image, scale)
+            for y in range(0, resized.height - window_size, step):
+                for x in range(0, resized.width - window_size, step):
+                    window = resized[y:y+window_size, x:x+window_size]
+                    label, confidence = classifier.predict(window)
+                    if label != "tło" and confidence > 0.5:
+                        # przelicz współrzędne na oryginał
+                        bbox = (x/scale, y/scale,
+                                (x+window_size)/scale, (y+window_size)/scale)
+                        detections.append((label, bbox, confidence))
+        return nms(detections)   # usuń duplikaty
+
+**Dlaczego wiele skal?** Obiekty mają różne rozmiary — kot blisko = duży, kot daleko = mały. Okno 64×64 nie złapie kota 200×200.
+
+    Obliczenia dla obrazu 640×480:
+    Pozycje na skali 1.0: (640-64)/8 × (480-64)/8 = 72 × 52 = 3 744
+    × 5 skal = 18 720 okien
+    × klasyfikacja ResNet (~10ms/obraz na GPU) = ~3 minuty
+    × na CPU (~100ms/obraz) = ~30 minut na 1 obraz!
+    ⚠ NIEPRAKTYCZNE dla zastosowań real-time
+
+**Wady:** (1) Ekstremalnie wolne. (2) Stały kształt okna — obiekty nie są kwadratowe. (3) ~99.9% okien to „tło" → marnowanie czasu.
+
+---
+
+#### Podejście 2 — Region Proposals + Klasyfikator (= R-CNN)
+
+**Idea:** Zamiast milionów okien, inteligentnie zaproponuj ~2000 regionów, w których MOGĄ być obiekty, i tylko te sklasyfikuj.
+
+**Mnemonik: „INTELIGENTNE CIĘCIE" — zamiast kroić cały tort na milion kawałków, wytnij tylko tam, gdzie widzisz wiśnie (obiekty).**
+
+    Pseudokod (= R-CNN):
+    def region_proposal_detect(image, classifier):
+        # Krok 1: Selective Search — inteligentnie generuj regiony
+        proposals = selective_search(image)    # ~2000 prostokątów
+        detections = []
+
+        # Krok 2: Dla KAŻDEGO regionu — clasificuj
+        for bbox in proposals:                 # ~2000 iteracji (nie milion!)
+            crop = image[bbox]                 # wytnij region
+            crop = resize(crop, 224, 224)      # rozmiar wymagany przez CNN
+            features = cnn_backbone(crop)      # ResNet → wektor 2048 cech
+            label, conf = svm_classify(features)  # SVM: "samochód? kot? tło?"
+            if label != "tło" and conf > 0.5:
+                detections.append((label, bbox, conf))
+
+        # Krok 3: bbox regression — doprecyzuj pozycje
+        for det in detections:
+            det.bbox += bbox_regressor(det.features)  # Δx, Δy, Δw, Δh
+
+        return nms(detections)   # Krok 4: usuń duplikaty
+
+**Dlaczego 2000 a nie milion?** Selective Search łączy podobne fragmenty obrazu (kolor, tekstura) bottom-up. Wynik: ~2000 „mądrych" propozycji, z których ~50% zawiera coś (vs 0.1% w sliding window).
+
+    Porównanie z sliding window:
+    Sliding Window: ~18 000 okien × 10ms = ~3 min
+    Proposals:      ~2 000 regionów × 10ms = ~20 sec ← 9× szybciej
+    ALE wciąż 2000 × forward pass CNN → dlatego powstał Fast R-CNN!
+
+**Wady:** (1) Selective Search jest osobnym algorytmem (nie end-to-end). (2) 2000 × forward pass CNN = wciąż wolno. (3) SVM trenowany OSOBNO od CNN.
+
+---
+
+#### Podejście 3 — Fine-tune backbone + detection head (NAJLEPSZE)
+
+**Idea:** Weź pretrenowany klasyfikator, ODETNIJ głowicę klasyfikacyjną (FC 1000 klas), zastąp ją DWOMA nowymi głowicami: (1) głowica klasyfikacji → klasa obiektu, (2) głowica regresji → pozycja bbox.
+
+**Mnemonik: „PRZESZCZEP GŁOWY" — ten sam silnik (backbone), nowa głowa (detection head).**
+
+    Pseudokod (= Faster R-CNN / YOLO w uproszczeniu):
+    # KROK 1: Weź pretrenowany klasyfikator
+    resnet = load_pretrained("resnet50_imagenet")  # 1000 klas ImageNet
+
+    # KROK 2: Odetnij starą głowicę klasyfikacji
+    backbone = resnet.layers[:-2]    # ZACHOWAJ: Conv1...Conv5 (ekstraktor cech)
+    # WYRZUĆ: FC(1000) + Softmax
+
+    # KROK 3: Dodaj nowe głowice detekcji
+    class DetectionHead:
+        def __init__(self):
+            self.cls_head = Linear(2048, num_classes)    # "samochód? kot? tło?"
+            self.bbox_head = Linear(2048, 4)             # Δx, Δy, Δw, Δh
+
+        def forward(self, features):
+            cls = softmax(self.cls_head(features))       # P(klasa)
+            bbox = self.bbox_head(features)              # przesunięcie bbox
+            return cls, bbox
+
+    # KROK 4: Zamroź backbone, trenuj głowice na danych detekcyjnych
+    for image, gt_boxes, gt_labels in coco_dataset:
+        features = backbone(image)          # pretrenowane cechy (zamrożone)
+        cls, bbox = detection_head(features)
+        loss = cls_loss(cls, gt_labels) + bbox_loss(bbox, gt_boxes)
+        loss.backward()                     # aktualizuj TYLKO detection_head
+
+    # KROK 5 (opcja): Fine-tune — odmroź backbone z MAŁYM learning rate
+    backbone.unfreeze()
+    optimizer = SGD(lr=0.0001)    # 10× mniejszy niż dla głowicy!
+    # trenuj jak w kroku 4, ale teraz backbone też się uczy
+
+**Dlaczego to działa?** Pretrenowany backbone na ImageNet „wie", jak wyglądają krawędzie, tekstury, kształty. Te cechy są UNIWERSALNE — przydają się zarówno do klasyfikacji „złota rybka vs samolot" jak i do detekcji „samochód na zdjęciu z drona".
+
+    Transfer learning w liczbach:
+    Trenowanie od zera na COCO (330K obrazów):     ~12h na 8×V100 GPU
+    Fine-tune pretrained ResNet-50:                ~4h na 8×V100 GPU ← 3× szybciej!
+    Fine-tune osiąga mAP ~42%, od zera ~38%        ← lepsze wyniki!
+
+**Pełny przykład w PyTorch (Faster R-CNN z pretrained backbone):**
+
+    import torchvision
+    from torchvision.models.detection import fasterrcnn_resnet50_fpn
+
+    # Gotowy detektor z pretrained backbone!
+    model = fasterrcnn_resnet50_fpn(pretrained=True)
+
+    # Custom: zmiana na 5 klas (zamiast 91 COCO)
+    num_classes = 5  # 4 obiekty + tło
+    in_features = model.roi_heads.box_predictor.cls_score.in_features
+    model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
+
+    # Trening:
+    model.train()
+    for images, targets in dataloader:
+        loss_dict = model(images, targets)  # cls_loss + bbox_loss
+        total_loss = sum(loss_dict.values())
+        total_loss.backward()
+        optimizer.step()
+
+    # Inferencja:
+    model.eval()
+    predictions = model([test_image])
+    # predictions = [{'boxes': tensor, 'labels': tensor, 'scores': tensor}]
+    # boxes = [[x1,y1,x2,y2], ...], labels = [1, 3, ...], scores = [0.95, 0.88, ...]
+
+---
+
+#### Podsumowanie — porządek od NAJGORSZEGO do NAJLEPSZEGO:
+
+    Podejście          Okien      Czas/obraz    Jakość     Rok     Przykład
+    ──────────────────────────────────────────────────────────────────────────
+    Sliding Window     ~milion    ~30 min       niska      -       (teoria)
+    Region Proposals   ~2000     ~20-50 sec     średnia    2014    R-CNN
+    Fine-tune + RPN    ~300      ~0.2 sec       wysoka     2015    Faster R-CNN
+    One-stage          1×siatka  ~7-22 ms       wysoka     2016+   YOLO, SSD
+    Transformer        N queries  ~25 ms        wysoka     2020    DETR
+
+    Mnemonik porządku: „SRFTD" = „Sliding → Region → Fine-tune → Transformer → (Done!)"
+    = „Szukaj Ręcznie, Finalnie Transformer (Detekuje!)"
 
 ---
 
 ### NMS (Non-Maximum Suppression) — post-processing
 
+![NMS — usuwanie duplikatów](img/q24_nms_steps.png)
+
     Detektor generuje WIELE nakładających się bbox dla jednego obiektu:
     [bbox1, 0.95], [bbox2, 0.90], [bbox3, 0.85] — wszystkie na tym samym kocie
 
-    Algorytm NMS:
-    1. Sortuj po confidence: [0.95, 0.90, 0.85]
-    2. Weź najlepszą (0.95) → ZACHOWAJ
-    3. Oblicz IoU z resztą: IoU(bbox1,bbox2)=0.82, IoU(bbox1,bbox3)=0.75
-    4. Usuń te z IoU > próg (0.5): usuń bbox2 i bbox3
-    5. Powtórz dla następnej najlepszej
-    Wynik: 1 bbox per obiekt
+    Pseudokod NMS:
+    def nms(detections, iou_threshold=0.5):
+        detections.sort(by=confidence, descending=True)
+        keep = []
+        while detections:
+            best = detections.pop(0)        # weź najlepszą
+            keep.append(best)               # ZACHOWAJ
+            detections = [d for d in detections
+                          if iou(best, d) < iou_threshold]  # usuń nakładające
+        return keep
+
+    Krok po kroku (przykład):
+    1. Sortuj: [0.95, 0.90, 0.85, 0.40]
+    2. Weź bbox₁ (0.95) → ZACHOWAJ
+    3. IoU(bbox₁, bbox₂) = 0.82 > 0.5 → USUŃ (duplikat!)
+       IoU(bbox₁, bbox₃) = 0.75 > 0.5 → USUŃ (duplikat!)
+       IoU(bbox₁, bbox₄) = 0.10 < 0.5 → ZACHOWAJ (INNY obiekt!)
+    4. Wynik: [bbox₁, bbox₄] — 2 unikalne obiekty
+
+![IoU (Intersection over Union)](img/q24_iou_diagram.png)
+
+    Mnemonik NMS: „Najlepszy Ma Się dobrze" — zachowaj najlepszą, resztę wyrzuć
+    Mnemonik IoU: „Ile pokrycia Ustalono?" — pole(∩) / pole(A∪B)
 
 ### Etymologia
 
@@ -832,10 +1020,15 @@ Masz wytrenowany klasyfikator (np. ResNet na ImageNet: obraz → „kot"). Jak g
 - **FC = „Full Connection"** — każdy z każdym, warstwa decyzyjna na końcu CNN
 - **Backbone = SILNIK samochodu** — ten sam silnik (ResNet), różne karoserie (klasyfikacja/detekcja/segmentacja)
 - **Backbone'y: A→V→R = „Architektura Bardzo Rezylientna"** — AlexNet (2012) → VGG (2014) → ResNet (2015)
-- **Transfer learning** — nie ucz się od zera, przenieś wiedzę z ImageNet
-- **Viola-Jones: kaskada = „SITO"** — piach odpada wcześnie, złoto (twarz) zostaje na końcu
+- **Transfer learning = „PRZESZCZEP GŁOWY"** — nie ucz się od zera, przenieś wiedzę z ImageNet, zmień głowicę
+- **HOG kroki: „GOKBN" = „Grasz Ostro, Kumplu? Bądź Naturalny"** — Gradienty → Orientacja → Komórki → Bloki → Normalizacja
+- **SVM = „LINIA MAKSYMALNEGO ODDECHU"** — margines jak most: im szerszy, tym bezpieczniej
+- **Viola-Jones: „HIC" = Haar + Integral Image + Cascade**
+- **Haar = „Hej, A tu jest Różnica?"** — porównuje jasne i ciemne prostokąty
+- **Integral Image = „4 Odczyty I Gotowe" (4OIG)** — suma dowolnego prostokąta O(1)
+- **Kaskada = „SITO"** — piach odpada wcześnie, złoto (twarz) zostaje na końcu
+- **Viola-Jones pipeline: „SIKN" = „Szybko Identyfikuj Kształty Niezwykłe"** — Sliding → Integral → Kaskada → NMS
 - **AdaBoost = „ADAptacyjnie BOOSTuj"** — słabe modele razem = silny
-- **Integral Image** — 4 odczyty = suma dowolnego prostokąta, zawsze O(1)
 - **Selective Search** — inteligentne łączenie regionów zamiast milionów okien
 - **ROI Pooling** — dowolny rozmiar → stały rozmiar (siatkowanie + max)
 - **Bbox regression = „GPS korekta"** — popraw przybliżoną pozycję o Δx, Δy, Δw, Δh
@@ -843,6 +1036,7 @@ Masz wytrenowany klasyfikator (np. ResNet na ImageNet: obraz → „kot"). Jak g
 - **YOLO = „You Only Look Once"** — jednoetapowy, szybki, siatka S×S
 - **Faster R-CNN = CNN + RPN + ROI Pool** — dwuetapowy, dokładny
 - **NMS = „Najlepszy Ma Się dobrze"** — zachowaj najlepszą detekcję, usuń duplikaty
+- **IoU = „Ile pokrycia Ustalono?"** — pole(∩) / pole(A∪B)
 - **DETR = „Detekcja Eliminująca Trikowe Redundancje"** — bez NMS, bez anchorów, transformer
-- **Detektor z klasyfikatora:** sliding window (wolno) → proposals (lepiej) → fine-tune backbone (najlepiej) → DETR (najprościej)
+- **Detektor z klasyfikatora: „SRF" = „Szukaj Ręcznie, Finalnie optymalizuj!"** — Sliding Window (wolno) → Region Proposals (lepiej) → Fine-tune backbone (najlepiej)
 

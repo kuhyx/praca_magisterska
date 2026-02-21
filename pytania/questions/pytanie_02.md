@@ -193,6 +193,10 @@ Przykład — graf z ujemnymi wagami (Dijkstra daje ZŁY wynik, B-F poprawny):
       Po V−1 iteracjach dist nadal maleje → V-ta iteracja:
         dist[src] + weight < dist[dst] → return None
 
+![Bellman-Ford — ujemne wagi vs Dijkstra](img/bellman_ford_negative_weights.png)
+
+![Bellman-Ford — wykrywanie cyklu ujemnego](img/bellman_ford_negative_cycle.png)
+
 ![Przejście grafu algorytmem Bellmana-Forda — krok po kroku](img/bellman_ford_traversal.png)
 
 **A\*** (graph jak Dijkstra; heuristic = h(v) → oszacowanie odl. do celu):

@@ -85,31 +85,75 @@
 
 ### Katalogowanie — trzy filary metodologii
 
-**1. Ustandaryzowany szablon opisu** — każdy wzorzec opisany wg tego samego formatu:
-- **Nazwa** — jedno słowo/fraza: „Layered", „Observer"
-- **Problem/Kontekst** — kiedy stosować
-- **Siły (forces)** — konkurencyjne wymagania do pogodzenia
-- **Rozwiązanie** — struktura, diagram, zachowanie
-- **Konsekwencje** — tradeoffs: co zyskujemy, co tracimy
-- **Powiązane wzorce** — jakie wzorce współgrają lub konkurują
-- **Znane zastosowania** — real-world examples
+Pytanie „JAK są katalogowane?" = jaką METODĘ stosujemy, żeby z setek wzorców zrobić przeszukiwalny, porównywalny, kompozytowalny system wiedzy. Odpowiedź: trzy filary, razem tworzące kompletną metodologię.
 
-**2. Klasyfikacja wieloosiowa** — wzorce organizowane wzdłuż kilku osi jednocześnie:
+![Trzy filary katalogowania wzorców](img/q14_three_pillars.png)
+
+**1. Ustandaryzowany szablon opisu (pattern template)** — każdy wzorzec opisany wg tego samego formatu, dzięki czemu można je porównywać „pole po polu". Mnemonik: **NaPSiRoKo**.
+
+| Pole | Skrót | Co zawiera | Przykład (Observer, GoF) |
+|------|-------|------------|--------------------------|
+| **Nazwa** | **Na** | jedno słowo/fraza | Observer |
+| **Problem** | **P** | kiedy stosować? | Obiekt zmienia stan → wielu zależnych musi zareagować, ale nie chcemy ich hard-codować |
+| **Siły** | **Si** | konkurencyjne wymagania | loose coupling vs koszt powiadomień (100 obserwatorów = 100 wywołań) |
+| **Rozwiązanie** | **Ro** | struktura + zachowanie | Subject trzyma listę Observer; przy zmianie woła notify() na każdym |
+| **Konsekwencje** | **Ko** | tradeoffs +/− | (+) luźne wiązanie, (−) kaskada powiadomień, memory leaks jeśli nie odrejestrujemy |
+| Powiązane | — | wzorce pokrewne | Mediator (centralizuje), Pub/Sub (rozproszony wariant) |
+| Znane zastosowania | — | real-world | Java Swing listeners, C# events, React useState → re-render |
+
+![Wypełniona karta wzorca Observer](img/q14_observer_card_filled.png)
+
+**2. Klasyfikacja wieloosiowa** — wzorce organizowane wzdłuż kilku osi jednocześnie, jak książki w bibliotece (dział + półka + autor).
+
+Osie klasyfikacji:
 - **Skala**: architektoniczny (cały system) → projektowy (klasa) → idiomatyczny (linia kodu)
 - **Domena problemu**: kreacyjne / strukturalne / behawioralne (GoF) albo warstwy / komunikacja / dekompozycja (POSA)
 - **Atrybut jakościowy**: wydajność, skalowalność, testowalność, dostępność
 
-**3. Język wzorców (pattern language)** — wzorce referują się wzajemnie, tworząc graf:
-- Microservices → wymaga → API Gateway, Service Discovery, Circuit Breaker
-- Observer → wariant architektoniczny → Event-Driven Architecture
-- Nawigacja: „mam problem X → wzorzec A → prowadzi do problemu Y → wzorzec B"
+Konkretny przykład — jak GoF klasyfikuje 23 wzorce na dwóch osiach:
 
-**Konkretne katalogi:**
-- **POSA** (1996) — wzorce architektoniczne: Layers, Pipes & Filters, Broker, MVC, Microkernel
-- **GoF** (1994) — 23 wzorce projektowe: kreacyjne (5), strukturalne (7), behawioralne (11)
-- **EIP** (2003) — wzorce integracji: Message Channel, Router, Aggregator
-- **PoEAA** (2002) — enterprise: Repository, Unit of Work, Domain Model, Active Record
-- **Cloud Patterns** (~2015) — chmurowe: Circuit Breaker, Sidecar, Saga, Strangler Fig
+| | Kreacyjne (5) | Strukturalne (7) | Behawioralne (11) |
+|---|---|---|---|
+| **Klasa** | Factory Method | Adapter (class) | Interpreter, Template Method |
+| **Obiekt** | Abstract Factory, Builder, Prototype, Singleton | Adapter (obj), Bridge, Composite, Decorator, Facade, Flyweight, Proxy | Chain of Resp., Command, Iterator, Mediator, Memento, **Observer**, State, Strategy, Visitor |
+
+Observer jest w komórce: **behawioralny × obiekt**. Wiedzieć GDZIE wzorzec leży = szybsze przypomnienie i porównanie z sąsiadami (Mediator, State, Strategy — też behawioralne obiektowe).
+
+![Mapa katalogów wzorców](img/q14_catalog_map.png)
+
+**3. Język wzorców (pattern language)** — wzorce referują się wzajemnie, tworząc nawigacyjny graf „zobacz też". Sens: masz problem → stosujesz wzorzec A → A rodzi nowy problem → wzorzec B go rozwiązuje.
+
+Konkretna nawigacja w praktyce:
+
+    Problem: „monolith nie skaluje się"
+        ↓
+    Wzorzec: Microservices
+        ↓ wymaga
+    Problem: „jak routować żądania do serwisów?"
+        ↓
+    Wzorzec: API Gateway
+        ↓ rodzi problem
+    Problem: „co gdy serwis nie odpowiada?"
+        ↓
+    Wzorzec: Circuit Breaker
+        ↓ rodzi problem
+    Problem: „jak zachować spójność transakcji?"
+        ↓
+    Wzorzec: Saga
+
+Każdy wzorzec w katalogu ma pole „Powiązane wzorce" — to linki w tym grafie.
+
+![Nawigacja w języku wzorców](img/q14_pattern_language_navigation.png)
+
+**Konkretne katalogi** (5 głównych — mnemonik **PGEP+C** = „Paweł Grał Efektownie Pod Chmurami"):
+
+| Katalog | Rok | Autorzy | Skala | Domena | Przykładowe wzorce |
+|---------|-----|---------|-------|--------|--------------------|
+| **POSA** | 1996 | Buschmann et al. | architektoniczny | systemy | Layers, Pipes & Filters, Broker, MVC, Microkernel |
+| **GoF** | 1994 | Gamma, Helm, Johnson, Vlissides | projektowy | obiekty | Factory, Singleton, Observer, Strategy (23 łącznie) |
+| **EIP** | 2003 | Hohpe & Woolf | integracyjny | komunikacja między-systemowa | Message Channel, Router, Aggregator |
+| **PoEAA** | 2002 | Martin Fowler | projektowy/arch. | enterprise | Repository, Unit of Work, Domain Model, Active Record |
+| **Cloud** | ~2015 | Microsoft/AWS | architektoniczny | chmura | Circuit Breaker, Sidecar, Saga, Strangler Fig |
 
 ### Przykładowe wzorce
 
@@ -136,16 +180,43 @@
 
 ### Jak zapamiętać
 
-- **Mnemonik katalogów „PGEP+C"**: **P**OSA → **G**oF → **E**IP → **P**oEAA + **C**loud
-  - Historia: „**P**aweł **G**rał **E**fektownie **P**od **C**hmurami"
-  - Chronologicznie: GoF '94 → POSA '96 → PoEAA '02 → EIP '03 → Cloud ~'15
-- **Szablon wzorca „NaPSiRoKo"**: **Na**zwa, **P**roblem, **Si**ły, **Ro**związanie, **Ko**nsekwencje
-  - Wyobraź sobie kartonowe pudełko: etykieta (Nazwa) → co nie działa (Problem) → wagi na szalce (Siły) → instrukcja montażu (Rozwiązanie) → lista „+" i „−" na boku (Konsekwencje)
-- **3 filary katalogowania**: Szablon + Klasyfikacja + Język wzorców
-  - Analogia do encyklopedii: każde hasło ma ten sam format (szablon), jest w kategorii z innymi hasłami tego typu (klasyfikacja), i ma „zobacz też" (język wzorców)
-- **„Monolith first"** — rozdzielaj gdy znasz granice domen
-- **Wzorzec = Nazwa + Problem + Rozwiązanie + Konsekwencje** (minimum do zapamiętania z dowolnego katalogu)
+**Mnemonik 1 — szablon wzorca „NaPSiRoKo":**
+- **Na**zwa → **P**roblem → **Si**ły → **Ro**związanie → **Ko**nsekwencje
+- Historyjka: „**Na**pisałem **P**roblem na kartce, **Si**ły mnie ciągnęły w dwie strony, **Ro**związałem go, a **Ko**nsekwencje spisałem na odwrocie"
+- Wyobraź sobie kartonowe pudełko: etykieta (Nazwa) → co nie działa (Problem) → wagi na szalce (Siły) → instrukcja montażu (Rozwiązanie) → lista „+" i „−" na boku (Konsekwencje)
+
+**Mnemonik 2 — katalogi „PGEP+C" = „Paweł Grał Efektownie Pod Chmurami":**
+
+    P = POSA     (1996, systemy)        „Paweł"
+    G = GoF      (1994, obiekty)        „Grał"
+    E = EIP      (2003, integracja)     „Efektownie"
+    P = PoEAA    (2002, enterprise)     „Pod"
+    C = Cloud    (~2015, chmura)        „Chmurami"
+
+- Chronologicznie: GoF '94 → POSA '96 → PoEAA '02 → EIP '03 → Cloud ~'15
+- Skala rośnie: GoF (obiekty) → PoEAA (aplikacja) → POSA/EIP (system) → Cloud (infrastruktura)
+
+**Mnemonik 3 — trzy filary katalogowania „SzKlaJ" = „Szklany Jar":**
+- **Sz**ablon opisu (NaPSiRoKo) — każde hasło w tym samym formacie
+- **Kla**syfikacja wieloosiowa — hasła posortowane w kategorie (jak dział w bibliotece)
+- **J**ęzyk wzorców — hasła mają „zobacz też" (graf nawigacyjny)
+- Analogia: encyklopedia. Każde hasło ma ten sam format (**Sz**ablon), jest w kategorii z innymi hasłami tego typu (**Kla**syfikacja), i ma „zobacz też" (**J**ęzyk wzorców)
+
+**Mnemonik 4 — GoF 3 kategorie „KSB" = „Kto Stworzył Budynek?":**
+- **K**reacyjne (5) — JAK tworzyć obiekty? (Factory, Singleton, Builder, Prototype, Abstract Factory)
+- **S**trukturalne (7) — JAK składać obiekty? (Adapter, Bridge, Composite, Decorator, Facade, Flyweight, Proxy)
+- **B**ehawioralne (11) — JAK obiekty komunikują? (Observer, Strategy, Command, State, Iterator...)
+- Zapamiętaj liczby: 5 + 7 + 11 = 23
+
+**Szybka ściąga — wzorzec na obronie:**
+- Wzorzec = Nazwa + Problem + Rozwiązanie + Konsekwencje (minimum do zapamiętania z dowolnego katalogu)
+- „Monolith first" — rozdzielaj gdy znasz granice domen
 - Katalogi wg skali: POSA = systemy, GoF = obiekty, EIP = komunikacja międzysystemowa
 
-→ Diagramy do druku: `pytania/img/q14_pattern_template.png`, `pytania/img/q14_catalog_map.png`
+→ Diagramy do druku:
+- `pytania/img/q14_pattern_template.png` — szablon NaPSiRoKo
+- `pytania/img/q14_catalog_map.png` — mapa katalogów PGEP+C
+- `pytania/img/q14_three_pillars.png` — trzy filary katalogowania
+- `pytania/img/q14_observer_card_filled.png` — wypełniona karta wzorca Observer
+- `pytania/img/q14_pattern_language_navigation.png` — nawigacja w języku wzorców
 

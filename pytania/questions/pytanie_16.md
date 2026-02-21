@@ -12,6 +12,261 @@
 
 ---
 
+**Robot przemysłowy (industrial robot)** — manipulator: ramię mechaniczne z 4–7 osiami obrotu (degrees of freedom), zamocowane na stałe, sterowane komputerowo. Typowe zastosowania: spawanie, malowanie, paletyzacja, montaż. Standard ISO 8373: „automatycznie sterowany, reprogramowalny, wielozadaniowy manipulator". Przykłady: ABB IRB 6700 (spawanie karoserii), KUKA KR 210 (paletyzacja), FANUC M-20iA (montaż elektroniki). W odróżnieniu od cobotów (collaborative robots), roboty przemysłowe pracują w klatkach bezpieczeństwa — nie wolno wchodzić w ich zasięg podczas pracy.
+
+    Robot przemysłowy — budowa:
+    [Podstawa] → [Oś 1: obrót] → [Oś 2: ramię] → [Oś 3: łokieć]
+                → [Oś 4: nadgarstek] → [Oś 5: pochylenie] → [Oś 6: obrót TCP]
+                                                                    ↓
+                                                              [Narzędzie/chwytak]
+
+---
+
+**Język ogólnego przeznaczenia (general-purpose language)** — język programowania zaprojektowany do rozwiązywania DOWOLNYCH problemów: aplikacje webowe, bazy danych, gry, systemy operacyjne, AI. Przykłady: C++, Python, Java, C#, Rust. Nie ma wbudowanych komend ruchu robota — trzeba pisać biblioteki lub sterowniki od zera. W kontekście robotyki: C++ i Python używane z frameworkami (ROS, MoveIt), ale NIE są to języki specjalizowane.
+
+    // C++ (ogólny) — żeby ruszyć robotem, musisz:
+    robot.setJointAngle(0, 45.0);    // sam zarządzasz komunikacją
+    robot.setJointAngle(1, 30.0);    // sam pilnujesz kinematyki
+    robot.sendCommand();              // sam wysyłasz pakiety
+
+    // RAPID (specjalizowany) — komenda ruchu to prymityw języka:
+    MoveL pTarget, v500, fine, tool1;  // gotowe, 1 linia
+
+**Składnia (syntax)** — reguły, JAK pisać poprawne polecenia w danym języku. Składnia określa: jakie słowa kluczowe istnieją, jak je łączyć, jak kończyć instrukcje, jak grupować bloki kodu. Analogia: składnia to gramatyka języka naturalnego — „Ala ma kota" jest poprawne, „kota Ala ma" jest zrozumiałe, ale „ma Ala kota" w programowaniu dałoby błąd.
+
+    Różne składnie — ta sama instrukcja „jeśli x > 5, zrób coś":
+    C-like:       if (x > 5) { doSomething(); }
+    Pascal-like:  IF x > 5 THEN doSomething; ENDIF
+    Python-like:  if x > 5:\n    do_something()
+
+**Typy danych (data types)** — kategorie wartości, jakie język rozpoznaje. Typ mówi kompilatorowi/interpreterowi ile pamięci zająć i jakie operacje są dozwolone. Języki robotów mają UNIKALNE typy, których nie znajdziesz w C++ czy Pythonie.
+
+    Typy ogólne (istnieją w każdym języku):
+    INT / num     → liczba całkowita: 42, -7, 0
+    REAL / float  → liczba zmiennoprzecinkowa: 3.14, -0.001
+    BOOL          → prawda/fałsz: TRUE, FALSE
+    STRING        → tekst: "Hello"
+
+    Typy SPECYFICZNE dla robotyki (nie istnieją w C++/Python):
+    robtarget     → pozycja + orientacja + konfiguracja ramienia  (RAPID)
+    E6POS         → x,y,z + a,b,c (kąty Eulera) + osie zewnętrzne (KRL)
+    POSITION      → pozycja kartezjańska                          (Karel)
+    pose          → [x, y, z, rx, ry, rz]                        (URScript)
+    tooldata      → definicja narzędzia (TCP + masa + środek ciężkości)
+    speeddata     → prędkość TCP + prędkość obrotowa
+    zonedata      → strefa zbliżenia (jak blisko celu jechać)
+
+**Instrukcja (instruction/statement)** — pojedyncze polecenie w programie. Komputer/robot wykonuje instrukcje po kolei (sekwencyjnie). W językach robotów instrukcje dzielą się na:
+
+    1. Ruchu:       MoveL pTarget, v500, fine, tool1;
+    2. I/O:         SetDO doGripper, 1;
+    3. Czekania:    WaitTime 0.5;
+    4. Kontroli:    IF sensor = TRUE THEN ...
+    5. Przypisania:  nCycles := nCycles + 1;
+    6. Wywołania:    PickPart;  (wywołanie procedury)
+
+---
+
+**Zadanie robotyczne (robotic task)** — czynność, którą robot ma wykonać w ramach procesu produkcyjnego. Składa się z sekwencji ruchów, operacji I/O i logiki. Przykłady:
+- Pick & place: podnieś obiekt z punktu A, przenieś do punktu B
+- Spawanie: jedź po ścieżce spoiny z włączonym łukiem
+- Paletyzacja: układaj pudła na palecie w warstwy 4×3
+- Montaż: włóż kołek w otwór z kontrolą siły
+
+**Ruch robota (robot motion)** — zmiana pozycji ramienia robota w czasie. Każdy ruch jest zdefiniowany przez cztery elementy: CEL (dokąd), TYP (jak — liniowo, stawowo, po łuku), PRĘDKOŚĆ (jak szybko), PRECYZJA (strefa zbliżenia). W językach robotów ruch to PRYMITYW — jedno polecenie, nie pętla obliczeń.
+
+    Trzy typy ruchu — jak robot jedzie z A do B:
+
+    PTP / MoveJ (joint):
+    A ●─ ─ ─ ── ● B    ← ścieżka TCP nieprzewidywalna (krzywa)
+    Ale najszybszy! Interpolacja w przestrzeni stawów.
+
+    LIN / MoveL (linear):
+    A ●──────────● B    ← TCP jedzie po prostej linii
+    Wolniejszy, ale precyzyjna ścieżka. Wymaga ciągłego IK.
+
+    CIRC / MoveC (circular):
+    A ●╲         ╱● B   ← TCP jedzie po łuku kołowym
+        ╲  ● H  ╱       H = punkt pomocniczy (definiuje łuk)
+         ╲─────╱
+
+**Definiowanie ruchów** — w językach specjalizowanych ruch definiujesz JEDNĄ instrukcją z parametrami. Nie musisz pisać pętli sterowania silnikami — język ukrywa kinematykę odwrotną, planowanie trajektorii i sterowanie serwomechanizmami.
+
+    MoveL  pTarget,  v500,     z10,       tGripper;
+    │      │         │         │          └── narzędzie (jaki TCP)
+    │      │         │         └── precyzja (strefa zbliżenia)
+    │      │         └── prędkość (500 mm/s)
+    │      └── cel (pozycja docelowa)
+    └── typ ruchu (liniowy)
+
+---
+
+**I/O cyfrowe i analogowe (digital/analog I/O)** — interfejsy wejścia/wyjścia robota do komunikacji z urządzeniami zewnętrznymi (chwytaki, czujniki, przenośniki, lampy sygnalizacyjne).
+
+- **I/O cyfrowe (digital)** — sygnał ma dwa stany: 0 (OFF) lub 1 (ON). Jak wyłącznik światła. Użycie: włącz/wyłącz chwytak, sprawdź czy czujnik wykrył obiekt, sygnalizuj gotowość do PLC.
+
+- **I/O analogowe (analog)** — sygnał ciągły w zakresie, np. 0–10V lub 4–20mA. Jak regulator głośności. Użycie: ustaw siłę chwytaka proporcjonalnie (nie tylko ON/OFF), odczytaj temperaturę z termopary, ustaw prędkość przenośnika.
+
+        I/O cyfrowe — jak włącznik (ON/OFF):
+        SetDO doGripper, 1;     // RAPID: włącz chwytak (ON)
+        SetDO doGripper, 0;     // RAPID: wyłącz chwytak (OFF)
+        OUT 1 TRUE              // KRL:   włącz wyjście 1
+        DOUT[1] = ON            // Karel: włącz wyjście 1
+        set_digital_out(0, True)  // URScript
+
+        I/O analogowe — jak potencjometr (wartość ciągła):
+        SetAO aoForce, 5.7;    // RAPID: ustaw wyjście analogowe na 5.7V
+        // np. siła chwytaka proporcjonalna do napięcia:
+        // 0V = brak siły, 10V = maksymalna siła
+
+---
+
+**Pozycja (position)** — punkt w przestrzeni, do którego robot ma dojechać. Opisywana trzema współrzędnymi: x, y, z (odległości w milimetrach od początku układu współrzędnych). Sama pozycja to za mało — robot musi też wiedzieć, JAK narzędzie ma być obrócone w tym punkcie (orientacja).
+
+    Pozycja:  (x=400, y=200, z=100)
+    Znaczenie: 400mm do przodu, 200mm w prawo, 100mm w górę
+    od początku układu współrzędnych robota (podstawa)
+
+**Układ kartezjański (Cartesian coordinate system)** — układ współrzędnych xyz, w którym każdy punkt w przestrzeni jest opisany trzema prostopadłymi odległościami od początku. Nazwa od René Descartesa (Kartezjusz). W robotyce: pozycja TCP wyrażona w mm: x=400, y=200, z=100. Alternatywa: przestrzeń stawowa (kąty: q₁=30°, q₂=45°, q₃=-10°…), która opisuje tę samą pozycję z perspektywy silników.
+
+    Układ kartezjański:
+         Z ↑
+           │    ● TCP (400, 200, 100)
+           │   ╱
+           │  ╱
+           │ ╱
+           ├──────→ Y
+          ╱
+         ╱
+        X
+
+    Przestrzeń stawowa (ta sama pozycja, ale w kątach):
+    q₁ = 26.6°, q₂ = 45.0°, q₃ = -12.3°, q₄ = 0°, q₅ = 57.3°, q₆ = 0°
+
+**Orientacja (orientation)** — kierunek, w jakim narzędzie (TCP) jest skierowane w danym punkcie. Pozycja mówi GDZIE jest, orientacja mówi JAK jest obrócone. Wyrażana jako kwaternion (q1,q2,q3,q4) w RAPID lub kąty Eulera (A,B,C) w KRL.
+
+    Ta sama pozycja, różne orientacje:
+    Orientacja 1: chwytak skierowany w dół ↓  (spawanie poziomej płyty)
+    Orientacja 2: chwytak skierowany w bok →  (wkładanie elementu w otwór)
+    Orientacja 3: chwytak skierowany w górę ↑ (podpieranie od spodu)
+
+    W RAPID (kwaternion):    [1, 0, 0, 0]  = narzędzie pionowo w dół
+    W KRL (kąty Eulera):     A=0, B=0, C=180  = obrót 180° wokół Z
+
+**Konfiguracja ramienia (robot configuration)** — dla jednej pozycji + orientacji robot 6-osiowy może mieć do 8 różnych ustawień stawów (jak zgięcie łokcia do góry lub do dołu). Konfiguracja to dodatkowy parametr, który mówi robotowi KTÓRE rozwiązanie kinematyki odwrotnej wybrać.
+
+    Ta sama pozycja, dwie konfiguracje:
+
+    Konfiguracja 1 ("łokieć do góry"):     Konfiguracja 2 ("łokieć na dół"):
+         ╱──╲                                    ╲──╱
+        ╱    ╲                                    ╲  ╲
+    ───╱      ● TCP                            ───╱    ● TCP
+
+    W RAPID: robtarget = [[x,y,z], [orientacja], [konfiguracja], [osie_zewn]]
+    Konfiguracja = [cf1, cf4, cf6, cfx] — opisuje kwadranty stawów
+
+---
+
+**Język strukturalny (structured language)** — język z jasno zdefiniowanymi blokami kodu: procedury (PROC/ENDPROC), pętle (WHILE/ENDWHILE, FOR/ENDFOR), warunki (IF/ELSE/ENDIF). Przeciwieństwo: kod spaghetti z GOTO i nienazwanymi skokami. RAPID jest strukturalny — program składa się z modułów (MODULE/ENDMODULE) zawierających procedury. Łatwy do czytania i utrzymania.
+
+    Strukturalność RAPID:
+    MODULE MainModule           ← moduł (pojemnik)
+        PROC PickPart()         ← procedura (nazwany blok)
+            IF ready THEN       ← warunek
+                MoveL ...;
+            ENDIF
+        ENDPROC                 ← wyraźny koniec bloku
+    ENDMODULE
+
+**Język wielozadaniowy (multitasking language)** — język umożliwiający uruchamianie wielu programów (tasków) jednocześnie na jednym kontrolerze. W RAPID: jeden task steruje ruchem ramienia, drugi monitoruje czujniki bezpieczeństwa, trzeci komunikuje się z PLC. Każdy task działa „równolegle" (w rzeczywistości: szybkie przełączanie kontekstu).
+
+    RAPID — wielozadaniowość:
+    Task 1 (MAIN):   MoveL → MoveL → MoveL...     (sterowanie ruchem)
+    Task 2 (SAFETY): WHILE TRUE DO                  (ciągły monitoring)
+                        IF DI(emergency) THEN Stop;
+                      ENDWHILE
+    Task 3 (COMM):   czytaj/wysyłaj dane do PLC     (komunikacja)
+    ← kontroler przełącza się między taskami co ~4ms
+
+---
+
+**Język Pascal-like** — język, którego składnia przypomina język Pascal (Niklaus Wirth, 1970). Cechy: bloki zaczynają się słowem kluczowym i kończą `END` (nie nawiasami `{}`), zmienne deklarowane na początku bloku (`VAR`/`DECL`), średniki jako separatory, brak rozróżniania wielkości liter (case-insensitive). KRL i Karel mają składnię Pascal-like.
+
+    Pascal:                     KRL (KUKA):
+    PROGRAM example;            DEF PickAndPlace()
+    VAR x: INTEGER;               DECL INT x
+    BEGIN                         ; (brak BEGIN/END w KRL,
+      x := 10;                   ;  ale DEF/END pełni tę rolę)
+      IF x > 5 THEN              IF x > 5 THEN
+        WriteLn('tak');             ; zrób coś
+      END;                        ENDIF
+    END.                        END
+
+**Approximacja (approximation)** — termin KUKA odpowiadający „strefie zbliżenia" w RAPID. Parametr `$APO.CDIS = 10` oznacza: robot zaczyna skręcać w stronę następnego celu, gdy jest 10mm od bieżącego. Efekt identyczny jak `z10` w RAPID — płynniejszy ruch, szybszy cykl, ale TCP nie dochodzi dokładnie do zaprogramowanego punktu.
+
+    RAPID:  MoveL p1, v500, z10, tool1;    // strefa = 10mm
+    KRL:    $APO.CDIS = 10                 // approximacja = 10mm
+            LIN XTarget C_DIS              // C_DIS = zastosuj approximację
+
+---
+
+**Język Python-like** — składnia inspirowana Pythonem: brak nawiasów klamrowych `{}`, proste wywołania funkcji, brak deklaracji typów, czytelny kod przypominający pseudokod. URScript jest Python-like — ale UWAGA: wcięcia w URScript NIE definiują bloków (w odróżnieniu od Pythona). Bloki kończą się słowem `end`.
+
+    Python:                    URScript:
+    def pick():                def pick():
+        target = [0.4, 0.2]       target = p[0.4, 0.2, 0.1, 3.14, 0, 0]
+        move(target)               movel(target, a=0.5, v=0.3)
+                                end     ← URScript wymaga 'end' (Python nie)
+
+**Język skryptowy (scripting language)** — język interpretowany (nie kompilowany): program czytany i wykonywany linia po linii w trakcie działania, bez osobnego kroku kompilacji. Zalety: szybkie testowanie (zmień kod → uruchom od razu), brak czekania na kompilację. Wady: wolniejszy od skompilowanego kodu (ale dla robota to nie problem — wąskim gardłem jest fizyczny ruch, nie szybkość interpretera). URScript jest skryptowy.
+
+    Kompilowany (C++, Karel):        Skryptowy (URScript, Python):
+    1. Napisz kod                    1. Napisz kod
+    2. Skompiluj (czekaj...)         2. Uruchom natychmiast
+    3. Przenieś na kontroler         ← brak kroku kompilacji
+    4. Uruchom
+
+**Typowanie dynamiczne (dynamic typing)** — zmiennej NIE deklarujesz typu — język sam go rozpoznaje w momencie przypisania. Zmienna może zmieniać typ w trakcie programu. Przeciwieństwo: typowanie statyczne (C++, KRL) — typ deklarujesz z góry i nie może się zmienić.
+
+    Dynamiczne (URScript/Python):      Statyczne (KRL):
+    x = 42          ← x jest liczbą    DECL INT x      ← x musi być INT
+    x = "hello"     ← teraz x tekst    x = 42          ← OK
+                    ← BRAK błędu        x = "hello"     ← BŁĄD kompilacji!
+
+**Niski próg wejścia (low barrier to entry)** — URScript jest łatwy do nauki, bo łączy cechy ułatwiające start:
+1. Brak deklaracji typów — nie musisz znać `INT`, `REAL`, `E6POS`
+2. Składnia Python-like — jeśli znasz Pythona, czytasz URScript od razu
+3. Prosty model: `movel(cel, prędkość)` — intuicyjne wywołanie
+4. Coboty adresowane do małych firm bez zespołu programistów
+5. Darmowy symulator URSim — uczysz się bez kupowania robota
+6. Polyscope (GUI) — operator może programować drag & drop
+
+    Krzywa uczenia się (orientacyjnie):
+    URScript:  dni        (Python-like, prosty)
+    RAPID:     tygodnie   (strukturalny, wiele typów danych)
+    KRL:       tygodnie   (Pascal-like, dwa pliki)
+    Karel/TP:  dni (TP) / tygodnie (Karel pełny)
+    ROS+C++:   miesiące   (framework + język ogólny + Linux)
+
+---
+
+**Język proceduralny (procedural language)** — paradygmat programowania, w którym program to sekwencja PROCEDUR (funkcji) wywoływanych po kolei. Każda procedura wykonuje konkretne zadanie. Brak obiektów i klas (to byłby język obiektowy). Wszystkie języki robotów są proceduralne — program to lista kroków: jedź tu, zamknij chwytak, jedź tam, otwórz chwytak.
+
+    Proceduralny = lista kroków:        Obiektowy = obiekty i metody:
+    PickPart();                          robot.pick(objectA);
+    MoveTo(placePos);                    objectA.moveTo(placePos);
+    OpenGripper();                       gripper.open();
+
+**Język C-like** — składnia inspirowana językiem C: nawiasy klamrowe `{}` lub `:=` do przypisań, średniki na końcu instrukcji, zmienne ze znakiem `$` dla zmiennych systemowych. PDL2 (Comau) jest C-like: `$DOUT[1] := TRUE` przypomina składnię C z operatorem przypisania.
+
+    C:                          PDL2 (Comau):
+    int x = 10;                 VAR x : INTEGER
+    if (x > 5) {                IF x > 5 THEN
+        output[1] = 1;              $DOUT[1] := TRUE
+    }                           ENDIF
+
+---
+
 **Poziomy abstrakcji T-R-M-S:**
 
 **Task-level (poziom zadania)** — najwyższy: opisujesz CO robot ma zrobić, nie JAK. „Podnieś A, połóż na B." Robot sam planuje ruchy. Przykłady: PDDL, Behavior Trees.
@@ -73,6 +328,41 @@
     // z50 → szybszy cykl, ale mniejsza precyzja w punkcie
 
 ---
+
+### Specjalizowane języki programowania robotów — przegląd
+
+Specjalizowane języki programowania robotów to języki stworzone wyłącznie do sterowania robotami przemysłowymi. Nie są językami ogólnego przeznaczenia (jak C++ czy Python) — ich składnia, typy danych i instrukcje są zaprojektowane wokół zadań robotycznych: definiowania ruchów, obsługi I/O cyfrowych i analogowych, zarządzania narzędziami (TCP) i reagowania na błędy w czasie rzeczywistym.
+
+**Główne specjalizowane języki producentów (robot-level):**
+
+1. **RAPID (ABB)** — strukturalny, wielozadaniowy. Komendy ruchu: `MoveL`, `MoveJ`, `MoveC`. Pozycje opisywane typem `robtarget` (kartezjańska + orientacja + konfiguracja). Dwupoziomowy parametr ruchu: prędkość (`v500` = 500 mm/s) + strefa zbliżenia (`z10`, `fine`). Obsługuje wielowątkowość (wiele tasków). Symulator: RobotStudio.
+
+2. **KRL — KUKA Robot Language** — Pascal-like (`DEF/END`, `DECL`). Program = dwa pliki: `.src` (kod) + `.dat` (pozycje). Komendy ruchu: `PTP`, `LIN`, `CIRC`. Prędkość ustawiana zmienną systemową `$VEL.CP`. Approximacja (`C_DIS`) zamiast stref. Symulator: KUKA.Sim Pro.
+
+3. **Karel (FANUC)** — Pascal-like (`PROGRAM/BEGIN/END`). Dwa tryby: Karel (pełny tekstowy) i TP (Teach Pendant — uproszczony, listowy, numerowane linie). W praktyce fabrycznej dominuje TP — operatorzy bez wykształcenia programistycznego uczą się numerowanych linii `L P[2] 500mm/sec FINE`. Symulator: ROBOGUIDE.
+
+4. **URScript (Universal Robots)** — Python-like, skryptowy, dynamicznie typowany. Zaprojektowany dla cobotów (robotów współpracujących). Unikalne: `force_mode()` (sterowanie siłą), `freedrive_mode()` (ręczne prowadzenie). Niski próg wejścia. Symulator: URSim (darmowy).
+
+5. **PDL2 (Comau)** — proceduralny, C-like. `MOVE LINEAR TO`, `$DOUT[1] := TRUE`. Stosowany głównie w automotive (Fiat/Stellantis). Symulator: RoboSim.
+
+**Języki task-level (planowanie):**
+
+6. **PDDL (Planning Domain Definition Language)** — deklaratywny język opisu problemów planowania. Definiujesz stany, akcje (warunki + efekty) i cel — planner automatycznie znajduje sekwencję akcji. Nie steruje robotem bezpośrednio, lecz generuje plan, który robot-level realizuje.
+
+7. **Behavior Trees** — struktury drzew zachowań (Sequence, Selector, Action, Condition). Stosowane w robotyce i grach. Alternatywa dla maszyn stanów — łatwiejsze w rozbudowie i debugowaniu.
+
+**Middleware i frameworki (uniwersalne, nie jednego producenta):**
+
+8. **ROS / ROS 2** — middleware publish/subscribe, programowanie w Python/C++. NIE jest językiem specjalizowanym per se, ale jest de facto standardem łączącym roboty wielu producentów. Biblioteka **MoveIt** (motion planning) przełamuje vendor lock-in.
+
+9. **Orocos** — framework C++ do hard real-time sterowania (<1 ms). Wypełnia lukę ROS w pętlach regulacji wymagających gwarancji czasowych.
+
+**Wspólne cechy języków specjalizowanych:**
+- Wbudowane typy pozycji (kartezjańska, stawowa) — nie istnieją w C++ czy Pythonie
+- Komendy ruchu jako prymitywy języka (`MoveL`, `LIN`, `movel`) — nie wywołania bibliotek
+- Obsługa I/O cyfrowego/analogowego jako element składni
+- Parametry ruchu (prędkość, strefa zbliżenia, narzędzie) jako argumenty instrukcji
+- Brak wskaźników, zarządzania pamięcią, struktur danych ogólnego przeznaczenia — język zoptymalizowany pod jedno zastosowanie
 
 ### Klasyfikacja wg poziomu abstrakcji: **T-R-M-S**
 

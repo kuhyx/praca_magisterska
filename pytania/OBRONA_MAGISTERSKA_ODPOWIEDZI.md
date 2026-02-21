@@ -533,6 +533,10 @@ Przykład — graf z ujemnymi wagami (Dijkstra daje ZŁY wynik, B-F poprawny):
       Po V−1 iteracjach dist nadal maleje → V-ta iteracja:
         dist[src] + weight < dist[dst] → return None
 
+![Bellman-Ford — ujemne wagi vs Dijkstra](img/bellman_ford_negative_weights.png)
+
+![Bellman-Ford — wykrywanie cyklu ujemnego](img/bellman_ford_negative_cycle.png)
+
 ![Przejście grafu algorytmem Bellmana-Forda — krok po kroku](img/bellman_ford_traversal.png)
 
 **A\*** (graph jak Dijkstra; heuristic = h(v) → oszacowanie odl. do celu):
@@ -3251,31 +3255,75 @@ Poniższe diagramy ilustrują kluczowe frameworki i modele omówione w pytaniu. 
 
 ### Katalogowanie — trzy filary metodologii
 
-**1. Ustandaryzowany szablon opisu** — każdy wzorzec opisany wg tego samego formatu:
-- **Nazwa** — jedno słowo/fraza: „Layered", „Observer"
-- **Problem/Kontekst** — kiedy stosować
-- **Siły (forces)** — konkurencyjne wymagania do pogodzenia
-- **Rozwiązanie** — struktura, diagram, zachowanie
-- **Konsekwencje** — tradeoffs: co zyskujemy, co tracimy
-- **Powiązane wzorce** — jakie wzorce współgrają lub konkurują
-- **Znane zastosowania** — real-world examples
+Pytanie „JAK są katalogowane?" = jaką METODĘ stosujemy, żeby z setek wzorców zrobić przeszukiwalny, porównywalny, kompozytowalny system wiedzy. Odpowiedź: trzy filary, razem tworzące kompletną metodologię.
 
-**2. Klasyfikacja wieloosiowa** — wzorce organizowane wzdłuż kilku osi jednocześnie:
+![Trzy filary katalogowania wzorców](img/q14_three_pillars.png)
+
+**1. Ustandaryzowany szablon opisu (pattern template)** — każdy wzorzec opisany wg tego samego formatu, dzięki czemu można je porównywać „pole po polu". Mnemonik: **NaPSiRoKo**.
+
+| Pole | Skrót | Co zawiera | Przykład (Observer, GoF) |
+|------|-------|------------|--------------------------|
+| **Nazwa** | **Na** | jedno słowo/fraza | Observer |
+| **Problem** | **P** | kiedy stosować? | Obiekt zmienia stan → wielu zależnych musi zareagować, ale nie chcemy ich hard-codować |
+| **Siły** | **Si** | konkurencyjne wymagania | loose coupling vs koszt powiadomień (100 obserwatorów = 100 wywołań) |
+| **Rozwiązanie** | **Ro** | struktura + zachowanie | Subject trzyma listę Observer; przy zmianie woła notify() na każdym |
+| **Konsekwencje** | **Ko** | tradeoffs +/− | (+) luźne wiązanie, (−) kaskada powiadomień, memory leaks jeśli nie odrejestrujemy |
+| Powiązane | — | wzorce pokrewne | Mediator (centralizuje), Pub/Sub (rozproszony wariant) |
+| Znane zastosowania | — | real-world | Java Swing listeners, C# events, React useState → re-render |
+
+![Wypełniona karta wzorca Observer](img/q14_observer_card_filled.png)
+
+**2. Klasyfikacja wieloosiowa** — wzorce organizowane wzdłuż kilku osi jednocześnie, jak książki w bibliotece (dział + półka + autor).
+
+Osie klasyfikacji:
 - **Skala**: architektoniczny (cały system) → projektowy (klasa) → idiomatyczny (linia kodu)
 - **Domena problemu**: kreacyjne / strukturalne / behawioralne (GoF) albo warstwy / komunikacja / dekompozycja (POSA)
 - **Atrybut jakościowy**: wydajność, skalowalność, testowalność, dostępność
 
-**3. Język wzorców (pattern language)** — wzorce referują się wzajemnie, tworząc graf:
-- Microservices → wymaga → API Gateway, Service Discovery, Circuit Breaker
-- Observer → wariant architektoniczny → Event-Driven Architecture
-- Nawigacja: „mam problem X → wzorzec A → prowadzi do problemu Y → wzorzec B"
+Konkretny przykład — jak GoF klasyfikuje 23 wzorce na dwóch osiach:
 
-**Konkretne katalogi:**
-- **POSA** (1996) — wzorce architektoniczne: Layers, Pipes & Filters, Broker, MVC, Microkernel
-- **GoF** (1994) — 23 wzorce projektowe: kreacyjne (5), strukturalne (7), behawioralne (11)
-- **EIP** (2003) — wzorce integracji: Message Channel, Router, Aggregator
-- **PoEAA** (2002) — enterprise: Repository, Unit of Work, Domain Model, Active Record
-- **Cloud Patterns** (~2015) — chmurowe: Circuit Breaker, Sidecar, Saga, Strangler Fig
+| | Kreacyjne (5) | Strukturalne (7) | Behawioralne (11) |
+|---|---|---|---|
+| **Klasa** | Factory Method | Adapter (class) | Interpreter, Template Method |
+| **Obiekt** | Abstract Factory, Builder, Prototype, Singleton | Adapter (obj), Bridge, Composite, Decorator, Facade, Flyweight, Proxy | Chain of Resp., Command, Iterator, Mediator, Memento, **Observer**, State, Strategy, Visitor |
+
+Observer jest w komórce: **behawioralny × obiekt**. Wiedzieć GDZIE wzorzec leży = szybsze przypomnienie i porównanie z sąsiadami (Mediator, State, Strategy — też behawioralne obiektowe).
+
+![Mapa katalogów wzorców](img/q14_catalog_map.png)
+
+**3. Język wzorców (pattern language)** — wzorce referują się wzajemnie, tworząc nawigacyjny graf „zobacz też". Sens: masz problem → stosujesz wzorzec A → A rodzi nowy problem → wzorzec B go rozwiązuje.
+
+Konkretna nawigacja w praktyce:
+
+    Problem: „monolith nie skaluje się"
+        ↓
+    Wzorzec: Microservices
+        ↓ wymaga
+    Problem: „jak routować żądania do serwisów?"
+        ↓
+    Wzorzec: API Gateway
+        ↓ rodzi problem
+    Problem: „co gdy serwis nie odpowiada?"
+        ↓
+    Wzorzec: Circuit Breaker
+        ↓ rodzi problem
+    Problem: „jak zachować spójność transakcji?"
+        ↓
+    Wzorzec: Saga
+
+Każdy wzorzec w katalogu ma pole „Powiązane wzorce" — to linki w tym grafie.
+
+![Nawigacja w języku wzorców](img/q14_pattern_language_navigation.png)
+
+**Konkretne katalogi** (5 głównych — mnemonik **PGEP+C** = „Paweł Grał Efektownie Pod Chmurami"):
+
+| Katalog | Rok | Autorzy | Skala | Domena | Przykładowe wzorce |
+|---------|-----|---------|-------|--------|--------------------|
+| **POSA** | 1996 | Buschmann et al. | architektoniczny | systemy | Layers, Pipes & Filters, Broker, MVC, Microkernel |
+| **GoF** | 1994 | Gamma, Helm, Johnson, Vlissides | projektowy | obiekty | Factory, Singleton, Observer, Strategy (23 łącznie) |
+| **EIP** | 2003 | Hohpe & Woolf | integracyjny | komunikacja między-systemowa | Message Channel, Router, Aggregator |
+| **PoEAA** | 2002 | Martin Fowler | projektowy/arch. | enterprise | Repository, Unit of Work, Domain Model, Active Record |
+| **Cloud** | ~2015 | Microsoft/AWS | architektoniczny | chmura | Circuit Breaker, Sidecar, Saga, Strangler Fig |
 
 ### Przykładowe wzorce
 
@@ -3302,18 +3350,45 @@ Poniższe diagramy ilustrują kluczowe frameworki i modele omówione w pytaniu. 
 
 ### Jak zapamiętać
 
-- **Mnemonik katalogów „PGEP+C"**: **P**OSA → **G**oF → **E**IP → **P**oEAA + **C**loud
-  - Historia: „**P**aweł **G**rał **E**fektownie **P**od **C**hmurami"
-  - Chronologicznie: GoF '94 → POSA '96 → PoEAA '02 → EIP '03 → Cloud ~'15
-- **Szablon wzorca „NaPSiRoKo"**: **Na**zwa, **P**roblem, **Si**ły, **Ro**związanie, **Ko**nsekwencje
-  - Wyobraź sobie kartonowe pudełko: etykieta (Nazwa) → co nie działa (Problem) → wagi na szalce (Siły) → instrukcja montażu (Rozwiązanie) → lista „+" i „−" na boku (Konsekwencje)
-- **3 filary katalogowania**: Szablon + Klasyfikacja + Język wzorców
-  - Analogia do encyklopedii: każde hasło ma ten sam format (szablon), jest w kategorii z innymi hasłami tego typu (klasyfikacja), i ma „zobacz też" (język wzorców)
-- **„Monolith first"** — rozdzielaj gdy znasz granice domen
-- **Wzorzec = Nazwa + Problem + Rozwiązanie + Konsekwencje** (minimum do zapamiętania z dowolnego katalogu)
+**Mnemonik 1 — szablon wzorca „NaPSiRoKo":**
+- **Na**zwa → **P**roblem → **Si**ły → **Ro**związanie → **Ko**nsekwencje
+- Historyjka: „**Na**pisałem **P**roblem na kartce, **Si**ły mnie ciągnęły w dwie strony, **Ro**związałem go, a **Ko**nsekwencje spisałem na odwrocie"
+- Wyobraź sobie kartonowe pudełko: etykieta (Nazwa) → co nie działa (Problem) → wagi na szalce (Siły) → instrukcja montażu (Rozwiązanie) → lista „+" i „−" na boku (Konsekwencje)
+
+**Mnemonik 2 — katalogi „PGEP+C" = „Paweł Grał Efektownie Pod Chmurami":**
+
+    P = POSA     (1996, systemy)        „Paweł"
+    G = GoF      (1994, obiekty)        „Grał"
+    E = EIP      (2003, integracja)     „Efektownie"
+    P = PoEAA    (2002, enterprise)     „Pod"
+    C = Cloud    (~2015, chmura)        „Chmurami"
+
+- Chronologicznie: GoF '94 → POSA '96 → PoEAA '02 → EIP '03 → Cloud ~'15
+- Skala rośnie: GoF (obiekty) → PoEAA (aplikacja) → POSA/EIP (system) → Cloud (infrastruktura)
+
+**Mnemonik 3 — trzy filary katalogowania „SzKlaJ" = „Szklany Jar":**
+- **Sz**ablon opisu (NaPSiRoKo) — każde hasło w tym samym formacie
+- **Kla**syfikacja wieloosiowa — hasła posortowane w kategorie (jak dział w bibliotece)
+- **J**ęzyk wzorców — hasła mają „zobacz też" (graf nawigacyjny)
+- Analogia: encyklopedia. Każde hasło ma ten sam format (**Sz**ablon), jest w kategorii z innymi hasłami tego typu (**Kla**syfikacja), i ma „zobacz też" (**J**ęzyk wzorców)
+
+**Mnemonik 4 — GoF 3 kategorie „KSB" = „Kto Stworzył Budynek?":**
+- **K**reacyjne (5) — JAK tworzyć obiekty? (Factory, Singleton, Builder, Prototype, Abstract Factory)
+- **S**trukturalne (7) — JAK składać obiekty? (Adapter, Bridge, Composite, Decorator, Facade, Flyweight, Proxy)
+- **B**ehawioralne (11) — JAK obiekty komunikują? (Observer, Strategy, Command, State, Iterator...)
+- Zapamiętaj liczby: 5 + 7 + 11 = 23
+
+**Szybka ściąga — wzorzec na obronie:**
+- Wzorzec = Nazwa + Problem + Rozwiązanie + Konsekwencje (minimum do zapamiętania z dowolnego katalogu)
+- „Monolith first" — rozdzielaj gdy znasz granice domen
 - Katalogi wg skali: POSA = systemy, GoF = obiekty, EIP = komunikacja międzysystemowa
 
-→ Diagramy do druku: `pytania/img/q14_pattern_template.png`, `pytania/img/q14_catalog_map.png`
+→ Diagramy do druku:
+- `pytania/img/q14_pattern_template.png` — szablon NaPSiRoKo
+- `pytania/img/q14_catalog_map.png` — mapa katalogów PGEP+C
+- `pytania/img/q14_three_pillars.png` — trzy filary katalogowania
+- `pytania/img/q14_observer_card_filled.png` — wypełniona karta wzorca Observer
+- `pytania/img/q14_pattern_language_navigation.png` — nawigacja w języku wzorców
 
 \newpage
 
@@ -5283,6 +5358,42 @@ Paxos ma 3 role: **Proposer** (proponuje wartość), **Acceptor** (głosuje), **
 
 ---
 
+#### Pojęcia kluczowe dla progowania i Otsu
+
+**Wariancja (variance, σ²)** — miara tego, jak bardzo wartości RÓŻNIĄ SIĘ od swojej średniej. Im większa wariancja, tym bardziej „rozrzucone" są dane. Wzór: σ² = Σ(xᵢ - μ)² / n, gdzie μ to średnia.
+
+    Przykład 1 — MAŁA wariancja (dane skupione):
+    wartości: [48, 50, 52, 49, 51]     średnia μ = 50
+    σ² = ((48-50)² + (50-50)² + (52-50)² + (49-50)² + (51-50)²) / 5
+       = (4 + 0 + 4 + 1 + 1) / 5 = 2.0
+
+    Przykład 2 — DUŻA wariancja (dane rozrzucone):
+    wartości: [10, 90, 30, 80, 50]     średnia μ = 52
+    σ² = ((10-52)² + (90-52)² + (30-52)² + (80-52)² + (50-52)²) / 5
+       = (1764 + 1444 + 484 + 784 + 4) / 5 = 896.0
+
+    Mała σ² = punkty blisko średniej = dane JEDNORODNE
+    Duża σ² = punkty daleko od średniej = dane RÓŻNORODNE
+
+**Wewnątrzklasowa (within-class)** — „wewnątrz klasy" oznacza, że mierzymy wariancję OSOBNO dla każdej grupy (klasy), a potem ważymy wynik proporcją pikseli w grupie. Jeśli klasa 0 ma piksele [30, 50, 45] a klasa 1 ma piksele [180, 200, 190], to σ²_wewnątrz = (udział_kl0 × σ²_kl0) + (udział_kl1 × σ²_kl1).
+
+**Wariancja wewnątrzklasowa (within-class variance)** — obliczasz wariancję KAŻDEJ klasy osobno, ważysz przez udział pikseli w tej klasie, sumujesz. Jeśli σ²_wewnątrz jest MAŁA → klasy są „jednorodne" (piksele w klasie 0 mają podobne jasności, piksele w klasie 1 też).
+
+**Co to znaczy „klasy jednorodne"?** — jednorodna klasa to taka, w której WSZYSTKIE piksele mają podobne wartości. Np. klasa „tło" ma jasności [195, 200, 198, 205] → jednorodna (σ² mała). Klasa mieszająca tło i obiekt [30, 200, 50, 190] → niejednorodna (σ² duża). Otsu szuka progu T, który daje NAJBARDZIEJ jednorodne klasy.
+
+**Histogram bimodalny (bimodal histogram)** — histogram z DWOMA wyraźnymi „garbami" (pikami). „Bi" = dwa, „modal" = moda (najczęstsza wartość). Typowy dla obrazów z jednym obiektem na tle — garb 1 odpowiada ciemnym pikselom (obiekt), garb 2 jasnym (tło). Otsu działa TYLKO gdy histogram jest bimodalny — bo szuka progu MIĘDZY garbami.
+
+    Garb 1 (ciemne~60): piksele obiektu
+    Garb 2 (jasne~190): piksele tła
+    Dolina między garbami → tu Otsu stawia próg T!
+
+    Gdyby histogram miał JEDEN garb (unimodalny) → brak naturalnego
+    podziału → Otsu wybierze losowy próg → słaby wynik.
+
+![Histogram bimodalny, wariancja wewnątrzklasowa i jednorodność klas — Otsu](img/q23_otsu_bimodal.png)
+
+---
+
 **Thresholding (progowanie)** — najprostsza metoda segmentacji. Pomysł: każdy piksel ma wartość jasności (0=czarny, 255=biały). Wybierz PRÓG T: piksel > T → klasa 1 (obiekt), piksel ≤ T → klasa 0 (tło). Działa lepiej niż się wydaje na prostych obrazach (tekst na kartce, RTG, dokumenty).
 
     Obraz (jasność pikseli): [50][200][180][30][220][190]
@@ -5295,16 +5406,55 @@ Paxos ma 3 role: **Proposer** (proponuje wartość), **Acceptor** (głosuje), **
 
     Problem: JAK wybrać T? Ręcznie → subiektywne. Rozwiązanie → Otsu.
 
-**Otsu** — automatyczny dobór progu. Algorytm: przetestuj WSZYSTKIE progi T=0..255, dla każdego oblicz wariancję wewnątrzklasową (jak „różnorodne" są piksele w klasie 0 i klasie 1). Wybierz T minimalizujące tę wariancję = klasy jak najbardziej jednorodne. Złożoność: O(n·L) gdzie n=piksele, L=poziomy jasności (256). Ograniczenie: działa TYLKO dla 2 klas i zakłada bimodalny histogram jasności (dwa „garby").
+    Mnemonik: „PRÓG na bramce" — jak bramkarz, przepuszcza piksele jaśniejsze od T,
+    blokuje ciemniejsze.
+
+**Otsu** — automatyczny dobór progu. Algorytm: przetestuj WSZYSTKIE progi T=0..255, dla każdego oblicz wariancję wewnątrzklasową (jak „różnorodne" są piksele w klasie 0 i klasie 1). Wybierz T minimalizujące tę wariancję = klasy jak najbardziej jednorodne. Złożoność: O(n·L) gdzie n=piksele, L=poziomy jasności (256). Ograniczenie: działa TYLKO dla 2 klas i zakłada bimodalny histogram jasności (dwa „garby"). Patrz diagram powyżej.
+
+    Pseudokod Otsu:
+    best_T = 0
+    min_var = ∞
+    for T in 0..255:
+        c0 = piksele z jasność ≤ T
+        c1 = piksele z jasność > T
+        w0 = len(c0) / len(all_pixels)
+        w1 = len(c1) / len(all_pixels)
+        var = w0 * variance(c0) + w1 * variance(c1)
+        if var < min_var:
+            min_var = var
+            best_T = T
+    return best_T
+
+    Mnemonik: „AUTO-bramkarz Otsu" — sam sprawdza 256 progów i wybiera najlepszy.
+
+---
+
+#### Pojęcia kluczowe dla Region Growing
 
 **Region Growing (rozrastanie regionu)** — zaczynasz od jednego piksela „ziarna" (seed) wybranego ręcznie lub automatycznie. Sprawdzasz sąsiadów: jeśli sąsiad jest PODOBNY (np. |jasność_sąsiada - jasność_regionu| < próg), dodaj go do regionu. Powtarzaj aż nie ma więcej podobnych sąsiadów. Następnie nowy seed → nowy region.
 
-    Seed piksel (100,100) ma jasność 150
-    Sąsiad (101,100) ma jasność 153 → |153-150|=3 < próg 10 → DODAJ
-    Sąsiad (100,101) ma jasność 200 → |200-150|=50 > próg 10 → ODRZUĆ (granica!)
-    Region rośnie jak „plama" od seeda
+**Dlaczego seed „ręcznie LUB automatycznie"?** — to dwa różne scenariusze użycia:
 
-    Pseudokod:
+    RĘCZNY seed:
+    - Użytkownik klika myszką na obraz: „tu jest obiekt"
+    - Użycie: segmentacja interaktywna (Photoshop „magic wand",
+      narzędzia medyczne do zaznaczania guzów na RTG)
+    - Zaleta: precyzyjny, użytkownik wie co chce segmentować
+    - Wada: wymaga człowieka → nie skaluje się do 10 000 obrazów
+
+    AUTOMATYCZNY seed — metody:
+    1. Siatka (grid): seed co N pikseli (np. co 50 px na obrazie 500×500 → 100 seedów)
+    2. Lokalne ekstrema histogramu: znajdź najczęstszą jasność → seed tam
+    3. Losowanie: wylosuj K punktów jako seedy
+    4. Analiza gradientu: piksele w „płaskich" regionach (brak krawędzi) → dobre seedy
+
+    Dlaczego OR a nie AND?
+    Bo to ALTERNATYWNE podejścia — albo człowiek wybiera (mało i precyzyjnie),
+    albo algorytm wybiera (dużo i szybko, ale mniej precyzyjnie).
+
+![Region Growing: seed ręczny vs automatyczny, krok po kroku, fale BFS](img/q23_region_growing.png)
+
+    Pseudokod Region Growing:
     region = {seed}
     queue = [seed]
     while queue not empty:
@@ -5314,106 +5464,189 @@ Paxos ma 3 role: **Proposer** (proponuje wartość), **Acceptor** (głosuje), **
                 region.add(neighbor)
                 queue.append(neighbor)
 
-    Problem: over-segmentation — drobne szumy → małe regiony
-
-**Watershed (metoda zlewiska)** — traktuje obraz jak mapę topograficzną: wartość jasności piksela = wysokość terenu. Ciemne piksele = doliny, jasne = szczyty. Algorytm „zalewa" mapę wodą od najniższych punktów (minimów). Gdy woda z dwóch dolin się spotyka — tam jest GRANICA segmentu (grań).
-
-    Obraz jako mapa wysokości:
-        ████████
-       ██      ██          ← jasne piksele = szczyty (granice)
-      █   dolina  █
-     █   (obiekt)  █
-      █            █
-       ██  dolina ██        ← kolejna dolina (inny segment)
-        ████████
-
-    Algorytm: zalewamy od dołu → woda spotyka się na graniach → SEGMENTY
-
-    Problem: MASYWNA over-segmentation — każde lokalne minimum (nawet szum) → osobna dolina
-    Rozwiązanie: marker-controlled watershed — ręcznie podaj „ziarna" (markers)
-    zamiast zalewać od KAŻDEGO minimum
-
-**Mean Shift** — iteracyjne przesuwanie okna (jądra) do punktu o najwyższej gęstości pikseli w przestrzeni cech. Cechy to np. (jasność, x, y) lub (R, G, B, x, y). Piksele, które zbiegają do tego samego maksimum gęstości, tworzą jeden segment. Wolny: O(n²), ale nie wymaga podania liczby segmentów.
-
-    Wyobraź sobie rozsypane kulki na stole (= piksele w przestrzeni cech)
-    Każda kulka „toczy się" w kierunku najbliższej „góry kulek" (max gęstości)
-    Kulki, które dotoczyły się do tej samej góry → jeden segment
-
-**Normalized Cuts** — modeluje obraz jako graf: piksele = węzły, krawędzie łączą sąsiednie piksele z wagą = PODOBIEŃSTWO (im bardziej podobne, tym wyższa waga). Szukamy CIĘCIA grafu (podział na grupy) minimalizującego stosunek ciętych krawędzi do rozmiaru grup. „Znormalizowane" → unika tworzenia malutkich segmentów. O(n³) — bardzo kosztowny: obraz 100×100 = 10 000 węzłów → 10¹² operacji!
+    Mnemonik: „PLAMA atramentu" — seed to kropla atramentu na papierze,
+    rozlewa się na podobne (jasne) miejsca, zatrzymuje się na granicach.
 
 ---
 
-**Sieć neuronowa (neural network)** — model uczenia maszynowego inspirowany biologicznymi neuronami. Składa się z warstw „neuronów" — każdy neuron oblicza ważoną sumę wejść + bias, przepuszcza przez funkcję aktywacji (np. ReLU = max(0,x)), i przekazuje wynik dalej. Sieć uczy się automatycznie z danych: dostaje pary (obraz, poprawna mapa segmentacji), dostosowuje wagi by minimalizować błąd.
+#### Pojęcia kluczowe dla Watershed
 
-    Neuron: output = ReLU(w₁·x₁ + w₂·x₂ + ... + wₙ·xₙ + bias)
-    ReLU(x) = max(0, x)  — prosta, ale bardzo skuteczna funkcja aktywacji
-    Uczenie: porównaj predykcję sieci z poprawną mapą (label) → oblicz błąd (loss)
-             → backpropagation → aktualizuj wagi → powtórz miliony razy
+**Watershed (metoda zlewiska)** — traktuje obraz jak mapę topograficzną: wartość jasności piksela = wysokość terenu. Ciemne piksele = doliny, jasne = szczyty. Algorytm „zalewa" mapę wodą od najniższych punktów (minimów). Gdy woda z dwóch dolin się spotyka — tam jest GRANICA segmentu (grań).
 
-**CNN (Convolutional Neural Network)** — sieć, której kluczowym elementem jest warstwa konwolucyjna (splotowa). Zamiast łączyć KAŻDY piksel z KAŻDYM neuronem (co byłoby niewykonalne — obraz 640×480 = 307 200 neuronów wejściowych!), CNN przesuwany mały filtr (np. 3×3 pikseli) po obrazie, obliczając w każdym miejscu iloczyn skalarny filtra z fragmentem obrazu.
+![Watershed: obraz jako mapa topograficzna, zalewanie, over-segmentation i marker-controlled watershed](img/q23_watershed.png)
 
-    Co robi konwolucja? Filtr 3×3 „jedzie" po obrazie jak wycieraczka:
+    Algorytm:
+    1. Zamień obraz na „mapę wysokości" (jasność = wysokość)
+    2. Znajdź wszystkie lokalne minima (najciemniejsze punkty)
+    3. „Zalewaj" od minimów — woda rośnie równomiernie
+    4. Gdy woda z dwóch dolin się spotyka → postaw TAMĘ (granicę segmentu)
+    5. Kontynuuj aż cały obraz zalany
 
-    Filtr (edge detector):    Fragment obrazu:    Wynik konwolucji:
-    [-1  0  1]                [50  50 200]        (-1·50 + 0·50 + 1·200 +
-    [-1  0  1]      *         [50  50 200]    =    -1·50 + 0·50 + 1·200 +
-    [-1  0  1]                [50  50 200]         -1·50 + 0·50 + 1·200) = 450
+    Problem: MASYWNA over-segmentation — każde lokalne minimum (nawet szum!) → osobna dolina
+    Rozwiązanie: marker-controlled watershed — użytkownik podaje markery (seedy),
+    zalewamy TYLKO od tych markerów
 
-    Duża wartość → tu jest KRAWĘDŹ (przejście ciemne→jasne)
+    Mnemonik: „ZALEWANIE terenu" — wyobraź sobie model terenu z plasteliny w wannie.
+    Powoli nalewasz wodę → doliny się wypełniają → granie gór = granice segmentów.
 
-    Hierarchia cech w CNN (wyuczona automatycznie!):
-    Warstwa 1: krawędzie (|, —, /, \)
-    Warstwa 2: tekstury (paski, siatki, plamy)
-    Warstwa 3: części (koła, oczy, krawędź dachu)
-    Warstwa 4+: obiekty (twarz, samochód, drzewo)
+---
 
-**Encoder-Decoder** — architektura segmentacji: encoder ZMNIEJSZA rozdzielczość obrazu (downsampling — pooling), wydobywając coraz bardziej abstrakcyjne cechy (krawędzie → tekstury → obiekty). Decoder ZWIĘKSZA rozdzielczość (upsampling — dekonwolucja lub interpolacja), odtwarzając mapę segmentacji o pełnej rozdzielczości.
+#### Pojęcia kluczowe dla Mean Shift
 
-    Encoder (zmniejsza):  [224×224] →pool→ [112×112] →pool→ [56×56] →pool→ [28×28] →pool→ [14×14]
-    Decoder (zwiększa):   [14×14] →up→ [28×28] →up→ [56×56] →up→ [112×112] →up→ [224×224]
+**Okno (window) / jądro (kernel)** — w kontekście Mean Shift to koło (lub kula w wielowymiarowej przestrzeni) o ustalonej szerokości (bandwidth = promień h) wokół aktualnego punktu. Wewnątrz okna algorytm oblicza „średnią ważoną" pozycji pikseli. Okno = jądro — to synonim. Nazwa „jądro" pochodzi od estymacji jądrowej gęstości (kernel density estimation, KDE).
 
-    Dlaczego nie sklasyfikować od razu KAŻDEGO piksela osobno?
-    Bo pojedynczy piksel nie ma kontekstu — nie wiesz, czy piksel o wartości 150
-    to fragment nieba czy samochodu. Encoder-decoder widzi KONTEKST (cały obiekt)
-    i jednocześnie tworzy wynik o PEŁNEJ ROZDZIELCZOŚCI.
+    Okno o promieniu h = 30 wokół punktu (100, 150):
+    Bierze WSZYSTKIE piksele, których cechy (jasność, x, y)
+    są w odległości ≤ 30 od (100, 150).
+    Oblicza ich średnią → przesuwa okno NA TĘ ŚREDNIĄ.
+    Powtarza aż okno się „zatrzyma" (przesunięcie < ε).
 
-**Skip connections (połączenia skrótowe)** — połączenia „na skróty" łączące warstwy encodera z odpowiadającymi warstwami decodera. Problem: encoder traci detale przestrzenne (GDZIE dokładnie jest krawędź) podczas poolingu. Skip connections PRZENOSZĄ te detale z encodera wprost do decodera, umożliwiając precyzyjne granice segmentów.
+**Najwyższa gęstość (density peak)** — punkt w przestrzeni cech, gdzie jest NAJWIĘKSZE skupisko pikseli. Jak najwyższy szczyt góry w 3D. Mean Shift = „przesuń w kierunku średniej" → iteracyjnie zbliża się do szczytu gęstości.
 
-    Bez skip connections: decoder „wie" ŻE tu jest samochód, ale granice są rozmyte
-    Ze skip connections: decoder „wie" ŻE tu jest samochód AND DOKŁADNIE GDZIE jest krawędź
+**Przestrzeń cech (feature space)** — każdy piksel jest opisany nie tylko pozycją (x, y) ale też cechami koloru (jasność, R, G, B). Przestrzeń cech to przestrzeń wielowymiarowa, np. (R, G, B, x, y) = 5 wymiarów. Piksele o podobnych kolorach i blisko siebie będą blisko w przestrzeni cech → tworzą klastry (skupiska).
 
-**FCN (Fully Convolutional Network, 2015)** — pierwsza sieć w pełni konwolucyjna do segmentacji. Kluczowa innowacja: **zastąpienie warstw fully-connected** (FC → stały rozmiar wejścia) **konwolucjami** (→ dowolny rozmiar wejścia). Klasyczny CNN (np. VGG, AlexNet) kończy się warstwami FC, które wymagają stałego rozmiaru (np. 224×224). FCN zamienia FC na Conv 1×1, co pozwala przetwarzać obraz o DOWOLNYM rozmiarze i zwracać mapę segmentacji.
+    Piksel A: (x=100, y=200, R=30, G=25, B=35)  → punkt w 5D
+    Piksel B: (x=102, y=201, R=32, G=27, B=33)  → BLISKO A w 5D
+    Piksel C: (x=105, y=198, R=200, G=210, B=220)  → DALEKO od A w 5D (inny kolor!)
+    → A i B w jednym segmencie, C w innym
 
-    Klasyczny CNN:  Conv → Conv → Pool → ... → FC(4096) → FC(1000) → "kot"
-    FCN:            Conv → Conv → Pool → ... → Conv1×1   → Upsample → mapa [H×W×C]
-                                                  ↑ skip connections z encodera
+**Dlaczego Mean Shift NIE wymaga podania liczby segmentów?** — W K-means musisz podać K=3 (trzy klastry) ZANIM uruchomisz algorytm. Mean Shift działa inaczej: każdy piksel startuje i „toczy się" do najbliższego szczytu gęstości. Ile jest szczytów = tyle segmentów. Algorytm sam ODKRYWA liczbę klastrów. Parametrem jest tylko bandwidth (szerokość okna h): duże h → mało szczytów → mało segmentów; małe h → dużo szczytów → dużo segmentów.
 
-**U-Net (2015)** — encoder-decoder w kształcie litery „U" ze skip connections realizowanymi przez **concatenation** (złączenie) — cechy z encodera są DOKLEJANE do cech decodera w odpowiedniej warstwie. Zaprojektowany dla segmentacji medycznej, gdzie zbiory danych są MAŁE (np. 30 zdjęć RTG), więc U-Net intensywnie używa data augmentation (obroty, odbicia, elastyczne deformacje).
+![Mean Shift: przestrzeń cech, jądro przesuwane do max gęstości, dlaczego bez K](img/q23_mean_shift.png)
 
-    Encoder ──skip (concat)──→ Decoder
-      ↓       ──skip (concat)──→   ↑
-      ↓       ──skip (concat)──→   ↑
-    bottleneck (najgłębsza warstwa)
+    Pseudokod Mean Shift:
+    for each pixel p:
+        x = p.features  # np. (R, G, B, pos_x, pos_y)
+        repeat:
+            window = all pixels within distance h from x
+            x_new = weighted_mean(window)
+            if |x_new - x| < epsilon:
+                break
+            x = x_new
+        p.cluster = x  # zbieżny punkt = ID klastra
 
-    Dlaczego „U"? Bo wizualnie encoder schodzi w dół (↓), bottleneck na dole,
-    decoder wraca do góry (↑) — tworząc kształt litery U.
-    Dlaczego concat a nie dodawanie? Więcej informacji — encoder features + decoder features
-    → sieć sama decyduje, które informacje wykorzystać.
+    Mnemonik: „KULKI toczą się do dołków" — rozsyp kulki na nierównym stole,
+    każda toczy się do najbliższego zagłębienia. Ile dołków = tyle segmentów.
 
-**DeepLab v3+** — Google. Kluczowe innowacje:
+---
 
-**Atrous (dilated) convolutions** — konwolucje z „dziurami" (fr. à trous = z dziurami). Standardowy filtr 3×3 patrzy na 3×3 = 9 sąsiednich pikseli. Atrous convolution z rate=2 patrzy na piksele z odstępem 2 — efektywnie widzi 5×5 obszar, ALE używa TYCH SAMYCH 9 parametrów (wag). Większe receptive field (pole widzenia) za darmo!
+#### Pojęcia kluczowe dla Normalized Cuts
 
-    Zwykła konwolucja 3×3:   [x][x][x]         receptive field = 3×3
-    Dilated (rate=2):        [x][ ][x][ ][x]   receptive field = 5×5, 9 parametrów!
-    Dilated (rate=3):        [x][ ][ ][x][ ][ ][x]  receptive field = 7×7, 9 parametrów!
+**Cięcie grafu (graph cut)** — graf to zbiór węzłów (pikseli) połączonych krawędziami (z wagami = podobieństwo). „Ciąć graf" to znaleźć LINIĘ dzielącą węzły na grupy, tak aby krawędzie „przecięte" tą linią miały niską wagę (= łączyły niepodobne piksele), a krawędzie wewnątrz grup miały wysoką wagę (= łączyły podobne piksele).
 
-    Dlaczego to ważne? Segmentacja wymaga KONTEKSTU — żeby wiedzieć, że piksel to
-    „droga", musisz zobaczyć otaczające budynki i niebo. Większe receptive field = więcej kontekstu.
+**Jak szukamy cięcia?** — Naiwnie: sprawdź WSZYSTKIE możliwe podziały → wykładnicza złożoność. Normalized Cuts zamienia problem na rozwiązanie „problemu wartości własnych" (eigenvalue problem) macierzy Laplacianu grafu. Drugi najmniejszy wektor własny wskazuje, które piksele należą do grupy A (wartości dodatnie) a które do B (wartości ujemne).
 
-**ASPP (Atrous Spatial Pyramid Pooling)** — równoległe zastosowanie atrous convolutions z WIELOMA rate (np. 6, 12, 18) + global average pooling, potem połączenie wyników. Każdy rate widzi kontekst w INNEJ skali → multi-scale features.
+**Dlaczego „znormalizowane" (normalized)?** — Zwykłe cięcie (min-cut) ma wadę: preferuje odcinanie MALUTKICH grup (1 piksel odcięty = małe cięcie). Normalizowanie dzieli koszt cięcia przez rozmiar grup → duże, zrównoważone segmenty.
 
-**Transformer-based (SegFormer, Mask2Former)** — najnowsze podejście zastępujące CNN transformerami. Kluczowy mechanizm: **self-attention** — każdy piksel „pyta" WSZYSTKIE inne piksele: „jak bardzo jesteś ze mną powiązany?" CNN widzi tylko lokalne okno (3×3, 5×5), a self-attention widzi CAŁY obraz naraz → lepsze rozumienie globalnych zależności (np. „ten piksel jest częścią tego samego samochodu co piksel 500 pikseli dalej"). Cena: O(n²) pamięci (n = liczba pikseli), ale jakość SOTA na benchmarkach.
+![Normalized Cuts: obraz jako graf, cięcie, algorytm krok po kroku](img/q23_normalized_cuts.png)
+
+    Pseudokod Normalized Cuts (uproszczony):
+    # 1. Zbuduj macierz podobieństwa W
+    for each pair of pixels (i, j):
+        W[i,j] = exp(-|color_i - color_j|^2 / sigma^2)  # jeśli sąsiedzi
+        W[i,j] = 0                                        # jeśli odlegli
+
+    # 2. Macierz stopni D
+    D = diag(sum(W, axis=1))  # D[i,i] = suma wiersza i
+
+    # 3. Rozwiąż problem wartości własnych
+    (D - W) * y = lambda * D * y
+    # Weź DRUGI najm. wektor własny y (pierwszy = trywialny)
+
+    # 4. Podziel piksele
+    segment_A = {i : y[i] > 0}
+    segment_B = {i : y[i] <= 0}
+
+    Mnemonik: „CIĘCIE sznurków" — piksele połączone sznurkami (mocne = podobne).
+    Tnij SŁABE sznurki → dwie grupy. Normalizacja = nie odcinaj samotnych pikseli.
+
+---
+
+#### Pojęcia kluczowe dla sieci neuronowych
+
+**ReLU (Rectified Linear Unit)** — najpopularniejsza funkcja aktywacji w sieciach neuronowych. Wzór: ReLU(x) = max(0, x). Jeśli wejście jest ujemne → wynik = 0 (neuron „milczy"). Jeśli wejście jest dodatnie → wynik = x (neuron „przepuszcza" sygnał bez zmiany). Prosta, ale bardzo skuteczna — szybsza od starszych funkcji (sigmoid, tanh), bo nie wymaga obliczania exp().
+
+    ReLU(-3) = max(0, -3) = 0    ← neuron „wyłączony"
+    ReLU(0)  = max(0, 0)  = 0    ← na granicy
+    ReLU(2.5) = max(0, 2.5) = 2.5 ← neuron „włączony", przekazuje 2.5
+
+    Dlaczego nie po prostu f(x) = x (bez progu)?
+    Bo liniowość → cała sieć = jedna warstwa liniowa (tracisz głębokość).
+    ReLU jest NIELINIOWA (ma „zakręt" w 0) → pozwala sieci uczyć się
+    skomplikowanych wzorców.
+
+![ReLU: wykres funkcji, dlaczego ReLU, przykład numeryczny](img/q23_relu.png)
+
+**Iloczyn skalarny (dot product)** — operacja na dwóch wektorach (listach liczb) dająca JEDNĄ liczbę. Mnożysz odpowiednie elementy parami i sumujesz wyniki. W CNN konwolucja = iloczyn skalarny filtra × fragment obrazu. Duży wynik = wektory „podobne" (filtr pasuje do fragmentu).
+
+    a = [1, 3, -2]     b = [4, -1, 5]
+    a · b = 1·4 + 3·(-1) + (-2)·5 = 4 - 3 - 10 = -9
+
+    W konwolucji:
+    filtr = [-1, 0, 1, -1, 0, 1, -1, 0, 1]  (spłaszczony 3×3)
+    fragment = [50, 50, 200, 50, 50, 200, 50, 50, 200]
+    dot = (-1)·50 + 0·50 + 1·200 + ... = 450 → duży = krawędź!
+
+![Iloczyn skalarny: definicja, geometryczna interpretacja, użycie w konwolucji](img/q23_dot_product.png)
+
+---
+
+**Warstwa Fully Connected (FC, gęsta, dense)** — warstwa, w której KAŻDY neuron jest połączony z KAŻDYM wejściem. Obraz 7×7×512 (po konwolucjach) = 25 088 wartości. FC z 4096 neuronami = 25 088 × 4 096 = **~103 miliony wag**. Wady: (1) wymaga STAŁEGO rozmiaru wejścia (zawsze 7×7×512), (2) traci informację GDZIE coś jest (spłaszcza przestrzeń na wektor 1D).
+
+**Konwolucja (convolution)** — operacja przesuwania małego filtra (np. 3×3) po obrazie. W każdej pozycji oblicza iloczyn skalarny filtra × fragment obrazu → jedną liczbę. TE SAME wagi filtra użyte w KAŻDEJ pozycji → dzielenie parametrów. Zachowuje informację przestrzenną (GDZIE coś jest).
+
+**Conv 1×1 (konwolucja punktowa)** — filtr o rozmiarze 1×1 pikseli. „Patrzy" na JEDEN piksel, ale WSZYSTKIE kanały (np. 512). Działa jak FC, ale OSOBNO dla KAŻDEGO piksela → zachowuje mapę H×W. FCN zamienia FC na Conv 1×1: zamiast spłaszczyć 7×7×512 → 25 088 → FC, robi Conv1×1 na KAŻDYM z 7×7 pikseli × 512 kanałów → mapa 7×7×C (C = liczba klas).
+
+**Jak FCN zamienia FC na Conv 1×1?** — Klasyczny CNN: ostatnia mapa cech 7×7×512 → FLATTEN → wektor 25 088 → FC → 1000 klas → „to jest kot". FCN: ostatnia mapa cech H×W×512 → Conv1×1(512→C) → mapa H×W×C → upsample do pełnej rozdzielczości. Kluczowa różnica: NIE spłaszczamy → możemy przetwarzać obraz o DOWOLNYM rozmiarze.
+
+**Skip connections z encodera** — w encoder-decoder encoder zmniejsza obraz (pooling): 224→112→56→28→14. W tym procesie traci DETALE przestrzenne (dokładne krawędzie). Skip connections = „drogi na skróty" — cechy z wczesnych warstw encodera (pełne detali) są przekazywane WPROST do odpowiednich warstw decodera. Decoder wie CO i GDZIE.
+
+![FCN: warstwa FC vs Conv 1×1, konwolucja, skip connections](img/q23_fc_vs_conv1x1.png)
+
+---
+
+**U-Net — dlaczego kształt „U"?** — Narysuj architekturę: encoder zmniejsza rozdzielczość (bloki idą w DÓŁ po lewej stronie), bottleneck jest na dole, decoder zwiększa rozdzielczość (bloki idą W GÓRĘ po prawej stronie). Wizualnie tworzy literę „U". „Encoder schodzi w dół" = każda warstwa encodera ma MNIEJSZĄ rozdzielczość (224→112→56→28), wizualizowane jako bloki o malejącym rozmiarze ułożone jeden pod drugim.
+
+**Concatenation (konkatenacja, złączenie)** — operacja „sklejania" dwóch tensorów wzdłuż osi kanałów. Jeśli encoder na poziomie 2 daje mapę 128×128×64 kanałów, a decoder na poziomie 2 daje mapę 128×128×64 kanałów, to concatenation = 128×128×**128** kanałów (64+64). Różni się od DODAWANIA (addition), które daje 128×128×64 (element-wise sum). Concatenation zachowuje WIĘCEJ informacji — sieć sama wybiera, które kanały wykorzystać.
+
+    Dodawanie (ResNet-style):
+    encoder [a, b, c] + decoder [x, y, z] = [a+x, b+y, c+z]  → 3 kanały
+
+    Concatenation (U-Net-style):
+    encoder [a, b, c] ++ decoder [x, y, z] = [a, b, c, x, y, z]  → 6 kanałów!
+    → więcej informacji, sieć sama zdecyduje co ważne
+
+![U-Net: architektura w kształcie U, skip connections z concatenation, encoder ↓ decoder ↑](img/q23_unet_arch.png)
+
+    Mnemonik U-Net: „Litera U — w dół i w górę" — encoder schodzi ↓ (zmniejsza),
+    decoder wraca ↑ (zwiększa), między nimi mosty (skip = concat).
+
+---
+
+**Receptive field (pole widzenia, pole recepcyjne)** — ile pikseli WEJŚCIOWYCH wpływa na JEDEN piksel wyjściowy. Konwolucja 3×3 → RF = 3×3. Dwie konwolucje 3×3 pod rząd → RF = 5×5 (druga widzi 3×3 fragmenty, z których każdy widział 3×3 → efektywnie 5×5). Większe RF = neuron widzi większy kontekst = lepiej rozumie co to za piksel.
+
+**Dlaczego większe RF jest lepsze?** — Pojedynczy piksel o jasności 150 może być fragmentem nieba LUB samochodu. Patrząc na otoczenie 3×3 → nadal nie wiesz. Patrząc na otoczenie 50×50 → widzisz budynki obok → „to droga!". Segmentacja wymaga KONTEKSTU globalnego.
+
+**Rate (współczynnik dylatacji)** — parametr atrous (dilated) convolution. Rate=1 = zwykła konwolucja (filtr dotyka sąsiadów). Rate=2 = filtr próbkuje co DRUGI piksel → RF rośnie z 3×3 do 5×5 przy TYCH SAMYCH 9 wagach. Rate=3 → RF = 7×7. Większy kontekst za darmo (bez dodatkowych parametrów).
+
+**Global Average Pooling (GAP)** — operacja redukcji: mapa cech H×W×C → 1×1×C. Dla KAŻDEGO kanału oblicza ŚREDNIĄ ze wszystkich H×W pikseli. Wynik: jeden wektor o wymiarze C, reprezentujący „średnią informację" z całego obrazu. RF = nieskończone (cały obraz). Używane w ASPP DeepLab jako jedna z równoległych gałęzi.
+
+    Mapa cech 7×7×512:
+    Kanał 0: macierz 7×7 wartości → średnia → jedna liczba
+    Kanał 1: macierz 7×7 wartości → średnia → jedna liczba
+    ...
+    Kanał 511: macierz 7×7 wartości → średnia → jedna liczba
+    Wynik: wektor [avg₀, avg₁, ..., avg₅₁₁] → 1×1×512
+
+![Receptive field: zwykła vs dilated konwolucja, rate, global average pooling](img/q23_receptive_field.png)
+
+---
+
+**Transformer** — architektura sieci neuronowej zaproponowana w 2017 (Vaswani et al., „Attention Is All You Need"). Oryginalnie dla NLP (tłumaczenie), od 2020 (ViT — Vision Transformer) stosowana w wizji komputerowej. Kluczowy mechanizm: **self-attention** — każdy element (piksel/token) „pyta" WSZYSTKIE inne elementy: „jak bardzo jesteś ze mną powiązany?". Każdy element tworzy trzy wektory: Q (Query — czego szukam?), K (Key — co oferuję), V (Value — moja wartość). Attention = softmax(Q·Kᵀ / √d) · V. Koszt: O(n²) pamięci (n = liczba elementów).
+
+**SOTA (State Of The Art)** — najlepszy znany wynik na danym benchmarku (zbiorze testowym) w danym momencie. Np. „Mask2Former osiąga mIoU 57.8% na ADE20K — to aktualny SOTA". SOTA ciągle się zmienia — każdy nowy paper może pobić poprzedni rekord.
+
+![Transformer: CNN lokalny vs Transformer globalny, self-attention Q/K/V, SOTA](img/q23_transformer_attention.png)
 
 ---
 
@@ -5425,8 +5658,6 @@ Paxos ma 3 role: **Proposer** (proponuje wartość), **Acceptor** (głosuje), **
 **Dice Loss** — funkcja kosztu powiązana z IoU: 2·|A∩B| / (|A|+|B|). Popularna w segmentacji medycznej (dobrze radzi sobie z class imbalance).
 
 **Focal Loss** — modyfikacja cross-entropy redukująca wpływ łatwych przykładów, skupiająca uczenie na trudnych. Kluczowa przy class imbalance (np. 99% tła, 1% obiekt).
-
-**Receptive field** — ile wejścia „widzi" jeden neuron. Większe receptive field = kontekst globalny. Atrous convolutions zwiększają receptive field bez zwiększania parametrów.
 
 ---
 
@@ -5466,28 +5697,36 @@ Segmentacja obrazu to **przypisanie etykiety klasy KAŻDEMU pikselowi** obrazu. 
 
 Metody niewymagające uczenia maszynowego — oparte na ręcznie zdefiniowanych regułach (próg, podobieństwo, struktura grafu).
 
-| Metoda | Idea | Wada | Złożoność |
-|--------|------|------|-----------|
-| **Thresholding** | piksel > T → klasa 1, else → klasa 0 | tylko 2 klasy, proste sceny | O(n) |
-| **Otsu** | automatyczny próg (min wariancja wewnątrzklasowa) | j.w. ale dobiera T sam | O(n·L) |
-| **Region Growing** | dodawaj sąsiednie piksele o podobnej wartości | over-segmentation, zależy od seeda | O(n) |
-| **Watershed** | obraz = mapa wysokości, granice = granie gór | over-segmentation | O(n log n) |
-| **Mean Shift** | iteracyjnie przesuwaj jądro do max gęstości | wolny | O(n²) |
-| **Normalized Cuts** | piksele = węzły grafu, minimalizuj znormalizowane cięcie | bardzo wolny | O(n³) |
+| Metoda | Idea | Wada | Złożoność | Mnemonik |
+|--------|------|------|-----------|----------|
+| **Thresholding** | piksel > T → klasa 1, else → klasa 0 | tylko 2 klasy, proste sceny | O(n) | „PRÓG na bramce" |
+| **Otsu** | automatyczny próg (min wariancja wewnątrzklasowa) | j.w. ale dobiera T sam | O(n·L) | „AUTO-bramkarz" |
+| **Region Growing** | dodawaj sąsiednie piksele o podobnej wartości | over-segmentation, zależy od seeda | O(n) | „PLAMA atramentu" |
+| **Watershed** | obraz = mapa wysokości, granice = granie gór | over-segmentation | O(n log n) | „ZALEWANIE terenu" |
+| **Mean Shift** | iteracyjnie przesuwaj jądro do max gęstości | wolny | O(n²) | „KULKI toczą się" |
+| **Normalized Cuts** | piksele = węzły grafu, minimalizuj znormalizowane cięcie | bardzo wolny | O(n³) | „CIĘCIE sznurków" |
 
-**Przykład — Thresholding (Otsu):**
+#### DIY Przykład — Thresholding (Otsu) krok po kroku
 
-    Obraz grayscale: [30][200][180][45][210][190]
-    Otsu automatycznie dobiera próg T=128:
-    Wynik:           [ 0 ][ 1 ][ 1 ][ 0][ 1 ][ 1 ]
-    Zastosowanie: oddzielenie tekstu od tła (OCR), analiza zdjęć RTG
+Poniższy diagram pokazuje CAŁY pipeline progowania Otsu od obrazu wejściowego do wyniku. Obraz syntetyczny 64×64 z ciemnym kołem na jasnym tle — typowy przypadek bimodalny.
 
-**Przykład — Watershed:**
+![DIY Thresholding + Otsu: obraz → histogram bimodalny → progowanie → szukanie min σ² → pseudokod → wynik](img/q23_diy_thresholding.png)
 
-    Obraz traktowany jako mapa topograficzna:
-    Jasne piksele = szczyty,  ciemne = doliny
-    "Zalewamy" od minimów → woda spotyka się na graniach → GRANICE segmentów
-    Problem: za wiele minimów → over-segmentation → potrzeba markers
+    Pseudokod Otsu (Python-style):
+    best_T, min_var = 0, float('inf')
+    for T in range(256):
+        c0 = pixels[pixels <= T]      # piksele ciemne
+        c1 = pixels[pixels > T]       # piksele jasne
+        if len(c0) == 0 or len(c1) == 0:
+            continue
+        w0 = len(c0) / len(pixels)    # udział klasy 0
+        w1 = len(c1) / len(pixels)    # udział klasy 1
+        var = w0 * variance(c0) + w1 * variance(c1)  # σ² wewnątrzklasowa
+        if var < min_var:
+            min_var = var
+            best_T = T
+    # best_T = optymalny próg (np. 128)
+    result = (pixels > best_T).astype(int)  # binaryzacja
 
 **Wspólna wada klasycznych metod:** wymagają ręcznego doboru parametrów (próg, seed, kernel), nie uczą się cech z danych, słabe na złożonych obrazach naturalnych.
 
@@ -5503,23 +5742,26 @@ Metody uczące się automatycznie rozpoznawać cechy z danych treningowych. Wszy
     Decoder: cechy [14] → [28] → [56] → [112] → [224×224]   (odtwarza MAPĘ)
                                    bottleneck
 
-| Sieć | Rok | Kluczowa innowacja | Use case |
-|------|-----|-------------------|----------|
-| **FCN** | 2015 | w pełni konwolucyjna + skip connections | pierwsza end-to-end |
-| **U-Net** | 2015 | U-shape + skip concat + data augmentation | segmentacja medyczna |
-| **DeepLab v3+** | 2018 | atrous (dilated) conv + ASPP | general-purpose |
-| **SegFormer** | 2021 | transformer encoder (self-attention) | SOTA lightweight |
-| **Mask2Former** | 2022 | masked attention + unified architecture | SOTA universal |
+| Sieć | Rok | Kluczowa innowacja | Use case | Mnemonik |
+|------|-----|-------------------|----------|----------|
+| **FCN** | 2015 | w pełni konwolucyjna + skip connections | pierwsza end-to-end | „FC → Conv 1×1" |
+| **U-Net** | 2015 | U-shape + skip concat + data augmentation | segmentacja medyczna | „Litera U + mosty" |
+| **DeepLab v3+** | 2018 | atrous (dilated) conv + ASPP | general-purpose | „DZIURY w filtrze" |
+| **SegFormer** | 2021 | transformer encoder (self-attention) | SOTA lightweight | „WSZYSCY ze WSZYSTKIMI" |
+| **Mask2Former** | 2022 | masked attention + unified architecture | SOTA universal | „WSZYSCY ze WSZYSTKIMI" |
 
 **FCN (Fully Convolutional Network):**
 
+    Mnemonik: „FC → Conv 1×1 = otwieramy bramkę dla DOWOLNEGO rozmiaru"
     Zwykły CNN:  Conv → Conv → Pool → ... → FC → FC → "kot"
-    FCN:         Conv → Conv → Pool → ... → Conv → Upsample → mapa pikseli
-    Innowacja: zamiana FC na Conv → wejście dowolnego rozmiaru
+    FCN:         Conv → Conv → Pool → ... → Conv1×1 → Upsample → mapa pikseli
+    Innowacja: zamiana FC na Conv1×1 → wejście dowolnego rozmiaru
     Skip connections: łączą cechy z encodera → zachowują detale przestrzenne
 
 **U-Net:**
 
+    Mnemonik: „Litera U + mosty" — schodzisz w dół, wracasz w górę,
+    po drodze mosty (skip connections z concat) przenoszą detale.
     Encoder (↓)         Decoder (↑)
     [64]────skip────→[64]        ← skip connections = concatenation
     [128]───skip───→[128]           (przenosi detale z encodera do decodera)
@@ -5530,6 +5772,8 @@ Metody uczące się automatycznie rozpoznawać cechy z danych treningowych. Wszy
 
 **DeepLab v3+:**
 
+    Mnemonik: „DZIURY w filtrze" — filtr dosłownie ma dziury (à trous),
+    przez co widzi dalej bez dodatkowych parametrów.
     Zwykła konwolucja 3×3:   [x][x][x]         receptive field = 3
     Dilated (rate=2):        [x][ ][x][ ][x]   receptive field = 5, te same parametry!
     ASPP: równolegle rate=6,12,18 → multi-scale features → łączenie
@@ -5537,9 +5781,33 @@ Metody uczące się automatycznie rozpoznawać cechy z danych treningowych. Wszy
 
 **Transformery (SegFormer, Mask2Former):**
 
+    Mnemonik: „WSZYSCY ze WSZYSTKIMI" — każdy piksel rozmawia z KAŻDYM innym.
     CNN: filtr 3×3 widzi LOKALNY kontekst (sąsiadów)
     Transformer: self-attention widzi CAŁY obraz naraz
     Cena: O(n²) pamięci (n = piksele), ale lepsze wyniki
+
+#### DIY Przykład — U-Net krok po kroku
+
+Poniższy diagram pokazuje CAŁY pipeline U-Net od obrazu wejściowego do mapy segmentacji. Obraz syntetyczny 64×64 z dwoma obiektami (koła) na jasnym tle.
+
+![DIY U-Net: obraz → encoder zmniejsza → bottleneck → decoder zwiększa + skip → mapa segmentacji → pseudokod](img/q23_diy_unet.png)
+
+    Pseudokod U-Net (PyTorch-style):
+    # ENCODER — zmniejsza rozdzielczość, wyciąga cechy
+    e1 = conv_block(input, filters=64)      # [64×64×64]
+    e2 = conv_block(maxpool(e1), filters=128)  # [32×32×128]
+    e3 = conv_block(maxpool(e2), filters=256)  # [16×16×256]
+
+    # BOTTLENECK — najgłębsza warstwa
+    b = conv_block(maxpool(e3), filters=512)   # [8×8×512]
+
+    # DECODER — zwiększa rozdzielczość + skip connections (concat!)
+    d3 = conv_block(concat(upconv(b), e3), filters=256)    # [16×16×256]
+    d2 = conv_block(concat(upconv(d3), e2), filters=128)   # [32×32×128]
+    d1 = conv_block(concat(upconv(d2), e1), filters=64)    # [64×64×64]
+
+    # WYNIK — Conv 1×1 → mapa klas
+    output = conv_1x1(d1, n_classes=3)  # [64×64×3] → argmax → [64×64] etykiety
 
 ---
 
@@ -5558,9 +5826,40 @@ Metody uczące się automatycznie rozpoznawać cechy z danych treningowych. Wszy
 
 ### Jak zapamiętać
 
-- **U-Net = „U-shape + skip connections"** — encoder-decoder
-- **DeepLab = „Atrous (dilated) convolutions + ASPP"**
-- **mIoU = Intersection / Union, uśrednione per klasa**
+**Super-mnemonik na kolejność algorytmów:**
+
+    „Turyści Oglądają Rzekę, Wodospad, Morze, Nurt — Fotografują Uroczy Dwór Tajemnic"
+
+    Klasyczne: Thresholding → Otsu → Region growing → Watershed → Mean shift → Normalized cuts
+    Neuronowe: FCN → U-Net → DeepLab → Transformer
+
+![Mnemoniki: karty z algorytmami segmentacji i ich skojarzeniami](img/q23_mnemonics.png)
+
+**Mnemoniki per algorytm — STRATEGIE KLASYCZNE:**
+
+| Algorytm | Mnemonik | Skojarzenie |
+|----------|----------|-------------|
+| **Thresholding** | „PRÓG na bramce" | Bramkarz przepuszcza piksele > T, blokuje ≤ T |
+| **Otsu** | „AUTO-bramkarz" | Sam sprawdza 256 progów, wybiera najlepszy (min σ²) |
+| **Region Growing** | „PLAMA atramentu" | Kropla atramentu rozlewa się na podobne piksele (BFS) |
+| **Watershed** | „ZALEWANIE terenu" | Woda zalewa doliny, granie gór = granice segmentów |
+| **Mean Shift** | „KULKI toczą się do dołków" | Każda kulka → max gęstości, ile dołków = tyle segmentów |
+| **Normalized Cuts** | „CIĘCIE sznurków" | Tnij słabe sznurki (krawędzie grafu), zachowaj silne |
+
+**Mnemoniki per algorytm — SIECI NEURONOWE:**
+
+| Sieć | Mnemonik | Skojarzenie |
+|------|----------|-------------|
+| **FCN** | „FC → Conv 1×1" | Otwiera bramkę dla dowolnego rozmiaru wejścia |
+| **U-Net** | „Litera U + mosty" | Schodzisz ↓, wracasz ↑, mosty (skip concat) przenoszą detale |
+| **DeepLab** | „DZIURY w filtrze" | Filtr ma dziury (à trous) → widzi dalej bez dodatkowych wag |
+| **Transformer** | „WSZYSCY ze WSZYSTKIMI" | Każdy piksel pyta każdy inny (self-attention, O(n²)) |
+
+**Mnemoniki per metrykę:**
+
+- **mIoU** = „Nakładka / Suma" → intersection / union, uśrednione per klasa
+- **Dice** = „Dwie nakładki / Razem" → 2·|A∩B| / (|A|+|B|)
+- **Focal** = „Fokus na TRUDNYCH" → trudne piksele ważą więcej
 
 \newpage
 
@@ -5580,11 +5879,198 @@ Metody uczące się automatycznie rozpoznawać cechy z danych treningowych. Wszy
 
 **Bounding box (prostokąt ograniczający, bbox)** — prostokąt opisujący położenie obiektu. Zwykle: (x_min, y_min, x_max, y_max) lub (x_center, y_center, width, height). Przybliżenie — obiekty rzadko są prostokątne.
 
-**Confidence (pewność)** — wynik 0-1 mówiący jak pewny jest detektor, że wykrył obiekt danej klasy. Zwykle próg np. 0.5: detiekcje poniżej odrzucane.
+**Confidence (pewność)** — wynik 0-1 mówiący jak pewny jest detektor, że wykrył obiekt danej klasy. Zwykle próg np. 0.5: detekcje poniżej odrzucane.
 
 ---
 
-**Klasyfikator (classifier)** — model przypisujący etykietę do wejścia. Np. CNN trenowany na ImageNet: obraz → „kot" (+ prawdopodobieństwo). SAM nie lokalizuje — mówi tylko co jest na obrazie. Pytanie brzmi: jak z takiego modelu zbudować detektor?
+**CNN (Convolutional Neural Network, konwolucyjna sieć neuronowa)** — typ sieci neuronowej zaprojektowany specjalnie do przetwarzania OBRAZÓW. Używany w KAŻDYM nowoczesnym detektorze (R-CNN, YOLO, SSD, DETR). Kluczowa idea: zamiast łączyć KAŻDY piksel z KAŻDYM neuronem (→ miliardy parametrów), CNN używa MAŁYCH filtrów (np. 3×3 piksele) przesuwanych po obrazie. Dzięki temu:
+1. Mało parametrów (filtr 3×3 = 9 wag, niezależnie od rozmiaru obrazu)
+2. Wykrywa lokalne wzorce (krawędzie, rogi, tekstury)
+3. Inwariantność na przesunięcie (kot w lewym rogu = kot w prawym rogu)
+
+    Dlaczego CNN a nie zwykła sieć neuronowa?
+    Obraz 224×224×3 = 150 528 pikseli.
+    Zwykła sieć (FC): 150 528 × 4096 neuronów = 616 MILIONÓW wag w 1 warstwie!
+    CNN: filtr 3×3×3 = 27 wag, przesuwany po CAŁYM obrazie → 27 wag zamiast 616M!
+
+    Mnemonik: CNN = „Czytaj Nie Naraz" — nie bierzesz całego obrazu naraz,
+    tylko małe fragmenty (filtry 3×3), krok po kroku.
+
+**Konwolucja (convolution)** — podstawowa operacja CNN: mały filtr (macierz np. 3×3) przesuwa się po obrazie, w każdej pozycji mnoży element-po-elemencie z fragmentem obrazu i sumuje → jedna liczba na wyjściu. Wynik = „feature mapa" — mapa pokazująca GDZIE na obrazie dany wzorzec jest obecny.
+
+    Przykład liczbowy:
+    Fragment obrazu 3×3:     Filtr 3×3:             Wynik (1 piksel feature mapy):
+    [1  2  3]                [-1  0  1]
+    [4  5  6]       ×        [-1  0  1]    = 1(-1)+2(0)+3(1)+4(-1)+5(0)+6(1)+7(-1)+8(0)+9(1)
+    [7  8  9]                [-1  0  1]    = (-1+0+3) + (-4+0+6) + (-7+0+9) = 6
+
+    Ten filtr wykrywa PIONOWE KRAWĘDZIE (liczy różnicę prawa-lewa strona).
+    Duży wynik (6) = silna krawędź. Wynik ≈ 0 = brak krawędzi.
+    Filtr przesuwa się po CAŁYM obrazie → cała mapa cech.
+
+    Pseudokod konwolucji:
+    def convolve(image, filter_3x3):
+        output = zeros(image.height - 2, image.width - 2)
+        for y in range(1, image.height - 1):
+            for x in range(1, image.width - 1):
+                patch = image[y-1:y+2, x-1:x+2]        # wycinek 3×3
+                output[y-1][x-1] = sum(patch * filter)   # iloczyn + suma
+        return output
+
+**Filtr / Kernel** — mała macierz wag (np. 3×3, 5×5) uczona AUTOMATYCZNIE podczas treningu. CNN ma WIELE filtrów — każdy uczy się wykrywać INNY wzorzec. 64 filtry w jednej warstwie → 64 map cech.
+
+    KLUCZOWA RÓŻNICA: w HOG cechy projektuje CZŁOWIEK.
+    W CNN filtry uczy się SIEĆ SAMA — to główna przewaga deep learning!
+
+    Warstwa conv z 64 filtrami 3×3:
+    Filtr 1: nauczył się wykrywać pionowe krawędzie
+    Filtr 2: nauczył się wykrywać poziome krawędzie
+    Filtr 3: nauczył się wykrywać rogi
+    ...
+    Filtr 64: jakiś inny wzorzec pomocny w rozpoznawaniu
+
+**Feature map (mapa cech)** — wynik zastosowania JEDNEGO filtra do obrazu. Jasne piksele = „tu jest ten wzorzec". 64 filtry → 64 map cech → tensor [H × W × 64]. Feature mapy to WEWNĘTRZNA REPREZENTACJA tego, co sieć „widzi" na obrazie.
+
+    Hierarchia cech w CNN (każda warstwa coraz bardziej abstrakcyjna):
+    Warstwa 1:  krawędzie, gradienty         (jak HOG!)
+    Warstwa 2:  rogi, proste tekstury
+    Warstwa 3:  fragmenty obiektów (oko, koło, ucho)
+    Warstwa 4+: całe obiekty (twarz = oczy+nos+usta, samochód = koła+okna+dach)
+
+    Mnemonik: „K-R-F-O" = „Każdy Rycerz Znajduje Obiekt"
+    (Krawędzie → Rogi → Fragmenty → Obiekty)
+
+**Pooling (łączenie / podpróbkowanie)** — warstwa ZMNIEJSZAJĄCA rozmiar feature mapy. Najczęstsza: **max pooling 2×2** — z każdego bloku 2×2 pikseli zachowaj MAKSIMUM. Wynik: mapa 2× mniejsza w każdym wymiarze (= 4× mniej pikseli), ale zachowuje najsilniejsze cechy.
+
+    Feature map 4×4:           Po Max Pool 2×2:
+    [1  3 | 2  1]              [3  2]    ← max(1,3,0,3)=3   max(2,1,1,2)=2
+    [0  3 | 1  2]              [4  3]    ← max(0,4,1,2)=4   max(1,0,3,1)=3
+    ─────────────
+    [0  4 | 1  0]              Rozmiar: 4×4 → 2×2 (4× mniej danych!)
+    [1  2 | 3  1]              Zachowane: najsilniejsze cechy z każdego bloku
+
+    Dlaczego max pooling?
+    1. Mniej pikseli = mniej obliczeń w następnych warstwach
+    2. Większe „pole widzenia" (receptive field) — warstwa „widzi" większy fragment
+    3. Odporność na małe przesunięcia: obiekt ±1px → ten sam max
+
+**Stride (krok)** — o ile pikseli filtr przesuwa się za jednym krokiem. Stride=1: co 1 piksel (wyjście duże). Stride=2: co 2 piksele (wyjście 2× mniejsze). Max pool 2×2 ze stride 2 = typowy pooling.
+
+**FC (Fully Connected layer, warstwa w pełni połączona)** — warstwa, w której KAŻDY neuron jest połączony z KAŻDYM wyjściem poprzedniej warstwy. W CNN zwykle na KOŃCU sieci: feature mapy (3D) → spłaszczone do wektora 1D → FC klasyfikuje.
+
+    CNN: Conv → Pool → Conv → Pool → [Flatten] → FC(4096) → FC(1000) → "kot"
+                                         ↑                       ↑
+                                  spłaszcz 3D→1D         1000 klas (ImageNet)
+
+    FC = „warstwa decyzyjna" — łączy cechy z CAŁEGO obrazu w jedną decyzję.
+    Mnemonik: FC = „Full Connection" — każdy z każdym, jak klasa każdy-z-każdym.
+    Problem FC: DUŻO parametrów (np. 25088 × 4096 = 102M wag w VGG-16!)
+
+**Forward pass (przejście w przód)** — JEDNO przetworzenie danych przez sieć od wejścia do wyjścia. Obraz wchodzi → przechodzi przez Conv, Pool, FC → wychodzi predykcja. Nie aktualizuje wag (to backward pass / backpropagation = uczenie).
+
+    Forward pass CNN (czasy na GPU):
+    Jeden obraz przez ResNet-50: ~5ms
+    R-CNN:      2000 regionów × 5ms = 10 SEKUND (dlatego był wolny!)
+    Fast R-CNN: 1 forward pass cały obraz + ROI Pool = ~200ms (50× szybciej!)
+
+**ReLU (Rectified Linear Unit)** — funkcja aktywacji: f(x) = max(0, x). Przepuszcza wartości dodatnie, zeruje ujemne. Standard w CNN — stosowana PO KAŻDEJ warstwie konwolucyjnej.
+
+    Wejście:  [-3, 5, -1, 2, 0, -7, 4]
+    ReLU:     [ 0, 5,  0, 2, 0,  0, 4]
+
+    Dlaczego potrzebna? Bez ReLU sieć = seria mnożeń macierzy = JEDNA liniowa
+    transformacja → nie potrafi uchwycić złożonych wzorców.
+    ReLU dodaje NIELINIOWOŚĆ → sieć aproksymuje DOWOLNĄ funkcję.
+
+**Softmax** — funkcja na WYJŚCIU klasyfikatora: zamienia surowe wyniki (logits) na prawdopodobieństwa sumujące się do 1.
+
+    Logits:     [2.0,  1.0,  0.1]
+    Softmax:    [0.66, 0.24, 0.10]   ← e^2.0 / (e^2.0 + e^1.0 + e^0.1) ≈ 0.66
+    Klasy:      ["kot", "pies", "ryba"]
+    → „66% szans, że to kot"
+
+**Tensor** — wielowymiarowa tablica liczb. Uogólnienie wektora i macierzy.
+
+    Skalar = 0D tensor:     5
+    Wektor = 1D:            [1, 2, 3]
+    Macierz = 2D:           [[1,2],[3,4]]
+    Obraz RGB = 3D:         [224 × 224 × 3]        ← wysokość × szerokość × kanały
+    Batch obrazów = 4D:     [32 × 224 × 224 × 3]   ← 32 obrazy naraz
+    Wyjście YOLO = 3D:      [7 × 7 × 30]           ← siatka × predykcje
+
+**Architektura CNN — pełny przykład (AlexNet, wygrał ImageNet 2012):**
+
+![CNN — od obrazu do predykcji](img/q24_cnn_architecture.png)
+
+    ROZMIARY MALEJĄ:  224 → 55 → 27 → 13 → 6  (kompresja przestrzenna)
+    KANAŁY ROSNĄ:     3 → 96 → 256 → 384 → 256 (coraz więcej wyuczonych cech)
+
+---
+
+**Backbone (kręgosłup / sieć bazowa)** — duża, pretrenowana sieć CNN (np. ResNet-50, VGG-16) używana jako „ekstraktor cech". Backbone przetwarza obraz → feature mapa. Na wierzch dodaje się GŁOWICĘ (head) specyficzną dla zadania.
+
+    Analogia: backbone = SILNIK samochodu, head = KAROSERIA.
+    Ten sam silnik (ResNet) w różnych karoseriach:
+        Sedan  → klasyfikacja: FC head → "kot"
+        SUV    → detekcja: RPN + ROI Pool head → bbox + klasa
+        Pickup → segmentacja: dekoder head → maska pikseli
+
+    Backbone PRETRENOWANY na ImageNet (miliony obrazów).
+    Head TRENOWANY od zera na konkretnym zadaniu (detekcja, segmentacja).
+
+**Detection head (głowa detekcyjna)** — warstwy dodane NA WIERZCH backbone'u. Predykują klasy obiektów + pozycje bbox. W Faster R-CNN: RPN + ROI Pool + FC. W YOLO: warstwy conv + wyjście S×S×(B×5+C).
+
+**ResNet, VGG, AlexNet — popularne backbone'y:**
+
+    Sieć       Rok   Warstw   Parametrów   Top-5 ImageNet   Innowacja
+    ─────────────────────────────────────────────────────────────────────
+    AlexNet    2012   8        60M          84.7%             Pierwsza głęboka CNN
+    VGG-16     2014   16       138M         92.7%             Małe filtry 3×3
+    ResNet-50  2015   50       25M          96.4%             Skip connections
+
+    Mnemonik: A → V → R = „Architektura Bardzo Rezylientna" (2012 → 2014 → 2015)
+
+    Skip connection (ResNet): y = F(x) + x
+    Wejście bloku DODAWANE do wyjścia → gradient nie zanika
+    → można trenować 50-152 warstw (bez skip: >20 warstw = DEGRADACJA!)
+
+**ImageNet** — ogromny zbiór danych: 14M obrazów, 1000 klas (pies, samolot, gitara...). Standard pretrenowania w computer vision. ILSVRC (coroczne zawody) — AlexNet wygrał 2012 → rewolucja deep learning.
+
+**Transfer learning (uczenie transferowe)** — weź sieć pretrenowaną na dużym zbiorze (ImageNet), użyj do INNEGO zadania (detekcja, segmentacja). Backbone „wie" jak wyglądają krawędzie i kształty — trzeba tylko nauczyć nowej głowicy.
+
+    Krok po kroku:
+    1. ResNet-50 pretrenowany na ImageNet (1000 klas, miliony obrazów)
+    2. Odtnij warstwę FC (klasyfikujse 1000 klas ImageNet) ← WYRZUĆ
+    3. Dodaj nową głowicę detekcji (bbox + 80 klas COCO)  ← NOWA
+    4. Trenuj głowicę na danych detekcyjnych (COCO/VOC)
+    5. Opcjonalnie: fine-tune = odmroź backbone, ucz z MAŁYM learning rate
+
+    Dlaczego działa? Cechy niskiego poziomu (krawędzie, tekstury) SĄ UNIWERSALNE.
+    Kot, samochód, twarz — wszystko ma krawędzie i tekstury!
+
+**Fine-tuning (dostrajanie)** — forma transfer learning: odmrażasz backbone i uczysz CAŁĄ sieć z MAŁYM learning rate, żeby subtelnie dopasować cechy do nowego zadania.
+
+**COCO (Common Objects in Context)** — benchmark detekcji: 330K obrazów, 80 klas (samochód, osoba, pies...), 1.5M bboxów. Standard oceny detektorów.
+
+**Pascal VOC (Visual Object Classes)** — starszy benchmark: 20 klas. Używany w oryginalnym YOLO i R-CNN.
+
+**mAP (mean Average Precision)** — główna metryka jakości detekcji. Łączy trafność klasy z trafnością lokalizacji.
+
+    mAP@0.5:      detekcja „trafna" jeśli IoU ≥ 0.5 (≥50% pokrycia z prawdą)
+    mAP@0.5:0.95: średnia po progach 0.5, 0.55, ..., 0.95 (dużo surowsza)
+
+    Faster R-CNN (COCO): mAP ≈ 42%
+    YOLOv8-X (COCO):     mAP ≈ 53%
+
+**End-to-end (od końca do końca)** — cała sieć trenowana jako JEDNOŚĆ, jeden loss, jeden trening. Przeciwieństwo: R-CNN miał ODDZIELNIE Selective Search + CNN + SVM = 3 osobne kroki. Faster R-CNN = end-to-end → komponenty uczą się WSPÓŁPRACOWAĆ → lepsze wyniki.
+
+**FPN (Feature Pyramid Network)** — technika łączenia feature map z RÓŻNYCH warstw backbone'u. Wczesne warstwy (wysoka rozdzielczość) → małe obiekty. Późne warstwy (niska rozdzielczość) → duże obiekty. FPN łączy obie → wykrywa obiekty WSZYSTKICH rozmiarów.
+
+![FPN (Feature Pyramid Network)](img/q24_fpn.png)
+
+---
+
+**Klasyfikator (classifier)** — model przypisujący etykietę do wejścia. Np. CNN trenowany na ImageNet: obraz → „kot" (+ prawdopodobieństwo). Klasyfikator nie mówi GDZIE jest obiekt — mówi tylko CO jest na obrazie. Pytanie brzmi: jak z takiego modelu zbudować detektor?
 
 **Sliding window (okno przesuwane)** — najprostsza metoda budowy detektora z klasyfikatora: wytnij prostokątny fragment obrazu (wiele rozmiarów, wiele pozycji), każdy fragment sklasyfikuj. Jeśli „pozytywny" → detekcja. Ekstremalnie wolne: tysiące fragmentów × klasyfikacja per fragment.
 
@@ -5663,15 +6149,7 @@ Metody uczące się automatycznie rozpoznawać cechy z danych treningowych. Wszy
 
 **Support Vectors** — punkty danych NAJBLIŻSZE hiperpłaszczyźnie. To one „podpierają" (support) margines i definiują pozycję hiperpłaszczyzny. Reszta punktów jest nieistotna! Nazwa: „wektory nośne" — bo to wektory cech, które „niosą" decyzję.
 
-      Przestrzeń 2D:          O = klasa "pie szy"   X = klasa "nie-pieszy"
-                              O     O
-                               O   O
-      hiperpłaszczyzna →  ─ ─ ─ ─ ─ ─ ─ ─  ← margines ↕
-                              X    X
-                               X  X    X
-
-      Support vectors: O i X najbliższe linii (zaznaczone pogrubione)
-      SVM: przesuń linię tak, żeby margines ↕ był MAKSYMALNY
+![SVM — hiperpłaszczyzna i margines](img/q24_svm_hyperplane.png)
 
 **HOG+SVM — klasyczny pipeline detekcji pieszych:**
 
@@ -5684,18 +6162,95 @@ Metody uczące się automatycznie rozpoznawać cechy z danych treningowych. Wszy
       3. NMS (Non-Maximum Suppression) → usuń duplikaty
       4. Wynik: lista bounding boxów z detekcjami pieszych
 
-**Viola-Jones (2001)** — przełomowy detektor twarzy real-time. Kluczowe innowacje:
-- **Haar features** — proste cechy prostokątne (jasne/ciemne regiony)
-- **Integral Image** — obliczenie dowolnej sumy prostokąta w O(1)!
-- **AdaBoost cascade** — kaskada klasyfikatorów: szybkie odrzucenie 99% okien w pierwszych etapach, szczegółowa analiza tylko obiecujących
+**Viola-Jones (2001)** — przełomowy detektor twarzy w CZASIE RZECZYWISTYM. Trzy kluczowe innowacje wyjasnione szczegółowo:
+
+**Haar features (cechy Haarowe)** — najprostsze cechy obrazowe: prostokąty podzielone na jasną i ciemną część. Wartość cechy = (suma pikseli jasnych) − (suma pikseli ciemnych). Proste, ale skuteczne — wykrywają kontrasty typowe dla twarzy.
+
+![Cechy Haar — typy i zastosowanie na twarzy](img/q24_haar_features.png)
+
+    Dlaczego działa na TWARZACH?
+    - Oczy CIEMNIEJSZE niż czoło → cecha "krawędź pozioma" daje dużą wartość
+    - Nos JAŚNIEJSZY niż policzki → cecha "linia pionowa" daje dużą wartość
+    - Twarz = charakterystyczna KOMBINACJA takich kontrastów!
+
+    Ile cech? W oknie 24×24 pikseli: ponad 160 000 możliwych cech Haar
+    (różne rozmiary × różne pozycje). AdaBoost wybiera ~200 NAJLEPSZYCH.
+
+**Integral Image (obraz całkowy)** — precomputed tabela pozwalająca obliczyć sumę pikseli w DOWOLNYM prostokącie w O(1) — stały czas, niezależnie od rozmiaru! To dlatego Haar features liczą się tak szybko.
+
+    Jak? Integral Image[x,y] = suma WSZYSTKICH pikseli od (0,0) do (x,y).
+
+![Integral Image — suma prostokąta w O(1)](img/q24_integral_image.png)
+
+    Zawsze 4 odczyty z tabeli → O(1)!
+    Czy prostokąt ma 4 piksele czy 4 MILIONY — czas TEN SAM!
+    Bez Integral Image: O(w×h) — suma 1000×1000 = milion operacji.
+    Z Integral Image: O(1) — 4 operacje. ZAWSZE.
+
+    Pseudokod:
+    def integral_image(img):
+        II = zeros_like(img)
+        for y in range(H):
+            for x in range(W):
+                II[y][x] = img[y][x] + II[y-1][x] + II[y][x-1] - II[y-1][x-1]
+        return II
+
+    def rect_sum(II, x1, y1, x2, y2):   # O(1) zawsze!
+        return II[y2][x2] - II[y1-1][x2] - II[y2][x1-1] + II[y1-1][x1-1]
+
+**AdaBoost (Adaptive Boosting)** — algorytm uczenia maszynowego łączący wiele SŁABYCH klasyfikatorów w jeden SILNY. Słaby = niewiele lepszy od losowego (>50% trafień). AdaBoost iteracyjnie:
+1. Trenuj słaby klasyfikator (np. 1 cecha Haar + próg: "czy wartość > 1200?")
+2. Sprawdź, które przykłady ŹLE sklasyfikował
+3. Nadaj źle sklasyfikowanym WIĘKSZĄ wagę → następny klasyfikator SKUPI się na nich
+4. Powtórz 200× → suma ważona 200 słabych klasyfikatorów ≈ silny klasyfikator
+
+    Intuicja: jak PANEL EKSPERTÓW, z których każdy zna się na JEDNEJ rzeczy.
+    Ekspert 1: "czy okolice oczu ciemne?"        (trafność 55%)
+    Ekspert 2: "czy nos jaśniejszy niż policzki?" (trafność 60%)
+    Ekspert 3: "czy brwi ciemne?"                 (trafność 53%)
+    ...
+    200 ekspertów razem → trafność >95%!
+    Mnemonik: AdaBoost = "ADAptacyjnie BOOSTuj" słabe modele do silnego.
+
+**Cascade (kaskada klasyfikatorów)** — genialna optymalizacja szybkości: zamiast sprawdzać WSZYSTKIE 200 cech na każdym oknie, użyj KASKADY etapów. Każdy etap = prosty klasyfikator, który szybko ODRZUCA "na pewno nie-twarz".
+
+![Viola-Jones — kaskada klasyfikatorów (SITO)](img/q24_viola_jones_cascade.png)
+
+    Mnemonik: kaskada = "SITO" — coraz drobniejsze oczka,
+    na początku odpada piach, na końcu zostaje ZŁOTO (twarz).
+
+    Pseudokod kaskady:
+    def cascade_classify(window):
+        for stage in cascade_stages:           # etap 1, 2, ..., 25
+            score = stage.evaluate(window)     # oblicz kilka cech Haar
+            if score < stage.threshold:        # za niski wynik
+                return "NIE-TWARZ"             # SZYBKIE odrzucenie!
+        return "TWARZ"                         # przeszło WSZYSTKIE etapy
 
 ---
 
-![Ewolucja detektorów: R-CNN → Faster R-CNN → YOLO](img/rcnn_evolution.png)
+![Ewolucja detektorów: R-CNN → Faster R-CNN → YOLO](img/q24_rcnn_evolution.png)
 
-**R-CNN family (two-stage detectors)** — dwuetapowe: najpierw generuj propozycje regionów, potem klasyfikuj każdy region.
+**R-CNN family (two-stage detectors)** — dwuetapowe: najpierw generuj propozycje regionów, potem klasyfikuj każdy region. Nazwa: Region-based CNN.
 
-**Czym jest „region proposal" (propozycja regionu)?** — prostokąt, w którym MOŻE BYĆ obiekt. Zamiast sprawdzać miliony pozycji okna (sliding window), algorytm propozycji generuje ~2000 „obiecujących" prostokątów. Jak? Metoda Selective Search analizuje kolory, tekstury i rozmiary → łączy podobne regiony → generuje kandydatów.
+**Selective Search (wyszukiwanie selektywne)** — klasyczny algorytm (NIE sieć neuronowa!) generowania propozycji regionów. Zamiast MILIONÓW pozycji okna (sliding window), inteligentnie łączy podobne fragmenty obrazu i proponuje ~2000 prostokątów, w których MOGĄ być obiekty.
+
+    Algorytm krok po kroku:
+    1. Over-segmentation: podziel obraz na ~1000 małych regionów (superpixele)
+       (na podstawie koloru i tekstury — algorytm Felzenszwalb)
+    2. Powtarzaj aż zostanie 1 region:
+       a) Znajdź 2 najbardziej PODOBNE sąsiednie regiony:
+          - podobny kolor? (histogram kolorów)
+          - podobna tekstura? (histogram gradientów)
+          - pasujący rozmiar? (preferuj łączenie MAŁYCH regionów)
+       b) Połącz je w jeden → zapamiętaj bounding box nowego regionu
+    3. Zebrane bbox-y ze WSZYSTKICH kroków → ~2000 propozycji
+
+    Sliding window:    ~500 000 okien → 99.9% to "tło" → marnujesz czas
+    Selective Search:  ~2 000 regionów → ~50% zawiera coś → 250× wydajniej
+    RPN (Faster R-CNN): ~300 propozycji → sieć neuronowa (najszybciej!)
+
+**Czym jest "region proposal" (propozycja regionu)?** — prostokąt, w którym MOŻE być obiekt. Dużo mniej niż sliding window (2000 zamiast milionów), ale każda propozycja ma WYSOKIE prawdopodobieństwo trafienia obiektu.
 
 **R-CNN (2014, Ross Girshick)** — pierwszy detektor oparty na CNN. Pipeline:
 
@@ -5711,25 +6266,83 @@ Metody uczące się automatycznie rozpoznawać cechy z danych treningowych. Wszy
     Dlaczego tak wolno? Bo CNN liczy cechy na KAŻDYM wyciętym regionie OSOBNO,
     choć regiony się częściowo nakładają → redundantne obliczenia
 
-**Fast R-CNN (2015)** — kluczowa optymalizacja: przepuść cały obraz przez CNN RAZ, uzyskaj „mapę cech" (feature map). Potem wytnij cechy regionów z tej mapy (ROI Pooling), zamiast odpalać CNN 2000 razy.
+**Fast R-CNN (2015)** — kluczowa optymalizacja: przepuść cały obraz przez CNN RAZ, uzyskaj "mapę cech" (feature map). Potem wytnij cechy regionów z tej mapy (ROI Pooling), zamiast odpalać CNN 2000 razy.
 
-    Dlaczego „ROI Pooling"? ROI = Region of Interest. Regiony mają RÓŻNE rozmiary,
-    ale warstwa FC wymaga stałego. ROI Pooling dzieli region na siatkę np. 7×7
-    i w każdej komórce bierze MAX → stały rozmiar wyjścia niezależnie od wejścia.
+**ROI (Region of Interest, region zainteresowania)** — prostokątny fragment feature mapy odpowiadający propozycji regionu na oryginalnym obrazie. Np. Selective Search zaproponował bbox (100,50)-(200,150) na obrazie 800×600 → odpowiadający ROI na feature mapie (po redukcji 16× przez pooling) to mniej więcej (6,3)-(12,9).
 
-    CNN raz na obraz → feature map → ROI Pool 2000 regionów → FC → klasy + bbox
-    Przyspieszenie: ~2 sec/obraz (vs 50 sec w R-CNN)
+**ROI Pooling (pooling regionu zainteresowania)** — operacja zamieniająca ROI o DOWOLNYM rozmiarze na tensor o STAŁYM rozmiarze (np. 7×7). Konieczne, bo warstwa FC wymaga stałego rozmiaru wejścia!
 
-**Faster R-CNN (2015)** — ostatni krok: zastąp Selective Search (osobny algorytm) siecią neuronową! **RPN (Region Proposal Network)** — mała sieć przesuwana po feature mapie, która w KAŻDEJ pozycji predykuje: „czy tu jest obiekt?" + proponuje bbox. Wszystko w jednej sieci, end-to-end.
+    Problem: region 1 = 14×10 na feature mapie,  region 2 = 8×6  → RÓŻNE!
+             Warstwa FC wymaga np. 7×7 → STAŁY rozmiar.
 
+    Rozwiązanie — ROI Pooling:
+    1. Weź ROI (np. 14×10) z feature mapy
+    2. Podziel go na siatkę 7×7 (= 7 wierszy × 7 kolumn)
+       Każda komórka obejmuje ok. 2×1.4 pikseli feature mapy
+    3. W każdej komórce weź MAX (jak max pooling)
+    4. Wynik: tensor 7×7 — STAŁY rozmiar niezależnie od oryginalnego ROI!
+
+![ROI Pooling](img/q24_roi_pooling.png)
+
+    Kluczowa sztuczka Fast R-CNN:
+    CNN raz na CAŁY obraz → JEDNA feature mapa → ROI Pool 2000 regionów z TEJ SAMEJ mapy
+    (zamiast 2000× odpalać CNN jak w R-CNN!)
+    Przyspieszenie: ~2 sec/obraz (vs 50 sec) → 25× szybciej!
+
+    Pseudokod ROI Pooling:
+    def roi_pool(feature_map, roi_bbox, output_size=7):
+        roi = feature_map[roi_bbox]              # wycinek z feature mapy
+        h, w = roi.shape
+        cell_h, cell_w = h // output_size, w // output_size
+        output = zeros(output_size, output_size)
+        for i in range(output_size):
+            for j in range(output_size):
+                cell = roi[i*cell_h:(i+1)*cell_h, j*cell_w:(j+1)*cell_w]
+                output[i][j] = max(cell)         # max pooling w komórce
+        return output   # stały rozmiar 7×7!
+
+    CNN raz → feature map → ROI Pool 2000 regionów → FC → klasy + bbox
+
+**Bbox regression (regresja prostokąta ograniczającego)** — sieć predykuje nie bezpośrednie współrzędne bbox, ale PRZESUNIĘCIA (offsets) od propozycji: Δx, Δy (przesunięcie środka), Δw, Δh (zmiana szerokości/wysokości).
+
+    Propozycja (z RPN/Selective Search): (x=100, y=80,  w=60,  h=90)  ← przybliżone
+    Predykcja regresji:                  (Δx=+5, Δy=-3, Δw=+10, Δh=+5)
+    Ostateczny bbox:                     (x=105, y=77,  w=70,  h=95)  ← dokładniejsze!
+
+    Dlaczego offsets a nie współrzędne bezpośrednio?
+    Łatwiejsze zadanie! Sieć poprawia przybliżony prostokąt O TROCHĘ,
+    zamiast zgadywać lokalizację od zera.
+    Mnemonik: bbox regression = "GPS korekta" — masz przybliżoną pozycję,
+    poprawiasz o parę metrów w prawo i w górę.
+
+**Faster R-CNN (2015)** — ostatni krok ewolucji: zastąp Selective Search (osobny algorytm) siecią neuronową! **RPN (Region Proposal Network)** — mała sieć przesuwana po feature mapie, która w KAŻDEJ pozycji predykuje: "czy tu jest obiekt?" + proponuje bbox. Wszystko w jednej sieci, end-to-end.
+
+    Pipeline Faster R-CNN:
     Obraz → CNN backbone (np. ResNet) → Feature Map → RPN (proposals) → ROI Pool → FC → klasy + bbox
 
-    RPN szczegóły:
-    - W każdym punkcie feature mapy rozważ k=9 „anchor boxes" (3 rozmiary × 3 proporcje)
-    - Dla każdego anchora: P(obiekt) + przesunięcie bbox (Δx, Δy, Δw, Δh)
-    - Zachowaj ~300 propozycji z najwyższym P(obiekt) → do ROI Pool
+    RPN krok po kroku:
+    Feature mapa [40×60×256] ← z backbone
+      ↓ Filtr 3×3 przesuwa się po feature mapie
+      ↓ W KAŻDEJ pozycji (x,y) rozważ k=9 "anchor boxes":
+
+        9 anchorów = 3 rozmiary × 3 proporcje:
+        ┌───┐  ┌─────┐  ┌───────┐   ← 128×128, 256×256, 512×512
+        │   │  │     │  │       │      × proporcje 1:1, 1:2, 2:1
+        └───┘  └─────┘  └───────┘
+
+      ↓ Dla KAŻDEGO z 9 anchorów sieć predykuje:
+        - P(obiekt) = prawdopodobieństwo, że tu jest obiekt
+        - (Δx, Δy, Δw, Δh) = przesunięcie bbox względem anchora
+
+    40×60 = 2400 pozycji × 9 anchorów = 21 600 potencjalnych propozycji!
+    → Weź ~300 z najwyższym P(obiekt) → ROI Pool → FC → klasy + bbox
 
     Faster R-CNN: ~5 fps (~0.2 sec/obraz) — 250× szybciej niż R-CNN!
+
+    Mnemonik ewolucji R-CNN: "CORAZ MNIEJ MARNOWANIA"
+    R-CNN:       Selective Search + 2000×CNN          = 50s  → WOLNE
+    Fast R-CNN:  Selective Search + 1×CNN + ROI Pool   = 2s   → lepiej
+    Faster R-CNN: RPN (w sieci!) + 1×CNN + ROI Pool   = 0.2s → 250× szybciej!
 
 ---
 
@@ -5740,45 +6353,127 @@ Metody uczące się automatycznie rozpoznawać cechy z danych treningowych. Wszy
 - C prawdopodobieństw klas = „jaki to obiekt?"
 Jedno przejście przez sieć → WSZYSTKIE detekcje naraz. 45-155 fps!
 
-    Jak to działa wizualnie (S=7, B=2, C=20 klas jak w Pascal VOC):
-
-    Obraz [448×448] → CNN (24 warstwy konwolucyjne + 2 FC) → tensor 7×7×30
-                                                                ↑
-                                                    30 = 2×(4+1) + 20
-                                                    2 bbox × (x,y,w,h,conf) + 20 klas
-
-    Komórka (3,4) predykuje: bbox1=(0.3, 0.7, 0.4, 0.6, 0.92), klasa="samochód" (p=0.88)
-    → „środek samochodu jest w komórce (3,4), bbox ma takie wymiary, pewność 92%"
-
-    Potem NMS: usuwa duplikaty (wiele komórek może wykryć ten sam obiekt)
+![YOLO — detekcja jednoetapowa (siatka S×S)](img/q24_yolo_grid.png)
 
 **SSD (Single Shot MultiBox Detector, 2016)** — ulepsza YOLO przez multi-scale feature maps: predykcje z WIELU warstw CNN, każda o innej rozdzielczości. Wczesne warstwy (wysoka rozdzielczość) wykrywają MAŁE obiekty; późne warstwy (niska rozdzielczość) wykrywają DUŻE. Anchor boxes predefiniowane na każdej skali.
 
 **Anchor box (kotwica)** — predefiniowany prostokąt o określonym kształcie/proporcji (np. 1:1, 1:2, 2:1). Sieć NIE predykuje bbox od zera — predykuje PRZESUNIĘCIE (offset) od najbliższego anchora. Łatwiejsze zadanie! Wiele anchorów → pokrycie różnych kształtów obiektów (osoby = wysoki prostokąt, samochód = szeroki).
 
+![Anchor boxes — predefiniowane kształty](img/q24_anchor_boxes.png)
+
 **Anchor-free** — nowoczesne podejście (FCOS, YOLOv8): bezpośrednia predykcja środka i wymiarów, bez predefiniowanych anchorów. Prostsza architektura, mniej hyperparametrów.
 
-**DETR (DEtection TRansformer, 2020)** — Facebook AI. Zamiast CNN + anchor + NMS, używa **transformera** z mechanizmem self-attention. Predykuje bezpośrednio ZESTAW obiektów (set prediction, nie grid). NIE potrzebuje NMS (unik duplikatów rozwiązany przez Hungarian matching w treningu). Najprostsza architektura w detekcji, ale wolniejsza w treningu.
+**Transformer** — architektura sieci neuronowej pierwotnie z NLP (2017, "Attention is All You Need"), ale skutecznie zaadaptowana do wizji komputerowej (ViT, DETR). Kluczowy mechanizm: **self-attention** — każdy element wejścia "patrzy" na WSZYSTKIE inne elementy i decyduje, które są dla niego ważne.
+
+    W tekście: słowo "bank" patrzy na "rzeka" i "pieniądze" →
+    attention decyduje: "w tym zdaniu chodzi o brzeg RZEKI, nie bank pieniędzy"
+
+    W obrazie (DETR): fragment obrazu "patrzy" na inne fragmenty →
+    attention: "ta łapa jest częścią TEGO kota, a nie tamtego psa"
+
+**Self-attention (samo-uwaga)** — mechanizm: dla każdego elementu oblicz "uwagę" do KAŻDEGO innego elementu. Matematycznie: Query × Key → wagi attention → ważona suma Values.
+
+    Uproszczony pseudokod:
+    def self_attention(features):         # features = N elementów
+        Q = features × W_query            # Query: "czego szukam?"
+        K = features × W_key              # Key: "co oferuję?"
+        V = features × W_value            # Value: "jaką informację niosę?"
+
+        attention = softmax(Q × K^T / sqrt(d))  # macierz N×N: "kto ważny dla kogo"
+        output = attention × V                   # ważona kombinacja wartości
+        return output
+
+    Złożoność: O(n^2) — każdy element z każdym → wolne dla dużych obrazów.
+    Dlatego DETR wolniej się TRENUJE niż YOLO (ale architektura jest PROSTSZA).
+
+**DETR (DEtection TRansformer, 2020)** — model Facebooka stosujący Transformer do detekcji. Radykalnie prostszy pipeline: BRAK anchorów, BRAK NMS! Sieć predykuje bezpośrednio ZESTAW N obiektów (np. N=100).
+
+![DETR — Transformer do detekcji](img/q24_detr_pipeline.png)
+
+    "Object queries" = 100 wyuczonych wektorów, każdy "szuka" jednego obiektu.
+    Obraz z 5 obiektami → 5 queries dopasuje się do obiektów,
+    95 queries zwróci klasę "brak obiektu" (empty set).
+
+    Pseudokod DETR:
+    def detr_forward(image):
+        features = backbone(image)                # ResNet → feature mapa
+        encoded = transformer_encoder(features)   # self-attention na feat. mapie
+        queries = learnable_queries(100)           # 100 wyuczonych zapytań
+        decoded = transformer_decoder(queries, encoded)  # cross-attention
+        predictions = []
+        for q in decoded:
+            cls = classify(q)      # "samochód" / "pies" / "brak"
+            box = regress(q)       # (x, y, w, h)
+            predictions.append((cls, box))
+        return predictions         # 100 predykcji (większość = brak)
+
+    Mnemonik DETR: "Detekcja Eliminująca Trikowe Redundancje"
+    → bez NMS, bez anchorów, prosty pipeline.
+
+**Hungarian matching (dopasowanie węgierskie)** — algorytm używany podczas TRENINGU DETR. Problem: sieć daje 100 predykcji, na obrazie jest 5 obiektów — która predykcja odpowiada któremu obiektowi? Algorytm węgierski znajduje OPTYMALNE dopasowanie 1:1 minimalizując łączny koszt (błąd klasy + błąd bbox).
+
+    Predykcje DETR:           Ground truth:
+    pred_1: "samochód"        gt_1: "samochód" (bbox A)
+    pred_2: "pies"            gt_2: "pies" (bbox B)
+    pred_3: "brak"
+    ...                       Hungarian matching:
+    pred_100: "brak"          pred_1 ↔ gt_1 (najlepsze dopasowanie!)
+                              pred_2 ↔ gt_2
+                              reszta ↔ "brak obiektu"
+
+    Efekt: BRAK DUPLIKATÓW → BRAK NMS!
+    (Każdy obiekt dopasowany do DOKŁADNIE jednej predykcji)
 
 ---
 
-**NMS (Non-Maximum Suppression)** — post-processing: detektor generuje wiele nakładających się bbox dla tego samego obiektu. NMS: weź najlepszą (max confidence), usuń wszystkie mocno nakładające się (IoU > prog), powtórz.
+**NMS (Non-Maximum Suppression, tłumienie nie-maksymalnych)** — algorytm post-processingu usuwający ZDUPLIKOWANE detekcje. Problem: detektor generuje WIELE nakładających się bbox dla tego samego obiektu. NMS zachowuje NAJLEPSZĄ i usuwa resztę. Jedyny detektor BEZ NMS = DETR.
 
-    Detections: [bbox1, 0.95], [bbox2, 0.90], [bbox3, 0.85]  (nakładające się)
-    NMS: zachowaj bbox1 (0.95), usuń bbox2 i bbox3 (IoU > 0.5 z bbox1)
+    Algorytm NMS krok po kroku:
+    Wejście: detekcje posortowane malejąco po confidence
+    [bbox_1 conf=0.95], [bbox_2 conf=0.90], [bbox_3 conf=0.85], [bbox_4 conf=0.40]
 
-**IoU (Intersection over Union)** — miara nakładania dwóch bbox: pole przecięcia / pole sumy. IoU=1 → identyczne; IoU=0 → brak nakładania. Próg NMS typowo 0.5.
+    Pseudokod NMS:
+    def nms(detections, iou_threshold=0.5):
+        detections.sort(by=confidence, descending=True)
+        keep = []
+        while detections:
+            best = detections.pop(0)        # weź najlepszą
+            keep.append(best)               # ZACHOWAJ ją
+            detections = [d for d in detections
+                          if iou(best, d) < iou_threshold]  # usuń nakładające
+        return keep
 
-**Backbone** — sieć bazowa (np. ResNet, VGG) wyciągająca cechy z obrazu. Detection head (głowa detekcyjna) jest dodawana „na wierzch" backbone i predykuje bbox + klasy. Fine-tuning backbone na detekcję = transfer learning.
+    Krok 1: Weź bbox_1 (0.95) → ZACHOWAJ
+    Krok 2: IoU(bbox_1, bbox_2) = 0.82 > 0.5 → USUŃ (duplikat tego samego kota!)
+            IoU(bbox_1, bbox_3) = 0.75 > 0.5 → USUŃ (duplikat!)
+            IoU(bbox_1, bbox_4) = 0.10 < 0.5 → ZACHOWAJ (INNY obiekt!)
+    Krok 3: Wynik: [bbox_1, bbox_4] — 2 unikalne obiekty
+
+    Mnemonik: NMS = "Najlepszy Ma Się dobrze" — zachowaj najlepszą, usuń resztę.
+
+**IoU (Intersection over Union)** — miara nakładania dwóch prostokątów. IoU = pole przecięcia / pole sumy. Wartości: 0.0 (nie nakładają się) do 1.0 (identyczne).
+
+![IoU (Intersection over Union)](img/q24_iou_diagram.png)
+
+    IoU = pole(∩) / pole(A ∪ B)
+        = pole(∩) / (pole(A) + pole(B) − pole(∩))
+
+    Przykład liczbowy:
+    A = [0, 0, 100, 100]    → pole = 10 000
+    B = [50, 50, 150, 150]  → pole = 10 000
+    ∩ = [50, 50, 100, 100]  → pole = 2 500
+    IoU = 2500 / (10000 + 10000 − 2500) = 2500 / 17500 ≈ 0.14
+
+    IoU > 0.5 w NMS → "to TEN SAM obiekt" → usuń słabszą detekcję
+    IoU > 0.5 w mAP → "detekcja TRAFNA" → poprawna lokalizacja
 
 ---
 
-**Jak zbudować detektor z klasyfikatora? Trzy podejścia:**
-1. **Sliding window** — wytnij, sklasyfikuj, NMS. Bardzo wolne.
-2. **Region proposals + klasyfikator** — Selective Search generuje ~2000 regionów, sklasyfikuj każdy + NMS. Szybsze.
-3. **Fine-tune backbone** — weź pretrained classifier (np. ResNet z ImageNet), dodaj detection head (bbox regression + cls), dotrenuj na danych detekcyjnych. **Najlepsza jakość.**
-
-**DETR (DEtection TRansformer, 2020)** — Facebook AI. Transformer zamiast CNN, bezpośrednia predykcja zestawu obiektów (set prediction), bez NMS. Uproszczona architektura.
+**Jak zbudować detektor z klasyfikatora? Trzy podejścia (+ bonus):**
+1. **Sliding window** — wytnij, sklasyfikuj, NMS. Bardzo wolne (miliony klasyfikacji).
+2. **Region proposals + klasyfikator** — Selective Search → ~2000 regionów → klasyfikuj + NMS. Wolne ale działa (= R-CNN).
+3. **Fine-tune backbone** — weź pretrained classifier (ResNet z ImageNet), dodaj detection head (bbox regression + cls), dotrenuj na danych detekcyjnych. **Najlepsza jakość** (= Faster R-CNN, YOLO, SSD).
+4. **Transformer (DETR)** — bez anchorów, bez NMS, predykcja zestawu obiektów end-to-end.
 
 ---
 
@@ -5793,11 +6488,7 @@ Detekcja obiektów to **lokalizacja** (gdzie?) i **klasyfikacja** (co?) obiektó
 
 **Porównanie z innymi zadaniami:**
 
-    Zadanie           Wynik                        Przykład
-    ─────────────────────────────────────────────────────────
-    Klasyfikacja      "kot" (1 etykieta)           cały obraz → 1 klasa
-    Detekcja          bbox + klasa (N obiektów)    prostokąty wokół obiektów
-    Segmentacja       etykieta per piksel          maska pikseli
+![Klasyfikacja vs Detekcja vs Segmentacja](img/q24_detection_tasks.png)
 
 ---
 
@@ -5810,21 +6501,134 @@ Metody sprzed deep learningu — ręcznie projektowane cechy (features) + klasyc
 | **HOG + SVM** | 2005 | Histogram of Oriented Gradients | SVM | wolna (~1 fps) | detekcja pieszych |
 | **Viola-Jones** | 2001 | Haar features + Integral Image | AdaBoost cascade | real-time (30+ fps) | detekcja twarzy |
 
-**HOG + SVM (Dalal & Triggs, 2005):**
+#### HOG + SVM (Dalal & Triggs, 2005) — krok po kroku
 
-    Pipeline:  Obraz → Sliding window → HOG (histogramy gradientów) → SVM → detekcja/brak
-    HOG: dzieli okno na komórki (8×8 px), liczy histogramy kierunków krawędzi
-    SVM: "czy ten wzorzec krawędzi to człowiek?"
-    Wada: ręczne cechy, wolny sliding window, działa dobrze TYLKO na pieszych
+**Mnemonik kroków HOG: „GÓRA KOCHA BOGATYCH NARCIARZY" → Gradienty → Orientacja → Komórki → Bloki → Normalizacja**
 
-**Viola-Jones (2001) — 3 innowacje:**
+![HOG + SVM pipeline detekcji pieszych](img/q24_hog_svm_pipeline.png)
 
-    1. Haar features:    [ jasne | ciemne ]  → prosta różnica intensywności
-    2. Integral Image:   suma prostokąta w O(1), niezależnie od rozmiaru!
-    3. Cascade:          Etap 1 (2 cechy): odrzuca 50% okien w 1 μs
-                         Etap 2 (10 cech): odrzuca 80% reszty
-                         ...Etap 25 (200 cech): szczegółowa analiza TYLKO 0.01% okien
-    Efekt: ~95% detections = szybkie odrzucenia → real-time!
+**Krok 1 — Gradienty (G jak GÓRA):** Oblicz gradient KAŻDEGO piksela. Gradient = „siła i kierunek zmiany jasności". Tam, gdzie jasność skacze (np. 50→200), jest krawędź.
+
+    Przykład liczbowy:
+    Piksele w wierszu: [50, 50, 200]
+    Gx = pixel[x+1] − pixel[x−1] = 200 − 50 = 150  ← silna krawędź pionowa!
+    Gy = analogicznie w pionie
+    Siła: magnitude = √(Gx² + Gy²) = √(150² + 0²) = 150
+    Kierunek: direction = arctan(Gy/Gx) = arctan(0/150) = 0° (krawędź pionowa)
+
+**Krok 2 — Orientacja (O jak KOCHA):** Każdy piksel głosuje na kierunek swojej krawędzi. 9 „koszyków" (binów) co 20°: 0°, 20°, 40°, …, 160°. Głos ważony SIŁĄ gradientu (silniejsza krawędź = mocniejszy głos).
+
+    Piksel z magnitude=150, direction=10°:
+    Głosuje na bin 0° (z wagą proporcjonalną do bliskości) i bin 20°
+    Piksel z magnitude=30, direction=85°:
+    Głosuje na bin 80° i bin 100° (słabsza krawędź = słabszy głos)
+
+**Krok 3 — Komórki (K jak BOGATYCH):** Podziel okno (64×128 px) na komórki 8×8 pikseli = 8×16 = 128 komórek. Dla KAŻDEJ komórki stwórz histogram 9 binów — to jej „odcisk palca kierunkowości krawędzi".
+
+![HOG — kroki obliczania cech](img/q24_hog_gradient_steps.png)
+
+**Krok 4 — Bloki (B jak NARCIARZY):** Grupuj komórki w bloki 2×2 (= 16×16 px). Przesuwaj blok z krokiem 1 komórki. Okno 64×128 → (8−1)×(16−1) = 7×15 = 105 bloków.
+
+**Krok 5 — Normalizacja (N):** Dla KAŻDEGO bloku (4 komórki × 9 binów = 36 wartości) wykonaj normalizację L2 → odporność na zmiany oświetlenia. 105 bloków × 36 = **3780 cech** → wektor HOG.
+
+    Pseudokod:
+    def compute_hog(window_64x128):
+        Gx = pixel[x+1] - pixel[x-1]          # gradient poziomy
+        Gy = pixel[y+1] - pixel[y-1]          # gradient pionowy
+        mag = sqrt(Gx**2 + Gy**2)             # siła
+        dir = arctan2(Gy, Gx) * 180 / pi     # kierunek 0°-180°
+
+        hog = []
+        for block_2x2 in sliding_blocks(cells_8x8):
+            block_hist = []
+            for cell in block_2x2:                 # 4 komórki
+                hist = [0]*9                       # 9 binów
+                for px in cell.pixels:             # 64 piksele
+                    bin = int(dir[px] / 20)        # który bin?
+                    hist[bin] += mag[px]           # ważone głosowanie
+                block_hist += hist
+            block_hist = L2_normalize(block_hist)  # normalizacja!
+            hog += block_hist
+        return hog  # wektor 3780 cech → do SVM
+
+**Krok 6 — SVM klasyfikuje:** Wektor 3780 cech → SVM odpowiada: „pieszy" (+1) lub „tło" (−1).
+
+![SVM — hiperpłaszczyzna i margines](img/q24_svm_hyperplane.png)
+
+    Mnemonik SVM: „LINIA MAKSYMALNEGO ODDECHU"
+    SVM = linia (hiperpłaszczyzna) z MAKSYMALNYM marginesem.
+    Jak MOST nad rzeką — im szerszy, tym bezpieczniejszy (lepiej generalizuje).
+
+**Krok 7 — NMS:** Usuń duplikaty (wiele okien wykryło tego samego pieszego → zachowaj najlepsze).
+
+    Mnemonik PEŁNEGO pipeline'u HOG+SVM: „GOKBN-SN"
+    → Gradienty → Orientacja → Komórki → Bloki → Normalizacja → SVM → NMS
+    = „Grasz Ostro, Kumplu? Bądź Naturalny, Szybko Nabierz (wprawy)!"
+
+---
+
+#### Viola-Jones (2001) — krok po kroku
+
+**Mnemonik 3 innowacji: „HIC" → Haar + Integral Image + Cascade**
+
+**Innowacja 1 — Haar features (H):** Prostokąty dzielone na jasną i ciemną część. Wartość = Σ(jasna) − Σ(ciemna). Proste, ale wykrywają kontrasty typowe dla twarzy.
+
+![Cechy Haar — typy i zastosowanie na twarzy](img/q24_haar_features.png)
+
+    Pseudokod cechy Haar:
+    def haar_edge_vertical(img, x, y, w, h):
+        left_sum  = sum_pixels(img, x, y, x+w//2, y+h)    # jasna połówka
+        right_sum = sum_pixels(img, x+w//2, y, x+w, y+h)  # ciemna połówka
+        return left_sum - right_sum   # duża wartość = silna krawędź
+
+    Mnemonik: Haar = „Hej, A tu jest Różnica?"
+    Cechy Haar pytają: „Czy lewa strona JAŚNIEJSZA niż prawa?"
+
+**Innowacja 2 — Integral Image (I):** Precomputed tabela: suma DOWOLNEGO prostokąta w O(1) — 4 odczyty z tabeli, niezależnie od rozmiaru!
+
+![Integral Image — suma prostokąta w O(1)](img/q24_integral_image.png)
+
+    Pseudokod:
+    def build_integral_image(img):
+        II = zeros(H, W)
+        for y in range(H):
+            for x in range(W):
+                II[y][x] = img[y][x] + II[y-1][x] + II[y][x-1] - II[y-1][x-1]
+        return II
+
+    def rect_sum(II, x1, y1, x2, y2):    # ZAWSZE O(1)!
+        return II[y2][x2] - II[y1-1][x2] - II[y2][x1-1] + II[y1-1][x1-1]
+
+    Mnemonik: Integral Image = „4 Odczyty I Gotowe!" = 4OIG
+    Jak czytanie z gotowej tabeli: nie liczymy, tylko odczytujemy!
+
+**Innowacja 3 — Cascade (C):** Kaskada etapów — szybkie odrzucanie „na pewno nie-twarz".
+
+![Viola-Jones — kaskada klasyfikatorów (SITO)](img/q24_viola_jones_cascade.png)
+
+    Pseudokod:
+    def cascade_classify(window):
+        for stage in [stage_1, stage_2, ..., stage_25]:
+            score = sum(stage.weights[i] * haar_feature[i](window)
+                        for i in stage.features)
+            if score < stage.threshold:
+                return "NIE-TWARZ"      # szybkie odrzucenie!
+        return "TWARZ"                  # przeszło WSZYSTKIE etapy
+
+    Mnemonik: Cascade = „SITO z coraz drobniejszymi oczkami"
+    Etap 1: sito o dużych oczkach → odpada piach (oczywiste nie-twarze)
+    Etap 25: sito najdrobniejsze → zostaje ZŁOTO (twarz)
+    99% okien odpada w pierwszych 3 etapach → REAL-TIME!
+
+**Pełny pipeline Viola-Jones:**
+
+    1. Sliding window (24×24) po obrazie w wielu skalach
+    2. Integral Image (preprocessing, O(n) — raz)
+    3. Dla każdego okna: kaskada (Haar + AdaBoost, najczęściej odrzuci w 1-3 etapie)
+    4. NMS na detekcjach → wynik
+
+    Mnemonik pipeline'u: „SIKN" = Sliding → Integral → Kaskada → NMS
+    = „Szybko Identyfikuj Kształty Niezwykłe!"
 
 ---
 
@@ -5843,6 +6647,8 @@ Metody sprzed deep learningu — ręcznie projektowane cechy (features) + klasyc
     Fast R-CNN:  [CNN raz] → [ROI Pool 2000 regionów] → [FC]          = 2s lepiej
     Faster R-CNN:[CNN] → [RPN generuje propozycje] → [ROI Pool] → [FC] = 0.2s!
 
+![Ewolucja detektorów: R-CNN → Faster R-CNN](img/q24_rcnn_evolution.png)
+
 **One-stage detectors (jednoetapowe)** — klasyfikacja i lokalizacja w JEDNYM przejściu.
 
 | Model | Rok | Szybkość | Innowacja |
@@ -5860,13 +6666,7 @@ Metody sprzed deep learningu — ręcznie projektowane cechy (features) + klasyc
 
 **Two-stage vs One-stage:**
 
-    Cecha              Two-stage (Faster R-CNN)    One-stage (YOLO)
-    ─────────────────────────────────────────────────────────────────
-    Szybkość           ~5 fps                      45-155 fps
-    Dokładność (mAP)   wyższa (historycznie)        dorównuje (YOLOv8)
-    Małe obiekty       lepszy                       gorszy (ale SSD/FPN pomaga)
-    Architektura       2 etapy + NMS                1 etap + NMS (DETR: bez NMS)
-    Real-time?         nie                          TAK
+![Two-stage vs One-stage — porównanie](img/q24_two_vs_one_stage.png)
 
 ---
 
@@ -5874,59 +6674,236 @@ Metody sprzed deep learningu — ręcznie projektowane cechy (features) + klasyc
 
 Masz wytrenowany klasyfikator (np. ResNet na ImageNet: obraz → „kot"). Jak go użyć do **lokalizacji** obiektów?
 
-**Podejście 1 — Sliding Window (najwolniejsze):**
+**Mnemonik 3 podejść: „SRF" = „Sliding → Region → Fine-tune" = „Szukaj Ręcznie, Finalnie optymalizuj!"**
 
-    Wytnij okno → klasyfikuj → przesuń → powtórz → NMS
-    Obraz 640×480, okno 64×64, krok 8px, 5 skal:
-    ~240 000 pozycji × 5 skal = ~1 200 000 klasyfikacji!
-    Przy 100 cls/sec → 3.3 godziny na 1 obraz → NIEPRAKTYCZNE
+![Jak zbudować detektor z klasyfikatora? — 3 podejścia](img/q24_detector_from_classifier.png)
 
-**Podejście 2 — Region Proposals + Klasyfikator (szybsze):**
+---
 
-    Selective Search → ~2000 regionów (zamiast milionów)
-    Każdy region → resize → klasyfikator → wynik + NMS
-    Przy 100 cls/sec → 20 sec/obraz → lepiej, ale wciąż wolno
-    To jest dokładnie R-CNN (2014)
+#### Podejście 1 — Sliding Window (najprostsze, NAJWOLNIEJSZE)
 
-**Podejście 3 — Fine-tune backbone + detection head (najlepsze):**
+**Idea:** Wycinaj prostokątne fragmenty obrazu, KAŻDY pokaż klasyfikatorowi, zbierz pozytywne.
 
-    Pretrained classifier (ResNet):  obraz → cechy → FC → "kot"
-    Zamień FC na detection head:
-      obraz → cechy (backbone) → [cls head: P(klasa)]
-                                → [bbox head: Δx, Δy, Δw, Δh]
-    Dotrenuj na danych z bounding boxami (COCO, VOC)
-    = Transfer learning → NAJLEPSZA jakość + szybkość
-    To jest Faster R-CNN, YOLO, SSD — wszystkie używają pretrained backbone!
+**Mnemonik: „WYCINAJ i PYTAJ" — jak wycinanie ciasteczek: koło po kole, aż cały obraz pokryty.**
 
-    Podsumowanie:
-    Sliding Window:    ~milion klasyfikacji → NIEPRAKTYCZNE
-    Region Proposals:  ~2000 klasyfikacji  → wolne ale działa (R-CNN)
-    Fine-tune:         1 przejście sieci   → szybkie i dokładne (Faster R-CNN, YOLO)
+![Sliding Window — najprostsze podejście](img/q24_sliding_window.png)
+
+    Pseudokod:
+    def sliding_window_detect(image, classifier, window_size=64, step=8):
+        detections = []
+        for scale in [0.5, 0.75, 1.0, 1.5, 2.0]:        # 5 skal
+            resized = resize(image, scale)
+            for y in range(0, resized.height - window_size, step):
+                for x in range(0, resized.width - window_size, step):
+                    window = resized[y:y+window_size, x:x+window_size]
+                    label, confidence = classifier.predict(window)
+                    if label != "tło" and confidence > 0.5:
+                        # przelicz współrzędne na oryginał
+                        bbox = (x/scale, y/scale,
+                                (x+window_size)/scale, (y+window_size)/scale)
+                        detections.append((label, bbox, confidence))
+        return nms(detections)   # usuń duplikaty
+
+**Dlaczego wiele skal?** Obiekty mają różne rozmiary — kot blisko = duży, kot daleko = mały. Okno 64×64 nie złapie kota 200×200.
+
+    Obliczenia dla obrazu 640×480:
+    Pozycje na skali 1.0: (640-64)/8 × (480-64)/8 = 72 × 52 = 3 744
+    × 5 skal = 18 720 okien
+    × klasyfikacja ResNet (~10ms/obraz na GPU) = ~3 minuty
+    × na CPU (~100ms/obraz) = ~30 minut na 1 obraz!
+    ⚠ NIEPRAKTYCZNE dla zastosowań real-time
+
+**Wady:** (1) Ekstremalnie wolne. (2) Stały kształt okna — obiekty nie są kwadratowe. (3) ~99.9% okien to „tło" → marnowanie czasu.
+
+---
+
+#### Podejście 2 — Region Proposals + Klasyfikator (= R-CNN)
+
+**Idea:** Zamiast milionów okien, inteligentnie zaproponuj ~2000 regionów, w których MOGĄ być obiekty, i tylko te sklasyfikuj.
+
+**Mnemonik: „INTELIGENTNE CIĘCIE" — zamiast kroić cały tort na milion kawałków, wytnij tylko tam, gdzie widzisz wiśnie (obiekty).**
+
+    Pseudokod (= R-CNN):
+    def region_proposal_detect(image, classifier):
+        # Krok 1: Selective Search — inteligentnie generuj regiony
+        proposals = selective_search(image)    # ~2000 prostokątów
+        detections = []
+
+        # Krok 2: Dla KAŻDEGO regionu — clasificuj
+        for bbox in proposals:                 # ~2000 iteracji (nie milion!)
+            crop = image[bbox]                 # wytnij region
+            crop = resize(crop, 224, 224)      # rozmiar wymagany przez CNN
+            features = cnn_backbone(crop)      # ResNet → wektor 2048 cech
+            label, conf = svm_classify(features)  # SVM: "samochód? kot? tło?"
+            if label != "tło" and conf > 0.5:
+                detections.append((label, bbox, conf))
+
+        # Krok 3: bbox regression — doprecyzuj pozycje
+        for det in detections:
+            det.bbox += bbox_regressor(det.features)  # Δx, Δy, Δw, Δh
+
+        return nms(detections)   # Krok 4: usuń duplikaty
+
+**Dlaczego 2000 a nie milion?** Selective Search łączy podobne fragmenty obrazu (kolor, tekstura) bottom-up. Wynik: ~2000 „mądrych" propozycji, z których ~50% zawiera coś (vs 0.1% w sliding window).
+
+    Porównanie z sliding window:
+    Sliding Window: ~18 000 okien × 10ms = ~3 min
+    Proposals:      ~2 000 regionów × 10ms = ~20 sec ← 9× szybciej
+    ALE wciąż 2000 × forward pass CNN → dlatego powstał Fast R-CNN!
+
+**Wady:** (1) Selective Search jest osobnym algorytmem (nie end-to-end). (2) 2000 × forward pass CNN = wciąż wolno. (3) SVM trenowany OSOBNO od CNN.
+
+---
+
+#### Podejście 3 — Fine-tune backbone + detection head (NAJLEPSZE)
+
+**Idea:** Weź pretrenowany klasyfikator, ODETNIJ głowicę klasyfikacyjną (FC 1000 klas), zastąp ją DWOMA nowymi głowicami: (1) głowica klasyfikacji → klasa obiektu, (2) głowica regresji → pozycja bbox.
+
+**Mnemonik: „PRZESZCZEP GŁOWY" — ten sam silnik (backbone), nowa głowa (detection head).**
+
+    Pseudokod (= Faster R-CNN / YOLO w uproszczeniu):
+    # KROK 1: Weź pretrenowany klasyfikator
+    resnet = load_pretrained("resnet50_imagenet")  # 1000 klas ImageNet
+
+    # KROK 2: Odetnij starą głowicę klasyfikacji
+    backbone = resnet.layers[:-2]    # ZACHOWAJ: Conv1...Conv5 (ekstraktor cech)
+    # WYRZUĆ: FC(1000) + Softmax
+
+    # KROK 3: Dodaj nowe głowice detekcji
+    class DetectionHead:
+        def __init__(self):
+            self.cls_head = Linear(2048, num_classes)    # "samochód? kot? tło?"
+            self.bbox_head = Linear(2048, 4)             # Δx, Δy, Δw, Δh
+
+        def forward(self, features):
+            cls = softmax(self.cls_head(features))       # P(klasa)
+            bbox = self.bbox_head(features)              # przesunięcie bbox
+            return cls, bbox
+
+    # KROK 4: Zamroź backbone, trenuj głowice na danych detekcyjnych
+    for image, gt_boxes, gt_labels in coco_dataset:
+        features = backbone(image)          # pretrenowane cechy (zamrożone)
+        cls, bbox = detection_head(features)
+        loss = cls_loss(cls, gt_labels) + bbox_loss(bbox, gt_boxes)
+        loss.backward()                     # aktualizuj TYLKO detection_head
+
+    # KROK 5 (opcja): Fine-tune — odmroź backbone z MAŁYM learning rate
+    backbone.unfreeze()
+    optimizer = SGD(lr=0.0001)    # 10× mniejszy niż dla głowicy!
+    # trenuj jak w kroku 4, ale teraz backbone też się uczy
+
+**Dlaczego to działa?** Pretrenowany backbone na ImageNet „wie", jak wyglądają krawędzie, tekstury, kształty. Te cechy są UNIWERSALNE — przydają się zarówno do klasyfikacji „złota rybka vs samolot" jak i do detekcji „samochód na zdjęciu z drona".
+
+    Transfer learning w liczbach:
+    Trenowanie od zera na COCO (330K obrazów):     ~12h na 8×V100 GPU
+    Fine-tune pretrained ResNet-50:                ~4h na 8×V100 GPU ← 3× szybciej!
+    Fine-tune osiąga mAP ~42%, od zera ~38%        ← lepsze wyniki!
+
+**Pełny przykład w PyTorch (Faster R-CNN z pretrained backbone):**
+
+    import torchvision
+    from torchvision.models.detection import fasterrcnn_resnet50_fpn
+
+    # Gotowy detektor z pretrained backbone!
+    model = fasterrcnn_resnet50_fpn(pretrained=True)
+
+    # Custom: zmiana na 5 klas (zamiast 91 COCO)
+    num_classes = 5  # 4 obiekty + tło
+    in_features = model.roi_heads.box_predictor.cls_score.in_features
+    model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
+
+    # Trening:
+    model.train()
+    for images, targets in dataloader:
+        loss_dict = model(images, targets)  # cls_loss + bbox_loss
+        total_loss = sum(loss_dict.values())
+        total_loss.backward()
+        optimizer.step()
+
+    # Inferencja:
+    model.eval()
+    predictions = model([test_image])
+    # predictions = [{'boxes': tensor, 'labels': tensor, 'scores': tensor}]
+    # boxes = [[x1,y1,x2,y2], ...], labels = [1, 3, ...], scores = [0.95, 0.88, ...]
+
+---
+
+#### Podsumowanie — porządek od NAJGORSZEGO do NAJLEPSZEGO:
+
+    Podejście          Okien      Czas/obraz    Jakość     Rok     Przykład
+    ──────────────────────────────────────────────────────────────────────────
+    Sliding Window     ~milion    ~30 min       niska      -       (teoria)
+    Region Proposals   ~2000     ~20-50 sec     średnia    2014    R-CNN
+    Fine-tune + RPN    ~300      ~0.2 sec       wysoka     2015    Faster R-CNN
+    One-stage          1×siatka  ~7-22 ms       wysoka     2016+   YOLO, SSD
+    Transformer        N queries  ~25 ms        wysoka     2020    DETR
+
+    Mnemonik porządku: „SRFTD" = „Sliding → Region → Fine-tune → Transformer → (Done!)"
+    = „Szukaj Ręcznie, Finalnie Transformer (Detekuje!)"
 
 ---
 
 ### NMS (Non-Maximum Suppression) — post-processing
 
+![NMS — usuwanie duplikatów](img/q24_nms_steps.png)
+
     Detektor generuje WIELE nakładających się bbox dla jednego obiektu:
     [bbox1, 0.95], [bbox2, 0.90], [bbox3, 0.85] — wszystkie na tym samym kocie
 
-    Algorytm NMS:
-    1. Sortuj po confidence: [0.95, 0.90, 0.85]
-    2. Weź najlepszą (0.95) → ZACHOWAJ
-    3. Oblicz IoU z resztą: IoU(bbox1,bbox2)=0.82, IoU(bbox1,bbox3)=0.75
-    4. Usuń te z IoU > próg (0.5): usuń bbox2 i bbox3
-    5. Powtórz dla następnej najlepszej
-    Wynik: 1 bbox per obiekt
+    Pseudokod NMS:
+    def nms(detections, iou_threshold=0.5):
+        detections.sort(by=confidence, descending=True)
+        keep = []
+        while detections:
+            best = detections.pop(0)        # weź najlepszą
+            keep.append(best)               # ZACHOWAJ
+            detections = [d for d in detections
+                          if iou(best, d) < iou_threshold]  # usuń nakładające
+        return keep
+
+    Krok po kroku (przykład):
+    1. Sortuj: [0.95, 0.90, 0.85, 0.40]
+    2. Weź bbox₁ (0.95) → ZACHOWAJ
+    3. IoU(bbox₁, bbox₂) = 0.82 > 0.5 → USUŃ (duplikat!)
+       IoU(bbox₁, bbox₃) = 0.75 > 0.5 → USUŃ (duplikat!)
+       IoU(bbox₁, bbox₄) = 0.10 < 0.5 → ZACHOWAJ (INNY obiekt!)
+    4. Wynik: [bbox₁, bbox₄] — 2 unikalne obiekty
+
+![IoU (Intersection over Union)](img/q24_iou_diagram.png)
+
+    Mnemonik NMS: „Najlepszy Ma Się dobrze" — zachowaj najlepszą, resztę wyrzuć
+    Mnemonik IoU: „Ile pokrycia Ustalono?" — pole(∩) / pole(A∪B)
 
 ### Etymologia
 
-**YOLO** — You Only Look Once (Joseph Redmon et al., 2016). **R-CNN** — Region-based CNN (Ross Girshick, 2014). **HOG** — Histogram of Oriented Gradients (Dalal & Triggs, 2005). **SVM** — Support Vector Machine (Vapnik, 1995). **Viola-Jones** — Paul Viola + Michael Jones (2001). **DETR** — DEtection TRansformer (Facebook AI, 2020). **SSD** — Single Shot MultiBox Detector (Liu et al., 2016). **NMS** — Non-Maximum Suppression; tłumienie nie-maksymalnych detekcji.
+**CNN** — Convolutional Neural Network (sieć z konwolucjami). **YOLO** — You Only Look Once (Joseph Redmon et al., 2016). **R-CNN** — Region-based CNN (Ross Girshick, 2014). **HOG** — Histogram of Oriented Gradients (Dalal & Triggs, 2005). **SVM** — Support Vector Machine (Vapnik, 1995). **Viola-Jones** — Paul Viola + Michael Jones (2001). **DETR** — DEtection TRansformer (Facebook AI, 2020). **SSD** — Single Shot MultiBox Detector (Liu et al., 2016). **NMS** — Non-Maximum Suppression; tłumienie nie-maksymalnych detekcji. **ROI** — Region of Interest (region zainteresowania). **RPN** — Region Proposal Network (sieć propozycji regionów). **FPN** — Feature Pyramid Network (piramida cech). **IoU** — Intersection over Union (przecięcie przez sumę). **FC** — Fully Connected (w pełni połączona). **ReLU** — Rectified Linear Unit (wyprostowana jednostka liniowa). **mAP** — mean Average Precision (średnia precyzja).
 
 ### Jak zapamiętać
 
-- **YOLO = „You Only Look Once"** — jednoetapowy, szybki
+- **CNN = „Czytaj Nie Naraz"** — małe filtry 3×3 przesuwane po obrazie, nie cały obraz naraz
+- **Hierarchia CNN: „K-R-F-O" = „Każdy Rycerz Znajduje Obiekt"** — Krawędzie → Rogi → Fragmenty → Obiekty
+- **FC = „Full Connection"** — każdy z każdym, warstwa decyzyjna na końcu CNN
+- **Backbone = SILNIK samochodu** — ten sam silnik (ResNet), różne karoserie (klasyfikacja/detekcja/segmentacja)
+- **Backbone'y: A→V→R = „Architektura Bardzo Rezylientna"** — AlexNet (2012) → VGG (2014) → ResNet (2015)
+- **Transfer learning = „PRZESZCZEP GŁOWY"** — nie ucz się od zera, przenieś wiedzę z ImageNet, zmień głowicę
+- **HOG kroki: „GOKBN" = „Grasz Ostro, Kumplu? Bądź Naturalny"** — Gradienty → Orientacja → Komórki → Bloki → Normalizacja
+- **SVM = „LINIA MAKSYMALNEGO ODDECHU"** — margines jak most: im szerszy, tym bezpieczniej
+- **Viola-Jones: „HIC" = Haar + Integral Image + Cascade**
+- **Haar = „Hej, A tu jest Różnica?"** — porównuje jasne i ciemne prostokąty
+- **Integral Image = „4 Odczyty I Gotowe" (4OIG)** — suma dowolnego prostokąta O(1)
+- **Kaskada = „SITO"** — piach odpada wcześnie, złoto (twarz) zostaje na końcu
+- **Viola-Jones pipeline: „SIKN" = „Szybko Identyfikuj Kształty Niezwykłe"** — Sliding → Integral → Kaskada → NMS
+- **AdaBoost = „ADAptacyjnie BOOSTuj"** — słabe modele razem = silny
+- **Selective Search** — inteligentne łączenie regionów zamiast milionów okien
+- **ROI Pooling** — dowolny rozmiar → stały rozmiar (siatkowanie + max)
+- **Bbox regression = „GPS korekta"** — popraw przybliżoną pozycję o Δx, Δy, Δw, Δh
+- **Ewolucja R-CNN: „CORAZ MNIEJ MARNOWANIA"** — R-CNN (50s) → Fast (2s) → Faster (0.2s)
+- **YOLO = „You Only Look Once"** — jednoetapowy, szybki, siatka S×S
 - **Faster R-CNN = CNN + RPN + ROI Pool** — dwuetapowy, dokładny
-- **Detektor z klasyfikatora:** sliding window (wolno) → proposals (lepiej) → fine-tune backbone (najlepiej)
+- **NMS = „Najlepszy Ma Się dobrze"** — zachowaj najlepszą detekcję, usuń duplikaty
+- **IoU = „Ile pokrycia Ustalono?"** — pole(∩) / pole(A∪B)
+- **DETR = „Detekcja Eliminująca Trikowe Redundancje"** — bez NMS, bez anchorów, transformer
+- **Detektor z klasyfikatora: „SRF" = „Szukaj Ręcznie, Finalnie optymalizuj!"** — Sliding Window (wolno) → Region Proposals (lepiej) → Fine-tune backbone (najlepiej)
 
 \newpage
 
@@ -6489,15 +7466,16 @@ Nadawca kopiuje dane do wcześniej zaalokowanego bufora i wraca natychmiast. Rec
     │                         → NIE → wróć do 1│
     └──────────────────────────────────────────┘
 
-**Metody interaktywne (interactive methods)** — konkretne algorytmy realizujące interaktywne wspomaganie decyzji. W kontekście tego pytania są to: metoda loterii (wyznaczanie funkcji użyteczności U(x) przez pytania o loterie), metoda certainty equivalent (wyznaczanie ekwiwalentu pewności), AHP (porównania parami), PROMETHEE i ELECTRE (metody outranking). Każda z nich wymaga od decydenta ODPOWIEDZI na pytania — to czyni je interaktywnymi.
+**Metody interaktywne (interactive methods)** — konkretne algorytmy realizujące interaktywne wspomaganie decyzji. W kontekście tego pytania są to KRYTERIA DECYZYJNE stosowane gdy decydent nie zna prawdopodobieństw stanów natury (lub je zakłada). Interaktywność polega na tym, że decydent WYBIERA kryterium (a w przypadku Hurwicza — także parametr α), co wymaga dialogu o jego postawie wobec ryzyka.
 
-    Metoda            Jakie pytania zadaje decydentowi?
+    Kryterium         Pytanie do decydenta / założenie
     ──────────────────────────────────────────────────────────────────
-    Loteria           „Wolisz X na pewno, czy loterię (p: best, 1-p: worst)?"
-    CE                „Ile na pewno = ta loteria?"
-    AHP               „Ile razy kryterium A ważniejsze od B?" (skala 1-9)
-    PROMETHEE         „Jak ważne jest każde kryterium?" (wagi)
-    ELECTRE           „Jaki próg zgody/sprzeciwu?"
+    Wart. oczekiwana  „Znasz prawdopodobieństwa stanów?" (potrzebne p)
+    Laplace'a         „Każdy stan natury równie prawdopodobny" (założenie)
+    Optymistyczne     „Zawsze liczysz na najlepszy scenariusz?" (postawa)
+    Pesymistyczne     „Chcesz zabezpieczyć się przed najgorszym?" (postawa)
+    Hurwicza          „Podaj swój współczynnik optymizmu α ∈ [0,1]" (parametr)
+    Savage'a          „Chcesz minimalizować żal z podjętej decyzji?" (postawa)
 
 ---
 
@@ -6509,101 +7487,234 @@ Nadawca kopiuje dane do wcześniej zaalokowanego bufora i wraca natychmiast. Rec
 
 Przykład ryzyka: „Z 60% szansą zysk 100 zł, z 40% strata 50 zł." Przykład niepewności: „Możemy zyskać lub stracić, ale nie wiemy ile i z jakim prawdopodobieństwem."
 
----
-
-**Decydent (decision maker)** — osoba lub podmiot, który musi wybrać jedną z dostępnych alternatyw. Metody interaktywne wymagają dialogu z decydentem — pytamy go o preferencje, zamiast zakładać je z góry.
-
-**Funkcja użyteczności U(x) (utility function)** — matematyczne przypisanie „wartości subiektywnej" do wyniku. Dla kogoś, kto boi się ryzyka, różnica między 0 a 1000 zł jest bardziej odczuwalna niż między 9000 a 10000 zł.
-
-    U(x)
-    │      ╭──────── wklęsła (risk-averse)
-    │    ╱╱
-    │  ╱╱
-    │╱╱
-    └──────────── x (pieniądze)
-
-**Risk averse (awersja do ryzyka)** — decydent preferuje pewne wyniki nad ryzykowne loterie o tej samej wartości oczekiwanej. Funkcja U jest **wklęsła** (concave): U''(x) < 0.
-
-    Loteria: 50% szans na 0 zł, 50% na 100 zł → E[X] = 50 zł
-    Risk-averse: „Wolę 50 zł na pewno" (a nawet 40 zł na pewno!)
-
-**Risk neutral (neutralność)** — U jest liniowa. Decydentowi jest obojętne czy dostanie E[X] na pewno, czy zagra w loterię.
-
-**Risk seeking (skłonność do ryzyka)** — U jest **wypukła** (convex). Decydent woli ryzyko niż pewny E[X]. „Wolę zagrać niż dostać pewniaka."
+![Warunki decyzyjne — spektrum wiedzy decydenta](img/q31_conditions_spectrum.png)
 
 ---
 
-**Loteria (lottery)** — formalizacja decyzji ryzykownej: zbiór wyników z ich prawdopodobieństwami. Notacja L = (p: best, 1-p: worst).
+**Decydent (decision maker)** — osoba lub podmiot, który musi wybrać jedną z dostępnych alternatyw. Metody interaktywne wymagają dialogu z decydentem — pytamy go o postawę wobec ryzyka (optymista? pesymista?) i ew. parametry (α Hurwicza).
 
-    L = (0.6: 100 zł,  0.4: 0 zł)
-    E[L] = 0.6 × 100 + 0.4 × 0 = 60 zł
+**Stan natury (state of nature)** — scenariusz/sytuacja zewnętrzna, na którą decydent NIE ma wpływu. Np. pogoda, koniunktura gospodarcza, zachowanie konkurencji. Oznaczamy S₁, S₂, …, Sₙ.
 
-**Metoda loterii (lottery method)** — technika wyznaczania U(x) przez zadawanie pytań decydentowi. Ustalamy U(worst)=0, U(best)=1 i szukamy „indifference point" — prawdopodobieństwa p*, przy którym decydent jest obojętny między pewną kwotą a loterią.
+    Stany natury: S₁ = „dobra koniunktura", S₂ = „zła koniunktura"
+    Decydent NIE wybiera stanu — stan „się zdarza".
 
-    Pyt: „Wolisz 500 zł na pewno, czy loterię (p: 1000 zł, 1-p: 0 zł)?"
-    Jeśli punkt obojętności p* = 0.7 → U(500) = 0.7
-    (Risk-neutral dałby p*=0.5, bo 500/1000=0.5)
+**Macierz wypłat (payoff matrix)** — tabela, w której wiersze = alternatywy (decyzje), kolumny = stany natury, a komórki = wyniki (wypłaty). To podstawowa struktura danych dla WSZYSTKICH kryteriów decyzyjnych.
 
-**Certainty Equivalent (CE, ekwiwalent pewności)** — pewna kwota, która jest dla decydenta równoważna danej loterii.
+    Przykład — macierz wypłat (zyski w tys. zł):
+                  S₁ (dobra)    S₂ (średnia)   S₃ (zła)
+    ─────────────────────────────────────────────────────
+    A₁ (fabryka)     200           50            −100
+    A₂ (sklep)        80           70              40
+    A₃ (obligacje)    30           30              30
 
-    Loteria: 50/50 zysk 100 zł lub 0 zł → E[X] = 50 zł
-    Decydent risk-averse: CE = 35 zł (wolałby 35 zł na pewno niż grać)
-    Risk premium = E[X] − CE = 50 − 35 = 15 zł
+    A₁ może dać 200k, ale też stratę 100k.
+    A₃ daje 30k niezależnie od stanu → decyzja bezpieczna.
 
-**Wartość oczekiwana E[X] (expected value)** — średni wynik loterii ważony prawdopodobieństwami.
+**Wartość oczekiwana E[X] (expected value)** — średni wynik ważony prawdopodobieństwami stanów natury. Używana w kryterium wartości oczekiwanej (gdy znamy prawdopodobieństwa) i w kryterium Laplace'a (z równymi prawdopodobieństwami).
 
     E[X] = Σ pᵢ × xᵢ
-    Dla L = (0.3: 100, 0.7: 20): E[X] = 0.3×100 + 0.7×20 = 44
+
+    Przykład z PRAWDZIWYMI prawdopodobieństwami (p₁=0.5, p₂=0.3, p₃=0.2):
+    E[A₁] = 0.5×200 + 0.3×50 + 0.2×(−100) = 100 + 15 − 20 = 95  ← MAX
+    E[A₂] = 0.5×80  + 0.3×70 + 0.2×40     = 40 + 21 + 8   = 69
+    E[A₃] = 0.5×30  + 0.3×30 + 0.2×30     = 15 + 9 + 6    = 30
+
+    Dla Laplace'a (równe prawdopodobieństwa, p₁ = p₂ = p₃ = 1/3):
+    E[A₁] = (200 + 50 + (−100)) / 3 = 150/3 = 50
+    E[A₂] = (80 + 70 + 40) / 3 = 190/3 ≈ 63.3  ← najlepsza wg Laplace'a
+    E[A₃] = (30 + 30 + 30) / 3 = 30
+
+**Kryterium wartości oczekiwanej (expected value criterion)** — NAJPROSTSZA metoda decyzyjna W WARUNKACH RYZYKA (gdy znamy prawdopodobieństwa). Oblicz E[Aᵢ] = Σⱼ pⱼ × aᵢⱼ dla każdej alternatywy i wybierz tę z NAJWYŻSZĄ wartością oczekiwaną.
+
+    Formuła: V(Aᵢ) = Σⱼ pⱼ × aᵢⱼ    →    wybierz Aᵢ z max V(Aᵢ)
+
+    Przykład (p₁=0.5, p₂=0.3, p₃=0.2):
+    V(A₁) = 0.5×200 + 0.3×50 + 0.2×(−100) = 95  ← MAX → wybieramy A₁
+    V(A₂) = 0.5×80  + 0.3×70 + 0.2×40     = 69
+    V(A₃) = 0.5×30  + 0.3×30 + 0.2×30     = 30
+
+    Kluczowa różnica od Laplace'a:
+    - Laplace: ZAKŁADA p = 1/n (bo nie znamy prawdopodobieństw)
+    - Wart. oczekiwana: UŻYWA PRAWDZIWYCH p (bo je znamy!)
+
+    Przykład życiowy: firma rozważa inwestycję
+    - Analityk oszacował: P(boom) = 50%, P(stabilna) = 30%, P(kryzys) = 20%
+    - Fabryka wygrywa (E=95k), bo wysoki zysk w boomie (200k) × duże p (50%)
+      przeważa nad stratą w kryzysie (−100k) × małe p (20%)
+
+    Ograniczenie: E[X] ignoruje ROZRZUT wyników! A₁ ma E=95k, ale może
+    dać −100k. Decydent z awersją do ryzyka może wolę A₂ (E=69k, ale
+    minimum 40k). Dlatego sam E[X] nie wystarczy — potrzeba też analizy
+    ryzyka (np. wariancji, worst-case).
+
+    Mnemonik: „Średnia ważona — jak średnia ocen"
+    Wynik × prawdopodobieństwo = waga.
+    Sumuj wagi → E[X]. Jak w dzienniku: 5×0.3 + 4×0.5 + 2×0.2 = 3.9
+
+![Kryterium wartości oczekiwanej — rozkład wyników](img/q31_expected_value.png)
 
 ---
 
-**AHP (Analytic Hierarchy Process)** — metoda Saaty'ego do wyboru najlepszej alternatywy gdy mamy wiele kryteriów. Rozbija problem na hierarchię: Cel → Kryteria → Alternatywy.
+**Kryterium decyzyjne (decision criterion)** — reguła/algorytm, który z macierzy wypłat wyznacza „najlepszą" alternatywę. Każde kryterium odzwierciedla INNĄ postawę decydenta wobec ryzyka. Dlatego to samo zadanie może dać INNE odpowiedzi zależnie od wybranego kryterium — i to jest OK.
 
-    Cel: Wybierz samochód
-    ├── Kryterium: Cena
-    │   ├── Auto A, Auto B, Auto C
-    ├── Kryterium: Komfort
-    │   ├── Auto A, Auto B, Auto C
-    └── Kryterium: Spalanie
-        ├── Auto A, Auto B, Auto C
+    Te same dane, różne kryteria → różne „najlepsze" decyzje:
+    Kryterium          Wygrywa     Dlaczego?
+    ─────────────────────────────────────────────────────
+    Wart. oczekiwana   A₁ (95)     najwyższa E[X] z prawdziwymi p
+    Laplace            A₂ (≈63)    najwyższa średnia (równe p)
+    Optymistyczne      A₁ (200)    najwyższy max
+    Pesymistyczne      A₂ (40)     najwyższy min (bezpieczne)
+    Hurwicz (α=0.6)    A₁ (80)     kompromis
+    Savage             A₂ (120)    najniższy max żalu
 
-**Porównania parami (pairwise comparisons)** — w AHP porównujemy każdą parę kryteriów/alternatyw i oceniamy na skali 1-9 Saaty'ego:
+![Porównanie kryteriów — macierz wypłat i wykresy](img/q31_criteria_comparison.png)
 
-    1 = równe znaczenie
-    3 = umiarkowana przewaga
-    5 = silna przewaga
-    7 = bardzo silna
-    9 = absolutna przewaga
+**Kryterium Laplace'a (Laplace criterion / principle of insufficient reason)** — zakładamy, że WSZYSTKIE stany natury są RÓWNIE PRAWDOPODOBNE (bo nie mamy powodu faworyzować żadnego). Obliczamy średnią arytmetyczną wypłat dla każdej alternatywy i wybieramy najwyższą.
 
-    Macierz 3×3 (Cena vs Komfort vs Spalanie):
-           Cena  Komf  Spal
-    Cena  [ 1     3     5  ]
-    Komf  [ 1/3   1     2  ]
-    Spal  [ 1/5   1/2   1  ]
+    Formuła: V(Aᵢ) = (1/n) × Σⱼ aᵢⱼ    (n = liczba stanów natury)
 
-**Eigenvalue (wartość własna)** — z macierzy porównań wyznaczamy wektor własny → wagi kryteriów. To serce AHP: macierz parami → ranking numeryczny.
+    Przykład z macierzy powyżej (n=3):
+    V(A₁) = (200 + 50 + (−100)) / 3 = 50.0
+    V(A₂) = (80 + 70 + 40) / 3       = 63.3  ← MAX → wybieramy A₂
+    V(A₃) = (30 + 30 + 30) / 3       = 30.0
 
-**Consistency Ratio (CR)** — miara spójności ocen decydenta. Jeśli A>B i B>C, ale C>A, to niespójne. CR < 0.1 = akceptowalne. CR ≥ 0.1 → decydent powinien poprawić oceny.
+    Interaktywność: decydent musi zaakceptować założenie równych
+    prawdopodobieństw — „Czy zgadzasz się, że każdy scenariusz
+    jest tak samo możliwy?"
+
+    Przykład życiowy: wybieram restaurację w nieznanym mieście.
+    Nie wiem, która dobra — traktuję je „po równo" i porównuję
+    średnią ocen z 3 portali (każdy portal = stan natury z p=1/3).
+
+    Mnemonik: „Laplace = Loteria — Losowe, ALE Po równo"
+
+**Kryterium optymistyczne (maximax / optimistic criterion)** — decydent-OPTYMISTA: dla każdej alternatywy bierzemy NAJLEPSZY możliwy wynik (max w wierszu), potem wybieramy alternatywę z najwyższym z tych maksimów.
+
+    Formuła: V(Aᵢ) = maxⱼ aᵢⱼ    →    wybierz Aᵢ z max V(Aᵢ)
+
+    max(A₁) = max(200, 50, −100) = 200  ← MAX → wybieramy A₁
+    max(A₂) = max(80, 70, 40)    = 80
+    max(A₃) = max(30, 30, 30)    = 30
+
+    A₁ wygrywa — optymista liczy na najlepszy scenariusz (200k).
+    Ryzyko: jeśli S₃, to strata −100k!
+
+    Przykład życiowy: gracz w pokera, który zawsze idzie all-in,
+    bo „może trafię straight flush". Patrzy TYLKO na najlepsze
+    możliwe rozdanie. Ignoruje szansę przegranej.
+
+    Mnemonik: „Maximax = Marzyciel — Max z Max, bo MARZĘ o najlepszym"
+
+**Kryterium pesymistyczne (maximin / Wald criterion)** — decydent-PESYMISTA: dla każdej alternatywy bierzemy NAJGORSZY możliwy wynik (min w wierszu), potem wybieramy alternatywę z najwyższym z tych minimów. Zabezpieczamy się przed najgorszym scenariuszem.
+
+    Formuła: V(Aᵢ) = minⱼ aᵢⱼ    →    wybierz Aᵢ z max V(Aᵢ)
+
+    min(A₁) = min(200, 50, −100) = −100
+    min(A₂) = min(80, 70, 40)    = 40
+    min(A₃) = min(30, 30, 30)    = 30
+
+    max{−100, 40, 30} = 40 → wybieramy A₂
+    Pesymista: „Nawet w najgorszym razie dostanę 40k" (A₂ jest bezpieczna).
+
+    Przykład życiowy: jadąc na wakacje, pesymista wybiera hotel z gwarancją
+    zwrotu, bo „a jeśli będzie brzydka pogoda?". Woli gwarantowany minimum
+    komfort niż ryzykować. Ubezpieczenia działają na tej zasadzie.
+
+    Mnemonik: „Maximin = Mur obronny — buduję MUR pod MINimum, bo zawsze
+    zakładam NAJGORSZE (Wald = Wall = Mur)"
+
+**Kryterium Hurwicza (Hurwicz criterion)** — kompromis między optymizmem a pesymizmem. Decydent podaje współczynnik optymizmu α ∈ [0, 1], gdzie α = 1 to pełny optymista, α = 0 to pełny pesymista.
+
+    Formuła: V(Aᵢ) = α × maxⱼ aᵢⱼ + (1−α) × minⱼ aᵢⱼ
+
+    Dla α = 0.6:
+    V(A₁) = 0.6×200 + 0.4×(−100) = 120 − 40 = 80
+    V(A₂) = 0.6×80  + 0.4×40     = 48 + 16  = 64
+    V(A₃) = 0.6×30  + 0.4×30     = 18 + 12  = 30
+
+    max{80, 64, 30} = 80 → A₁ wygrywa dla α=0.6.
+
+    Dla α = 0.3 (bardziej pesymistyczny):
+    V(A₁) = 0.3×200 + 0.7×(−100) = 60 − 70 = −10
+    V(A₂) = 0.3×80  + 0.7×40     = 24 + 28 = 52  ← teraz A₂!
+    V(A₃) = 0.3×30  + 0.7×30     = 9 + 21  = 30
+
+    → Zmiana α zmienia wynik! Dlatego TO kryterium jest najbardziej
+      interaktywne — decydent MUSI podać swoje α w dialogu.
+
+    Przypadki specjalne:
+    α = 1 → kryterium optymistyczne (maximax)
+    α = 0 → kryterium pesymistyczne (maximin)
+
+    Przykład życiowy: kupujesz akcje. Z α=0.8 (optymista) patrzysz głównie
+    na potencjalny zysk. Z α=0.2 (pesymista) prawie tylko na potencjalną
+    stratę. α to „pokrętło optymizmu" — kręcisz i widzisz jak zmienia
+    się rekomendacja.
+
+    Mnemonik: „Hurwicz = Huśtawka — huśtasz się między max a min,
+    α mówi jak daleko w stronę max się wychylasz"
+
+![Kryterium Hurwicza — wpływ α na wybór](img/q31_hurwicz_alpha.png)
+
+**Współczynnik optymizmu α (optimism coefficient)** — parametr Hurwicza z przedziału [0, 1]. Wyraża postawę decydenta: α bliskie 1 = optymista (wierzy w dobre scenariusze), α bliskie 0 = pesymista.
+
+    α = 1.0 → patrzę tylko na max → maximax
+    α = 0.5 → równa waga max i min
+    α = 0.0 → patrzę tylko na min → maximin
 
 ---
 
-**PROMETHEE (Preference Ranking Organization METHod for Enrichment Evaluations)** — metoda porównująca alternatywy parami per kryterium za pomocą funkcji preferencji. Wynik: przepływy (flows).
+**Macierz żalu / macierz strat (regret matrix)** — tabela, w której każda komórka zawiera ŻALE (regret) = ile TRACĘ wybierając daną alternatywę zamiast najlepszej w danym stanie natury.
 
-    Φ⁺(a) = outgoing flow = „o ile a jest lepsze od reszty" (siła)
-    Φ⁻(a) = incoming flow = „o ile reszta jest lepsza od a" (słabość)
-    Φ(a) = Φ⁺(a) − Φ⁻(a) = net flow → im wyższe, tym lepsza alternatywa
+    Obliczanie: rᵢⱼ = maxₖ aₖⱼ − aᵢⱼ  (max w kolumnie minus wartość w komórce)
 
-**ELECTRE (ÉLimination Et Choix Traduisant la REalité)** — metoda outranking: A przewyższa B (A S B) gdy:
+    Macierz wypłat:              Macierz żalu:
+              S₁    S₂    S₃              S₁    S₂    S₃    max żalu
+    A₁       200    50   −100    A₁        0     20    140     140
+    A₂        80    70     40    A₂      120      0      0     120  ← MIN
+    A₃        30    30     30    A₃      170     40     10     170
 
-1. **Concordance (zgoda):** wystarczająco dużo kryteriów popiera A nad B
-2. **Discordance (sprzeciw):** żadne kryterium nie daje B drastycznej przewagi nad A
+    maxₖ aₖ₁ = 200, maxₖ aₖ₂ = 70, maxₖ aₖ₃ = 40
+    r₁₁ = 200−200 = 0,   r₁₂ = 70−50 = 20,  r₁₃ = 40−(−100) = 140
+    r₂₁ = 200−80 = 120,  r₂₂ = 70−70 = 0,   r₂₃ = 40−40 = 0
+    r₃₁ = 200−30 = 170,  r₃₂ = 70−30 = 40,  r₃₃ = 40−30 = 10
 
-    Cecha         AHP              PROMETHEE         ELECTRE
-    ──────────────────────────────────────────────────────────
-    Input         parami (skala)   per-kryterium     per-kryterium
-    Wynik         wagi + ranking   przepływy Φ       relacja outranking
-    Typ           kompensacyjna    częściowo komp.   niekompensacyjna
-    Sens          wartość globalna przepływ netto     eliminacja słabych
+**Kryterium Savage'a (minimax regret / Savage criterion)** — minimalizacja MAKSYMALNEGO ŻALU. Dla każdej alternatywy znajdujemy największy żal (max w wierszu macierzy żalu), potem wybieramy alternatywę z NAJMNIEJSZYM max żalem.
+
+    Formuła: V(Aᵢ) = maxⱼ rᵢⱼ    →    wybierz Aᵢ z min V(Aᵢ)
+
+    max żalu(A₁) = max(0, 20, 140)  = 140
+    max żalu(A₂) = max(120, 0, 0)   = 120  ← MIN → wybieramy A₂
+    max żalu(A₃) = max(170, 40, 10) = 170
+
+    Interpretacja: „Niezależnie co się zdarzy, mój żal nie przekroczy 120k"
+    (gdybym wybrał A₁, mógłbym żałować aż 140k; A₃ → aż 170k).
+
+    Przykład życiowy: wybieram studia. Po 5 latach zobaczę, jaki zawód
+    najlepiej zarabia. Żal = „ile bym zarobił na najlepszych studiach
+    minus ile zarabiam". Savage minimalizuje ten maksymalny żal —
+    wybieram studia, po których NIGDY nie będę żałować za bardzo.
+
+    Mnemonik: „Savage = Szał żalu — Savage to dziki (savage) żal,
+    więc go minimalizuję. Min z max żalu = trzymam żal na smyczy."
+
+![Kryterium Savage'a — budowa macierzy żalu](img/q31_regret_matrix.png)
+
+---
+
+**Porównanie kryteriów — tabela zbiorcza:**
+
+    Kryterium       Postawa         Formuła               Wymaga od decydenta
+    ──────────────────────────────────────────────────────────────────────────────
+    Wart. oczekiw.  racjonalna      Σ pⱼ·aᵢⱼ              podanie prawdopodobieństw
+    Laplace         neutralna       średnia wypłat         akceptacja równych p
+    Optymistyczne   optymista       max z max              nic (automatyczne)
+    Pesymistyczne   pesymista       max z min              nic (automatyczne)
+    Hurwicza        kompromis       α·max + (1−α)·min      podanie α ∈ [0,1]
+    Savage'a        minimalizacja   min z max żalu          nic (automatyczne)
+                    żalu
+
+![Mapa mnemoniczna — wszystkie kryteria](img/q31_criteria_mnemonic.png)
 
 ---
 
@@ -6611,31 +7722,32 @@ Przykład ryzyka: „Z 60% szansą zysk 100 zł, z 40% strata 50 zł." Przykład
 
 ### Interaktywność = dialog z decydentem → odkrycie preferencji (funkcji użyteczności)
 
-### Metody
+### Metody (kryteria decyzyjne)
 
-**1. Metoda loterii:** Ustal U(worst)=0, U(best)=1. Pytaj: „Wolisz x_mid na pewno, czy loterię (p: best, 1-p: worst)?" Punkt obojętności p* = U(x_mid).
+**0. Kryterium wartości oczekiwanej (E[X]):** WYMAGA prawdopodobieństw stanów (warunki RYZYKA). Oblicz E[Aᵢ] = Σⱼ pⱼ·aᵢⱼ. Wybierz max. Ograniczenie: ignoruje rozrzut/ryzyko.
 
-**2. Certainty Equivalent (CE):** CE(L) = pewna kwota równoważna loterii L.
-- CE < E[X] → risk averse (wklęsła U)
-- CE = E[X] → risk neutral
-- CE > E[X] → risk seeking
-- Risk Premium = E[X] − CE
+**1. Kryterium Laplace'a:** Załóż równe prawdopodobieństwa stanów (warunki NIEPEWNOŚCI). Oblicz średnią wypłat per alternatywa. Wybierz max średniej. Formuła: V(Aᵢ) = (1/n) × Σⱼ aᵢⱼ.
 
-**3. AHP (Analytic Hierarchy Process):** Hierarchia: Cel → Kryteria → Alternatywy. Porównania parami (skala 1-9) → eigenvalue → wagi. Consistency Ratio CR < 0.1.
+**2. Kryterium optymistyczne (maximax):** Dla każdej alternatywy weź max wypłatę. Wybierz alternatywę z max z tych max. Formuła: max maxⱼ aᵢⱼ.
 
-**4. PROMETHEE:** Funkcje preferencji per kryterium; agregacja; przepływy Φ⁺, Φ⁻, Φ (net); ranking.
+**3. Kryterium pesymistyczne (maximin / Walda):** Dla każdej alternatywy weź min wypłatę. Wybierz alternatywę z max z tych min. Formuła: max minⱼ aᵢⱼ.
 
-**5. ELECTRE:** Concordance (zgoda) + Discordance (sprzeciw) → outranking aSb.
+**4. Kryterium Hurwicza:** Kompromis: V(Aᵢ) = α × maxⱼ aᵢⱼ + (1−α) × minⱼ aᵢⱼ. Decydent podaje α ∈ [0,1]. α=1 → maximax, α=0 → maximin.
+
+**5. Kryterium Savage'a (minimax regret):** Zbuduj macierz żalu (rᵢⱼ = maxₖ aₖⱼ − aᵢⱼ). Dla każdej alternatywy weź max żal. Wybierz alternatywę z min max żalu.
 
 ### Etymologia
 
-**AHP** — Thomas Saaty (U. of Pittsburgh, 1970s); Analytic Hierarchy Process. **PROMETHEE** — Preference Ranking Organization METHod for Enrichment Evaluations (Jean-Pierre Brans, 1982). **ELECTRE** — ÉLimination Et Choix Traduisant la REalité (Bernard Roy, 1965) = „Eliminacja i Wybór Odzwierciedlający Rzeczywistość". **Certainty Equivalent** — z teorii użyteczności von Neumanna-Morgensterna (1944). **Funkcja użyteczności** — Daniel Bernoulli (1738) wprowadził koncepcję; vN-M sformalizowali aksjomatycznie.
+**Wartość oczekiwana** — pojęcie z XVII w., Blaise Pascal i Pierre de Fermat (1654), formalizacja hazardu; „ile przeciętnie wygrasz?". **Laplace** — Pierre-Simon de Laplace (1749–1827), francuski matematyk; zasada niedostatecznej racji (principle of insufficient reason) — jeśli nie mamy powodu faworyzować żadnego stanu, traktujemy je jako równie prawdopodobne. **Wald** — Abraham Wald (1902–1950), matematyk z Wiednia; kryterium maximin = strategia minimax z teorii gier. **Hurwicz** — Leonid Hurwicz (1917–2008), laureat Nobla z ekonomii 2007 (z Myersonem i Maskinem, za mechanism design); zaproponował kompromis z parametrem α. **Savage** — Leonard Jimmie Savage (1917–1971), amerykański statystyk; kryterium minimax regret — minimalizacja żalu (1951, „The Foundations of Statistics").
 
 ### Jak zapamiętać
 
-- **CE = „ile dałbyś za pewniaka zamiast loterii?"** → miara awersji do ryzyka
-- **AHP = „porównaj parami, policz wagi"** (macierz → eigenvalue)
-- **PROMETHEE = „przepływy"** (Φ⁺ outgoing, Φ⁻ incoming)
+- **E[X] = „średnia ważona prawdopodobieństwami"** → jak średnia ocen w dzienniku, ale wagi to szanse
+- **Laplace = „wszystko po równo"** → średnia arytmetyczna wypłat (Loteria — ALE Po równo)
+- **Maximax = „marzyciel → max z max"** → najlepszy z najlepszych, ignoruje ryzyko
+- **Maximin = „mur obronny → max z min"** → najlepszy z najgorszych (Wald = Wall = Mur)
+- **Hurwicz = „huśtawka — α pomiędzy"** → α·max + (1−α)·min, kręcisz pokrętłem optymizmu
+- **Savage = „szał żalu → min max żalu"** → macierz żalu → minimalizuj maksymalny żal (trzymaj żal na smyczy)
 
 \newpage
 

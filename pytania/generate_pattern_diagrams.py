@@ -287,6 +287,220 @@ def generate_three_pillars():
 
 
 # ============================================================
+# 4. Filled-in Observer Pattern Card
+# ============================================================
+def generate_observer_card_filled():
+    fig, ax = plt.subplots(figsize=(8.27, 8.5))
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 10)
+    ax.set_aspect('equal')
+    ax.axis('off')
+    fig.patch.set_facecolor(BG)
+    ax.set_title('Wypełniona karta wzorca — Observer (GoF)',
+                 fontsize=FS_TITLE, fontweight='bold', pad=15)
+
+    # Main card outline
+    card_x, card_y, card_w, card_h = 0.8, 0.3, 8.4, 9.2
+    card = FancyBboxPatch((card_x, card_y), card_w, card_h,
+                          boxstyle="round,pad=0.15", lw=2.5,
+                          edgecolor=LN, facecolor=GRAY4)
+    ax.add_patch(card)
+
+    # Fields with actual Observer content
+    fields = [
+        ("Na", "NAZWA", "Observer", GRAY2, True),
+        ("P",  "PROBLEM", "Obiekt (Subject) zmienia stan → wielu zależnych\n"
+                          "obiektów musi zareagować, ale Subject nie\n"
+                          "powinien znać ich konkretnych typów.", GRAY1, False),
+        ("Si", "SIŁY", "• loose coupling (nie znać obserwatorów z nazwy)\n"
+                       "  vs koszt powiadomień (N obserwatorów = N wywołań)\n"
+                       "• otwartość na rozszerzenia vs złożoność debugowania", 'white', False),
+        ("Ro", "ROZWIĄZANIE", "Subject przechowuje listę Observer.\n"
+                               "Metody: attach(o), detach(o), notify().\n"
+                               "notify() iteruje po liście i woła update()\n"
+                               "na każdym obserwatorze.", GRAY1, False),
+        ("Ko", "KONSEKWENCJE", "(+) Luźne wiązanie — Subject ↔ Observer\n"
+                                "(+) Nowi obserwatorzy bez zmian w Subject\n"
+                                "(−) Kaskada powiadomień może być kosztowna\n"
+                                "(−) Memory leaks jeśli nie detach()", 'white', False),
+    ]
+
+    band_x = card_x + 0.3
+    band_w = card_w - 0.6
+    start_y = card_y + card_h - 0.65
+
+    for i, (abbr, title, content, fill, is_title_field) in enumerate(fields):
+        if is_title_field:
+            band_h = 0.7
+        elif i == 1:
+            band_h = 1.3
+        elif i == 2:
+            band_h = 1.4
+        elif i == 3:
+            band_h = 1.5
+        else:
+            band_h = 1.5
+
+        by = start_y - sum(
+            (0.7 if j == 0 else 1.3 if j == 1 else 1.4 if j == 2 else 1.5 if j == 3 else 1.5) + 0.15
+            for j in range(i)
+        )
+
+        # Abbreviation circle
+        circle = plt.Circle((band_x + 0.35, by + band_h / 2), 0.28,
+                            lw=1.5, edgecolor=LN, facecolor=GRAY3)
+        ax.add_patch(circle)
+        ax.text(band_x + 0.35, by + band_h / 2, abbr, ha='center', va='center',
+                fontsize=10, fontweight='bold')
+
+        # Field box
+        fx = band_x + 0.8
+        fw = band_w - 0.8
+        rect = FancyBboxPatch((fx, by), fw, band_h,
+                              boxstyle="round,pad=0.06", lw=1,
+                              edgecolor=LN, facecolor=fill)
+        ax.add_patch(rect)
+
+        if is_title_field:
+            ax.text(fx + fw / 2, by + band_h / 2, f"{title}: {content}",
+                    ha='center', va='center', fontsize=12, fontweight='bold')
+        else:
+            ax.text(fx + 0.15, by + band_h - 0.2, title, ha='left', va='center',
+                    fontsize=FS, fontweight='bold')
+            ax.text(fx + 0.15, by + band_h / 2 - 0.15, content, ha='left', va='center',
+                    fontsize=FS_SMALL, family='monospace', linespacing=1.3)
+
+        # Arrow
+        if i < len(fields) - 1:
+            draw_arrow(ax, band_x + 0.35, by - 0.02,
+                       band_x + 0.35, by - 0.13, lw=1.0)
+
+    # Extra info at bottom
+    extra_y = 0.55
+    extras = [
+        "Powiązane: Mediator (centralizuje), Pub/Sub (rozproszony), MVC (View = Observer)",
+        "Znane użycia: Java Swing listeners, C# event/delegate, React useState, DOM addEventListener"
+    ]
+    for j, txt in enumerate(extras):
+        ax.text(card_x + card_w / 2, extra_y + (1 - j) * 0.25, txt,
+                ha='center', va='center', fontsize=FS_SMALL, fontstyle='italic',
+                color='#444444')
+
+    fig.tight_layout()
+    out = os.path.join(OUTPUT_DIR, 'q14_observer_card_filled.png')
+    fig.savefig(out, dpi=DPI, bbox_inches='tight', facecolor=BG)
+    plt.close(fig)
+    print(f"  Saved: {out}")
+
+
+# ============================================================
+# 5. Pattern Language Navigation Graph
+# ============================================================
+def generate_pattern_language_navigation():
+    fig, ax = plt.subplots(figsize=(8.27, 9))
+    ax.set_xlim(0, 12)
+    ax.set_ylim(0, 12)
+    ax.set_aspect('equal')
+    ax.axis('off')
+    fig.patch.set_facecolor(BG)
+    ax.set_title('Język wzorców — nawigacja „problem → wzorzec → nowy problem"',
+                 fontsize=FS_TITLE, fontweight='bold', pad=15)
+
+    # Node positions: (x, y, label, is_pattern, fill)
+    # Left column: problems; Right column: patterns
+    nodes = [
+        # Problems (left, rounded rect, white)
+        (1.5, 10.5, "Monolith\nnie skaluje się", False, 'white'),
+        (1.5, 8.2, "Jak routować\nżądania do\nserwisów?", False, 'white'),
+        (1.5, 5.9, "Co gdy serwis\nnie odpowiada?", False, 'white'),
+        (1.5, 3.6, "Jak zachować\nspójność\ntransakcji?", False, 'white'),
+        (1.5, 1.3, "Jak odnaleźć\nadres serwisu?", False, 'white'),
+
+        # Patterns (right, filled rect, gray)
+        (7.0, 9.3, "Microservices", True, GRAY2),
+        (7.0, 7.0, "API Gateway", True, GRAY2),
+        (7.0, 4.7, "Circuit Breaker", True, GRAY2),
+        (7.0, 2.4, "Saga", True, GRAY2),
+        (10.0, 5.9, "Service\nDiscovery", True, GRAY1),
+    ]
+
+    # Draw nodes
+    node_w_prob = 2.8
+    node_h_prob = 1.3
+    node_w_pat = 2.5
+    node_h_pat = 1.0
+
+    for nx, ny, label, is_pattern, fill in nodes:
+        if is_pattern:
+            w, h = node_w_pat, node_h_pat
+            rect = FancyBboxPatch((nx - w/2, ny - h/2), w, h,
+                                  boxstyle="round,pad=0.1", lw=2,
+                                  edgecolor=LN, facecolor=fill)
+            ax.add_patch(rect)
+            ax.text(nx, ny, label, ha='center', va='center',
+                    fontsize=10, fontweight='bold')
+        else:
+            w, h = node_w_prob, node_h_prob
+            rect = FancyBboxPatch((nx - w/2, ny - h/2), w, h,
+                                  boxstyle="round,pad=0.1", lw=1.2,
+                                  edgecolor=LN, facecolor=fill, linestyle='--')
+            ax.add_patch(rect)
+            ax.text(nx, ny, label, ha='center', va='center',
+                    fontsize=FS_SMALL, fontstyle='italic')
+
+    # Arrows: problem → pattern (solid), pattern → problem (dashed label)
+    arrows = [
+        # (x1, y1, x2, y2, label, style)
+        (2.9, 10.5, 5.75, 9.5, "rozwiązuje →", '->', 1.5),
+        (7.0, 8.8, 2.9, 8.5, "← rodzi problem", '->', 1.0),
+        (2.9, 8.0, 5.75, 7.2, "rozwiązuje →", '->', 1.5),
+        (7.0, 6.5, 2.9, 6.2, "← rodzi problem", '->', 1.0),
+        (2.9, 5.7, 5.75, 5.0, "rozwiązuje →", '->', 1.5),
+        (7.0, 4.2, 2.9, 3.9, "← rodzi problem", '->', 1.0),
+        (2.9, 3.3, 5.75, 2.6, "rozwiązuje →", '->', 1.5),
+        # Microservices → Service Discovery
+        (8.25, 9.0, 9.5, 6.5, "wymaga →", '->', 1.0),
+        # Problem → Service Discovery
+        (2.9, 1.3, 8.75, 5.6, "rozwiązuje →", '->', 1.2),
+    ]
+
+    for x1, y1, x2, y2, label, style, lw in arrows:
+        ax.annotate("", xy=(x2, y2), xytext=(x1, y1),
+                    arrowprops=dict(arrowstyle=style, color=LN, lw=lw,
+                                   connectionstyle="arc3,rad=0.05"))
+        mx, my = (x1 + x2) / 2, (y1 + y2) / 2
+        ax.text(mx, my + 0.2, label, ha='center', va='center',
+                fontsize=6.5, fontstyle='italic', color='#555555',
+                bbox=dict(boxstyle='round,pad=0.1', facecolor='white',
+                          edgecolor='none', alpha=0.8))
+
+    # Legend
+    legend_y = 0.3
+    # Problem node
+    r1 = FancyBboxPatch((1.0, legend_y - 0.2), 1.5, 0.4,
+                        boxstyle="round,pad=0.05", lw=1, edgecolor=LN,
+                        facecolor='white', linestyle='--')
+    ax.add_patch(r1)
+    ax.text(1.75, legend_y, "Problem", ha='center', va='center', fontsize=7)
+    # Pattern node
+    r2 = FancyBboxPatch((3.5, legend_y - 0.2), 1.5, 0.4,
+                        boxstyle="round,pad=0.05", lw=1.5, edgecolor=LN,
+                        facecolor=GRAY2)
+    ax.add_patch(r2)
+    ax.text(4.25, legend_y, "Wzorzec", ha='center', va='center',
+            fontsize=7, fontweight='bold')
+    ax.text(6.5, legend_y,
+            "Nawigacja: Problem → Wzorzec → Nowy Problem → Wzorzec → ...",
+            ha='left', va='center', fontsize=7, fontstyle='italic')
+
+    fig.tight_layout()
+    out = os.path.join(OUTPUT_DIR, 'q14_pattern_language_navigation.png')
+    fig.savefig(out, dpi=DPI, bbox_inches='tight', facecolor=BG)
+    plt.close(fig)
+    print(f"  Saved: {out}")
+
+
+# ============================================================
 # Main
 # ============================================================
 if __name__ == '__main__':
@@ -294,4 +508,6 @@ if __name__ == '__main__':
     generate_pattern_template()
     generate_catalog_map()
     generate_three_pillars()
+    generate_observer_card_filled()
+    generate_pattern_language_navigation()
     print("Done!")

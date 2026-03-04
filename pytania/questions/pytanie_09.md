@@ -97,40 +97,78 @@ Złam jeden = brak deadlocka.
 
 ### Budowa procesu
 
-Proces = program w trakcie wykonania + cały jego kontekst. Składa się z:
+Proces = program w trakcie wykonania + cały jego kontekst. Składa się z **3 filarów**: pamięć, PCB, stany.
 
-**Pamięć (oddzielna przestrzeń adresowa):**
+**Filar 1 — Pamięć (oddzielna przestrzeń adresowa):**
+
+Każdy proces dostaje własną, izolowaną przestrzeń adresową. Inne procesy NIE widzą tej pamięci. Składa się z 5 segmentów (od niskich do wysokich adresów): TEXT → DATA → BSS → HEAP → STACK.
 
 ![Segmenty pamięci procesu — szczegóły](img/q9_memory_layout.png)
 
-**PCB (Process Control Block)** — struktura w jądrze OS opisująca proces:
+Konkretny przykład — mapowanie kodu C na segmenty pamięci:
 
-![PCB — struktura](img/q9_pcb_structure.png)
+![Mapowanie kodu C na segmenty pamięci](img/q9_memory_c_annotated.png)
+
+**Filar 2 — PCB (Process Control Block):**
+
+PCB to „dowód osobisty" procesu w jądrze OS. Zawiera WSZYSTKO co OS musi wiedzieć: PID, stan, rejestry CPU, tablice stron, otwarte pliki, priorytety, statystyki.
+
+![PCB — struktura z konkretnymi wartościami](img/q9_pcb_detailed.png)
 
 Przełączenie kontekstu = zapisanie PCB starego procesu → wczytanie PCB nowego.
 
-**Stany procesu:** NEW → READY ↔ RUNNING → BLOCKED → TERMINATED.
+**Filar 3 — Stany procesu:**
+
+![Stany procesu — diagram przejść z opisami](img/q9_process_states_labeled.png)
+
 Scheduler decyduje, który READY staje się RUNNING.
 
-> **Mnemonik BUDOWY PROCESU — „TDBHS" (segmenty od dołu):**
-> **T**ata **D**aje **B**abci **H**erbatę ze **S**mietanką = TEXT → DATA → BSS → HEAP → STACK.
-> Proces = mieszkanie (własny adres, izolacja), PCB = dowód osobisty procesu (PID, stan, rejestry).
+> **Mnemonik BUDOWY PROCESU — „3 filary: MPS":**
+> **M**ieszkanie, **P**aszport, **S**tatus = **M**emory (5 segmentów), **P**CB (dowód), **S**tany (5 stanów).
+>
+> Segmenty od dołu — **„TDBHS"**: **T**ata **D**aje **B**abci **H**erbatę ze **S**mietanką = TEXT → DATA → BSS → HEAP → STACK.
+>
+> Stany — **„NRRBT"**: **N**igdy **R**ano **R**ybki **B**iegać nie **T**rafią = NEW → READY → RUNNING → BLOCKED → TERMINATED.
+>
+> PCB = paszport procesu — bez niego OS nie wie kim jest proces.
 
 ### Budowa wątku
 
 Wątek = lekka jednostka wykonania WEWNĄTRZ procesu.
 
-**Współdzielone** z innymi wątkami procesu: TEXT, DATA, BSS, HEAP, otwarte pliki, PID.
-**Prywatne** (każdy wątek ma własne): stos (stack), rejestry CPU, program counter (PC), TID.
+Kluczowa idea: wątek to NIE osobny byt — to dodatkowa „ścieżka wykonania" w istniejącym procesie. Proces z 3 wątkami ma 1 przestrzeń adresową, ale 3 niezależne ciągi instrukcji.
 
-![Wątki wewnątrz procesu](img/q9_thread_structure.png)
+![Wątki wewnątrz procesu — współdzielone vs prywatne](img/q9_thread_shared_private.png)
 
-Kluczowa różnica: proces ma CAŁĄ przestrzeń adresową, wątek to tylko kontekst wykonania (stos + rejestry) w ramach tej przestrzeni.
+**Co WSPÓŁDZIELONE**: TEXT, DATA, BSS, HEAP, otwarte pliki, PID — wszystkie wątki widzą to samo.
+
+**Co PRYWATNE** (każdy wątek ma własne):
+- **Stos (stack)** — zmienne lokalne TEGO wątku, ramki wywołań
+- **Rejestry CPU** — stan procesora TEGO wątku (EAX, EBX, ESP...)
+- **Program Counter (PC)** — KTÓRA instrukcja jest teraz wykonywana
+- **TID** — unikalny identyfikator wątku
+
+Konkretny przykład — dlaczego współdzielenie to siła i zagrożenie:
+
+    // Wątek 1 i Wątek 2 widzą TEN SAM obiekt:
+    int shared_counter = 0;  // HEAP — współdzielone!
+
+    // Wątek 1:                    // Wątek 2:
+    shared_counter++;              shared_counter++;
+    // Oba czytają 0, oba piszą 1 → wynik 1 zamiast 2!
+    // → race condition (potrzebny mutex)
+
+Kluczowa różnica od procesu: proces ma CAŁĄ przestrzeń adresową (jak całe mieszkanie), wątek to tylko kontekst wykonania — stos + rejestry + PC (jak osoba w mieszkaniu ze swoim telefonem i pozycją w książce).
 
 > **Mnemonik BUDOWY WĄTKU — „Wspólna kuchnia, własny pokój":**
-> Współdzielone = KOD + DANE + HEAP + PLIKI (kuchnia, salon, łazienka).
+> Współdzielone = KOD + DANE + HEAP + PLIKI (kuchnia, salon, łazienka — wszyscy korzystają).
 > Prywatne = STOS + REJESTRY + PC (twój pokój, twój telefon, twoja pozycja w książce).
-> Skrót: **„SRP"** — **S**tos, **R**ejestry, **P**C = prywatne.
+>
+> Skrót: **„SRP"** — **S**tos, **R**ejestry, **P**C = to co PRYWATNE.
+> Skrót odwrotny: **„KDHP"** — **K**od, **D**ane, **H**eap, **P**liki = to co WSPÓŁDZIELONE.
+>
+> Test: „Czy dwa wątki widzą tę samą zmienną globalną?" → TAK (współdzielone DATA).
+> „Czy dwa wątki widzą tę samą zmienną lokalną?" → NIE (osobne stosy).
 
 ### Szybkość — porównanie ilościowe
 
@@ -151,23 +189,25 @@ Kluczowa różnica: proces ma CAŁĄ przestrzeń adresową, wątek to tylko kont
 ### Zastosowanie — kiedy proces, kiedy wątek?
 
 **Procesy — stosuj gdy:**
+
 - **Izolacja jest krytyczna** — awaria jednego nie zabija reszty
-  - Przeglądarka Chrome: każda karta = osobny proces. Crash Flash w jednej karcie nie zabija reszty.
-  - Serwer: każde połączenie = fork() → klient nie może uszkodzić serwera (Apache pre-fork MPM)
+    - Przeglądarka Chrome: każda karta = osobny proces. Crash Flash w jednej karcie nie zabija reszty.
+    - Serwer: każde połączenie = fork() → klient nie może uszkodzić serwera (Apache pre-fork MPM)
 - **Bezpieczeństwo** — procesy nie widzą nawzajem pamięci
-  - Sandboxing: proces renderujący PDFa nie ma dostępu do pamięci procesu z hasłami
+    - Sandboxing: proces renderujący PDFa nie ma dostępu do pamięci procesu z hasłami
 - **Wieloprogramowość** — różne programy (edytor + kompilator + przeglądarka)
 - **Fork-exec** — klasyczny model Unix: fork() + exec() → nowy program
 
 **Wątki — stosuj gdy:**
+
 - **Współdzielenie danych** — wątki czytają/piszą ten sam heap bez kopiowania
-  - Serwer WWW: wątki obsługujące requesty współdzielą cache w pamięci (nginx worker threads)
-  - Gra: wątek renderujący i wątek fizyki czytają ten sam świat gry
+    - Serwer WWW: wątki obsługujące requesty współdzielą cache w pamięci (nginx worker threads)
+    - Gra: wątek renderujący i wątek fizyki czytają ten sam świat gry
 - **Szybkość tworzenia/przełączania** — potrzeba wielu lekkich zadań
-  - Thread pool: 8 wątków obsługuje tysiące zadań (zamiast tysiąca procesów)
+    - Thread pool: 8 wątków obsługuje tysiące zadań (zamiast tysiąca procesów)
 - **Obliczenia równoległe** — podział pracy na rdzenie CPU
-  - Mnożenie macierzy: każdy wątek liczy fragment wyniku
-  - Rendering: każdy wątek renderuje część klatki
+    - Mnożenie macierzy: każdy wątek liczy fragment wyniku
+    - Rendering: każdy wątek renderuje część klatki
 - **Responsywność UI** — wątek główny obsługuje interfejs, wątek tła liczy/pobiera dane
 
 ![Kiedy proces, kiedy wątek? — scenariusze](img/q9_scenario_table.png)
@@ -386,6 +426,68 @@ Wielu czytelników może czytać jednocześnie. Pisarz wymaga wyłącznego dost�
 > **M**ała **S**owa **M**oże **C**zasem **S**pinać na **B**ardzo **R**ówno = **M**utex, **S**emafor, **M**onitor, **C**ond.Variable, **S**pinlock, **B**arrier, **R**W Lock.
 > Reguła kciuka: sekcja **> 1 μs → MUTEX** (wątek zasypia). Sekcja **< 1 μs → SPINLOCK** (kręci się). **n wątków naraz → SEMAFOR(n)**.
 > Mutex = klucz do łazienki (1 osoba). Semafor(3) = parking na 3 miejsca. Spinlock = obrotowe drzwi.
+
+---
+
+### 🎮 Mostek do pracy magisterskiej — wątki w silnikach gier
+
+> Praca magisterska: „Porównanie wydajności i możliwości współczesnych silników gier komputerowych" — Unity vs Unreal Engine. Temat wątków jest **kluczowy** dla game engine performance.
+
+![Wątki w silniku gier — Game Loop Architecture](img/q9_game_engine_threads.png)
+
+#### Game Loop = główny wątek silnika
+
+Każdy silnik gier to **pętla główna (game loop)** działająca w jednym procesie z wieloma wątkami:
+
+    while (gameIsRunning) {
+        ProcessInput();      // ← Main Thread (sekwencyjne)
+        UpdateGameLogic();   // ← Main Thread
+        PhysicsStep();       // ← Physics Thread (równoległe)
+        RenderFrame();       // ← Render Thread (równoległe)
+        PresentFrame();      // ← GPU sync (blokujące!)
+    }
+
+#### Unity vs Unreal — porównanie wielowątkowości
+
+| Aspekt | Unity | Unreal Engine |
+|--------|-------|---------------|
+| Język | C# (managed) | C++ (native) |
+| Main thread | MonoBehaviour.Update() | AActor::Tick() |
+| Physics thread | PhysX (osobny) | PhysX (osobny) |
+| Render thread | Ukryty, submit GPU cmd | RenderThread (jawny) |
+| Worker pool | Job System (DOTS/Burst) | TaskGraph |
+| Problem | **GC pauses** zamrażają main thread! | Brak GC — deterministyczny timing |
+| Object pooling | BulletPool.cs eliminuje GC spikes | FPooledObject |
+
+#### Przykład z pracy — BulletPool (Object Pooling)
+
+W grze bullet-hell (1000+ pocisków) **bez poolingu**:
+- `Instantiate()` → alokacja na managed heap → GC musi zbierać → **spike w frame time**
+- Nsight Graphics pokazuje: frame time skacze z 8ms na 25ms podczas GC sweep
+
+**Z poolingiem** (`BulletPool.cs`):
+- Pre-alokacja 2000 obiektów na starcie
+- `pool.Get()` / `pool.Return()` → **zero alokacji w runtime**
+- Frame time stabilny: 8ms ± 0.5ms
+
+#### Problemy synchronizacji w silnikach gier — konkretne przykłady
+
+| Problem (z pytania) | Jak występuje w game engine |
+|---------------------|------------------------------|
+| **Race condition** | Dwa wątki modyfikują pozycję tego samego obiektu (AI + Physics) |
+| **Deadlock** | Render Thread czeka na dane z Main Thread, który czeka na GPU fence |
+| **Zagłodzenie** | Render Thread ma wyższy priorytet → Audio Thread nie dostaje CPU |
+| **Inwersja priorytetów** | Low-pri asset loading blokuje mutex potrzebny High-pri render |
+
+#### Mnemonik — „GRAJ WĄTKAMI"
+
+**G**ame Loop (main thread) → **R**ender Thread → **A**udio Thread → **J**ob System (workers)
+Każda litera = osobny wątek. Game Loop orkiestruje resztę.
+
+Kiedy na obronie padnie pytanie o wątki → od razu powiedz:
+*„W mojej pracy porównuję Unity Job System (C#/Burst) z Unreal TaskGraph (C++). Kluczowa różnica: Unity GC może zatrzymać main thread, Unreal ma deterministyczne czasy."*
+
+---
 
 ### Etymologia
 

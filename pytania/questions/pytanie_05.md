@@ -311,6 +311,51 @@ Bez ortogonalności: M kontenerów × N algorytmów = **M×N** implementacji (so
 
 ---
 
+### 🎮 Mostek do pracy magisterskiej — STL vs kontenery silników gier
+
+> W pracy porównuję Unity (C#/.NET) z Unrealiem (C++), który **NIE używa STL** lecz własnych kontenerów. To doskonały punkt wyjścia do dyskusji o STL.
+
+![STL vs Unreal containers — mapowanie](img/q5_stl_vs_unreal.png)
+
+#### Dlaczego Unreal NIE używa STL?
+
+Epic Games stworzył własną bibliotekę kontenerów z 4 powodów — mnemonik **„TTTF"**:
+
+| Powód | Problem z STL | Rozwiązanie Unreala |
+|-------|---------------|---------------------|
+| **T**ypeInfo (Reflection) | `std::vector` nie ma metadanych | `TArray` + `UPROPERTY()` → edytor, serializacja |
+| **T**racking (GC) | STL nie wie o UObject GC | Kontenery UE śledzą referencje → brak dangling ptr |
+| **T**uning (Alokatory) | `std::allocator` nieoptymalne dla gier | `FMemory::Malloc()` + pool allocator per-frame |
+| **F**idelity (Determinizm) | Implementacja STL różni się między kompilatorami | Identyczne zachowanie na PC/PS5/Xbox/Switch |
+
+#### Mapowanie STL → Unreal → C#/.NET
+
+| Kategoria STL | `std::` | Unreal `T`-prefix | C#/.NET (Unity) |
+|---------------|---------|---------------------|-----------------|
+| Sekwencyjny | `vector<T>` | `TArray<T>` | `List<T>` |
+| Sekwencyjny | `deque<T>` | — (TArray + RemoveAt) | `LinkedList<T>` |
+| Asocjacyjny | `map<K,V>` | `TMap<K,V>` | `Dictionary<K,V>` |
+| Asocjacyjny | `set<T>` | `TSet<T>` | `HashSet<T>` |
+| Kolejka | `queue<T>` | `TQueue<T>` | `Queue<T>` |
+| String | `string` | `FString` / `FName` / `FText` | `string` |
+| Smart ptr | `shared_ptr<T>` | `TSharedPtr<T>` | GC (automatyczny) |
+| Iterator | `begin()/end()` | `CreateIterator()` | `IEnumerator` |
+| Algorytm | `std::sort()` | `Algo::Sort()` | `LINQ .OrderBy()` |
+
+#### Konkretny przykład — BulletPool
+
+    // Moja praca — C++ Unreal (gdyby BulletPool był w UE)
+    TArray<ABullet*> Pool;              // ← TArray, nie std::vector
+    Pool.Reserve(500);                  // ← jak vector::reserve()
+    for (auto& Bullet : Pool) { ... }  // ← range-for działa identycznie
+
+    // Unity C#
+    List<Bullet> _pool = new List<Bullet>(500);  // ← List<T>, nie vector
+
+Na obronie: *„Unreal Engine celowo porzucił STL na rzecz własnych kontenerów (TArray, TMap, TSet), bo potrzebuje refleksji, śledzenia GC i determinizmu cross-platform. To świetny przykład, że STL nie jest jedynym rozwiązaniem — jej alternatywy powtarzają te same kategorie (sekwencyjne, asocjacyjne, adaptery), ale dodają cechy specyficzne dla silnika gier."*
+
+---
+
 ### Etymologia
 
 **STL** — Standard Template Library; Alexander Stepanov + Meng Lee (HP, 1994); Stepanov od lat 70. marzył o programowaniu generycznym. **Iterator** — łac. „iter" = podróż/ścieżka; ten, kto przemierza kolekcję. **Funktor** — z teorii kategorii (matematyka); obiekt zachowujący się jak funkcja. **Deque** — Double-Ended QUEue. **Vector** — łac. „vector" = nośnik; tablica dynamiczna. **Lambda** — od greckiej litery λ; Alonzo Church, rachunek lambda (1930s).

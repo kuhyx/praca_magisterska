@@ -220,3 +220,68 @@ Każdy wzorzec w katalogu ma pole „Powiązane wzorce" — to linki w tym grafi
 - `pytania/img/q14_observer_card_filled.png` — wypełniona karta wzorca Observer
 - `pytania/img/q14_pattern_language_navigation.png` — nawigacja w języku wzorców
 
+---
+
+### 🎮 Mostek do pracy magisterskiej — wzorce w silnikach gier
+
+> Silniki gier to największe repozytorium wzorców architektonicznych i projektowych w praktyce. Moja praca verwendet 6 kluczowych wzorców.
+
+![Wzorce w silnikach gier — mapa](img/q14_engine_patterns_map.png)
+
+#### 6 wzorców użytych w mojej pracy
+
+| # | Wzorzec | Gdzie w Unity (C#) | Gdzie w Unreal (C++) | Kategoria GoF/POSA |
+|---|---------|---------------------|----------------------|---------------------|
+| 1 | **Component** | `MonoBehaviour` + `GetComponent<T>()` | `UActorComponent` + `CreateDefaultSubobject<T>()` | Strukturalny (GoF: Strategy wariant) |
+| 2 | **Object Pool** | `BulletPool.cs` — `Queue<Bullet>` | `TPooledObject<ABullet>` | Kreacyjny (gamedev-specific) |
+| 3 | **Observer** | `event Action OnEnemyDeath` | `DECLARE_DYNAMIC_MULTICAST_DELEGATE()` | Behawioralny (GoF) |
+| 4 | **Game Loop** | `Update()` / `FixedUpdate()` / `LateUpdate()` | `Tick()` / `TickComponent()` | Architektoniczny (gamedev-specific) |
+| 5 | **Singleton** | `GameDirector.Instance` (MonoBehaviour) | `UGameInstance` / Subsystem | Kreacyjny (GoF) — kontrowersyjny! |
+| 6 | **ECS** | Unity DOTS: `IComponentData` + `SystemBase` | Unreal Mass Entity: `FMassEntityManager` | Architektoniczny (data-oriented) |
+
+#### Katalogi wzorców gamedev
+
+| Katalog | Autor | Ile wzorców | Kluczowe dla mojej pracy |
+|---------|-------|-------------|--------------------------|
+| „Game Programming Patterns" | Robert Nystrom | 19 | Component, Object Pool, Game Loop, Observer |
+| GoF (Design Patterns, 1994) | Gamma et al. | 23 | Observer, Singleton, Strategy, State |
+| POSA (Pattern-Oriented SA) | Buschmann et al. | 25+ | Layers, Pipes-and-Filters, Broker |
+
+#### Mnemonik — „KOGLES" = Komponent Observer Game-Loop ECS Singleton
+
+- **K**omponent (Component Pattern — fundamentalny)
+- **O**bserver (event-driven gameplay)
+- **G**ame Loop (Update/Tick — serce silnika)
+- **L**ayers (Renderer → Physics → Logic → Audio → Input)
+- **E**CS (Entity Component System — data-oriented design)
+- **S**ingleton (GameDirector.Instance — globalny stan)
+
+Na obronie: *„W mojej implementacji bullet-hell zidentyfikowałem 6 wzorców architektonicznych. Najważniejszy to Component Pattern — Unity i Unreal oparły na nim całą architekturę. Object Pool eliminuje alokacje (GC spikes), a Observer zapewnia loose coupling między podsystemami. Wzorce te odpowiadają katalogowi Nystroma 'Game Programming Patterns' i GoF."*
+
+---
+
+### 📚 Odniesienia do publikacji z Katedry
+
+> Poniższe notatki pochodzą z publikacji promotorów/recenzentów i mogą być przydatne jako dodatkowy kontekst na obronie.
+
+**Borowa, Zalewski, Kijas — „What rationales drive architectural decisions? An empirical inquiry" (ECSA 2023):**
+- Uzasadnienia (rationale) za wyborem wzorca architektonicznego to najczęściej: łatwość użycia dla dev, maintainability, performance, wcześniejsza wiedza i ograniczenia czasowe
+- Implikacja: wybór wzorca (np. Microservices vs Monolith) jest często napędzany doświadczeniem zespołu i deadlinem, nie tylko analizą tradeoffs
+- Wzorce powinny mieć udokumentowane rationale (→ ADR), bo decyzje bez jawnego uzasadnienia mogą wynikać z biasów
+
+**Borowa, Zalewski — „The influence of cognitive biases on architectural technical debt" (ICSA 2021):**
+- **Błędy poznawcze prowadzą do złych wyborów wzorców:**
+  - Zakotwiczenie (anchoring) + optymizm → „Architectural Lock-in" — zespół trzyma się wybranego wzorca mimo rosnących problemów
+  - Confirmation bias → „Re-inventing the wheel" — budowanie od zera zamiast użycia istniejącego wzorca/frameworka
+  - Bandwagon effect → wybór Microservices „bo wszyscy tak robią", bez analizy czy skala projektu to uzasadnia
+- Wzorce architektoniczne jako **narzędzie debiasujące**: katalogowane rozwiązania wymuszają rozważenie alternatyw i tradeoffs, co przeciwdziała zakotwiczeniu
+
+**Borowa — „The technical debt gamble: A case study on TD in a large-scale industrial microservice architecture" (ScienceDirect 2025):**
+- Case study dużego systemu mikroserwisowego — dług techniczny narasta gdy decyzje o wzorcach są podejmowane pod presją czasu
+- Wzorce jak Microservices wymagają świadomego zarządzania TD, bo złożoność operacyjna generuje dług
+
+**Borowa et al. — „Reframing Technical Debt — Dagstuhl Perspectives Workshop 24452":**
+- 5 values, 5 beliefs, 9 principles zarządzania TD
+- Architektura jako kluczowy wymiar TD — nieodpowiednie wzorce architektoniczne to główne źródło długu technicznego
+- Zasada: „TD jest nieunikniony, ale ZARZĄDZALNY" — świadomy wybór wzorca + dokumentacja (ADR) + regularny przegląd
+

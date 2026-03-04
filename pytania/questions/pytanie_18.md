@@ -38,26 +38,119 @@ Przyczyny: prognozowanie (forecasting), zamawianie partiami (batching), promocje
 
 ---
 
-**EOQ (Economic Order Quantity)** — model Harrisa-Wilsona (1913). Najstarszy model zarządzenia zapasami. Znajduje optymalną wielkość zamówienia Q* minimalizującą łączny koszt (zamawianie + utrzymanie).
+**EOQ (Economic Order Quantity)** — model Harrisa-Wilsona (1913). Najstarszy i najważniejszy model zarządzania zapasami. Odpowiada na pytanie: **ile sztuk zamawiać jednorazowo**, żeby suma kosztów zamawiania i utrzymania była minimalna.
 
-**Założenia EOQ:** popyt stały i znany (D szt/rok), lead time = 0, brak braków, koszt zamówienia K, koszt utrzymania h.
+**Intuicja — analogia z zakupami papieru toaletowego:**
 
-**Wzór EOQ:**
+    Strategia A: kupujesz 1 paczkę co tydzień
+      → dużo wizyt w sklepie (wysoki koszt zamawiania)
+      → mało miejsca w domu (niski koszt utrzymania)
 
-    Q* = √(2KD/h)
+    Strategia B: kupujesz 100 paczek raz na 2 lata
+      → rzadko chodzisz do sklepu (niski koszt zamawiania)
+      → potrzebujesz magazynu (wysoki koszt utrzymania)
 
-    TC(Q) = K·D/Q    +    h·Q/2
-            koszt         koszt
-         zamawiania    utrzymania
+    EOQ: ile paczek kupować, żeby SUMA obu kosztów była najniższa?
 
-**Dlaczego √?** Bo koszty zamawiania maleją z Q (mniej zamówień), a koszty utrzymania rosną z Q (więcej w magazynie). Optimum = punkt przecięcia.
+**Założenia EOQ (ważne — na obronie mogą zapytać o ograniczenia!):**
+1. Popyt stały i znany: D sztuk/rok (np. sprzedaż jest przewidywalna)
+2. Lead time = 0 (dostawa natychmiastowa)
+3. Brak braków (nie dopuszczamy stockoutów)
+4. Zamówienie przychodzi w całości (nie częściami)
+5. Koszt zamówienia K — stały, niezależny od wielkości
+6. Koszt utrzymania h — liniowo zależy od ilości w magazynie
 
-**Przykład liczbowy:**
+---
 
-    D = 10 000 szt/rok, K = 100 PLN/zamówienie, h = 2 PLN/szt/rok
-    Q* = √(2 × 100 × 10000 / 2) = √1 000 000 = 1000 szt
-    Liczba zamówień = 10000/1000 = 10/rok
-    TC* = √(2 × 100 × 10000 × 2) = 2000 PLN/rok
+**Wyprowadzenie wzoru EOQ krok po kroku:**
+
+Krok 1 — Funkcja kosztu całkowitego:
+
+    TC(Q) = K · D/Q  +  h · Q/2
+              ↑              ↑
+         ile zamówień    średni zapas
+         rocznie?        w magazynie
+         (D/Q sztuk)     (Q/2 sztuk)
+
+Dlaczego D/Q? Bo potrzebujemy D sztuk rocznie, zamawiamy po Q → robimy D/Q zamówień.
+Dlaczego Q/2? Zapas waha się od Q (tuż po dostawie) do 0 (tuż przed następną) → średnio Q/2.
+
+![Model EOQ — piłokształtny przebieg zapasu](../img/q18_eoq_sawtooth.png)
+
+Krok 2 — Szukamy minimum (pochodna = 0):
+
+    dTC/dQ = -K·D/Q²  +  h/2  =  0
+
+    h/2 = K·D/Q²
+
+    Q² = 2·K·D / h
+
+    Q* = √(2KD/h)     ← wzór EOQ!
+
+Krok 3 — Weryfikacja: druga pochodna d²TC/dQ² = 2KD/Q³ > 0 → to jest minimum (nie maksimum).
+
+**Dlaczego √?** Bo rozwiązujemy równanie kwadratowe — punkt, w którym malejąca hiperbola (koszt zamawiania K·D/Q) przecina rosnącą prostą (koszt utrzymania h·Q/2).
+
+![Model EOQ — krzywe kosztów](../img/q18_eoq_cost_curves.png)
+
+---
+
+**Przykład liczbowy (krok po kroku):**
+
+    Dane:
+      D = 10 000 szt/rok (popyt roczny)
+      K = 100 PLN/zamówienie (koszt złożenia zamówienia)
+      h = 2 PLN/szt/rok (koszt trzymania jednej sztuki przez rok)
+
+    Q* = √(2 × 100 × 10000 / 2)
+       = √(2 000 000 / 2)
+       = √1 000 000
+       = 1000 szt ← zamawiaj po 1000 sztuk
+
+    Ile zamówień rocznie? D/Q* = 10000/1000 = 10 zamówień
+    Co ile? 365/10 ≈ co 36-37 dni
+    Średni zapas: Q*/2 = 500 szt
+
+    Koszt roczny:
+      Zamawianie: K·D/Q* = 100 × 10 = 1000 PLN
+      Utrzymanie: h·Q*/2 = 2 × 500  = 1000 PLN  ← ZAWSZE równe!
+      Suma: TC* = 2000 PLN/rok
+
+**Kluczowa własność:** w punkcie optymalnym koszt zamawiania = koszt utrzymania. To wynika z matematyki i jest świetnym testem kontrolnym.
+
+    TC* = √(2KDh) = √(2 × 100 × 10000 × 2) = √4 000 000 = 2000 PLN
+
+---
+
+**Analiza wrażliwości — co jeśli Q nie jest optymalne?**
+
+EOQ jest odporny na błędy (robustness) — nawet 20% błąd w Q daje tylko ~2% wzrost kosztu:
+
+    Q         TC(Q)       vs TC*=2000    % wzrost
+    ─────────────────────────────────────────────
+    500        2500         +500          +25%
+    800        2050         +50           +2.5%
+    1000       2000         ±0            optimum
+    1200       2033         +33           +1.7%
+    1500       2117         +117          +5.8%
+    2000       2500         +500          +25%
+
+Wniosek: lepiej zaokrąglić Q* do wygodnej liczby (np. do pełnej palety) niż trzymać się dokładnej wartości. Koszty rosną powoli wokół optimum.
+
+---
+
+**Ograniczenia EOQ (częste pytanie na obronie: „kiedy model NIE działa?"):**
+
+    Założenie EOQ          Rzeczywistość
+    ──────────────────────────────────────────────────
+    Popyt stały            Popyt zmienny/sezonowy
+    Lead time = 0          Lead time > 0 i zmienny
+    Brak braków            Braki się zdarzają
+    Jeden produkt          Wiele produktów konkuruje o magazyn
+    Brak rabatów           Rabaty ilościowe (za większe partie)
+    Koszt h stały          h zależy od ilości (schodkowo)
+
+Dlatego EOQ jest punktem startowym — w praktyce stosuje się jego rozszerzenia (EOQ z rabatami, EOQ z backorders, dynamiczny lot sizing).
 
 ---
 

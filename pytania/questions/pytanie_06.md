@@ -169,6 +169,65 @@ Realizacja: funkcje wirtualne (`virtual` + `override`) — tablica vtable wskazu
 
 ### 6. Biblioteki, frameworki, traity/mixiny
 
+---
+
+### 🎮 Mostek do pracy magisterskiej — reużywalność w silnikach gier
+
+> W pracy magisterskiej implementuję bullet-hell w Unity (C#) i Unreal (C++). Silniki gier to NAJLEPSZY przykład reużywalności przez kompozycję.
+
+![Component Pattern w silnikach gier — Composition over Inheritance](img/q6_component_pattern_engines.png)
+
+#### Component Pattern — „król reużywalności" w gamedev
+
+Unity i Unreal **odrzuciły** klasyczne dziedziczenie na rzecz **Component Pattern**:
+
+    // Unity — C# Component Pattern
+    public class EnemyController : MonoBehaviour {
+        [RequireComponent(typeof(Health))]   // ← KOMPOZYCJA!
+        [RequireComponent(typeof(Collider2D))]
+        
+        void Start() {
+            var hp = GetComponent<Health>();  // ← has-a, nie is-a
+        }
+    }
+
+    // Unreal — C++ Component Pattern
+    AEnemy::AEnemy() {
+        HealthComp = CreateDefaultSubobject<UHealthComponent>("Health");
+        MeshComp = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
+    }
+
+#### Dlaczego NIE dziedziczenie?
+
+Klasyczna hierarchia (`GameObject → Enemy → FlyingEnemy → ShootingFlyingEnemy`) prowadzi do:
+- **Diamond problem** — Shooting + Flying = ???
+- **Fragile base class** — zmiana w Enemy psuje 50 podklas
+- **Combinatorial explosion** — N cech x M typów = NxM klas
+
+Kompozycja: Enemy = Transform + Health + AI + Sprite + Collider → **dowolna kombinacja**
+
+#### Reużywalność w mojej pracy — konkretne przykłady
+
+| Mechanizm OOP | Mój kod Unity | Unreal odpowiednik |
+|---------------|---------------|---------------------|
+| Kompozycja | `[RequireComponent(typeof(Health))]` | `CreateDefaultSubobject<UHealthComp>()` |
+| Singleton | `GameDirector.Instance` | `UGameInstance` subsystem |
+| Observer | `C# event OnEnemyDeath` | `FOnEnemyDeath` multicast delegate |
+| Object Pool | `BulletPool<Bullet>` (generic) | `TPooledObject<ABullet>` (template) |
+| Interface | `IDamageable` | `UInterface` + `IDamageable` |
+
+#### Mnemonik — „KSIOP" = Kompozycja Silnika I Obiektowy Pooling
+
+- **K**ompozycja (Component Pattern — fundamentalna)
+- **S**ingleton (global managers)
+- **I**nterfejsy (IDamageable, IInteractable)
+- **O**bserver (events/delegates)
+- **P**ooling (Object Pool dla performance)
+
+Na obronie: *„Moja praca jest doskonałym przykładem 'composition over inheritance' — w Unity każdy obiekt gry składa się z komponentów (MonoBehaviour), a w Unrealu z UActorComponent. Object Pooling to generyczna reużywalność eliminująca GC."*
+
+---
+
 ### Etymologia
 
 **OOP** — Alan Kay (Smalltalk, 1970s), sam ukuł termin „object-oriented". **GoF** — Gang of Four: Gamma, Helm, Johnson, Vlissides (1994). **Polimorfizm** — grec. „poly" (wiele) + „morphē" (forma) = wiele postaci. **Enkapsulacja** — łac. „capsula" = pudełeczko. **Abstrakcja** — łac. „abstrahere" = odciągać, oddzielać (oddzielanie istoty od szczegółów). **Design Pattern** — z architektury: Christopher Alexander „A Pattern Language" (1977); GoF zaadaptowali do IT. **Kompozycja > Dziedziczenie** — zasada z GoF: „favor object composition over class inheritance".

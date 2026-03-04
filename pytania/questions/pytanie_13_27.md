@@ -344,3 +344,90 @@ Rozbicie:
     ATAM          → ATakuj Architekturę Metodycznie
     ISO 25010     → 8 atrybutów: PS SM RUPC
 
+---
+
+### 🎮 Mostek do pracy magisterskiej — architektura silników gier
+
+> Moja praca porównuje architekturę Unity i Unreal Engine — to gotowy case study dla modelowania C4, 4+1, ADR.
+
+![C4 Model — architektura silnika gry](img/q13_engine_c4_architecture.png)
+
+#### C4 Model zastosowany do silnika gry
+
+| Poziom C4 | Unity | Unreal Engine |
+|-----------|-------|---------------|
+| **Context** | Gracz → Gra ← Twórca (edytor) | Gracz → Gra ← Twórca (edytor) |
+| **Container** | Mono Runtime + IL2CPP, URP/HDRP Renderer, PhysX, FMOD | Unreal Runtime (C++), Nanite/Lumen Renderer, Chaos Physics, MetaSounds |
+| **Component** | `MonoBehaviour`, `ScriptableObject`, Job System | `UActorComponent`, `USubsystem`, TaskGraph |
+| **Code** | C# klasy: `BulletPool.cs`, `GameDirector.cs` | C++ klasy: `ABullet`, `AGameMode` |
+
+#### 4+1 Kruchten — mapowanie na silnik
+
+| Widok Kruchtena | Silnik gry |
+|----------------|------------|
+| Logiczny | Component Pattern, ECS, Scene Graph |
+| Procesowy | Game Loop (Update→Physics→Render), wątki |
+| Fizyczny | PC / PS5 / Xbox / Switch — deployment |
+| Rozwojowy | Edytor Unity/UE, pakiety, pluginy |
+| +1 Scenariusze | Gameplay: gracz strzela → bullet spawn → collision → damage |
+
+#### ADR (Architecture Decision Records) z mojej pracy
+
+Przykładowe decyzje architektoniczne, które mogę opisać językiem ADR:
+
+1. **ADR-001**: Wybór Object Pooling zamiast Instantiate/Destroy  
+   *Kontekst*: 500 pocisków/sekundę powoduje GC spikes  
+   *Decyzja*: Pre-alokacja puli 500 obiektów  
+   *Konsekwencja*: Frame time σ z 8ms → 2ms
+
+2. **ADR-002**: Singleton GameDirector zamiast static class  
+   *Kontekst*: Potrzeba globalnego stanu gry z lifecycle  
+   *Decyzja*: MonoBehaviour Singleton z `DontDestroyOnLoad`  
+   *Konsekwencja*: Testowalne, ale tight coupling
+
+3. **ADR-003**: Unity URP zamiast Built-in RP  
+   *Kontekst*: SRP Batcher zmniejsza draw calls o ~40%  
+   *Decyzja*: Universal Render Pipeline  
+   *Konsekwencja*: Lepszy batching, ale ograniczenie custom shaderów
+
+#### Mnemonik — „SPRM" = Silnik Porównuję Rysując Modele
+
+- **S**cena jako Context (C4 Level 1)
+- **P**odsystemy jako Containers (Renderer, Physics, Audio)
+- **R**ejestr decyzji ADR (dlaczego Pool, Singleton, URP)
+- **M**oduły jako Components (MonoBehaviour, UActorComponent)
+
+Na obronie: *„W mojej pracy porównuję architekturę Unity i Unreal — to idealny case study dla modelowania C4. Na poziomie Container widzimy fundamentalne różnice: Unity opiera się na Mono/.NET runtime z GC, a Unreal na natywnym C++ z ręcznym zarządzaniem pamięcią. Decyzje architektoniczne (ADR) w mojej implementacji — jak wybór Object Pooling — bezpośrednio odnoszą się do ADR rationales z publikacji Borowej."*
+
+---
+
+### 📚 Odniesienia do publikacji z Katedry
+
+> Poniższe notatki pochodzą z publikacji promotorów/recenzentów i mogą być przydatne jako dodatkowy kontekst na obronie.
+
+**Borowa, Zalewski, Kijas — „What rationales drive architectural decisions? An empirical inquiry" (ECSA 2023):**
+- Badanie empiryczne (46 uczestników) identyfikujące TOP rationales stojące za decyzjami architektonicznymi
+- Najczęstsze uzasadnienia decyzji: **łatwość użycia dla programisty**, **utrzymywalność (maintainability)**, **wydajność (performance)**, **wcześniejsza wiedza/doświadczenie**, **ograniczenia czasowe/deadlines**
+- Wniosek: decyzje architektoniczne są silnie napędzane czynnikami ludzkimi (doświadczenie, presja czasu), nie tylko technicznymi
+
+**Borowa — „Cognitive Biases in Architectural Decision-Making: Impact and Debiasing Strategies" (rozprawa doktorska, PW 2024):**
+- Zidentyfikowano **11 błędów poznawczych (cognitive biases)** wpływających na ADM: efekt ramowania (framing), potwierdzenia (confirmation bias), efekt IKEA, prawo trywialności Parkinsona, zakotwiczenie (anchoring), klątwa wiedzy, pro-innovation bias, planistyczny optymizm, efekt owczego pędu (bandwagon), irracjonalna eskalacja, prawo instrumentu, optymizm
+- **„Wicked Triad"** — zakotwiczenie → potwierdzenie → optymizm: łańcuchowa reakcja prowadząca do źle uzasadnionych decyzji architektonicznych
+- Podstawa teoretyczna: **Dual Process Theory (Kahneman)** — System 1 (szybki, intuicyjny) vs System 2 (wolny, analityczny); biasy wynikają z nadmiernego polegania na System 1
+- ADR-y (Architecture Decision Records) mogą częściowo łagodzić biasy, wymuszając jawne zapisanie kontekstu i konsekwencji
+- Debiasing: **interwencja C-level Fischhoffa** — 3 techniki: (1) rozważ wiele opcji, (2) wypisz wady wybranego rozwiązania, (3) wypisz ryzyka
+- Eksperyment z 18 praktykami (Polska, Niemcy, Brazylia): statystycznie istotny wzrost kontrargumentów nie-biasowych (p=0.0449)
+
+**Borowa, Zalewski — „The influence of cognitive biases on architectural technical debt" (ICSA 2021):**
+- Zakotwiczenie + optymizm → **„Architectural Lock-in"** (zamknięcie się w architekturze)
+- Confirmation bias → **„Re-inventing the wheel"** (wymyślanie koła na nowo zamiast reuse)
+- Biasy poznawcze są bezpośrednią przyczyną powstawania architektonicznego długu technicznego (ATD)
+
+**Szlenk — „Formal Semantics of Architectural Decision Models":**
+- Formalizacja semantyki modeli decyzji architektonicznych — umożliwia formalne rozumowanie o poprawności i spójności decyzji
+- Związek z ADR: formalne podejście do walidacji decyzji architektonicznych
+
+**Szlenk — „Modelling architectural decisions under changing requirements":**
+- Jak zmieniające się wymagania wpływają na decyzje architektoniczne
+- Metoda śledzenia wpływu zmian wymagań na podjęte wcześniej decyzje (traceability)
+

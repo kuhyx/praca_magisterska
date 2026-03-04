@@ -96,6 +96,10 @@ Analogia: Isend/Irecv to jak złożenie zamówienia w restauracji — kelner zap
 
 **Metoda Jacobiego (Jacobi iteration)** — iteracyjna metoda rozwiązywania układów równań liniowych $Ax = b$. W każdej iteracji nowa wartość $x_i$ jest obliczana WYŁĄCZNIE na podstawie wartości z poprzedniej iteracji (w przeciwieństwie do metody Gaussa-Seidla, która używa już obliczonych nowych wartości).
 
+**Kluczowa intuicja — szablon obliczeniowy (stencil):** W 1D Jacobi nowa wartość punktu to średnia jego dwóch sąsiadów: $x'[i] = \frac{1}{2}(x[i-1] + x[i+1])$. Aby obliczyć JEDNĄ nową wartość, potrzebujesz DWÓCH starych wartości — lewej i prawej. To jest właśnie powód, dla którego procesy muszą się komunikować.
+
+![Szablon Jacobiego 1D](img/q26_jacobi_stencil.png)
+
 Konkretny przykład — układ 3 równań:
 
     10x₁ + 2x₂ + x₃  = 27        Przekształcenie:
@@ -114,14 +118,56 @@ Konkretny przykład — układ 3 równań:
 
 **Wersja równoległa metody Jacobiego** — w obliczeniach naukowych (np. symulacja ciepła, dynamika płynów) macierz $A$ jest ogromna (miliony zmiennych). Dzielimy wektor $x$ na bloki — każdy proces MPI oblicza swój fragment. Ale na granicy bloków proces potrzebuje wartości od sąsiada → wymiana komunikatami Send/Recv.
 
-    Domena 1D podzielona na 4 procesy:
-    Proc 0         Proc 1         Proc 2         Proc 3
-    [x₀ x₁ x₂]   [x₃ x₄ x₅]   [x₆ x₇ x₈]   [x₉ x₁₀ x₁₁]
-              ↑↓             ↑↓             ↑↓
-         wymiana x₂↔x₃  wymiana x₅↔x₆  wymiana x₈↔x₉
+**Dlaczego proces potrzebuje wartości od sąsiada — krok po kroku:**
 
-    Każdy proces potrzebuje "ghost cells" (komórek-duchów) od sąsiada,
-    by obliczyć nowe wartości na swojej granicy.
+Wyobraź sobie tablicę 12 elementów podzieloną na 3 procesy:
+- Proces 0 ma x[0], x[1], x[2], x[3]
+- Proces 1 ma x[4], x[5], x[6], x[7]
+- Proces 2 ma x[8], x[9], x[10], x[11]
+
+Teraz Proces 0 chce obliczyć nową wartość x'[3] (swoją prawą granicę). Wzór mówi:
+
+$x'[3] = \frac{1}{2}(x[2] + x[4])$
+
+- x[2] — Proces 0 **MA** tę wartość (należy do niego)
+- x[4] — Proces 0 **NIE MA** tej wartości! Należy do Procesu 1!
+
+→ Proces 0 **musi poprosić** Proces 1 o przesłanie x[4]. Tę dodatkową kopię nazywamy **komórką-duchem (ghost cell)**.
+
+Analogicznie Proces 1 potrzebuje x[3] od Procesu 0, żeby obliczyć x'[4] = ½(x[3] + x[5]).
+
+![Dekompozycja domeny — problem na granicy](img/q26_domain_decomposition.png)
+
+**Wymiana ghost cells** — w każdej iteracji Jacobiego każda para sąsiednich procesów musi wymienić po jednej wartości granicznej. Przed wymianą ghost cells są puste (?), po wymianie zawierają kopie wartości od sąsiada:
+
+![Wymiana komórek-duchów](img/q26_ghost_cell_exchange.png)
+
+**Pseudokod jednej iteracji równoległego Jacobiego:**
+
+    // Każdy proces (SPMD — ten sam kod na każdym procesie):
+    for iter = 1 to max_iter:
+
+        // Krok 1: Oblicz punkty WEWNĘTRZNE (nie potrzebują ghost cells)
+        for i = 1 to local_n - 2:   // pomijamy granice
+            x_new[i] = 0.5 * (x[i-1] + x[i+1])
+
+        // Krok 2: Wymień ghost cells z sąsiadami
+        wyślij x[local_n-1] do prawego sąsiada    // moja prawa granica
+        wyślij x[0] do lewego sąsiada              // moja lewa granica
+        odbierz ghost_right od prawego sąsiada      // kopia jego lewej granicy
+        odbierz ghost_left od lewego sąsiada        // kopia jego prawej granicy
+
+        // Krok 3: Oblicz punkty GRANICZNE (teraz ghost cells są dostępne)
+        x_new[0] = 0.5 * (ghost_left + x[1])
+        x_new[local_n-1] = 0.5 * (x[local_n-2] + ghost_right)
+
+        // Sprawdź zbieżność
+        if |x_new - x| < epsilon: break
+        x = x_new
+
+![Pełny obraz jednej iteracji](img/q26_jacobi_full_iteration.png)
+
+**Uwaga na kolejność Krok 2!** Sposób realizacji wymiany ghost cells (Krok 2) to właśnie sedno tego pytania — jeśli użyjemy blokującego, synchronicznego Send (Ssend), oba procesy zawiśną czekając na siebie nawzajem (deadlock). Rozwiązania omówione poniżej.
 
 **Kod SPMD (Single Program, Multiple Data)** — model programowania, gdzie WSZYSTKIE procesy uruchamiają TEN SAM program. Każdy rozróżnia się tylko numerem (rankiem). To jest właśnie „symetryczny kod" — i tu leży problem z deadlockiem.
 
@@ -137,6 +183,8 @@ Konkretny przykład — układ 3 równań:
     Proc 0: Ssend(to=1) → czeka na Recv(from=0) w Proc 1
     Proc 1: Ssend(to=0) → czeka na Recv(from=0) w Proc 0
     → OBA CZEKAJĄ → DEADLOCK!
+
+![Deadlock vs rozwiązanie MPI_Sendrecv](img/q26_deadlock_vs_solution.png)
 
 ---
 
@@ -382,6 +430,77 @@ Nadawca kopiuje dane do wcześniej zaalokowanego bufora i wraca natychmiast. Rec
     Irecv+Isend+Wait   Tak          TAK        MPI_Request        Średnia
     MPI_Sendrecv       Tak          Nie        Nie                ★ Najlepsza
     Bsend              Tak          Nie        Bufor użytkownika  Średnia
+
+---
+
+### 🎮 Mostek do pracy magisterskiej — sync/async w silnikach gier
+
+> Komunikacja CPU↔GPU w silniku gry to DOKŁADNIE problem synchronicznego vs asynchronicznego przesyłania wiadomości — jak MPI Send/Recv.
+
+![CPU↔GPU sync/async — timeline](img/q26_gpu_cpu_sync_async.png)
+
+#### CPU↔GPU jako MPI Send/Recv
+
+| Mechanizm silnika | MPI analogia | Blokująca? | Sync? |
+|-------------------|-------------|------------|-------|
+| `glFinish()` / `WaitForGPU()` | `MPI_Ssend` | TAK | TAK |
+| `glFlush()` / submit command buffer | `MPI_Send` (buforowane) | NIE | NIE |
+| Unity `AsyncGPUReadback` | `MPI_Irecv` + `MPI_Wait` | NIE (initial) | NIE |
+| Triple buffering (3 frame buffers) | Pipeline z `MPI_Isend` + `MPI_Irecv` | NIE | NIE |
+| `CommandBuffer.IssuePluginEvent()` | `MPI_Bsend` (bufor użytkownika) | NIE | TAK |
+| Unity Coroutine `yield return` | `MPI_Isend` + ... + `MPI_Wait` (later) | NIE → TAK | NIE → TAK |
+
+#### Coroutines — async w Unity (C#)
+
+    // Unity — coroutine = non-blocking wystrzelenie, yield = wait
+    IEnumerator SpawnWave() {
+        for (int i = 0; i < 50; i++) {
+            _bulletPool.Get();              // ← „MPI_Isend" — fire & forget
+            yield return new WaitForSeconds(0.05f);  // ← „MPI_Wait" — oddaj sterowanie
+        }
+    }
+
+    // Unity — async/await (nowsze API)
+    async Task LoadLevel() {
+        var op = SceneManager.LoadSceneAsync("Level2");  // ← Irecv
+        while (!op.isDone) { await Task.Yield(); }       // ← Wait(request)
+    }
+
+    // Unreal — C++ Latent Action
+    void AMyActor::LoadLevel() {
+        UGameplayStatics::OpenLevelBySoftObjectPtr(this, LevelRef);
+        // Latent node w Blueprintach = "Isend + callback"
+    }
+
+#### Deadlock w silnikach gier — realny scenariusz
+
+    CPU: „Czekam aż GPU skończy renderowanie klatki N"    // ← Ssend
+    GPU: „Czekam aż CPU prześle dane klatki N+1"          // ← Ssend
+    → DEADLOCK! (Send-Send pattern z MPI)
+
+    Rozwiązanie: Triple Buffering = pipeline
+    CPU pracuje na klatce N+2, GPU renderuje N, wyświetla N-1
+    → „MPI_Sendrecv" — jednoczesne nadawanie i odbieranie
+
+#### Frame pipeline — sync vs async comparison
+
+| Podejście | Frame time | CPU utilization | GPU idle |
+|-----------|-----------|-----------------|----------|
+| Sync (`glFinish` co klatkę) | 25 ms | 40% (czeka na GPU) | 30% |
+| Async (triple buffer) | 16 ms | 85% | 10% |
+| Unity default (double buffer) | 18 ms | 70% | 15% |
+| Unreal RHI thread (3 klatki pipeline) | 14 ms | 90% | 5% |
+
+#### Mnemonik — „GFCA" = GPU-Fence Coroutine Async
+
+- **G**PU fence = `MPI_Ssend` (blokuj aż GPU skończy)
+- **F**lush = `MPI_Send` (wyślij i idź dalej)
+- **C**oroutine = `Isend` + later `Wait` (yield = oddaj, resume = sprawdź)
+- **A**sync readback = `Irecv` + `Wait` (nie blokuj GPU pipeline)
+
+Na obronie: *„W mojej pracy komunikacja CPU↔GPU to bezpośrednia analogia do MPI — glFinish to synchroniczny Ssend, triple buffering to pipeline z Isend/Irecv, a Unity coroutines to 'fire and forget' z późniejszym Wait. Nsight pokazuje, że async pipeline (Unreal RHI thread) daje ~30% lepsze CPU utilization niż synchroniczny submit."*
+
+---
 
 ### Etymologia
 

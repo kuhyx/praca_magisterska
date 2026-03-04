@@ -230,8 +230,24 @@ StudentAktywności(StID, Hobby, Umiejętność) — klucz: (StID, Hobby, Umieję
 
 - **„Klucz, cały klucz i tylko klucz — tak mi dopomóż Codd"** — 1NF (klucz), 2NF (cały klucz), 3NF (tylko klucz)
 - **3 anomalie:** Wstawianie, Usuwanie, Modyfikacja — „WUM"
-- **3NF vs BCNF:** 3NF pozwala determinantowi nie-nadkluczowemu JEŚLI zależny jest prime; BCNF nie pozwala w ogóle
-- **BCNF:** jak 3NF, ale lewa strona FD zawsze nadklucz (bez wyjątku dla atrybutów pierwszych)
+- **3NF vs BCNF — jedno słowo różnicy: WYJĄTEK:**
+
+    Obie reguły sprawdzają to samo — dla każdej nietrywialnej FD X → A:
+
+    3NF:  X jest nadkluczem? → ✅  |  A jest prime? → ✅ (WYJĄTEK!)  |  żadne? → ❌
+    BCNF: X jest nadkluczem? → ✅  |  nie jest?     → ❌ (BEZ wyjątków, kropka.)
+
+    3NF  = „łagodny sędzia" — odpuści, jeśli zależny jest częścią klucza
+    BCNF = „surowy sędzia" — lewa strona MUSI być nadkluczem, bez dyskusji
+
+    Kiedy się RÓŻNIĄ? Tylko przy kluczach ZŁOŻONYCH z nakładającymi się FD:
+    Zapisy(StID, KursID, Prowadzący) — klucz: (StID, KursID)
+    FD: Prowadzący → KursID
+    • Prowadzący to nadklucz? NIE → BCNF mówi ❌
+    • KursID to prime (część klucza)? TAK → 3NF mówi ✅ (wyjątek!)
+    → Tabela jest 3NF, ale NIE BCNF.
+
+    Przy prostych (jednokolumnowych) kluczach 3NF = BCNF zawsze.
 - **4NF:** Czy widzisz iloczyn kartezjański? Niezależne zbiory w jednej tabeli? → rozdziel!
 - **5NF:** Czy tabela „rozpadalna" na 3+ części bezstratnie? Reguła cykliczna? → dekomponuj!
 - **Hierarchia typów zależności:** FD (jedna wartość) → MVD (zbiór wartości) → JD (złączenie n tabel)

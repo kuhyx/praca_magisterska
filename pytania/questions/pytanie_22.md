@@ -232,3 +232,36 @@ Paxos ma 3 role: **Proposer** (proponuje wartość), **Acceptor** (głosuje), **
 - **CAP = „Partition → wybierz C albo A"**
 - **Quorum: W+R > N** gwarantuje odczyt najnowszej wartości
 
+**Linearizability vs Sequential Consistency — jak zapamiętać różnicę:**
+
+Kluczowe słowo: **ZEGAREK ŚCIENNY** (real-time).
+- **Linear**izability = **LINIA czasu rzeczywistego** — operacje respektują realny zegar. Litera **L** jak **Live** (transmisja na żywo). Jeśli zapis SKOŃCZYŁ SIĘ przed rozpoczęciem odczytu wg zegarka na ścianie → odczyt MUSI go widzieć.
+- **Sequential** consistency = **SEKWENCJA** (kolejka) bez zegarka — operacje każdego procesu zachowują swoją kolejność, ale system może je „przemieszać" w czasie. Litera **S** jak **Shuffled** (przetasowane w czasie, ale wewnętrznie spójne).
+
+    Pytanie kontrolne: „Czy liczy się KIEDY (zegarek) operacja się wydarzyła?"
+    Linearizability: TAK — czas rzeczywisty się liczy
+    Sequential:      NIE — liczy się tylko KOLEJNOŚĆ wewnątrz procesu
+
+    Mnemonik: „Linearizability = Live, Sequential = Shifted"
+    (Live = na żywo wg zegara, Shifted = przesunięte w czasie, ale po kolei)
+
+**Session Guarantees — mnemonik na 4 nazwy: „RMM-W" (jak RMM-Wóz):**
+
+Wyobraź sobie wóz dostawczy RMM-W, który dostarcza gwarancje sesji:
+
+    R — Read Your Writes       (czytasz to co SAM napisałeś)
+    M — Monotonic Reads         (odczyty nie cofają się)
+    M — Monotonic Writes        (zapisy stosowane po kolei)
+    W — Writes Follow Reads     (zapis po odczycie = zapis zależy od odczytu)
+
+Albo zdanie: **„Radek Ma Miłe Wspomnienia"** — każde słowo → pierwsza litera gwarancji:
+- **R**adek → **R**ead Your Writes
+- **M**a → **M**onotonic Reads
+- **M**iłe → **M**onotonic Writes
+- **W**spomnienia → **W**rites Follow Reads
+
+    Dodatkowy trik: 2 gwarancje „Monotonic" (Reads + Writes) — monotoniczny = „nie cofa się"
+    Zostają 2 gwarancje „krzyżowe": Read→Write (RYW) i Write→Read (WFR)
+    RYW = „widzę swoje własne zapisy"
+    WFR = „mój zapis zależy od tego co przeczytałem"
+

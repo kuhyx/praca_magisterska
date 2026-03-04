@@ -438,6 +438,64 @@ Układ w pamięci:
 | Współdzielenie    | Per-strona             | Per-segment (naturalne) |
 | Współczesne OS    | Dominuje (x86-64)      | Rzadko (Intel porzucił) |
 
+---
+
+### 🎮 Mostek do pracy magisterskiej — pamięć w silnikach gier
+
+> Praca magisterska porównuje Unity (C#, Garbage Collector) z Unreal (C++, manual memory management). Zarządzanie pamięcią to **centralny temat** różnicy wydajnościowej.
+
+![GC vs Manual Memory — porównanie Unity i Unreal](img/q10_gc_vs_manual_memory.png)
+
+#### Garbage Collector w Unity — jak to działa i dlaczego boli
+
+**Boehm GC** (Unity < 2021) / **Incremental GC** (Unity 2019+):
+1. Allokacja: `new Bullet()` → managed heap
+2. Gdy heap pełny → **Stop-the-world GC pause** (mark & sweep)
+3. Wszystkie wątki **zamrożone** na czas GC → frame spike!
+
+    Frame time [ms]:
+    Normal:  █████████ 8ms
+    GC hit:  █████████████████████████████ 28ms  ← SPIKE!
+    Target:  ████████████████ 16.67ms (60 FPS)
+
+**Rozwiązanie #1 — Object Pooling:**
+
+![Object Pooling — eliminacja alokacji w runtime](img/q10_object_pooling.png)
+
+**Rozwiązanie #2 — Unity DOTS (ECS + Burst):**
+- NativeArray<T> → **unmanaged memory** (nie skanowana przez GC)
+- Burst Compiler → kompilacja C# do natywnego SIMD
+- Efekt: wydajność zbliżona do C++
+
+#### Unreal Engine — pamięć w C++
+
+| Mechanizm | Opis | Analogia z pytania |
+|-----------|------|---------------------|
+| `TSharedPtr<T>` | Reference counting (jak GC, ale deterministyczny) | Smart pointer = automatyczna relokacja |
+| `TUniquePtr<T>` | Exclusive ownership, zero overhead | Segment z private access |
+| `FMemory::Malloc` | Custom allocator z pool per size class | Jak system buddy allocation |
+| UObject GC | Reflection-based GC **tylko** dla UObject | Mark-sweep, ale kontrolowany timing |
+
+#### Tabela porównawcza z pracy magisterskiej
+
+| Metryka (Nsight) | Unity (bez pool) | Unity (z pool) | Unreal |
+|-------------------|-------------------|----------------|--------|
+| Alloc/frame | ~800 | ~0 | ~5 (deterministic) |
+| GC pause max | 25ms | 3ms | 0ms |
+| Heap fragmentation | Wysoka | Niska | Brak (custom alloc) |
+| Frame time sigma | 4.2ms | 0.8ms | 0.3ms |
+
+#### Mnemonik — „GAP" = GC → Alloc → Pool
+
+- **G**arbage Collector → problem (spikes)
+- **A**llocation → przyczyna (new w Update)
+- **P**ooling → rozwiązanie (pre-alloc + reuse)
+
+Kiedy na obronie padnie pytanie o pamięć → powiedz:
+*„W mojej pracy kluczowa różnica to: Unity managed heap z GC (Boehm/Incremental) vs Unreal custom allocators + smart pointers. Object Pooling w Unity niweluje tę różnicę — mierzę to Nsight-em."*
+
+---
+
 ### Etymologia
 
 **Stronicowanie (Paging)** — pamięć dzielona na „strony" jak w książce. **TLB** — Translation Lookaside Buffer; „lookaside" = sprawdź z boku (cache) zanim sięgniesz do tablicy. **Segmentacja** — łac. „segmentum" = odcięty kawałek. **COW** — Copy-on-Write: kopiuj dopiero przy modyfikacji. **LRU** — Least Recently Used. **FIFO** — First In, First Out. **Page fault** — „fault" to wyjątek sprzętowy, nie błąd programisty.
@@ -447,4 +505,47 @@ Układ w pamięci:
 - **Stronicowanie = szuflady jednakowej wielkości** (proste, mała fragmentacja wewnętrzna)
 - **Segmentacja = pudełka różnej wielkości** (logiczne, ale fragmentacja zewnętrzna)
 - Współcześnie: **stronicowanie wygrało** — segmentacja prawie zniknęła (x86-64 = flat segments + paging)
+
+**Mnemonik na 5 segmentów — „Tadek Będzie Dobry Student Harcerz":**
+
+    T — TEXT   (kod programu, R-X)
+    B — BSS    (niezainicjalizowane globalne, zerowane)
+    D — DATA   (zainicjalizowane globalne, RW-)
+    S — STOS   (zmienne lokalne, rośnie ↓)
+    H — HEAP   (malloc/new, rośnie ↑)
+
+    Kolejność w pamięci (od niskich adresów):
+    TEXT → DATA → BSS → HEAP ↑ ... ↓ STOS
+
+    Alternatywny mnemonik — od dołu pamięci w górę:
+    „Tekst Daje Bezpieczeństwo, Hasła Stoją"
+    TEXT → DATA → BSS → HEAP → STOS
+
+**Mnemonik na fragmentację — „FOWZE":**
+
+    Fragmentacja:
+      O (stały rOzmiar) → W (Wewnętrzna)  — stronicowanie
+      Z (Zmienny rozmiar) → E (Zewnętrzna) — segmentacja
+
+    Skojarzenie wizualne:
+    Stronicowanie: szuflada 4KB, wkładasz 100B → reszta zmarnowana WEWNĄTRZ szuflady
+    Segmentacja:   pudełka różnej wielkości → dziury ZEWNĄTRZ między pudełkami
+
+    Krótka reguła: „Stały → Wewnętrzna, Zmienny → Zewnętrzna"
+
+**Jak zapamiętać, żeby W OGÓLE wspomnieć o fragmentacji w odpowiedzi?**
+
+Fragmentacja to PIERWSZY problem zarządzania pamięcią — wymień go jako punkt nr 1 listy problemów. Mnemonik na 5 problemów pamięci — **„FORWOW"**:
+
+    1. F — Fragmentacja (zewnętrzna + wewnętrzna)
+    2. O — Ochrona (procesy nie widzą nawzajem pamięci)
+    3. R — Relokacja (program pod różnymi adresami)
+    4. W — Współdzielenie (biblioteki, COW)
+    5. O — Ograniczona pamięć (więcej procesów niż RAM)
+    (W — Wydajność — TLB, cache, minimalizacja page faults)
+
+    Kiedy mówisz o stronicowaniu → powiedz: „eliminuje fragmentację ZEWNĘTRZNĄ,
+    ale wprowadza WEWNĘTRZNĄ" (to pokazuje, że pamiętasz!)
+    Kiedy mówisz o segmentacji → powiedz: „brak wewnętrznej,
+    ale fragmentacja ZEWNĘTRZNA — dlatego przegrała"
 

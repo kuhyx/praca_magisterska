@@ -169,3 +169,28 @@ Stosowany w bankach, ubezpieczeniach, e-commerce. Unikalna cecha: diagram BPMN =
 - **3 typy bramek: XOR (jeden), AND (wszystkie), OR (jeden lub więcej)**
 - UML Activity → programiści; BPMN → wszyscy
 
+---
+
+### 📚 Odniesienia do publikacji z Katedry
+
+> Poniższe notatki pochodzą z publikacji promotorów/recenzentów i mogą być przydatne jako dodatkowy kontekst na obronie.
+
+**Szlenk, Zalewski, Borowa — „An evolution process for service-oriented systems" (DepCoS/Springer):**
+- Zaproponowano **4-fazowy proces modyfikacji systemów SOA** oparty o BPMN:
+  1. Identyfikacja wpływu zmiany na usługi
+  2. Przeprojektowanie usług dotkniętych zmianą
+  3. Implementacja i testowanie
+  4. Wdrożenie i monitoring
+- Proces jest zgodny z **ISO 20000 / ITIL** — łączy modelowanie procesów biznesowych z zarządzaniem usługami IT
+- BPMN użyty do formalnego opisu procesu ewolucji — każda faza ma diagram BPMN z bramkami decyzyjnymi i swimlane'ami
+- Walidacja: pilotaż z **11 firmami** — proces okazał się praktyczny i skalowalny
+- **Traceability** — śledzenie powiązań między procesami biznesowymi a usługami technicznymi, dzięki czemu zmiana w procesie BPMN automatycznie wskazuje usługi do modyfikacji
+
+**Szlenk — „Extraction of UML class diagrams from natural language specifications":**
+- Automatyczne wyodrębnianie diagramów klas UML ze specyfikacji w języku naturalnym
+- Związek z BPMN: uzupełnienie modelowania procesów o modelowanie struktury danych (UML) na podstawie tych samych wymagań tekstowych
+
+**Szlenk — „UML static models in formal approach" / „System model semantics of class diagrams":**
+- Formalizacja semantyki diagramów UML — umożliwia formalne sprawdzanie poprawności modeli
+- Przydatne gdy BPMN (procesy) i UML (struktura) muszą być spójne — formalizacja pozwala weryfikować tę spójność
+

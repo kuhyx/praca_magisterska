@@ -344,3 +344,34 @@ Przykład ryzyka: „Z 60% szansą zysk 100 zł, z 40% strata 50 zł." Przykład
 - **Hurwicz = „huśtawka — α pomiędzy"** → α·max + (1−α)·min, kręcisz pokrętłem optymizmu
 - **Savage = „szał żalu → min max żalu"** → macierz żalu → minimalizuj maksymalny żal (trzymaj żal na smyczy)
 
+---
+
+### 📚 Odniesienia do publikacji z Katedry
+
+> Poniższe notatki pochodzą z publikacji promotorów/recenzentów i mogą być przydatne jako dodatkowy kontekst na obronie. Temat „decyzje w warunkach ryzyka" bezpośrednio wiąże się z badaniami nad błędami poznawczymi w podejmowaniu decyzji architektonicznych.
+
+**Borowa — „Cognitive Biases in Architectural Decision-Making: Impact and Debiasing Strategies" (rozprawa doktorska, PW 2024):**
+- **Dual Process Theory (Kahneman):** System 1 (szybki, intuicyjny, podatny na biasy) vs System 2 (wolny, analityczny, racjonalny) — framework wyjaśniający DLACZEGO decydenci popełniają systematyczne błędy
+- **11 cognitive biases** w decyzjach: zakotwiczenie (anchoring), potwierdzenie (confirmation), optymizm, efekt ramowania (framing), efekt IKEA, bandwagon, prawo trywialności Parkinsona, klątwa wiedzy, irracjonalna eskalacja, prawo instrumentu, planistyczny optymizm
+- **„Wicked Triad"** — zakotwiczenie → potwierdzenie → optymizm = łańcuchowa reakcja błędów w podejmowaniu decyzji
+- Związek z pytaniem: klasyczne kryteria decyzyjne (Laplace, Wald, Hurwicz, Savage) zakładają **racjonalnego decydenta** — badania Borowej pokazują, że ludzie NIE są racjonalni i systematycznie odchylają oceny ryzyka
+- **Optimism bias** analogiczny do kryterium maximax — decydent przecenia korzystne wyniki, ignoruje ryzyka
+- **Anchoring** — decydent „zakotwicza się" na pierwszej informacji (np. pierwszej szacowanej wartości) i niewystarczająco koryguje
+
+**Borowa, Zalewski — „Is knowledge the key? An experiment on debiasing architectural decision-making — a pilot study" (PROFES 2021):**
+- Pytanie badawcze: czy **samo nauczenie o biasach** wystarcza do ich redukcji?
+- Wynik pilotażu: wiedza o biasach poprawia jakość argumentów, ale NIE eliminuje samych biasów
+- Implikacja dla wspomagania decyzji: interaktywne metody (jak w pytaniu) mogą być skuteczniejsze niż pasywna edukacja, bo wymuszają aktywne przetwarzanie
+
+**Borowa, Zalewski, Kijas — „Debiasing architectural decision-making: a workshop-based training approach" (ECSA 2022):**
+- **Interwencja C-level Fischhoffa** — 3 techniki debiasujące:
+  1. Rozważ wiele opcji (analogia: metoda interaktywna generuje alternatywy krok po kroku)
+  2. Wypisz wady wybranego rozwiązania (analogia: analiza wrażliwości w metodach decyzyjnych)
+  3. Wypisz ryzyka (analogia: warunki ryzyka — jawna identyfikacja stanów natury i prawdopodobieństw)
+- Techniki te są formą **interaktywnego wspomagania decyzji** — analityk/narzędzie prowadzi decydenta przez ustrukturyzowany dialog
+
+**Borowa, Zalewski, Kijas — „Debiasing architectural decision-making: An experiment with students and practitioners" (ECSA 2024):**
+- Eksperyment z **18 praktykami** (Polska, Niemcy, Brazylia) — statystycznie istotny wzrost kontrargumentów (p=0.0449) i techniki wielu rozwiązań (p=0.029)
+- **Studenci vs praktycy**: studenci poprawiają jakość argumentów, ale liczba biasów stabilna; praktycy osiągają rzeczywistą redukcję biasów
+- 4 sugestie dydaktyczne: (1) nacisk na jakość kontrargumentów, (2) włączenie wszystkich poziomów seniorności, (3) ostrzeganie osób o wysokiej pewności siebie, (4) ograniczenie liczby decyzji na sesję
+

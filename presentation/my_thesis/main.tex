@@ -19,7 +19,7 @@
     Wydział Elektroniki i Technik Informacyjnych \\
     Politechnika Warszawska
 }
-\date{\scriptsize Luty 2026}
+\date{\scriptsize 10 marca 2026}
 
 \setbeamertemplate{footline}[frame number]{}
 \beamertemplatenavigationsymbolsempty
@@ -57,25 +57,25 @@
       \item \textbf{Unreal Engine} -- ponad 7\,500 gier na Steam
     \end{itemize}
     \item Brak systematycznych badań porównawczych
-    \item Odmienne filozofie projektowe:
-    \begin{itemize}
-      \item Unity: C\#, garbage collector
-      \item Unreal: C++, dostęp do kodu źródłowego
-    \end{itemize}
   \end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{Cel pracy}
-  Porównanie wydajności i~możliwości Unity oraz Unreal Engine:
   \begin{enumerate}
     \item Testy wydajności z~NVIDIA Nsight Systems
     \item Implementacja identycznej gry w obu silnikach
     \item Analiza porównawcza funkcjonalności
     \item Wywiady z~8 deweloperami gier
   \end{enumerate}
-  \vspace{0.5cm}
-  \textbf{Hipoteza:} Unity osiągnie lepszą wydajność w~grze 2D \emph{bullet hell} dzięki natywnemu wsparciu dla grafiki 2D.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Hipoteza}
+  \vspace{1cm}
+  \centering
+  \large
+  Unity osiągnie lepszą wydajność w~grze 2D \emph{bullet hell} dzięki natywnemu wsparciu dla grafiki 2D.
 \end{frame}
 
 %==============================================================================
@@ -83,37 +83,27 @@
 %==============================================================================
 \section{Metodologia}
 
-\begin{frame}
-  \frametitle{Wybór gatunku -- bullet hell}
-  \begin{columns}
-    \begin{column}{0.55\textwidth}
-      \textbf{Uzasadnienie:}
-      \begin{itemize}
-        \item Setki/tysiące pocisków na ekranie
-        \item Test zarządzania pamięcią \\ (GC vs ręczne)
-        \item Intensywne wykrywanie kolizji
-        \item Skalowalność obciążenia
-        \item Prosta koncepcja $\rightarrow$ fokus na wydajność
-      \end{itemize}
-    \end{column}
-    \begin{column}{0.45\textwidth}
-      \includegraphics[width=\textwidth]{touhou.jpg}
-      {\tiny Touhou Project -- przykład bullet hell}
-    \end{column}
-  \end{columns}
-\end{frame}
+% SKRYPT: Wybór gatunku -- bullet hell
+% Uzasadnienie:
+% - Setki/tysiące pocisków na ekranie
+% - Test zarządzania pamięcią (GC vs ręczne)
+% - Intensywne wykrywanie kolizji
+% - Skalowalność obciążenia
+% - Prosta koncepcja -> fokus na wydajność
+{
+  \setbeamercolor{footline}{fg=white}
+  \usebackgroundtemplate{
+    \includegraphics[width=\paperwidth, height=\paperheight]{touhou.jpg}}
+  \begin{frame}
+  \end{frame}
+}
 
 \begin{frame}
   \frametitle{Parametry gry testowej}
   \begin{itemize}
     \item Czas rozgrywki: \textbf{90 sekund}
     \item 3 typy przeciwników z różnymi wzorcami strzelania
-    \item Eskalacja trudności w 3 fazach:
-    \begin{enumerate}
-      \item \textbf{0--30s:} Niska trudność (podstawowi przeciwnicy)
-      \item \textbf{30--60s:} Średnia (szybsze jednostki, wieżyczki)
-      \item \textbf{60--90s:} Wysoka (wszystkie typy, max spawnu)
-    \end{enumerate}
+    \item Eskalacja trudności w 3 fazach
     \item Limit: 200 jednoczesnych przeciwników
     \item Interwał spawnu: 0,25s $\rightarrow$ 0,08s
   \end{itemize}
@@ -123,13 +113,12 @@
   \frametitle{Środowisko testowe}
   \begin{table}
     \centering
-    \small
-    \begin{tabular}{ll}
+    \footnotesize
+    \renewcommand{\arraystretch}{1.1}
+    \begin{tabular}{@{}ll@{}}
       \toprule
-      \textbf{Komponent} & \textbf{Specyfikacja} \\
-      \midrule
-      CPU & AMD Ryzen 9 7900X3D (24 rdzenie) \\
-      GPU & NVIDIA GeForce RTX 3090 (24 GB) \\
+      CPU & AMD Ryzen 9 7900X3D \\
+      GPU & NVIDIA RTX 3090 (24 GB) \\
       RAM & 32 GB \\
       OS & Arch Linux \\
       Unity & 6.0 LTS \\
@@ -147,45 +136,47 @@
 
 \begin{frame}
   \frametitle{Implementacja -- Unity}
-  \begin{columns}
-    \begin{column}{0.5\textwidth}
-      \begin{itemize}
-        \item Język: \textbf{C\#}
-        \item Natywny tryb 2D
-        \item \texttt{Rigidbody2D}, \texttt{Collider2D}
-        \item Object pooling: \texttt{SetActive()}
-        \item Hot reload
-        \item Instalacja: $\sim$30 min
-      \end{itemize}
-    \end{column}
-    \begin{column}{0.5\textwidth}
-      \includegraphics[width=\textwidth]{unity_game.png}
-    \end{column}
-  \end{columns}
+  \begin{itemize}
+    \item Język: \textbf{C\#}
+    \item Natywny tryb 2D
+    \item \texttt{Rigidbody2D}, \texttt{Collider2D}
+    \item Object pooling: \texttt{SetActive()}
+    \item Hot reload
+    \item Instalacja: $\sim$30 min
+  \end{itemize}
 \end{frame}
+
+{
+  \setbeamercolor{footline}{fg=white}
+  \usebackgroundtemplate{
+    \includegraphics[width=\paperwidth, height=\paperheight]{unity_game.png}}
+  \begin{frame}
+  \end{frame}
+}
 
 \begin{frame}
   \frametitle{Implementacja -- Unreal Engine}
-  \begin{columns}
-    \begin{column}{0.5\textwidth}
-      \begin{itemize}
-        \item Język: \textbf{C++} / Blueprinty
-        \item ,,Fałszywe 2D'' w środowisku 3D
-        \item Object pooling -- 3 metody:
-        \begin{itemize}
-          \scriptsize
-          \item \texttt{SetActorHiddenInGame}
-          \item \texttt{SetActorEnableCollision}
-          \item \texttt{SetActorTickEnabled}
-        \end{itemize}
-        \item Instalacja: $\sim$2--4h (Linux)
-      \end{itemize}
-    \end{column}
-    \begin{column}{0.5\textwidth}
-      \includegraphics[width=\textwidth]{unreal_game_view.png}
-    \end{column}
-  \end{columns}
+  \begin{itemize}
+    \item Język: \textbf{C++} / Blueprinty
+    \item ,,Fałszywe 2D'' w środowisku 3D
+    \item Object pooling -- 3 metody:
+    \begin{itemize}
+      \scriptsize
+      \item \texttt{SetActorHiddenInGame}
+      \item \texttt{SetActorEnableCollision}
+      \item \texttt{SetActorTickEnabled}
+    \end{itemize}
+    \item Instalacja: $\sim$2--4h (Linux)
+  \end{itemize}
 \end{frame}
+
+{
+  \setbeamercolor{footline}{fg=white}
+  \usebackgroundtemplate{
+    \includegraphics[width=\paperwidth, height=\paperheight]{unreal_game_view.png}}
+  \begin{frame}
+  \end{frame}
+}
 
 \begin{frame}
   \frametitle{Porównanie doświadczeń implementacyjnych}
@@ -206,9 +197,6 @@
       \bottomrule
     \end{tabular}
   \end{table}
-  \vspace{0.3cm}
-  \centering
-  Implementacja w~Unity zajęła \textbf{$\sim$60\%} czasu potrzebnego w~Unreal Engine
 \end{frame}
 
 %==============================================================================
@@ -216,15 +204,14 @@
 %==============================================================================
 \section{Narzędzie profilowania}
 
+% SKRYPT: Dlaczego nie wbudowane profilery?
+% Wbudowane profilery silników są nieporównywalne:
+% - Różna definicja metryk
+% - Różny narzut profilowania
+% - Różne formaty wyjściowe
 \begin{frame}
   \frametitle{Dlaczego NVIDIA Nsight Systems?}
   \begin{itemize}
-    \item Wbudowane profilery silników są \textbf{nieporównywalne}:
-    \begin{itemize}
-      \item Różna definicja metryk
-      \item Różny narzut profilowania
-      \item Różne formaty wyjściowe
-    \end{itemize}
     \item NVIDIA Nsight -- niezależne narzędzie:
     \begin{itemize}
       \item Zunifikowane metryki sprzętowe
@@ -252,27 +239,25 @@
   \frametitle{Unity -- wydajność klatek}
   \begin{table}
     \centering
-    \small
-    \begin{tabular}{lr}
+    \footnotesize
+    \renewcommand{\arraystretch}{1.1}
+    \begin{tabular}{@{}lr@{}}
       \toprule
-      \textbf{Metryka} & \textbf{Wartość} \\
-      \midrule
       Czas testu & 94,16 s \\
       Wyrenderowane klatki & 13\,556 \\
       Średni FPS & 143,96 (V-Sync: 144 Hz) \\
       Mediana czasu klatki & 6,94 ms \\
       99. percentyl (1\% low) & 7,58 ms (132 FPS) \\
-      Klatki w przedziale 5--10 ms & \textbf{98,24\%} \\
+      Klatki w 5--10 ms & \textbf{98,24\%} \\
+      IQR czasu klatki & 0,08 ms \\
       \bottomrule
     \end{tabular}
   \end{table}
-  \vspace{0.3cm}
-  \centering
-  Wysoka stabilność -- IQR zaledwie 0,08 ms
 \end{frame}
 
 \begin{frame}
   \frametitle{Unity -- architektura renderowania}
+  \small
   \begin{itemize}
     \item \textbf{Prosty potok}: 2 wywołania \texttt{vkQueueSubmit}/klatkę
     \item \texttt{vkWaitForFences} -- \textbf{95,2\%} czasu Vulkan API
@@ -310,6 +295,7 @@
 
 \begin{frame}
   \frametitle{Unreal Engine -- architektura renderowania}
+  \small
   \begin{itemize}
     \item \textbf{Złożony potok}: 16 wywołań \texttt{vkQueueSubmit}/klatkę
     \item Tworzenie potoków: \textbf{47--72\%} czasu Vulkan API
@@ -331,8 +317,6 @@
       \toprule
       \textbf{Metryka} & \textbf{Unity} & \textbf{Unreal} \\
       \midrule
-      FPS (niskie obciążenie) & 164 (V-Sync) & 332--339 \\
-      FPS (wymagająca scena) & 132 (1\% low) & 162 (faza 3) \\
       Wykorzystanie GPU & 23\% & 91\% / 50\% \\
       Wywołania Vulkan API & $\sim$0,5 mln & $\sim$32 mln \\
       Wywołania sync. OS & 29\,383 & $\sim$9 mln \\
@@ -344,7 +328,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Interpretacja wyników}
+  \frametitle{Interpretacja -- Unity}
   \begin{block}{Unity}
     \begin{itemize}
       \item Prosty, dwuetapowy potok -- wydajny dla gier 2D
@@ -352,12 +336,16 @@
       \item Niewykorzystany potencjał GPU (V-Sync: 23\%)
     \end{itemize}
   \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Interpretacja -- Unreal Engine}
   \begin{block}{Unreal Engine}
     \begin{itemize}
       \item Złożony, wieloetapowy potok -- narzut dla prostych scen
       \item Ciągła rekompilacja potoków (dynamiczna optymalizacja)
       \item Pełne wykorzystanie GPU ($\sim$91\%)
-      \item Spadek wydajności przy dużym obciążeniu (>50\%)
+      \item Spadek wydajności przy dużym obciążeniu ($>$50\%)
     \end{itemize}
   \end{block}
 \end{frame}
@@ -368,14 +356,19 @@
 \section{Wywiady z~deweloperami}
 
 \begin{frame}
-  \frametitle{Wywiady -- najważniejsze wnioski}
+  \frametitle{Wywiady -- najważniejsze wnioski (1/2)}
   8 respondentów (1--10 lat doświadczenia):
   \vspace{0.2cm}
-  \small
   \begin{itemize}
     \item \textbf{Próg wejścia}: Unity niższy, Unreal wyższy
     \item \textbf{Dokumentacja}: Unity lepsza (przykłady kodu); Unreal -- ,,szkieletowa''
     \item \textbf{Blueprinty}: Ułatwiają współpracę z~nietechnicznymi, ale problemy z~Git
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Wywiady -- najważniejsze wnioski (2/2)}
+  \begin{itemize}
     \item \textbf{Architektura}: Unreal wymusza porządek; Unity -- elastyczny
     \item \textbf{C\# vs C++}: C\# łatwiejszy; C++ w~Unreal ,,niestandardowy''
     \item \textbf{Materiały}: Unity przewaga ilościowa
@@ -392,15 +385,11 @@
   \textit{,,Unity osiągnie lepszą wydajność w~grze bullet hell~\ldots''}
   \vspace{0.5cm}
 
-  Hipoteza \textbf{częściowo potwierdzona}:
-  \small
   \begin{itemize}
-    \item[$\checkmark$] Prostsza architektura renderowania
-    \item[$\checkmark$] Stabilniejsze czasy klatek
-    \item[$\checkmark$] Łatwiejszy proces implementacji (60\% czasu)
-    \item[$\checkmark$] Natywne wsparcie 2D
-    \item[$\times$] Zbliżona wydajność w~wymagających scenach (132 vs 162 FPS)
-    \item[$\times$] Unity ograniczone przez V-Sync
+    \item Prostsza architektura renderowania
+    \item Stabilniejsze czasy klatek
+    \item Łatwiejszy proces implementacji (60\% czasu)
+    \item Natywne wsparcie 2D
   \end{itemize}
 \end{frame}
 
@@ -408,16 +397,17 @@
   \frametitle{Rekomendacje}
   \begin{table}
     \centering
-    \small
-    \begin{tabular}{lll}
+    \footnotesize
+    \renewcommand{\arraystretch}{1.1}
+    \begin{tabular}{@{}lll@{}}
       \toprule
-      \textbf{Typ projektu} & \textbf{Silnik} & \textbf{Uzasadnienie} \\
+      \textbf{Projekt} & \textbf{Silnik} & \textbf{Powód} \\
       \midrule
-      Gra 2D indie & Unity & Natywne wsparcie 2D \\
-      Gra mobilna & Unity & Optymalizacja, rozmiar \\
-      Prototyp & Unity & Szybki cykl iteracji \\
-      Gra 3D AAA & Unreal & Nanite, Lumen \\
-      Gra VR high-end & Unreal & Zaawansowane oświetlenie \\
+      2D indie & Unity & Natywne 2D \\
+      Mobilna & Unity & Optymalizacja \\
+      Prototyp & Unity & Szybkie iteracje \\
+      3D AAA & Unreal & Nanite, Lumen \\
+      VR high-end & Unreal & Oświetlenie \\
       Zespół mieszany & Unreal & Blueprinty \\
       \bottomrule
     \end{tabular}
@@ -435,21 +425,21 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Ograniczenia i~dalsze badania}
-  \small
-  \textbf{Ograniczenia:}
+  \frametitle{Ograniczenia}
   \begin{itemize}
     \item Jeden gatunek gry (bullet hell)
     \item Pojedyncza konfiguracja sprzętowa (high-end)
     \item 8 wywiadów (badanie eksploracyjne)
   \end{itemize}
-  \vspace{0.2cm}
-  \textbf{Propozycje dalszych badań:}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Dalsze badania}
   \begin{itemize}
     \item Testy dla RPG, RTS, puzzle
     \item Różne platformy (mobile, konsole, low-end PC)
     \item Automatyczny framework benchmarkowy
-    \item Badanie longitudinalne (2--3 lata)
+    \item Badanie długoterminowe (2--3 lata)
   \end{itemize}
 \end{frame}
 
